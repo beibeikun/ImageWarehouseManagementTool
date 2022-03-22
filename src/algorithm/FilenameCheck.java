@@ -3,6 +3,7 @@ package algorithm;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.PrintWriter;
 
 public class FilenameCheck
 {
@@ -46,25 +47,19 @@ public class FilenameCheck
                     return 43;
                 }
                 File savepath = new File("savedpath.bbk");
-                if (savepath.exists())
-                {
-                    savepath.delete();
+                System.out.println(copypath);
+                try {
+                    //写入的txt文档的路径
+                    PrintWriter pw=new PrintWriter(savepath);
+                    //写入的内容
+                    String c = filepath+"\r\n"+imgpath+"\r\n"+copypath;
+                    pw.write(c);
+                    pw.flush();
+                    pw.close();
+                }catch (Exception e) {
+                    e.printStackTrace();
                 }
 
-                FileWriter fw = null;
-                try
-                {
-                    fw = new FileWriter(savepath,true);
-                    String c = filepath+"\r\n"+imgpath+"\r\n"+copypath;
-                    fw.write(c);
-                    fw.close();
-                }
-                catch (IOException e1)
-                {
-                    e1.printStackTrace();
-                    System.out.println("Failed");
-                    System.exit(-1);
-                }
 
                 return 1;
             }

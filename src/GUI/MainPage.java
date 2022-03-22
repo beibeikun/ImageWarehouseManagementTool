@@ -17,15 +17,15 @@ public class MainPage extends JFrame implements ActionListener {
     XuanMulu getfilepath = new XuanMulu();//获取指定excel文件路径
     int c1check = 0,c2check = 0;
 
-    private JLabel jtitle, jl1 ,build;
+    private final JLabel jtitle, jl1 ,build;
 
-    private JButton findfile, imgfilepath, copytopath, filecheck, renamestart;
-    private JLabel nowfilepath_excel, nowfilepath_img, nowfilepath_copy, checkreturn;
+    private final JButton findfile, imgfilepath, copytopath, filecheck, renamestart;
+    private final JLabel nowfilepath_excel, nowfilepath_img, nowfilepath_copy, checkreturn;
 
-    private JCheckBox c1, c2, c3, c4;
+    private final JCheckBox c1, c2, c3, c4;
 
-    private JTextArea test;
-    private JScrollPane test1;
+    private final JTextArea test;
+    private final JScrollPane test1;
 
     public MainPage()
     {
