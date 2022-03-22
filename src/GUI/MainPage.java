@@ -124,6 +124,9 @@ public class MainPage extends JFrame implements ActionListener {
         }));
 
 
+        Image icon = Toolkit.getDefaultToolkit().getImage("logo.png");
+        this.setIconImage(icon);
+
         this.setSize(605, 710);
 
         int width = Toolkit.getDefaultToolkit().getScreenSize().width;
@@ -134,7 +137,7 @@ public class MainPage extends JFrame implements ActionListener {
         this.setResizable(false); //禁止改变大小
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setVisible(true);
-        this.setTitle("测试");
+        this.setTitle("寄寄寄寄摆摆摆摆摆摆");
 
         System.out.println("Load previous profile");
         File file2 = new File("savedpath.bbk");
