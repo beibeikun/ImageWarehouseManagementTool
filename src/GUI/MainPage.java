@@ -139,6 +139,8 @@ public class MainPage extends JFrame implements ActionListener {
         this.setVisible(true);
         this.setTitle("寄寄寄寄摆摆摆摆摆摆");
 
+        System.out.println("current version: "+versionnumber.VersionNumber());
+        System.out.println("Github: "+versionnumber.Github());
         System.out.println("Load previous profile");
         File file2 = new File("savedpath.bbk");
         if(file2 .exists())
