@@ -1,6 +1,8 @@
 package algorithm;
 
 import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 
 public class FilenameCheck
 {
@@ -42,6 +44,26 @@ public class FilenameCheck
                 else if (!file3.exists())
                 {
                     return 43;
+                }
+                File savepath = new File("savedpath.bbk");
+                if (savepath.exists())
+                {
+                    savepath.delete();
+                }
+
+                FileWriter fw = null;
+                try
+                {
+                    fw = new FileWriter(savepath,true);
+                    String c = filepath+"\r\n"+imgpath+"\r\n"+copypath;
+                    fw.write(c);
+                    fw.close();
+                }
+                catch (IOException e1)
+                {
+                    e1.printStackTrace();
+                    System.out.println("Failed");
+                    System.exit(-1);
                 }
 
                 return 1;
