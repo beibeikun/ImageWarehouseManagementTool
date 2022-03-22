@@ -1,8 +1,6 @@
 package algorithm;
 
 import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
 import java.io.PrintWriter;
 
 public class FilenameCheck
@@ -47,8 +45,8 @@ public class FilenameCheck
                     return 43;
                 }
                 File savepath = new File("savedpath.bbk");
-                System.out.println(copypath);
-                try {
+                try
+                {
                     //写入的txt文档的路径
                     PrintWriter pw=new PrintWriter(savepath);
                     //写入的内容
@@ -56,10 +54,11 @@ public class FilenameCheck
                     pw.write(c);
                     pw.flush();
                     pw.close();
-                }catch (Exception e) {
+                }
+                catch (Exception e)
+                {
                     e.printStackTrace();
                 }
-
 
                 return 1;
             }
