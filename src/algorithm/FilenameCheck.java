@@ -5,7 +5,7 @@ import java.io.PrintWriter;
 
 public class FilenameCheck
 {
-    public int namecheck(String filepath,String imgpath,String copypath)
+    public int namecheck(String filepath, String imgpath, String copypath)
     {
         /*
         1  - 检查通过
@@ -15,19 +15,17 @@ public class FilenameCheck
         42 - imgpath不存在
         43 - copypath不存在
         */
-        if (filepath.equals("")||imgpath.equals("")||copypath.equals("")) //没选路径
+        if (filepath.equals("") || imgpath.equals("") || copypath.equals("")) //没选路径
         {
             return 2;
-        }
-        else
+        } else
         {
             isContainChinese CNcheck = new isContainChinese();
             //路径里有中文
-            if (CNcheck.isContainChinese(filepath) == true ||CNcheck.isContainChinese(imgpath) == true||CNcheck.isContainChinese(copypath) == true)
+            if (CNcheck.isContainChinese(filepath) || CNcheck.isContainChinese(imgpath) || CNcheck.isContainChinese(copypath))
             {
                 return 3;
-            }
-            else
+            } else
             {
                 File file1 = new File(filepath);
                 File file2 = new File(imgpath);
@@ -35,12 +33,10 @@ public class FilenameCheck
                 if (!file1.exists())
                 {
                     return 41;
-                }
-                else if (!file2.exists())
+                } else if (!file2.exists())
                 {
                     return 42;
-                }
-                else if (!file3.exists())
+                } else if (!file3.exists())
                 {
                     return 43;
                 }
@@ -48,9 +44,9 @@ public class FilenameCheck
                 try
                 {
                     //写入的txt文档的路径
-                    PrintWriter pw=new PrintWriter(savepath);
+                    PrintWriter pw = new PrintWriter(savepath);
                     //写入的内容
-                    String c = filepath+"\r\n"+imgpath+"\r\n"+copypath;
+                    String c = filepath + "\r\n" + imgpath + "\r\n" + copypath;
                     pw.write(c);
                     pw.flush();
                     pw.close();

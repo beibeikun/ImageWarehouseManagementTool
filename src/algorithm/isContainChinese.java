@@ -10,9 +10,6 @@ public class isContainChinese
 
         Pattern p = Pattern.compile("[\u4E00-\u9FA5]");
         Matcher m = p.matcher(str);
-        if (m.find()) {
-            return true;
-        }
-        return false;
+        return m.find();
     }
 }
