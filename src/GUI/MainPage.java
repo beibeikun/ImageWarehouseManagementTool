@@ -158,12 +158,14 @@ public class MainPage extends JFrame implements ActionListener
                         filepath = line;
                         nowfilepath_excel.setText("当前所选文件:" + filepath);
                         System.out.println("--Directory selected-- " + filepath); //此处为测试输出点
-                    } else if (ii == 1)
+                    }
+                    else if (ii == 1)
                     {
                         imgpath = line;
                         nowfilepath_img.setText("当前所选文件:" + imgpath);
                         System.out.println("--Directory selected-- " + imgpath); //此处为测试输出点
-                    } else
+                    }
+                    else
                     {
                         copypath = line;
                         nowfilepath_copy.setText("当前所选文件:" + copypath);
@@ -177,7 +179,8 @@ public class MainPage extends JFrame implements ActionListener
             {
                 e.printStackTrace();
             }
-        } else
+        }
+        else
         {
             System.out.println("Previous profile not found");
         }
@@ -217,24 +220,33 @@ public class MainPage extends JFrame implements ActionListener
             {
                 checkreturn.setText("检查通过");
                 renamestart.setEnabled(true);
-            } else
+            }
+            else
             {
                 renamestart.setEnabled(false);
                 if (passornot == 2)
                 {
                     checkreturn.setText("请选择文件路径");
-                } else if (passornot == 3)
+                }
+                else if (passornot == 3)
                 {
                     checkreturn.setText("请使用英文文件路径");
-                } else if (passornot == 41)
+                }
+                else if (passornot == 41)
                 {
                     checkreturn.setText("csv文件不存在");
-                } else if (passornot == 42)
+                }
+                else if (passornot == 42)
                 {
                     checkreturn.setText("源文件夹不存在");
-                } else if (passornot == 43)
+                }
+                else if (passornot == 43)
                 {
                     checkreturn.setText("目标文件夹不存在");
+                }
+                else if (passornot == 5)
+                {
+                    checkreturn.setText("目标文件夹非空");
                 }
             }
         }
@@ -243,14 +255,16 @@ public class MainPage extends JFrame implements ActionListener
             if (c1.isSelected())
             {
                 c1check = 1;
-            } else
+            }
+            else
             {
                 c1check = 0;
             }
             if (c2.isSelected())
             {
                 c2check = 1;
-            } else
+            }
+            else
             {
                 c2check = 0;
             }

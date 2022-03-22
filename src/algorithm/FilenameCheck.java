@@ -14,18 +14,21 @@ public class FilenameCheck
         41 - filepath不存在
         42 - imgpath不存在
         43 - copypath不存在
+        5  - copypath不为空
         */
         if (filepath.equals("") || imgpath.equals("") || copypath.equals("")) //没选路径
         {
             return 2;
-        } else
+        }
+        else
         {
             isContainChinese CNcheck = new isContainChinese();
             //路径里有中文
             if (CNcheck.isContainChinese(filepath) || CNcheck.isContainChinese(imgpath) || CNcheck.isContainChinese(copypath))
             {
                 return 3;
-            } else
+            }
+            else
             {
                 File file1 = new File(filepath);
                 File file2 = new File(imgpath);
@@ -33,12 +36,20 @@ public class FilenameCheck
                 if (!file1.exists())
                 {
                     return 41;
-                } else if (!file2.exists())
+                }
+                else if (!file2.exists())
                 {
                     return 42;
-                } else if (!file3.exists())
+                }
+                else if (!file3.exists())
                 {
                     return 43;
+                }
+                File file = new File(copypath);//图片目录
+                File[] copypathlist = file.listFiles();
+                if (copypathlist.length!=0)
+                {
+                    return 5;
                 }
                 File savepath = new File("savedpath.bbk");
                 try

@@ -65,11 +65,13 @@ public class Rename
                             if (num / 10 == 0)
                             {
                                 newName = "00" + filenamelist[1][x] + BehindName;
-                            } else if (num / 10 < 10)
+                            }
+                            else if (num / 10 < 10)
                             {
                                 newName = "0" + filenamelist[1][x] + BehindName;
                             }
-                        } else
+                        }
+                        else
                         {
                             newName = filenamelist[1][x] + BehindName;
                         }
