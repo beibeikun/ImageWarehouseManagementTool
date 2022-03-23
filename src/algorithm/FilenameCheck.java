@@ -47,7 +47,7 @@ public class FilenameCheck
                 }
                 File file = new File(copypath);//图片目录
                 File[] copypathlist = file.listFiles();
-                if (copypathlist.length!=0)
+                if (copypathlist.length != 0)
                 {
                     return 5;
                 }

@@ -10,7 +10,11 @@ import java.io.*;
 
 public class MainPage extends JFrame implements ActionListener
 {
-
+    /*
+    谢天谢地这个界面能正常用
+    但是实在是太丑了
+    之后有可能会重构一次界面（大概）
+    */
     String filepath = "";
     String imgpath = "";
     String copypath = "";
