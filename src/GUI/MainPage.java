@@ -1,6 +1,9 @@
 package GUI;
 
 import algorithm.*;
+import com.formdev.flatlaf.FlatLightLaf;
+import com.formdev.flatlaf.themes.FlatMacDarkLaf;
+import com.formdev.flatlaf.themes.FlatMacLightLaf;
 
 import javax.swing.*;
 import java.awt.*;
@@ -34,6 +37,18 @@ public class MainPage extends JFrame implements ActionListener
 
     public MainPage()
     {
+        FlatLightLaf.install();
+        try
+        {
+            UIManager.setLookAndFeel( new FlatMacDarkLaf());
+        }catch (Exception ex)
+        {
+            System.err.println("Fail");
+        }
+
+        JFrame frame = new JFrame();
+        frame.setTitle("Xxx");
+
         BufferedReader br;
         String line;
         int ii = 0;
