@@ -1,105 +1,294 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <form xmlns="http://www.intellij.com/uidesigner/form/" version="1" bind-to-class="UIPAGE.MainpageUI">
-  <grid id="27dc6" binding="panel1" default-binding="true" layout-manager="GridLayoutManager" row-count="4" column-count="4" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+  <grid id="27dc6" binding="panel1" default-binding="true" layout-manager="GridLayoutManager" row-count="3" column-count="4" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
     <margin top="0" left="0" bottom="0" right="0"/>
     <constraints>
-      <xy x="20" y="20" width="500" height="400"/>
+      <xy x="20" y="20" width="518" height="411"/>
     </constraints>
     <properties/>
     <border type="none"/>
     <children>
-      <component id="a4d1d" class="javax.swing.JLabel">
-        <constraints>
-          <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
-        </constraints>
-        <properties>
-          <text value="Label"/>
-        </properties>
-      </component>
-      <component id="8fce3" class="javax.swing.JComboBox" binding="comboBox1" default-binding="true">
-        <constraints>
-          <grid row="0" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="2" anchor="8" fill="1" indent="0" use-parent-layout="false"/>
-        </constraints>
-        <properties>
-          <model/>
-        </properties>
-      </component>
       <tabbedpane id="17f32" binding="tabbedPane1" default-binding="true">
         <constraints>
-          <grid row="2" column="1" row-span="1" col-span="2" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false">
+          <grid row="1" column="1" row-span="1" col-span="2" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false">
             <preferred-size width="200" height="200"/>
           </grid>
         </constraints>
-        <properties/>
+        <properties>
+          <tabLayoutPolicy value="1"/>
+          <tabPlacement value="2"/>
+        </properties>
         <border type="none"/>
         <children>
-          <grid id="f1e6f" layout-manager="GridLayoutManager" row-count="3" column-count="3" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+          <grid id="f1e6f" layout-manager="GridLayoutManager" row-count="5" column-count="4" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
             <margin top="0" left="0" bottom="0" right="0"/>
             <constraints>
-              <tabbedpane title="无标题"/>
+              <tabbedpane title="批量重命名"/>
             </constraints>
             <properties/>
             <border type="none"/>
             <children>
-              <component id="537df" class="javax.swing.JLabel">
+              <component id="d9f65" class="javax.swing.JButton" binding="检查正确性Button" default-binding="true">
                 <constraints>
-                  <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                  <grid row="4" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
                 </constraints>
                 <properties>
-                  <text value="Label"/>
+                  <text value="检查正确性"/>
                 </properties>
               </component>
-              <component id="c5657" class="javax.swing.JLabel">
+              <component id="d6a14" class="javax.swing.JButton" binding="开始重命名Button" default-binding="true">
                 <constraints>
-                  <grid row="0" column="1" row-span="1" col-span="2" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                  <grid row="4" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
                 </constraints>
                 <properties>
-                  <text value="Label"/>
+                  <enabled value="false"/>
+                  <text value="开始重命名"/>
                 </properties>
               </component>
-              <component id="b86da" class="javax.swing.JCheckBox" binding="checkBox1" default-binding="true">
+              <toolbar id="69352">
                 <constraints>
-                  <grid row="1" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                  <grid row="0" column="0" row-span="1" col-span="3" vsize-policy="0" hsize-policy="6" anchor="0" fill="1" indent="0" use-parent-layout="false">
+                    <preferred-size width="-1" height="20"/>
+                  </grid>
                 </constraints>
-                <properties>
-                  <text value="CheckBox"/>
-                </properties>
-              </component>
-              <component id="d8c09" class="javax.swing.JCheckBox" binding="checkBox2" default-binding="true">
+                <properties/>
+                <border type="none" title="目标文件夹路径"/>
+                <children>
+                  <component id="a6f04" class="javax.swing.JList" binding="list3" default-binding="true">
+                    <constraints/>
+                    <properties/>
+                  </component>
+                  <component id="c9f66" class="javax.swing.JButton" binding="选择Button1" default-binding="true">
+                    <constraints/>
+                    <properties>
+                      <text value="选择"/>
+                    </properties>
+                  </component>
+                  <component id="c2aff" class="javax.swing.JLabel">
+                    <constraints/>
+                    <properties>
+                      <text value="Label"/>
+                    </properties>
+                  </component>
+                </children>
+              </toolbar>
+              <toolbar id="e9ddc">
                 <constraints>
-                  <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                  <grid row="1" column="0" row-span="1" col-span="3" vsize-policy="0" hsize-policy="6" anchor="0" fill="1" indent="0" use-parent-layout="false">
+                    <preferred-size width="-1" height="20"/>
+                  </grid>
                 </constraints>
-                <properties>
-                  <text value="CheckBox"/>
-                </properties>
-              </component>
-              <component id="83347" class="javax.swing.JCheckBox" binding="checkBox3" default-binding="true">
+                <properties/>
+                <border type="none" title="CSV文件路径"/>
+                <children>
+                  <component id="76558" class="javax.swing.JButton" binding="选择Button2" default-binding="true">
+                    <constraints/>
+                    <properties>
+                      <text value="选择"/>
+                    </properties>
+                  </component>
+                  <component id="d300a" class="javax.swing.JLabel">
+                    <constraints/>
+                    <properties>
+                      <text value="Label"/>
+                    </properties>
+                  </component>
+                </children>
+              </toolbar>
+              <toolbar id="94a02">
                 <constraints>
-                  <grid row="1" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                  <grid row="2" column="0" row-span="1" col-span="3" vsize-policy="0" hsize-policy="6" anchor="0" fill="1" indent="0" use-parent-layout="false">
+                    <preferred-size width="-1" height="20"/>
+                  </grid>
                 </constraints>
-                <properties>
-                  <text value="CheckBox"/>
-                </properties>
-              </component>
-              <component id="d9f65" class="javax.swing.JButton" binding="button1" default-binding="true">
+                <properties/>
+                <border type="none" title="命名格式"/>
+                <children>
+                  <component id="21cb6" class="javax.swing.JCheckBox" binding="使用三位lot号CheckBox" default-binding="true">
+                    <constraints/>
+                    <properties>
+                      <text value="使用三位lot号"/>
+                    </properties>
+                  </component>
+                  <component id="26371" class="javax.swing.JCheckBox" binding="添加Lot前缀CheckBox" default-binding="true">
+                    <constraints/>
+                    <properties>
+                      <text value="添加“Lot”前缀"/>
+                    </properties>
+                  </component>
+                </children>
+              </toolbar>
+              <toolbar id="9a5e6">
                 <constraints>
-                  <grid row="2" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+                  <grid row="3" column="0" row-span="1" col-span="3" vsize-policy="0" hsize-policy="6" anchor="0" fill="1" indent="0" use-parent-layout="false">
+                    <preferred-size width="-1" height="20"/>
+                  </grid>
                 </constraints>
-                <properties>
-                  <text value="Button"/>
-                </properties>
-              </component>
-              <component id="d6a14" class="javax.swing.JButton" binding="button2" default-binding="true">
+                <properties/>
+                <border type="none" title="其他设置"/>
+                <children>
+                  <component id="f9c12" class="javax.swing.JCheckBox" binding="完成后按文件夹分类CheckBox" default-binding="true">
+                    <constraints/>
+                    <properties>
+                      <text value="完成后按文件夹分类"/>
+                    </properties>
+                  </component>
+                  <component id="9aa6c" class="javax.swing.JCheckBox" binding="尝试从库中提取缺少的拍品CheckBox" default-binding="true">
+                    <constraints/>
+                    <properties>
+                      <text value="尝试从库中提取缺少的拍品"/>
+                    </properties>
+                  </component>
+                  <component id="852a4" class="javax.swing.JList" binding="list2" default-binding="true">
+                    <constraints/>
+                    <properties/>
+                  </component>
+                  <component id="46e1a" class="javax.swing.JList" binding="list1" default-binding="true">
+                    <constraints/>
+                    <properties/>
+                  </component>
+                </children>
+              </toolbar>
+              <hspacer id="3e7a4">
                 <constraints>
-                  <grid row="2" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+                  <grid row="1" column="3" row-span="1" col-span="1" vsize-policy="1" hsize-policy="6" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
                 </constraints>
-                <properties>
-                  <text value="Button"/>
-                </properties>
-              </component>
+              </hspacer>
             </children>
           </grid>
-          <grid id="c5279" layout-manager="GridLayoutManager" row-count="1" column-count="2" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+          <grid id="c5279" layout-manager="GridLayoutManager" row-count="3" column-count="2" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+            <margin top="0" left="0" bottom="0" right="0"/>
+            <constraints>
+              <tabbedpane title="加入到图片库"/>
+            </constraints>
+            <properties/>
+            <border type="none"/>
+            <children>
+              <toolbar id="8ecf6">
+                <constraints>
+                  <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="0" fill="1" indent="0" use-parent-layout="false">
+                    <preferred-size width="-1" height="20"/>
+                  </grid>
+                </constraints>
+                <properties/>
+                <border type="none" title="相关设置"/>
+                <children>
+                  <component id="f3a02" class="javax.swing.JCheckBox" binding="替换已存在的图片CheckBox" default-binding="true">
+                    <constraints/>
+                    <properties>
+                      <text value="替换已存在的图片"/>
+                    </properties>
+                  </component>
+                </children>
+              </toolbar>
+              <component id="8ff52" class="javax.swing.JButton" binding="开始添加Button" default-binding="true">
+                <constraints>
+                  <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+                </constraints>
+                <properties>
+                  <text value="开始添加"/>
+                </properties>
+              </component>
+              <vspacer id="cb8ad">
+                <constraints>
+                  <grid row="2" column="0" row-span="1" col-span="1" vsize-policy="6" hsize-policy="1" anchor="0" fill="2" indent="0" use-parent-layout="false"/>
+                </constraints>
+              </vspacer>
+              <hspacer id="6e84e">
+                <constraints>
+                  <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="1" hsize-policy="6" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+                </constraints>
+              </hspacer>
+            </children>
+          </grid>
+          <grid id="2097f" layout-manager="GridLayoutManager" row-count="3" column-count="2" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+            <margin top="0" left="0" bottom="0" right="0"/>
+            <constraints>
+              <tabbedpane title="从库中去除已成交"/>
+            </constraints>
+            <properties/>
+            <border type="none"/>
+            <children>
+              <toolbar id="b89e4">
+                <constraints>
+                  <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="0" fill="1" indent="0" use-parent-layout="false">
+                    <preferred-size width="-1" height="20"/>
+                  </grid>
+                </constraints>
+                <properties/>
+                <border type="none" title="CSV文件路径"/>
+                <children>
+                  <component id="a82bd" class="javax.swing.JButton" default-binding="true">
+                    <constraints/>
+                    <properties>
+                      <text value="选择"/>
+                    </properties>
+                  </component>
+                  <component id="ff271" class="javax.swing.JLabel">
+                    <constraints/>
+                    <properties>
+                      <text value="Label"/>
+                    </properties>
+                  </component>
+                </children>
+              </toolbar>
+              <component id="c18f2" class="javax.swing.JButton" binding="开始移除Button" default-binding="true">
+                <constraints>
+                  <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+                </constraints>
+                <properties>
+                  <text value="开始移除"/>
+                </properties>
+              </component>
+              <vspacer id="f8a9e">
+                <constraints>
+                  <grid row="2" column="0" row-span="1" col-span="1" vsize-policy="6" hsize-policy="1" anchor="0" fill="2" indent="0" use-parent-layout="false"/>
+                </constraints>
+              </vspacer>
+              <hspacer id="36e1e">
+                <constraints>
+                  <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="1" hsize-policy="6" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+                </constraints>
+              </hspacer>
+            </children>
+          </grid>
+          <grid id="87eb" layout-manager="GridLayoutManager" row-count="2" column-count="3" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+            <margin top="0" left="0" bottom="0" right="0"/>
+            <constraints>
+              <tabbedpane title="查询在库拍品主图"/>
+            </constraints>
+            <properties/>
+            <border type="none"/>
+            <children>
+              <component id="275e9" class="javax.swing.JTextField" binding="textField1" default-binding="true">
+                <constraints>
+                  <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
+                    <preferred-size width="150" height="-1"/>
+                  </grid>
+                </constraints>
+                <properties/>
+              </component>
+              <vspacer id="6dacd">
+                <constraints>
+                  <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="6" hsize-policy="1" anchor="0" fill="2" indent="0" use-parent-layout="false"/>
+                </constraints>
+              </vspacer>
+              <component id="a9ce7" class="javax.swing.JButton" binding="查询Button" default-binding="true">
+                <constraints>
+                  <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+                </constraints>
+                <properties>
+                  <text value="查询"/>
+                </properties>
+              </component>
+              <hspacer id="a95ee">
+                <constraints>
+                  <grid row="0" column="2" row-span="1" col-span="1" vsize-policy="1" hsize-policy="6" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+                </constraints>
+              </hspacer>
+            </children>
+          </grid>
+          <grid id="db407" layout-manager="GridLayoutManager" row-count="2" column-count="2" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
             <margin top="0" left="0" bottom="0" right="0"/>
             <constraints>
               <tabbedpane title="无标题"/>
@@ -107,57 +296,66 @@
             <properties/>
             <border type="none"/>
             <children>
-              <component id="ba5a6" class="javax.swing.JLabel">
+              <component id="142a3" class="javax.swing.JCheckBox" binding="checkBox1" default-binding="true">
                 <constraints>
-                  <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                  <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
                 </constraints>
                 <properties>
-                  <text value="Label"/>
+                  <text value="CheckBox"/>
                 </properties>
               </component>
-              <component id="3d8e6" class="javax.swing.JLabel">
+              <hspacer id="f5af7">
                 <constraints>
-                  <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                  <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="1" hsize-policy="6" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
                 </constraints>
-                <properties>
-                  <text value="Label"/>
-                </properties>
-              </component>
+              </hspacer>
+              <vspacer id="271e8">
+                <constraints>
+                  <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="6" hsize-policy="1" anchor="0" fill="2" indent="0" use-parent-layout="false"/>
+                </constraints>
+              </vspacer>
             </children>
           </grid>
         </children>
       </tabbedpane>
-      <component id="b03f5" class="javax.swing.JLabel">
-        <constraints>
-          <grid row="1" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
-        </constraints>
-        <properties>
-          <text value="Label"/>
-        </properties>
-      </component>
-      <component id="67808" class="javax.swing.JLabel">
-        <constraints>
-          <grid row="1" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
-        </constraints>
-        <properties>
-          <text value="Label"/>
-        </properties>
-      </component>
       <hspacer id="7f4d7">
         <constraints>
-          <grid row="0" column="3" row-span="3" col-span="1" vsize-policy="1" hsize-policy="6" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
-        </constraints>
-      </hspacer>
-      <hspacer id="78141">
-        <constraints>
-          <grid row="2" column="0" row-span="1" col-span="1" vsize-policy="1" hsize-policy="6" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+          <grid row="1" column="3" row-span="1" col-span="1" vsize-policy="1" hsize-policy="6" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
         </constraints>
       </hspacer>
       <vspacer id="9c75">
         <constraints>
-          <grid row="3" column="2" row-span="1" col-span="1" vsize-policy="6" hsize-policy="1" anchor="0" fill="2" indent="0" use-parent-layout="false"/>
+          <grid row="2" column="2" row-span="1" col-span="1" vsize-policy="6" hsize-policy="1" anchor="0" fill="2" indent="0" use-parent-layout="false"/>
         </constraints>
       </vspacer>
+      <toolbar id="78cea">
+        <constraints>
+          <grid row="0" column="1" row-span="1" col-span="2" vsize-policy="0" hsize-policy="6" anchor="0" fill="1" indent="0" use-parent-layout="false">
+            <preferred-size width="-1" height="20"/>
+          </grid>
+        </constraints>
+        <properties/>
+        <border type="none" title="源文件夹路径"/>
+        <children>
+          <component id="94a71" class="javax.swing.JButton" binding="选择Button" default-binding="true">
+            <constraints/>
+            <properties>
+              <text value="选择"/>
+            </properties>
+          </component>
+          <component id="10061" class="javax.swing.JLabel">
+            <constraints/>
+            <properties>
+              <text value="Label"/>
+            </properties>
+          </component>
+        </children>
+      </toolbar>
+      <hspacer id="9cf55">
+        <constraints>
+          <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="1" hsize-policy="6" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+        </constraints>
+      </hspacer>
     </children>
   </grid>
 </form>
