@@ -15,7 +15,7 @@ public class CopyFile
             System.out.println("\n\n" + "-------------------------Start to copy-------------------------");
             for (int i = 0; i < imglist.length; i++)
             {
-                copy(imgpath + "\\" + imglist[i].getName(), copypath);
+                copy(imgpath + "/" + imglist[i].getName(), copypath);
                 System.out.println("succeeded: " + imglist[i].getName());
             }
             System.out.println("-------------------------Copy succeeded-------------------------");
