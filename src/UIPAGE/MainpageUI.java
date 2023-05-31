@@ -3,6 +3,7 @@ package UIPAGE;
 import com.formdev.flatlaf.FlatDarculaLaf;
 
 import javax.swing.*;
+import java.awt.*;
 
 public class MainpageUI {
     private JPanel panel1;
@@ -32,6 +33,11 @@ public class MainpageUI {
         frame.setContentPane(new MainpageUI().panel1);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setSize(500,350);
+        int width = Toolkit.getDefaultToolkit().getScreenSize().width;
+        int height = Toolkit.getDefaultToolkit().getScreenSize().height;
+        //获取屏幕大小
+        frame.setLocation((width - 605) / 2, (height - 710) / 2);
+        //使窗体显示在屏幕中央
         frame.setVisible(true);
     }
 }
