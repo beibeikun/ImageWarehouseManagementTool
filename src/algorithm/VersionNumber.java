@@ -4,7 +4,7 @@ public class VersionNumber
 {
     public String VersionNumber()
     {
-        return "Build:0.1.220322 by cjz ";
+        return "Build:0.1.230601 by cjz ";
     }
 
     public String Github()

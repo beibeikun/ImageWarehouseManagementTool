@@ -9,7 +9,7 @@ public class Copy
     static void copy(String srcPathStr, String desPathStr)
     {
         //获取源文件的名称
-        String newFileName = srcPathStr.substring(srcPathStr.lastIndexOf("\\") + 1); //目标文件地址
+        String newFileName = srcPathStr.substring(srcPathStr.lastIndexOf("/") + 1); //目标文件地址
         desPathStr = desPathStr + File.separator + newFileName; //源文件地址
         try
         {

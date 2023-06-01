@@ -1,9 +1,12 @@
 package UIPAGE;
 
-import com.formdev.flatlaf.FlatDarculaLaf;
+import algorithm.VersionNumber;
+import com.formdev.flatlaf.FlatDarkLaf;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 public class MainpageUI {
     private JPanel panel1;
@@ -26,18 +29,36 @@ public class MainpageUI {
     private JTextField textField1;
     private JButton 查询Button;
     private JCheckBox checkBox1;
+    private JComboBox comboBox1;
+    private JLabel versionLabel;
+    private JLabel firstpath;
+    private JLabel lastpath;
+    private JLabel csvpath;
+
+    static VersionNumber versionnumber = new VersionNumber();//获取版本号
+    public MainpageUI() {
+
+        versionLabel.setText(versionnumber.VersionNumber());
+        检查正确性Button.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+            }
+        });
+    }
 
     public static void main(String[] args) {
-        FlatDarculaLaf.setup();
+        FlatDarkLaf.setup();
         JFrame frame = new JFrame("MainpageUI");
         frame.setContentPane(new MainpageUI().panel1);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setSize(500,350);
+        frame.setSize(500,430);
         int width = Toolkit.getDefaultToolkit().getScreenSize().width;
         int height = Toolkit.getDefaultToolkit().getScreenSize().height;
         //获取屏幕大小
-        frame.setLocation((width - 605) / 2, (height - 710) / 2);
+        frame.setLocation((width - 500) / 2, (height - 430) / 2);
         //使窗体显示在屏幕中央
         frame.setVisible(true);
+        frame.setTitle("图片文件管理仓库");
     }
 }
