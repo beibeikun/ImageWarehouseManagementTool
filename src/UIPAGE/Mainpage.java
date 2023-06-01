@@ -10,10 +10,7 @@ import com.formdev.flatlaf.FlatDarkLaf;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
+import java.awt.event.*;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
@@ -177,7 +174,47 @@ public class Mainpage {
                 frame.setVisible(true);
                 frame.setTitle("连接到数据库");
                 frame.setResizable(false); //禁止改变大小
+                frame.addWindowListener(new WindowAdapter() {
+                    @Override
+                    public void windowClosing(WindowEvent e) {
+                        BufferedReader br;
+                        String line;
+                        int ii = 0;
+                        File databasesettings = new File("databasesettings.bbk");
+                        if (databasesettings.exists())
+                        {
+                            try
+                            {
+                                br = new BufferedReader(new FileReader("databasesettings.bbk"));
+                                String filepath = "";
+                                while ((line = br.readLine()) != null)
+                                {
+                                    if (ii == 0)
+                                    {
+                                        filepath = line;
+                                        databaseaddress.setText(filepath);
+                                    }
+                                    else if (ii == 1)
+                                    {
+                                        filepath = line;
+                                        databaseusername.setText(filepath);
+                                    }
+                                    ii++;
+                                }
+                            }
+                            catch (IOException ea)
+                            {
+                                ea.printStackTrace();
+                            }
+                        }
+                        else
+                        {
+                            System.out.println("不存在");
+                        }
+                    }
+                });
             }
+
         });
         SelectButton_firstpath.addActionListener(new ActionListener() {
             @Override
@@ -249,7 +286,7 @@ public class Mainpage {
             @Override
             public void mouseClicked(MouseEvent e) {
                 try {
-                    Desktop.getDesktop().browse(new URI("https://github.com/beibeikun/FilenameManagementSystem.git"));
+                    Desktop.getDesktop().browse(new URI(versionnumber.Github()));
                 } catch (Exception ea) {
                     ea.printStackTrace();
                 }
@@ -265,13 +302,9 @@ public class Mainpage {
                     if (n == 0)
                     {
                         tabbedPane.setEnabledAt(1, true);
-                        tabbedPane.setTitleAt(1, "加入到图片库");
                         tabbedPane.setEnabledAt(2, true);
-                        tabbedPane.setTitleAt(2, "从库中去除已成交");
                         tabbedPane.setEnabledAt(3, true);
-                        tabbedPane.setTitleAt(3, "查询在库拍品主图");
                         tabbedPane.setEnabledAt(4, true);
-                        tabbedPane.setTitleAt(4, "系统配置");
                         CheckBox_3lot.setEnabled(true);
                         CheckBox_addlot.setEnabled(true);
                         CheckBox_addfromdatabase.setEnabled(true);

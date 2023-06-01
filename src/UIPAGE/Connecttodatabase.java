@@ -4,19 +4,58 @@ import com.formdev.flatlaf.FlatDarkLaf;
 
 import javax.swing.*;
 import java.awt.*;
-import java.util.Objects;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.io.File;
+import java.io.PrintWriter;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
 
 public class Connecttodatabase {
     JPanel panel1;
-    private JTextField textField1;
-    private JTextField textField2;
-    private JPasswordField passwordField1;
-    private JButton 连接Button;
+    private JTextField address_textField;
+    private JTextField username_textField;
+    private JPasswordField password_textField;
+    private JButton ConnectButton;
+    private JLabel databaseaddress;
+    private JLabel username;
+    private JLabel password;
+    private JLabel connect;
 
 
     public Connecttodatabase()
     {
 
+        ConnectButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                try {
+                    Connection connection = DriverManager.getConnection("jdbc:mysql://"+address_textField.getText(), username_textField.getText(), password_textField.getText());
+                    connect.setText("连接成功");
+                    File savepath = new File("databasesettings.bbk");
+                    try
+                    {
+                        //写入的txt文档的路径
+                        PrintWriter pw = new PrintWriter(savepath);
+                        //写入的内容
+                        String c =address_textField.getText() + "\r\n" + username_textField.getText() + "\r\n" + password_textField.getText();
+                        pw.write(c);
+                        pw.flush();
+                        pw.close();
+                    }
+                    catch (Exception ea)
+                    {
+                        ea.printStackTrace();
+                    }
+                    // 连接成功后的操作
+                } catch (SQLException ea) {
+                    ea.printStackTrace();
+                    connect.setText("连接失败");
+                    // 连接失败时的处理
+                }
+            }
+        });
     }
 
     public static void main(String[] args) {

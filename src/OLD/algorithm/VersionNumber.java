@@ -9,6 +9,6 @@ public class VersionNumber
 
     public String Github()
     {
-        return "https://github.com/beibeikun/FilenameManagementSystem.git";
+        return "https://github.com/beibeikun/IMG_ManagementSystem";
     }
 }
