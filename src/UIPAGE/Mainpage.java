@@ -1,6 +1,10 @@
 package UIPAGE;
 
+import Module.File.CopyFiles;
+import Module.File.FilenameCheck;
+import Module.File.RenameFiles;
 import Module.File.Selectfilepath;
+import Module.IdentifySystem;
 import OLD.algorithm.VersionNumber;
 import com.formdev.flatlaf.FlatDarkLaf;
 
@@ -8,20 +12,23 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
+import java.net.URI;
 
 public class Mainpage {
     private JPanel panel1;
-    private JTabbedPane tabbedPane1;
+    private JTabbedPane tabbedPane;
     private JButton CheckButton;
     private JButton RenamestartButton;
-    private JCheckBox 使用三位lot号CheckBox;
-    private JCheckBox 添加Lot前缀CheckBox;
-    private JCheckBox 完成后按文件夹分类CheckBox;
-    private JCheckBox 尝试从库中提取缺少的拍品CheckBox;
+    private JCheckBox CheckBox_3lot;
+    private JCheckBox CheckBox_addlot;
+    private JCheckBox CheckBox_classification;
+    private JCheckBox CheckBox_addfromdatabase;
     private JButton SelectButton_lastpath;
     private JButton SelectButton_firstpath;
     private JCheckBox 替换已存在的图片CheckBox;
@@ -39,13 +46,29 @@ public class Mainpage {
     private JToolBar Othersettings;
     private JButton SelectButton_renamecsvpath;
     private JButton connecttodatabase;
-    private JButton 连接到图片库Button;
+    private JButton 连接到相机图片库Button;
+    private JButton 连接到手机图片库Button;
+    private JLabel databaseaddress;
+    private JLabel databaseusername;
+    private JLabel cameradatabasepath;
+    private JLabel phonedatabasepath;
+    private JLabel githuburlLabel;
+    private JLabel testmode;
+    private JToolBar Namingformat;
+    private JLabel mode;
     private static MenuBar menuBar;
 
     Selectfilepath getfilepath = new Selectfilepath();
+    FilenameCheck checkfile = new FilenameCheck();
+    CopyFiles copyfiles = new CopyFiles();
+    RenameFiles renamefiles = new RenameFiles();
 
     static VersionNumber versionnumber = new VersionNumber();//获取版本号
     public Mainpage() {
+        tabbedPane.setEnabledAt(1, false);
+        tabbedPane.setEnabledAt(2, false);
+        tabbedPane.setEnabledAt(3, false);
+        tabbedPane.setEnabledAt(4, false);
         BufferedReader br;
         String line;
         int ii = 0;
@@ -90,14 +113,53 @@ public class Mainpage {
         {
             System.out.println("不存在");
         }
+        ii = 0;
+        File loaddatabasesettings = new File("databasesettings.bbk");
+        if (loaddatabasesettings.exists())
+        {
+            try
+            {
+                br = new BufferedReader(new FileReader("databasesettings.bbk"));
+                String filepath = "";
+                while ((line = br.readLine()) != null)
+                {
+                    if (ii == 0)
+                    {
+                        filepath = line;
+                        databaseaddress.setText(filepath);
+                    }
+                    else if (ii == 1)
+                    {
+                        filepath = line;
+                        databaseusername.setText(filepath);
+                    }
+                    else if (ii == 3)
+                    {
+                        filepath = line;
+                        cameradatabasepath.setText(filepath);
+                    }
+                    else if (ii == 4)
+                    {
+                        filepath = line;
+                        phonedatabasepath.setText(filepath);
+                    }
 
-        versionLabel.setText(versionnumber.VersionNumber()+"   "+versionnumber.Github());//显示为当前版本号
-        CheckButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-
+                    ii++;
+                }
             }
-        });
+            catch (IOException e)
+            {
+                e.printStackTrace();
+            }
+            System.out.println("存在");
+        }
+        else
+        {
+            System.out.println("不存在");
+        }
+
+        versionLabel.setText(versionnumber.VersionNumber());//显示为当前版本号
+        githuburlLabel.setText("<html><u>"+versionnumber.Github()+"</u></html>");
 
         connecttodatabase.addActionListener(new ActionListener() {
             @Override
@@ -138,6 +200,96 @@ public class Mainpage {
                 renamecsvpath.setText(Srenamecsvpath);
             }
         });
+        CheckButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                int i = checkfile.namecheck(renamecsvpath.getText(),firstpath.getText(),lastpath.getText());
+                if (i==1)
+                {
+                    JOptionPane.showMessageDialog(null,"检查通过");
+                    RenamestartButton.setEnabled(true);
+                }
+                else if (i==2)
+                {
+                    JOptionPane.showMessageDialog(null,"未选取路径","路径错误",JOptionPane.WARNING_MESSAGE);
+                }
+                else if (i==3)
+                {
+                    JOptionPane.showMessageDialog(null,"路径名存在中文字符","路径错误",JOptionPane.WARNING_MESSAGE);
+                }
+                else if (i==41)
+                {
+                    JOptionPane.showMessageDialog(null,"CSV文件不存在","路径错误",JOptionPane.WARNING_MESSAGE);
+                }
+                else if (i==42)
+                {
+                    JOptionPane.showMessageDialog(null,"源文件夹路径不存在","路径错误",JOptionPane.WARNING_MESSAGE);
+                }
+                else if (i==43)
+                {
+                    JOptionPane.showMessageDialog(null,"目标文件夹不存在","路径错误",JOptionPane.WARNING_MESSAGE);
+                }
+                else if (i==5)
+                {
+                    JOptionPane.showMessageDialog(null,"目标文件夹不为空","文件夹错误",JOptionPane.WARNING_MESSAGE);
+                }
+            }
+        });
+        githuburlLabel.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                githuburlLabel.setForeground(Color.decode("#bbbbbb").darker());
+                githuburlLabel.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+            }
+            @Override
+            public void mouseExited(MouseEvent e) {
+                githuburlLabel.setForeground(Color.decode("#bbbbbb"));
+                githuburlLabel.setCursor(Cursor.getDefaultCursor());
+            }
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                try {
+                    Desktop.getDesktop().browse(new URI("https://github.com/beibeikun/FilenameManagementSystem.git"));
+                } catch (Exception ea) {
+                    ea.printStackTrace();
+                }
+            }
+        });
+        versionLabel.addMouseListener(new MouseAdapter() {
+            int clickCount = 0;
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                clickCount++;
+                if (clickCount == 5) {
+                    int n = JOptionPane.showConfirmDialog(null,"是否进入开发调试模式","",JOptionPane.YES_NO_OPTION);
+                    if (n == 0)
+                    {
+                        tabbedPane.setEnabledAt(1, true);
+                        tabbedPane.setTitleAt(1, "加入到图片库");
+                        tabbedPane.setEnabledAt(2, true);
+                        tabbedPane.setTitleAt(2, "从库中去除已成交");
+                        tabbedPane.setEnabledAt(3, true);
+                        tabbedPane.setTitleAt(3, "查询在库拍品主图");
+                        tabbedPane.setEnabledAt(4, true);
+                        tabbedPane.setTitleAt(4, "系统配置");
+                        CheckBox_3lot.setEnabled(true);
+                        CheckBox_addlot.setEnabled(true);
+                        CheckBox_addfromdatabase.setEnabled(true);
+                        CheckBox_classification.setEnabled(true);
+                        mode.setText("当前正在开发调试模式");
+                    }
+                    clickCount = 0; // 重置计数器
+                }
+            }
+        });
+        RenamestartButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                copyfiles.copyfile(renamecsvpath.getText(),firstpath.getText(),lastpath.getText());
+                renamefiles.renamefile(renamecsvpath.getText(),lastpath.getText(),0,0);
+                JOptionPane.showMessageDialog(null,"重命名完成");
+            }
+        });
     }
 
     public static void main(String[] args) {
@@ -145,7 +297,13 @@ public class Mainpage {
         JFrame frame = new JFrame("MainpageUI");
         frame.setContentPane(new Mainpage().panel1);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        int UIwidth=600,UIheight=500;
+        IdentifySystem systemtype = new IdentifySystem();
+        int UIwidth=0,UIheight=0;
+        if (systemtype.identifysystem_int()==1) //MAC系统下窗口大小
+        {
+            UIwidth=600;
+            UIheight=450;
+        }
         //设置大小
         frame.setSize(UIwidth,UIheight);
         int Monitor_width = Toolkit.getDefaultToolkit().getScreenSize().width;
