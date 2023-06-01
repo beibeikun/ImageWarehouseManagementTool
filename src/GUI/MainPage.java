@@ -22,7 +22,7 @@ public class MainPage extends JFrame implements ActionListener
     String imgpath = "";
     String copypath = "";
     VersionNumber versionnumber = new VersionNumber();//获取版本号
-    XuanMulu getfilepath = new XuanMulu();//获取指定excel文件路径
+    XuanMulu getfilepath = new XuanMulu();//获取指定文件路径
     int c1check = 0, c2check = 0;
 
     private final JLabel jtitle, jl1, build;
