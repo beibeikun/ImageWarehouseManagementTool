@@ -3,7 +3,7 @@
   <grid id="27dc6" binding="panel1" default-binding="true" layout-manager="GridLayoutManager" row-count="7" column-count="4" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
     <margin top="0" left="0" bottom="0" right="0"/>
     <constraints>
-      <xy x="20" y="20" width="533" height="442"/>
+      <xy x="20" y="20" width="642" height="442"/>
     </constraints>
     <properties/>
     <border type="none"/>
@@ -47,7 +47,7 @@
               </component>
               <toolbar id="69352">
                 <constraints>
-                  <grid row="0" column="1" row-span="1" col-span="3" vsize-policy="0" hsize-policy="6" anchor="0" fill="1" indent="0" use-parent-layout="false">
+                  <grid row="0" column="2" row-span="1" col-span="2" vsize-policy="0" hsize-policy="6" anchor="0" fill="1" indent="0" use-parent-layout="false">
                     <preferred-size width="-1" height="20"/>
                   </grid>
                 </constraints>
@@ -58,7 +58,7 @@
                     <constraints/>
                     <properties/>
                   </component>
-                  <component id="c9f66" class="javax.swing.JButton" binding="选择Button1" default-binding="true">
+                  <component id="76558" class="javax.swing.JButton" binding="选择Button2" default-binding="true">
                     <constraints/>
                     <properties>
                       <text value="选择"/>
@@ -74,19 +74,13 @@
               </toolbar>
               <toolbar id="e9ddc">
                 <constraints>
-                  <grid row="1" column="1" row-span="1" col-span="3" vsize-policy="0" hsize-policy="6" anchor="0" fill="1" indent="0" use-parent-layout="false">
+                  <grid row="1" column="2" row-span="1" col-span="2" vsize-policy="0" hsize-policy="6" anchor="0" fill="1" indent="0" use-parent-layout="false">
                     <preferred-size width="-1" height="20"/>
                   </grid>
                 </constraints>
                 <properties/>
                 <border type="none" title="CSV文件路径"/>
                 <children>
-                  <component id="76558" class="javax.swing.JButton" binding="选择Button2" default-binding="true">
-                    <constraints/>
-                    <properties>
-                      <text value="选择"/>
-                    </properties>
-                  </component>
                   <component id="d300a" class="javax.swing.JLabel" binding="csvpath">
                     <constraints/>
                     <properties>
@@ -158,6 +152,27 @@
                 <border type="none"/>
                 <children/>
               </grid>
+              <component id="fec15" class="javax.swing.JButton" binding="button1" default-binding="true">
+                <constraints>
+                  <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+                </constraints>
+                <properties>
+                  <text value="Button"/>
+                </properties>
+              </component>
+              <component id="714b1" class="javax.swing.JButton" binding="button2" default-binding="true">
+                <constraints>
+                  <grid row="1" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+                </constraints>
+                <properties>
+                  <text value="Button"/>
+                </properties>
+              </component>
+              <hspacer id="d760e">
+                <constraints>
+                  <grid row="4" column="3" row-span="1" col-span="1" vsize-policy="1" hsize-policy="6" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+                </constraints>
+              </hspacer>
             </children>
           </grid>
           <grid id="c5279" layout-manager="GridLayoutManager" row-count="3" column-count="3" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
@@ -338,19 +353,13 @@
       </hspacer>
       <toolbar id="78cea">
         <constraints>
-          <grid row="2" column="1" row-span="1" col-span="2" vsize-policy="0" hsize-policy="6" anchor="0" fill="1" indent="0" use-parent-layout="false">
+          <grid row="2" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="0" fill="1" indent="0" use-parent-layout="false">
             <preferred-size width="-1" height="20"/>
           </grid>
         </constraints>
         <properties/>
         <border type="none" title="源文件夹路径"/>
         <children>
-          <component id="94a71" class="javax.swing.JButton" binding="选择Button" default-binding="true">
-            <constraints/>
-            <properties>
-              <text value="选择"/>
-            </properties>
-          </component>
           <component id="10061" class="javax.swing.JLabel" binding="firstpath">
             <constraints/>
             <properties>
@@ -408,6 +417,14 @@
           <grid row="5" column="2" row-span="1" col-span="1" vsize-policy="6" hsize-policy="1" anchor="0" fill="2" indent="0" use-parent-layout="false"/>
         </constraints>
       </vspacer>
+      <component id="94a71" class="javax.swing.JButton" binding="选择Button" default-binding="true">
+        <constraints>
+          <grid row="2" column="1" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
+        </constraints>
+        <properties>
+          <text value="选择"/>
+        </properties>
+      </component>
     </children>
   </grid>
 </form>

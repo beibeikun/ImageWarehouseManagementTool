@@ -20,7 +20,6 @@ public class MainpageUI {
     private JList list1;
     private JList list2;
     private JList list3;
-    private JButton 选择Button1;
     private JButton 选择Button2;
     private JButton 选择Button;
     private JCheckBox 替换已存在的图片CheckBox;
@@ -34,11 +33,12 @@ public class MainpageUI {
     private JLabel firstpath;
     private JLabel lastpath;
     private JLabel csvpath;
+    private JButton button1;
+    private JButton button2;
 
     static VersionNumber versionnumber = new VersionNumber();//获取版本号
     public MainpageUI() {
-
-        versionLabel.setText(versionnumber.VersionNumber());
+        versionLabel.setText(versionnumber.VersionNumber());//显示为当前版本号
         检查正确性Button.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -48,17 +48,26 @@ public class MainpageUI {
     }
 
     public static void main(String[] args) {
+        MenuBar menuBar = new MenuBar();
+        Menu menu = new Menu("配置");
+        menu.add("配置数据库");
+        menu.add("配置图片库");
+        menuBar.add(menu);
         FlatDarkLaf.setup();
         JFrame frame = new JFrame("MainpageUI");
         frame.setContentPane(new MainpageUI().panel1);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setSize(500,430);
-        int width = Toolkit.getDefaultToolkit().getScreenSize().width;
-        int height = Toolkit.getDefaultToolkit().getScreenSize().height;
+        int UIwidth=600,UIheight=500;
+        //设置大小
+        frame.setSize(UIwidth,UIheight);
+        int Monitor_width = Toolkit.getDefaultToolkit().getScreenSize().width;
+        int Monitor_height = Toolkit.getDefaultToolkit().getScreenSize().height;
         //获取屏幕大小
-        frame.setLocation((width - 500) / 2, (height - 430) / 2);
+        frame.setLocation((Monitor_width - UIwidth) / 2, (Monitor_height - UIheight) / 2);
         //使窗体显示在屏幕中央
         frame.setVisible(true);
         frame.setTitle("图片文件管理仓库");
+        frame.setMenuBar(menuBar);
     }
+
 }
