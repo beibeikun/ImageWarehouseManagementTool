@@ -1,9 +1,9 @@
-package algorithm;
+package OLD.algorithm;
 
 import java.io.File;
 import java.util.Objects;
 
-import static algorithm.Copy.copy;
+import static OLD.algorithm.Copy.copy;
 
 public class Classification
 {

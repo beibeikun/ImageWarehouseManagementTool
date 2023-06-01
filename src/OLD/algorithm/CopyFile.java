@@ -1,8 +1,8 @@
-package algorithm;
+package OLD.algorithm;
 
 import java.io.File;
 
-import static algorithm.Copy.*;
+import static OLD.algorithm.Copy.*;
 
 public class CopyFile
 {

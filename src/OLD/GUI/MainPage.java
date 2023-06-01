@@ -1,9 +1,6 @@
-package GUI;
+package OLD.GUI;
 
-import algorithm.*;
-import com.formdev.flatlaf.FlatLightLaf;
-import com.formdev.flatlaf.themes.FlatMacDarkLaf;
-import com.formdev.flatlaf.themes.FlatMacLightLaf;
+import OLD.algorithm.*;
 
 import javax.swing.*;
 import java.awt.*;
