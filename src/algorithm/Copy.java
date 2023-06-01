@@ -9,7 +9,18 @@ public class Copy
     static void copy(String srcPathStr, String desPathStr)
     {
         //获取源文件的名称
-        String newFileName = srcPathStr.substring(srcPathStr.lastIndexOf("/") + 1); //目标文件地址
+        String OSname = System.getProperty("os.name");
+        String symbol = null;
+        if (OSname.startsWith("Mac OS")) {
+            // 苹果
+            symbol = "/";
+        } else if (OSname.startsWith("Windows")) {
+            // windows
+            symbol = "\\";
+        } else {
+            // unix or linux
+        }
+        String newFileName = srcPathStr.substring(srcPathStr.lastIndexOf(symbol) + 1); //目标文件地址
         desPathStr = desPathStr + File.separator + newFileName; //源文件地址
         try
         {

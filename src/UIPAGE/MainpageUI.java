@@ -49,6 +49,8 @@ public class MainpageUI {
     }
 
     public static void main(String[] args) {
+        String OSname = System.getProperty("os.name");
+        System.out.println(OSname);
         MenuBar menuBar = new MenuBar();
         Menu menu = new Menu("配置");
         menu.add("配置数据库");

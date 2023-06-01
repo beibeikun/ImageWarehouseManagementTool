@@ -37,14 +37,6 @@ public class MainPage extends JFrame implements ActionListener
 
     public MainPage()
     {
-        FlatLightLaf.install();
-        try
-        {
-            UIManager.setLookAndFeel( new FlatMacDarkLaf());
-        }catch (Exception ex)
-        {
-            System.err.println("Fail");
-        }
 
         JFrame frame = new JFrame();
         frame.setTitle("Xxx");
