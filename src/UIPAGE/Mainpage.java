@@ -8,7 +8,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class MainpageUI {
+public class Mainpage {
     private JPanel panel1;
     private JTabbedPane tabbedPane1;
     private JButton CheckButton;
@@ -38,7 +38,7 @@ public class MainpageUI {
     private JButton SelectButton_renamecsvpath;
 
     static VersionNumber versionnumber = new VersionNumber();//获取版本号
-    public MainpageUI() {
+    public Mainpage() {
         versionLabel.setText(versionnumber.VersionNumber());//显示为当前版本号
         CheckButton.addActionListener(new ActionListener() {
             @Override
@@ -58,7 +58,7 @@ public class MainpageUI {
         menuBar.add(menu);
         FlatDarkLaf.setup();
         JFrame frame = new JFrame("MainpageUI");
-        frame.setContentPane(new MainpageUI().panel1);
+        frame.setContentPane(new Mainpage().panel1);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         int UIwidth=600,UIheight=500;
         //设置大小
