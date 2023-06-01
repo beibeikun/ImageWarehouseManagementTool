@@ -28,7 +28,7 @@
             <properties/>
             <border type="none"/>
             <children>
-              <component id="d9f65" class="javax.swing.JButton" binding="检查正确性Button" default-binding="true">
+              <component id="d9f65" class="javax.swing.JButton" binding="CheckButton">
                 <constraints>
                   <grid row="4" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
                 </constraints>
@@ -36,7 +36,7 @@
                   <text value="检查正确性"/>
                 </properties>
               </component>
-              <component id="d6a14" class="javax.swing.JButton" binding="开始重命名Button" default-binding="true">
+              <component id="d6a14" class="javax.swing.JButton" binding="RenamestartButton">
                 <constraints>
                   <grid row="4" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
                 </constraints>
@@ -45,20 +45,16 @@
                   <text value="开始重命名"/>
                 </properties>
               </component>
-              <toolbar id="69352">
+              <toolbar id="69352" binding="JT_lastpath">
                 <constraints>
-                  <grid row="0" column="2" row-span="1" col-span="2" vsize-policy="0" hsize-policy="6" anchor="0" fill="1" indent="0" use-parent-layout="false">
+                  <grid row="0" column="1" row-span="1" col-span="3" vsize-policy="0" hsize-policy="6" anchor="0" fill="1" indent="0" use-parent-layout="false">
                     <preferred-size width="-1" height="20"/>
                   </grid>
                 </constraints>
                 <properties/>
                 <border type="none" title="目标文件夹路径"/>
                 <children>
-                  <component id="a6f04" class="javax.swing.JList" binding="list3" default-binding="true">
-                    <constraints/>
-                    <properties/>
-                  </component>
-                  <component id="76558" class="javax.swing.JButton" binding="选择Button2" default-binding="true">
+                  <component id="76558" class="javax.swing.JButton" binding="SelectButton_lastpath">
                     <constraints/>
                     <properties>
                       <text value="选择"/>
@@ -72,16 +68,22 @@
                   </component>
                 </children>
               </toolbar>
-              <toolbar id="e9ddc">
+              <toolbar id="e9ddc" binding="JT_renamecsvpath">
                 <constraints>
-                  <grid row="1" column="2" row-span="1" col-span="2" vsize-policy="0" hsize-policy="6" anchor="0" fill="1" indent="0" use-parent-layout="false">
+                  <grid row="1" column="1" row-span="1" col-span="3" vsize-policy="0" hsize-policy="6" anchor="0" fill="1" indent="0" use-parent-layout="false">
                     <preferred-size width="-1" height="20"/>
                   </grid>
                 </constraints>
                 <properties/>
                 <border type="none" title="CSV文件路径"/>
                 <children>
-                  <component id="d300a" class="javax.swing.JLabel" binding="csvpath">
+                  <component id="25614" class="javax.swing.JButton" binding="SelectButton_renamecsvpath">
+                    <constraints/>
+                    <properties>
+                      <text value="选择"/>
+                    </properties>
+                  </component>
+                  <component id="d300a" class="javax.swing.JLabel" binding="renamecsvpath">
                     <constraints/>
                     <properties>
                       <text value="Label"/>
@@ -112,7 +114,7 @@
                   </component>
                 </children>
               </toolbar>
-              <toolbar id="9a5e6">
+              <toolbar id="9a5e6" binding="Othersettings">
                 <constraints>
                   <grid row="3" column="1" row-span="1" col-span="3" vsize-policy="0" hsize-policy="6" anchor="0" fill="1" indent="0" use-parent-layout="false">
                     <preferred-size width="-1" height="20"/>
@@ -133,14 +135,6 @@
                       <text value="尝试从库中提取缺少的拍品"/>
                     </properties>
                   </component>
-                  <component id="852a4" class="javax.swing.JList" binding="list2" default-binding="true">
-                    <constraints/>
-                    <properties/>
-                  </component>
-                  <component id="46e1a" class="javax.swing.JList" binding="list1" default-binding="true">
-                    <constraints/>
-                    <properties/>
-                  </component>
                 </children>
               </toolbar>
               <grid id="c9691" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
@@ -152,22 +146,6 @@
                 <border type="none"/>
                 <children/>
               </grid>
-              <component id="fec15" class="javax.swing.JButton" binding="button1" default-binding="true">
-                <constraints>
-                  <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
-                </constraints>
-                <properties>
-                  <text value="Button"/>
-                </properties>
-              </component>
-              <component id="714b1" class="javax.swing.JButton" binding="button2" default-binding="true">
-                <constraints>
-                  <grid row="1" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
-                </constraints>
-                <properties>
-                  <text value="Button"/>
-                </properties>
-              </component>
               <hspacer id="d760e">
                 <constraints>
                   <grid row="4" column="3" row-span="1" col-span="1" vsize-policy="1" hsize-policy="6" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
@@ -351,7 +329,7 @@
           <grid row="4" column="3" row-span="1" col-span="1" vsize-policy="1" hsize-policy="6" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
         </constraints>
       </hspacer>
-      <toolbar id="78cea">
+      <toolbar id="78cea" binding="JT_firstpath">
         <constraints>
           <grid row="2" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="0" fill="1" indent="0" use-parent-layout="false">
             <preferred-size width="-1" height="20"/>
@@ -383,7 +361,7 @@
           <grid row="3" column="1" row-span="1" col-span="1" vsize-policy="6" hsize-policy="1" anchor="0" fill="2" indent="0" use-parent-layout="false"/>
         </constraints>
       </vspacer>
-      <component id="c9b1c" class="javax.swing.JLabel">
+      <component id="c9b1c" class="javax.swing.JLabel" binding="JLabel_selectsystem">
         <constraints>
           <grid row="1" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
         </constraints>
@@ -391,7 +369,7 @@
           <text value="选择操作系统"/>
         </properties>
       </component>
-      <component id="b3e4b" class="javax.swing.JComboBox" binding="comboBox1" default-binding="true">
+      <component id="b3e4b" class="javax.swing.JComboBox" binding="comboBox_System">
         <constraints>
           <grid row="1" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="2" anchor="8" fill="1" indent="0" use-parent-layout="false"/>
         </constraints>
@@ -417,7 +395,7 @@
           <grid row="5" column="2" row-span="1" col-span="1" vsize-policy="6" hsize-policy="1" anchor="0" fill="2" indent="0" use-parent-layout="false"/>
         </constraints>
       </vspacer>
-      <component id="94a71" class="javax.swing.JButton" binding="选择Button" default-binding="true">
+      <component id="94a71" class="javax.swing.JButton" binding="SelectButton_firstpath">
         <constraints>
           <grid row="2" column="1" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
         </constraints>
