@@ -1,6 +1,12 @@
 # IMG-ManagementSystem
 
-
+<br>
+<div>
+    <img alt="platform" src="https://img.shields.io/badge/platform-Windows%20%7C%20macOS-blueviolet">
+    <img alt="license" src="https://img.shields.io/github/license/MaaAssistantArknights/MaaAssistantArknights">
+    <img alt="stars" src="https://img.shields.io/github/stars/beibeikun/IMG_ManagementSystem?style=social">
+</div>
+<br>
 
 IMS是一个跨平台自动图片仓库管理工具，目前尚处在早期开发阶段
 
