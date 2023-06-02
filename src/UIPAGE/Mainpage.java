@@ -46,8 +46,8 @@ public class Mainpage {
     private JToolBar Othersettings;
     private JButton SelectButton_renamecsvpath;
     private JButton connecttodatabase;
-    private JButton 连接到相机图片库Button;
-    private JButton 连接到手机图片库Button;
+    private JButton ConnectButton1;
+    private JButton ConnectButton2;
     private JLabel databaseaddress;
     private JLabel databaseusername;
     private JLabel cameradatabasepath;
@@ -68,7 +68,8 @@ public class Mainpage {
         tabbedPane.setEnabledAt(1, false);
         tabbedPane.setEnabledAt(2, false);
         tabbedPane.setEnabledAt(3, false);
-        tabbedPane.setEnabledAt(4, false);
+        ConnectButton1.setEnabled(false);
+        ConnectButton2.setEnabled(false);
         BufferedReader br;
         String line;
         int ii = 0;
@@ -253,7 +254,8 @@ public class Mainpage {
                         tabbedPane.setEnabledAt(1, true);
                         tabbedPane.setEnabledAt(2, true);
                         tabbedPane.setEnabledAt(3, true);
-                        tabbedPane.setEnabledAt(4, true);
+                        ConnectButton1.setEnabled(true);
+                        ConnectButton2.setEnabled(true);
                         CheckBox_3lot.setEnabled(true);
                         CheckBox_addlot.setEnabled(true);
                         CheckBox_addfromdatabase.setEnabled(true);
