@@ -24,3 +24,9 @@ IMS 是一款免费开源软件，地址：https://github.com/beibeikun/IMG_Mana
 ## 相关项目 Relative Repositories
 
 - [Flatlaf](https://github.com/JFormDesigner/FlatLaf)，IMS所使用的Look and Feel for Java Swing desktop applications。
+
+## 更新日志 Update Log
+- **2023/06/02**-可以进行数据库连接
+- **2023/06/01**-新UI基础功能可以使用
+- **2023/05/31**-重构部分功能模块
+- **2023/05/30**-重构UI界面
