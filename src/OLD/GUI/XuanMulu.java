@@ -1,7 +1,7 @@
 package OLD.GUI;
 
 import javax.swing.*;
-import javax.swing.filechooser.*;
+import javax.swing.filechooser.FileNameExtensionFilter;
 
 public class XuanMulu
 {

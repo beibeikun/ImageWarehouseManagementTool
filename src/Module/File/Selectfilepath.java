@@ -1,7 +1,7 @@
 package Module.File;
 
 import javax.swing.*;
-import javax.swing.filechooser.*;
+import javax.swing.filechooser.FileNameExtensionFilter;
 
 /*--------------------------------------------
 打开文件目录对话框并根据用户选择返回对应String路径值

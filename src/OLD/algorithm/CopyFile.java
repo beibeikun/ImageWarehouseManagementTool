@@ -4,7 +4,7 @@ import Module.IdentifySystem;
 
 import java.io.File;
 
-import static OLD.algorithm.Copy.*;
+import static OLD.algorithm.Copy.copy;
 
 public class CopyFile
 {

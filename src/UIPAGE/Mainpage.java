@@ -10,7 +10,10 @@ import com.formdev.flatlaf.FlatDarkLaf;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
@@ -130,17 +133,6 @@ public class Mainpage {
                         filepath = line;
                         databaseusername.setText(filepath);
                     }
-                    else if (ii == 3)
-                    {
-                        filepath = line;
-                        cameradatabasepath.setText(filepath);
-                    }
-                    else if (ii == 4)
-                    {
-                        filepath = line;
-                        phonedatabasepath.setText(filepath);
-                    }
-
                     ii++;
                 }
             }
@@ -161,58 +153,15 @@ public class Mainpage {
         connecttodatabase.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                JFrame frame = new JFrame("Connecttodatabase");
-                frame.setContentPane(new Connecttodatabase().panel1);
-                int UIwidth=300,UIheight=200;
-                //设置大小
-                frame.setSize(UIwidth,UIheight);
-                int Monitor_width = Toolkit.getDefaultToolkit().getScreenSize().width;
-                int Monitor_height = Toolkit.getDefaultToolkit().getScreenSize().height;
-                //获取屏幕大小
-                frame.setLocation((Monitor_width - UIwidth) / 2, (Monitor_height - UIheight) / 2);
-                //使窗体显示在屏幕中央
-                frame.setVisible(true);
-                frame.setTitle("连接到数据库");
-                frame.setResizable(false); //禁止改变大小
-                frame.addWindowListener(new WindowAdapter() {
-                    @Override
-                    public void windowClosing(WindowEvent e) {
-                        BufferedReader br;
-                        String line;
-                        int ii = 0;
-                        File databasesettings = new File("databasesettings.bbk");
-                        if (databasesettings.exists())
-                        {
-                            try
-                            {
-                                br = new BufferedReader(new FileReader("databasesettings.bbk"));
-                                String filepath = "";
-                                while ((line = br.readLine()) != null)
-                                {
-                                    if (ii == 0)
-                                    {
-                                        filepath = line;
-                                        databaseaddress.setText(filepath);
-                                    }
-                                    else if (ii == 1)
-                                    {
-                                        filepath = line;
-                                        databaseusername.setText(filepath);
-                                    }
-                                    ii++;
-                                }
-                            }
-                            catch (IOException ea)
-                            {
-                                ea.printStackTrace();
-                            }
-                        }
-                        else
-                        {
-                            System.out.println("不存在");
-                        }
+                DatabaseConnectionForm databaseConnectionForm = new DatabaseConnectionForm(new DataCallback() {
+                    public void onDataEntered(String address, String username, String password) {
+                        // 在这里处理从第二个窗口返回的数据
+                        // 在示例中，我们只是将数据设置到主窗口的文本框中
+                        databaseaddress.setText(address);
+                        databaseusername.setText(username);
                     }
                 });
+                databaseConnectionForm.setVisible(true);
             }
 
         });
@@ -324,7 +273,9 @@ public class Mainpage {
             }
         });
     }
-
+    public interface DataCallback {
+        void onDataEntered(String address, String username, String password);
+    }
     public static void main(String[] args) {
         FlatDarkLaf.setup();
         JFrame frame = new JFrame("MainpageUI");
@@ -339,10 +290,7 @@ public class Mainpage {
         }
         //设置大小
         frame.setSize(UIwidth,UIheight);
-        int Monitor_width = Toolkit.getDefaultToolkit().getScreenSize().width;
-        int Monitor_height = Toolkit.getDefaultToolkit().getScreenSize().height;
-        //获取屏幕大小
-        frame.setLocation((Monitor_width - UIwidth) / 2, (Monitor_height - UIheight) / 2);
+        frame.setLocationRelativeTo(null);
         //使窗体显示在屏幕中央
         frame.setVisible(true);
         frame.setTitle("图片文件管理仓库");
