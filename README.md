@@ -2,7 +2,17 @@
 
 <br>
 <div>
+    <img alt="IntelliJ" src="https://img.shields.io/badge/IntelliJ IDEA-black?logo=intellij-idea&logoColor=white">
+    <img alt="mysql" src="https://img.shields.io/badge/mysql-00000f.svg?logo=mysql&logoColor=white">
+    <img alt="git" src="https://img.shields.io/badge/Git-black?logo=git">
+</div>
+<div>
+    <img alt="apple" src="https://img.shields.io/badge/apple-mbp 2020-999999.svg?logo=apple&logoColor=white">
+    <img alt="windows" src="https://img.shields.io/badge/windows-Legion Y9000x 2021-0078D6.svg?logo=windows&logoColor=white">
     <img alt="platform" src="https://img.shields.io/badge/platform-Windows%20%7C%20macOS-blueviolet">
+</div>
+<div>
+<img alt="JAVA" src="https://img.shields.io/badge/Java-ED8B00.svg?logo=java">
     <img alt="license" src="https://img.shields.io/github/license/MaaAssistantArknights/MaaAssistantArknights">
     <img alt="stars" src="https://img.shields.io/github/stars/beibeikun/IMG_ManagementSystem?style=social">
 </div>
