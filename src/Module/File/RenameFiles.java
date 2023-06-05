@@ -5,138 +5,99 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 
-/*--------------------------------------------
-根据CSV文件对文件进行重命名的功能。
+/**
+ * 文件重命名工具类，用于根据给定的Excel文件路径和图片路径，将图片文件按照Excel中的映射关系进行重命名。
+ */
+public class RenameFiles {
+    /**
+     * 将图片文件按照Excel中的映射关系进行重命名。
+     *
+     * @param excelPath   Excel文件的路径
+     * @param imagePath   图片文件夹的路径
+     * @param digitCheck  数字补零检查标志，1表示补零，0表示不补零
+     * @param prefixCheck 前缀添加检查标志，1表示添加前缀，0表示不添加前缀
+     */
+    public void renameFiles(String excelPath, String imagePath, int digitCheck, int prefixCheck) {
+        String[][] fileNameList = new String[2][10000]; // 存放对应的JB号-Lot号
+        String[] failedFiles = new String[10000]; // 存放转换失败的文件名
+        int failedNum = 0; // 转换失败的文件数量计数器
 
-代码中包含一个方法renamefile，它接受CSV文件路径、图片路径、数字检查和前缀检查作为参数，并执行文件重命名操作。
-
-在方法内部，首先创建一个二维数组filenamelist，用于存储CSV文件中的数据。还创建了一个字符串数组failedfile，用于存储转换失败的文件名（当前未使用），以及一个整数failednum用于计数。
-
-接下来，通过BufferedReader读取CSV文件，并将数据存储到filenamelist数组中。
-
-然后，创建一个表示图片目录的File对象，并使用listFiles()方法获取文件列表。
-
-之后，遍历文件列表，对于每个文件执行以下操作：
-
-获取文件名，并根据特定的格式进行切割，分别获取前缀和后缀部分。
-使用循环遍历filenamelist数组，找到与前缀部分匹配的对应项。
-如果找到匹配项，则根据数字检查和前缀检查的条件生成新的文件名。
-如果需要添加前缀，则在新文件名前添加特定前缀。
-构建新的文件对象dest，表示重命名后的文件。
-使用renameTo()方法将原始文件重命名为新文件名，并输出重命名成功的提示信息。
-如果没有找到匹配项，则输出重命名失败的提示信息，并将文件名存储到failedfile数组中。
-
-（未完成）使用String[] failedfile尝试从图片库中进行拉取
---------------------------------------------*/
-
-public class RenameFiles
-{
-    //digitcheck存在bug尚未修复
-    public void renamefile(String excelpath, String imgpath, int digit_check, int prefix_check)
-    {
-        String[][] filenamelist = new String[2][10000]; //存放对应的JB号-Lot号
-        String[] failedfile = new String[10000]; //存放转换失败的文件名，现在用不上
-        int failednum = 0; //同上用于计数
-
-        /*-------读取csv文件储存到filenamelist-------*/
+        /*-------读取csv文件储存到fileNameList-------*/
         BufferedReader br;
         String line;
         String cvsSplitBy = ",";
         int ii = 0;
-        try
-        {
-            br = new BufferedReader(new FileReader(excelpath));
-            while ((line = br.readLine()) != null)
-            {
+        try {
+            br = new BufferedReader(new FileReader(excelPath));
+            while ((line = br.readLine()) != null) {
 
-                // use comma as separator
+                // 使用逗号作为分隔符
                 String[] country = line.split(cvsSplitBy);
-                filenamelist[0][ii] = country[0];
-                filenamelist[1][ii] = country[1];
+                fileNameList[0][ii] = country[0];
+                fileNameList[1][ii] = country[1];
                 ii++;
             }
-        }
-        catch (IOException e)
-        {
+        } catch (IOException e) {
             e.printStackTrace();
         }
-        /*-------读取csv文件储存到filenamelist-------*/
+        /*-------读取csv文件储存到fileNameList-------*/
 
-
-        File file = new File(imgpath);//图片目录
-        File[] imglist = file.listFiles();
-        String newName = null;
-        String oldname;
+        File imageFolder = new File(imagePath);
+        File[] imageList = imageFolder.listFiles();
+        String newName;
+        String oldName;
         File dest = null;
         System.out.println("\n\n" + "-------------------------Start to rename-------------------------");
-        if (file.exists() && file.isDirectory())
-        {
-            for (int i = 0; i < imglist.length; i++)
-            {
-                //取文件名存入name中
-                String name = imglist[i].getName();
-                String FrontName = name.substring(0, 10);//格式为“JBOOOO-OOO”
-                String BehindName = name.substring(10);//格式为" (00).OOO"注意这里前面有个空格
+        if (imageFolder.exists() && imageFolder.isDirectory()) {
+            for (int i = 0; i < imageList.length; i++) {
+                // 获取文件名存入name中
+                String name = imageList[i].getName();
+                String frontName = name.substring(0, 10); // 格式为“JBOOOO-OOO”
+                String behindName = name.substring(10); // 格式为" (00).OOO"，注意这里前面有个空格
                 int x = 0;
-                while (x < ii)
-                {
+                while (x < ii) {
                     dest = null;
-                    if (filenamelist[0][x].equals(FrontName))
-                    {
-                        if (digit_check == 1)
-                        {
-                            int num = Integer.parseInt(filenamelist[1][x]);
-                            if (num / 10 == 0)
-                            {
-                                newName = "00" + filenamelist[1][x] + BehindName;
+                    if (fileNameList[0][x].equals(frontName)) {
+                        if (digitCheck == 1) {
+                            int num = Integer.parseInt(fileNameList[1][x]);
+                            if (num / 10 == 0) {
+                                newName = "00" + fileNameList[1][x] + behindName;
+                            } else if (num / 10 < 10) {
+                                newName = "0" + fileNameList[1][x] + behindName;
+                            } else {
+                                newName = fileNameList[1][x] + behindName;
                             }
-                            else if (num / 10 < 10)
-                            {
-                                newName = "0" + filenamelist[1][x] + BehindName;
-                            }
-                            else
-                            {
-                                newName = filenamelist[1][x] + BehindName;
-                            }
-                        }
-                        else
-                        {
-                            newName = filenamelist[1][x] + BehindName;
+                        } else {
+                            newName = fileNameList[1][x] + behindName;
                         }
 
-                        if (prefix_check == 1) //判定是否添加前缀
-                        {
+                        if (prefixCheck == 1) { // 判断是否添加前缀
                             newName = "Lot" + newName;
                         }
-                        dest = new File(imgpath + "/" + newName);
-                        oldname = imglist[i].getName();
-                        imglist[i].renameTo(dest);
-                        System.out.println("succeeded: " + oldname + " --> " + newName);
+                        dest = new File(imagePath + "/" + newName);
+                        oldName = imageList[i].getName();
+                        imageList[i].renameTo(dest);
+                        System.out.println("succeeded: " + oldName + " --> " + newName);
                         break;
                     }
                     x++;
                 }
-                if (dest == null)
-                {
+                if (dest == null) {
                     System.out.println("failed: " + name);
-                    failedfile[failednum] = name;
-                    failednum++;
+                    failedFiles[failedNum] = name;
+                    failedNum++;
                 }
             }
         }
         System.out.println("-------------------------Rename succeeded-------------------------");
-/*
+        /*
         int x = 0;
-        while (x < ii)
-        {
-            if (filenamelist[1][x].equals(""))
-            {
-                System.out.println("No found: "+filenamelist[0][x]);
+        while (x < ii) {
+            if (fileNameList[1][x].equals("")) {
+                System.out.println("No found: " + fileNameList[0][x]);
             }
             x++;
         }
-
- */
+        */
     }
 }
-

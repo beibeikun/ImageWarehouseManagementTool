@@ -18,7 +18,7 @@ public class CopyFile
             System.out.println("\n\n" + "-------------------------Start to copy-------------------------");
             for (int i = 0; i < imglist.length; i++)
             {
-                copy(imgpath + systemtype.identifysystem_String() + imglist[i].getName(), copypath);
+                copy(imgpath + systemtype.identifySystem_String() + imglist[i].getName(), copypath);
                 System.out.println("succeeded: " + imglist[i].getName());
             }
             System.out.println("-------------------------Copy succeeded-------------------------");

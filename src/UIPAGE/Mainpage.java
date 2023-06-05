@@ -61,7 +61,7 @@ public class Mainpage {
     private JTextArea consoleTextArea;
     private static MenuBar menuBar;
 
-    SelectFilepath getfilepath = new SelectFilepath();
+    SelectFilePath getfilepath = new SelectFilePath();
     FilenameCheck checkfile = new FilenameCheck();
     CopyFiles copyfiles = new CopyFiles();
     RenameFiles renamefiles = new RenameFiles();
@@ -75,7 +75,7 @@ public class Mainpage {
         language = language+".properties";
         Properties properties = new Properties();
         IdentifySystem system = new IdentifySystem();//获取系统类型
-        try (FileInputStream fis = new FileInputStream("properties"+system.identifysystem_String()+language);
+        try (FileInputStream fis = new FileInputStream("properties"+system.identifySystem_String()+language);
              InputStreamReader reader = new InputStreamReader(fis, StandardCharsets.UTF_8)) {
             properties.load(reader);
             CheckBox_digit.setText(properties.getProperty("CheckBox_digit"));
@@ -91,7 +91,7 @@ public class Mainpage {
 
 
         Properties settingsproperties = new Properties();
-        try (FileInputStream fis = new FileInputStream("properties"+system.identifysystem_String()+"settings.properties");
+        try (FileInputStream fis = new FileInputStream("properties"+system.identifySystem_String()+"settings.properties");
              InputStreamReader reader = new InputStreamReader(fis, StandardCharsets.UTF_8)) {
             settingsproperties.load(reader);
             databaseaddress.setText(settingsproperties.getProperty("databaseaddress"));
@@ -114,8 +114,8 @@ public class Mainpage {
             }
         }));
 
-        versionLabel.setText(versionnumber.VersionNumber());//显示为当前版本号
-        githuburlLabel.setText("<html><u>"+versionnumber.Github()+"</u></html>");//显示github地址
+        versionLabel.setText(versionnumber.getVersionNumber());//显示为当前版本号
+        githuburlLabel.setText("<html><u>"+versionnumber.getGithub()+"</u></html>");//显示github地址
         connecttodatabase.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -133,21 +133,21 @@ public class Mainpage {
         SelectButton_firstpath.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                String Sfirstpath = getfilepath.Selectfilepath(2);
+                String Sfirstpath = getfilepath.selectFilePath(2);
                 firstpath.setText(Sfirstpath);
             }
         });
         SelectButton_lastpath.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                String Slastpath = getfilepath.Selectfilepath(2);
+                String Slastpath = getfilepath.selectFilePath(2);
                 lastpath.setText(Slastpath);
             }
         });
         SelectButton_renamecsvpath.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                String Srenamecsvpath = getfilepath.Selectfilepath(1);
+                String Srenamecsvpath = getfilepath.selectFilePath(1);
                 renamecsvpath.setText(Srenamecsvpath);
             }
         });
@@ -186,7 +186,17 @@ public class Mainpage {
                         boolean created = directory.mkdirs();
                         JOptionPane.showMessageDialog(null,"文件夹已创建，检查通过");
                         RenamestartButton.setEnabled(true);
-                        System.out.println("SUCCESS: folder created");
+                        System.out.println("successed: folder created");
+
+                        WriteToProperties writeToProperties = new WriteToProperties();
+                        String[][] filenamelist = new String[2][10];
+                        filenamelist[0][0] = "firstpath";
+                        filenamelist[1][0] = firstpath.getText();
+                        filenamelist[0][1] = "renamecsvpath";
+                        filenamelist[1][1] = renamecsvpath.getText();
+                        filenamelist[0][2] = "lastpath";
+                        filenamelist[1][2] = lastpath.getText();
+                        writeToProperties.writeToProperties("settings", filenamelist);
                     }
                 }
                 else if (i==5)
@@ -201,6 +211,16 @@ public class Mainpage {
                         JOptionPane.showMessageDialog(null,"文件夹已清空，检查通过");
                         RenamestartButton.setEnabled(true);
                         System.out.println("successed: folder emptied");
+
+                        WriteToProperties writeToProperties = new WriteToProperties();
+                        String[][] filenamelist = new String[2][10];
+                        filenamelist[0][0] = "firstpath";
+                        filenamelist[1][0] = firstpath.getText();
+                        filenamelist[0][1] = "renamecsvpath";
+                        filenamelist[1][1] = renamecsvpath.getText();
+                        filenamelist[0][2] = "lastpath";
+                        filenamelist[1][2] = lastpath.getText();
+                        writeToProperties.writeToProperties("settings", filenamelist);
                     }
                 }
             }
@@ -218,12 +238,12 @@ public class Mainpage {
                 {
                     prefix_check = 1;
                 }
-                copyfiles.copyfile(renamecsvpath.getText(),firstpath.getText(),lastpath.getText());
-                renamefiles.renamefile(renamecsvpath.getText(),lastpath.getText(),digit_check,prefix_check);
-                copyfiles.deletefiles(lastpath.getText());
+                copyfiles.copyFiles(renamecsvpath.getText(),firstpath.getText(),lastpath.getText());
+                renamefiles.renameFiles(renamecsvpath.getText(),lastpath.getText(),digit_check,prefix_check);
+                copyfiles.deleteFiles(lastpath.getText());
                 if (CheckBox_classification.isSelected())
                 {
-                    filePrefixMove.fileprefixmove(lastpath.getText()," (");
+                    filePrefixMove.filePrefixMove(lastpath.getText()," (");
                 }
                 JOptionPane.showMessageDialog(null,"重命名完成");
                 RenamestartButton.setEnabled(false);
@@ -243,7 +263,7 @@ public class Mainpage {
             @Override
             public void mouseClicked(MouseEvent e) {
                 try {
-                    Desktop.getDesktop().browse(new URI(versionnumber.Github()));
+                    Desktop.getDesktop().browse(new URI(versionnumber.getGithub()));
                 } catch (Exception ea) {
                     ea.printStackTrace();
                 }
@@ -271,25 +291,25 @@ public class Mainpage {
         ConnectButton1.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                String Scamerapath = getfilepath.Selectfilepath(2);
+                String Scamerapath = getfilepath.selectFilePath(2);
                 cameradatabasepath.setText(Scamerapath);
                 WriteToProperties writeToProperties = new WriteToProperties();
                 String[][] filenamelist = new String[2][10];
                 filenamelist[0][0]="cameradatabasepath";
                 filenamelist[1][0]=Scamerapath;
-                writeToProperties.writetoproperties("settings",filenamelist);
+                writeToProperties.writeToProperties("settings",filenamelist);
             }
         });
         ConnectButton2.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                String Sphonepath = getfilepath.Selectfilepath(2);
+                String Sphonepath = getfilepath.selectFilePath(2);
                 phonedatabasepath.setText(Sphonepath);
                 WriteToProperties writeToProperties = new WriteToProperties();
                 String[][] filenamelist = new String[2][10];
                 filenamelist[0][0]="phonedatabasepath";
                 filenamelist[1][0]=Sphonepath;
-                writeToProperties.writetoproperties("settings",filenamelist);
+                writeToProperties.writeToProperties("settings",filenamelist);
             }
         });
     }
@@ -303,7 +323,7 @@ public class Mainpage {
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         IdentifySystem systemtype = new IdentifySystem();
         int UIwidth=0,UIheight=0;
-        if (systemtype.identifysystem_int()==1) //MAC及linux系统下窗口大小
+        if (systemtype.identifySystem_int()==1) //MAC及linux系统下窗口大小
         {
             UIwidth=1100;
             UIheight=450;

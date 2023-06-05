@@ -71,7 +71,7 @@ public class DatabaseConnectionForm extends JFrame {
         JButton confirmButton = new JButton("确认");
         Properties properties = new Properties();
         IdentifySystem system = new IdentifySystem();//获取系统类型
-        try (FileInputStream fis = new FileInputStream("properties"+system.identifysystem_String()+"settings.properties");
+        try (FileInputStream fis = new FileInputStream("properties"+system.identifySystem_String()+"settings.properties");
              InputStreamReader reader = new InputStreamReader(fis, StandardCharsets.UTF_8)) {
             properties.load(reader);
             addressField.setText(properties.getProperty("databaseaddress"));
@@ -99,7 +99,7 @@ public class DatabaseConnectionForm extends JFrame {
                         filenamelist[1][1]=username;
                         filenamelist[0][2]="databasepassword";
                         filenamelist[1][2]=password;
-                        writeToProperties.writetoproperties("settings",filenamelist);
+                        writeToProperties.writeToProperties("settings",filenamelist);
 
                         // 调用主窗口的回调方法，将数据传递回去
                         callback.onDataEntered(address, username, password);

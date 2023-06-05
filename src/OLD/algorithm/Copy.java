@@ -12,7 +12,7 @@ public class Copy
     {
         IdentifySystem systemtype = new IdentifySystem();
 
-        String newFileName = srcPathStr.substring(srcPathStr.lastIndexOf(systemtype.identifysystem_String()) + 1); //目标文件地址
+        String newFileName = srcPathStr.substring(srcPathStr.lastIndexOf(systemtype.identifySystem_String()) + 1); //目标文件地址
         desPathStr = desPathStr + File.separator + newFileName; //源文件地址
         try
         {
