@@ -19,6 +19,7 @@ import java.awt.event.MouseEvent;
 import java.io.*;
 import java.net.URI;
 import java.nio.charset.StandardCharsets;
+import java.util.Locale;
 import java.util.Properties;
 
 public class Mainpage {
@@ -66,9 +67,14 @@ public class Mainpage {
 
     static VersionNumber versionnumber = new VersionNumber();//获取版本号
     public Mainpage() {
+        //识别系统语言
+        Locale defaultLocale = Locale.getDefault();
+        String language = defaultLocale.getLanguage();
+        //根据系统语言加载资源文件，目前只有中文
+        language = language+".properties";
         Properties properties = new Properties();
-
-        try (FileInputStream fis = new FileInputStream("properties/zh_CN.properties");
+        IdentifySystem system = new IdentifySystem();//获取系统类型
+        try (FileInputStream fis = new FileInputStream("properties"+system.identifysystem_String()+language);
              InputStreamReader reader = new InputStreamReader(fis, StandardCharsets.UTF_8)) {
             properties.load(reader);
             CheckBox_digit.setText(properties.getProperty("CheckBox_digit"));
@@ -77,87 +83,26 @@ public class Mainpage {
         } catch (IOException e) {
             e.printStackTrace();
         }
+        //开发中无法使用的按钮
         tabbedPane.setEnabledAt(1, false);
         tabbedPane.setEnabledAt(2, false);
         tabbedPane.setEnabledAt(3, false);
         ConnectButton1.setEnabled(false);
         ConnectButton2.setEnabled(false);
-        BufferedReader br;
-        String line;
-        int ii = 0;
-        File loadsettings = new File("historysettings.bbk");
-        if (loadsettings.exists())
-        {
-            try
-            {
-                br = new BufferedReader(new FileReader("historysettings.bbk"));
-                String filepath = "";
-                while ((line = br.readLine()) != null)
-                {
-                    if (ii == 0)
-                    {
-                        filepath = line;
-                        firstpath.setText(filepath);
-                        System.out.println("--Directory selected-- " + filepath); //此处为测试输出点
-                    }
-                    else if (ii == 1)
-                    {
-                        filepath = line;
-                        lastpath.setText(filepath);
-                        System.out.println("--Directory selected-- " + filepath); //此处为测试输出点
-                    }
-                    else if (ii == 2)
-                    {
-                        filepath = line;
-                        renamecsvpath.setText(filepath);
-                        System.out.println("--Directory selected-- " + filepath); //此处为测试输出点
-                    }
 
-                    ii++;
-                }
-            }
-            catch (IOException e)
-            {
-                e.printStackTrace();
-            }
-            System.out.println("存在");
-        }
-        else
-        {
-            System.out.println("不存在");
-        }
-        ii = 0;
-        File loaddatabasesettings = new File("databasesettings.bbk");
-        if (loaddatabasesettings.exists())
-        {
-            try
-            {
-                br = new BufferedReader(new FileReader("databasesettings.bbk"));
-                String filepath = "";
-                while ((line = br.readLine()) != null)
-                {
-                    if (ii == 0)
-                    {
-                        filepath = line;
-                        databaseaddress.setText(filepath);
-                    }
-                    else if (ii == 1)
-                    {
-                        filepath = line;
-                        databaseusername.setText(filepath);
-                    }
-                    ii++;
-                }
-            }
-            catch (IOException e)
-            {
-                e.printStackTrace();
-            }
-            System.out.println("存在");
-        }
-        else
-        {
-            System.out.println("不存在");
+
+        Properties settingsproperties = new Properties();
+        try (FileInputStream fis = new FileInputStream("properties"+system.identifysystem_String()+"settings.properties");
+             InputStreamReader reader = new InputStreamReader(fis, StandardCharsets.UTF_8)) {
+            settingsproperties.load(reader);
+            databaseaddress.setText(settingsproperties.getProperty("databaseaddress"));
+            databaseusername.setText(settingsproperties.getProperty("databaseusername"));
+            firstpath.setText(settingsproperties.getProperty("firstpath"));
+            lastpath.setText(settingsproperties.getProperty("lastpath"));
+            renamecsvpath.setText(settingsproperties.getProperty("renamecsvpath"));
+            // 读取属性值...
+        } catch (IOException e) {
+            e.printStackTrace();
         }
 
         versionLabel.setText(versionnumber.VersionNumber());//显示为当前版本号

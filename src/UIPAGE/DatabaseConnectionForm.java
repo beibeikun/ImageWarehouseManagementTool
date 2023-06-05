@@ -1,13 +1,17 @@
 package UIPAGE;
 
+import Module.IdentifySystem;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.*;
+import java.nio.charset.StandardCharsets;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import java.util.Properties;
 
 public class DatabaseConnectionForm extends JFrame {
     private JTextField addressField;
@@ -64,45 +68,17 @@ public class DatabaseConnectionForm extends JFrame {
         gbc.gridx = 0;
         gbc.gridwidth = 2;
         JButton confirmButton = new JButton("确认");
-        BufferedReader br;
-        String line;
-        int ii = 0;
-        File loaddatabasesettings = new File("databasesettings.bbk");
-        if (loaddatabasesettings.exists())
-        {
-            try
-            {
-                br = new BufferedReader(new FileReader("databasesettings.bbk"));
-                String filepath = "";
-                while ((line = br.readLine()) != null)
-                {
-                    if (ii == 0)
-                    {
-                        filepath = line;
-                        addressField.setText(filepath);
-                    }
-                    else if (ii == 1)
-                    {
-                        filepath = line;
-                        usernameField.setText(filepath);
-                    }
-                    else if (ii == 2)
-                    {
-                        filepath = line;
-                        passwordField.setText(filepath);
-                    }
-                    ii++;
-                }
-            }
-            catch (IOException e)
-            {
-                e.printStackTrace();
-            }
-            System.out.println("存在");
-        }
-        else
-        {
-            System.out.println("不存在");
+        Properties properties = new Properties();
+        IdentifySystem system = new IdentifySystem();//获取系统类型
+        try (FileInputStream fis = new FileInputStream("properties"+system.identifysystem_String()+"settings.properties");
+             InputStreamReader reader = new InputStreamReader(fis, StandardCharsets.UTF_8)) {
+            properties.load(reader);
+            addressField.setText(properties.getProperty("databaseaddress"));
+            usernameField.setText(properties.getProperty("databaseusername"));
+            passwordField.setText(properties.getProperty("databasepassword"));
+            // 读取属性值...
+        } catch (IOException e) {
+            e.printStackTrace();
         }
         confirmButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
@@ -123,18 +99,33 @@ public class DatabaseConnectionForm extends JFrame {
                 String address = addressField.getText();
                 String username = usernameField.getText();
                 String password = passwordField.getText();
+
                 try {
                     Connection connection = DriverManager.getConnection("jdbc:mysql://"+address, username, password);
-                    File savepath = new File("databasesettings.bbk");
                     try
                     {
-                        //写入的txt文档的路径
-                        PrintWriter pw = new PrintWriter(savepath);
-                        //写入的内容
-                        String c =address + "\r\n" + username + "\r\n" + password;
-                        pw.write(c);
-                        pw.flush();
-                        pw.close();
+
+                        Properties properties = new Properties();
+                        try (FileInputStream fis = new FileInputStream("properties"+system.identifysystem_String()+"settings.properties");
+                             InputStreamReader reader = new InputStreamReader(fis, StandardCharsets.UTF_8)) {
+                            properties.load(fis);
+                            // 读取属性值...
+                        } catch (IOException ea) {
+                            ea.printStackTrace();
+                        }
+                        // 设置属性值
+                        properties.setProperty("databaseaddress",address);
+                        properties.setProperty("databaseusername",username);
+                        properties.setProperty("databasepassword",password);
+
+                        try (FileOutputStream fos = new FileOutputStream("properties"+system.identifysystem_String()+"settings.properties")) {
+                            // 将属性以XML格式写入文件
+                            properties.store(fos, null);
+                            System.out.println("Properties written to XML file.");
+                        } catch (IOException ea) {
+                            ea.printStackTrace();
+                        }
+
                         // 调用主窗口的回调方法，将数据传递回去
                         callback.onDataEntered(address, username, password);
                         JOptionPane.showMessageDialog(null,"数据库连接测试通过");

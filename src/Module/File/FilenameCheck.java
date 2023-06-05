@@ -1,9 +1,11 @@
 package Module.File;
 
+import Module.IdentifySystem;
 import OLD.algorithm.isContainChinese;
 
-import java.io.File;
-import java.io.PrintWriter;
+import java.io.*;
+import java.nio.charset.StandardCharsets;
+import java.util.Properties;
 
 /*--------------------------------------------
 用于检测源文件夹，目标文件夹与csv文件夹是否有误
@@ -55,20 +57,27 @@ public class FilenameCheck
                 {
                     return 5;
                 }
-                File savepath = new File("historysettings.bbk");
-                try
-                {
-                    //写入的txt文档的路径
-                    PrintWriter pw = new PrintWriter(savepath);
-                    //写入的内容
-                    String c =imgpath + "\r\n" + copypath + "\r\n" + filepath;
-                    pw.write(c);
-                    pw.flush();
-                    pw.close();
+
+                IdentifySystem system = new IdentifySystem();
+                Properties properties = new Properties();
+                try (FileInputStream fis = new FileInputStream("properties"+system.identifysystem_String()+"settings.properties");
+                     InputStreamReader reader = new InputStreamReader(fis, StandardCharsets.UTF_8)) {
+                    properties.load(fis);
+                    // 读取属性值...
+                } catch (IOException ea) {
+                    ea.printStackTrace();
                 }
-                catch (Exception e)
-                {
-                    e.printStackTrace();
+                // 设置属性值
+                properties.setProperty("firstpath",imgpath);
+                properties.setProperty("renamecsvpath",filepath);
+                properties.setProperty("lastpath",copypath);
+
+                try (FileOutputStream fos = new FileOutputStream("properties"+system.identifysystem_String()+"settings.properties")) {
+                    // 将属性以XML格式写入文件
+                    properties.store(fos, null);
+                    System.out.println("Properties written to XML file.");
+                } catch (IOException ea) {
+                    ea.printStackTrace();
                 }
 
                 return 1;
