@@ -6,15 +6,32 @@ import java.io.FileReader;
 import java.io.IOException;
 
 /*--------------------------------------------
-用于对文件根据csv进行重命名
-excelpath-csv文件路径
-digit_check-添加为三位编号
-prefix_check-添加前缀
+根据CSV文件对文件进行重命名的功能。
+
+代码中包含一个方法renamefile，它接受CSV文件路径、图片路径、数字检查和前缀检查作为参数，并执行文件重命名操作。
+
+在方法内部，首先创建一个二维数组filenamelist，用于存储CSV文件中的数据。还创建了一个字符串数组failedfile，用于存储转换失败的文件名（当前未使用），以及一个整数failednum用于计数。
+
+接下来，通过BufferedReader读取CSV文件，并将数据存储到filenamelist数组中。
+
+然后，创建一个表示图片目录的File对象，并使用listFiles()方法获取文件列表。
+
+之后，遍历文件列表，对于每个文件执行以下操作：
+
+获取文件名，并根据特定的格式进行切割，分别获取前缀和后缀部分。
+使用循环遍历filenamelist数组，找到与前缀部分匹配的对应项。
+如果找到匹配项，则根据数字检查和前缀检查的条件生成新的文件名。
+如果需要添加前缀，则在新文件名前添加特定前缀。
+构建新的文件对象dest，表示重命名后的文件。
+使用renameTo()方法将原始文件重命名为新文件名，并输出重命名成功的提示信息。
+如果没有找到匹配项，则输出重命名失败的提示信息，并将文件名存储到failedfile数组中。
+
 （未完成）使用String[] failedfile尝试从图片库中进行拉取
 --------------------------------------------*/
 
 public class RenameFiles
 {
+    //digitcheck存在bug尚未修复
     public void renamefile(String excelpath, String imgpath, int digit_check, int prefix_check)
     {
         String[][] filenamelist = new String[2][10000]; //存放对应的JB号-Lot号
@@ -76,6 +93,10 @@ public class RenameFiles
                             else if (num / 10 < 10)
                             {
                                 newName = "0" + filenamelist[1][x] + BehindName;
+                            }
+                            else
+                            {
+                                newName = filenamelist[1][x] + BehindName;
                             }
                         }
                         else

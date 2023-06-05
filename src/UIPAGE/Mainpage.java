@@ -1,14 +1,9 @@
 package UIPAGE;
 
-import Module.File.CopyFiles;
-import Module.File.FilenameCheck;
-import Module.File.RenameFiles;
-import Module.File.Selectfilepath;
+import Module.File.*;
 import Module.IdentifySystem;
-import OLD.algorithm.VersionNumber;
+import Module.VersionNumber;
 import com.formdev.flatlaf.FlatDarkLaf;
-import com.formdev.flatlaf.FlatLaf;
-import com.formdev.flatlaf.FlatLightLaf;
 
 import javax.swing.*;
 import java.awt.*;
@@ -21,6 +16,8 @@ import java.net.URI;
 import java.nio.charset.StandardCharsets;
 import java.util.Locale;
 import java.util.Properties;
+
+import static Module.File.DeleteDirectory.deleteDirectory;
 
 public class Mainpage {
     private JPanel panel1;
@@ -58,9 +55,13 @@ public class Mainpage {
     private JLabel testmode;
     private JToolBar Namingformat;
     private JLabel mode;
+    private JCheckBox 完成后删除源文件CheckBox;
+    private JTextArea textArea1;
+    private JScrollPane ScrollPane1;
+    private JTextArea consoleTextArea;
     private static MenuBar menuBar;
 
-    Selectfilepath getfilepath = new Selectfilepath();
+    SelectFilepath getfilepath = new SelectFilepath();
     FilenameCheck checkfile = new FilenameCheck();
     CopyFiles copyfiles = new CopyFiles();
     RenameFiles renamefiles = new RenameFiles();
@@ -104,6 +105,14 @@ public class Mainpage {
         } catch (IOException e) {
             e.printStackTrace();
         }
+        System.setOut(new PrintStream(new OutputStream()
+        {
+            @Override
+            public void write(int b)
+            {
+                textArea1.append(String.valueOf((char) b));
+            }
+        }));
 
         versionLabel.setText(versionnumber.VersionNumber());//显示为当前版本号
         githuburlLabel.setText("<html><u>"+versionnumber.Github()+"</u></html>");//显示github地址
@@ -169,17 +178,37 @@ public class Mainpage {
                 }
                 else if (i==43)
                 {
-                    JOptionPane.showMessageDialog(null,"目标文件夹不存在","路径错误",JOptionPane.WARNING_MESSAGE);
+                    int n = JOptionPane.showConfirmDialog(null, "目标文件夹不存在,是否创建对应文件夹", "标题",JOptionPane.YES_NO_OPTION); //返回值为0或1
+                    if (n==0)
+                    {
+                        String directoryPath = lastpath.getText();
+                        File directory = new File(directoryPath);
+                        boolean created = directory.mkdirs();
+                        JOptionPane.showMessageDialog(null,"文件夹已创建，检查通过");
+                        RenamestartButton.setEnabled(true);
+                        System.out.println("SUCCESS: folder created");
+                    }
                 }
                 else if (i==5)
                 {
-                    JOptionPane.showMessageDialog(null,"目标文件夹不为空","文件夹错误",JOptionPane.WARNING_MESSAGE);
+                    int n = JOptionPane.showConfirmDialog(null, "目标文件夹非空,是否清空对应文件夹", "标题",JOptionPane.YES_NO_OPTION);
+                    if (n==0)
+                    {
+                        String directoryPath = lastpath.getText();
+                        File directory = new File(directoryPath);
+                        boolean deleted = deleteDirectory(directory);
+                        boolean created = directory.mkdirs();
+                        JOptionPane.showMessageDialog(null,"文件夹已清空，检查通过");
+                        RenamestartButton.setEnabled(true);
+                        System.out.println("successed: folder emptied");
+                    }
                 }
             }
         });
         RenamestartButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                FilePrefixMove filePrefixMove = new FilePrefixMove();
                 int digit_check=0,prefix_check=0;
                 if (CheckBox_digit.isSelected())
                 {
@@ -191,7 +220,13 @@ public class Mainpage {
                 }
                 copyfiles.copyfile(renamecsvpath.getText(),firstpath.getText(),lastpath.getText());
                 renamefiles.renamefile(renamecsvpath.getText(),lastpath.getText(),digit_check,prefix_check);
+                copyfiles.deletefiles(lastpath.getText());
+                if (CheckBox_classification.isSelected())
+                {
+                    filePrefixMove.fileprefixmove(lastpath.getText()," (");
+                }
                 JOptionPane.showMessageDialog(null,"重命名完成");
+                RenamestartButton.setEnabled(false);
             }
         });
         githuburlLabel.addMouseListener(new MouseAdapter() {
@@ -227,7 +262,6 @@ public class Mainpage {
                         tabbedPane.setEnabledAt(2, true);
                         tabbedPane.setEnabledAt(3, true);
                         CheckBox_addfromdatabase.setEnabled(true);
-                        CheckBox_classification.setEnabled(true);
                         mode.setText("当前正在开发调试模式");
                     }
                     clickCount = 0; // 重置计数器
@@ -239,24 +273,11 @@ public class Mainpage {
             public void actionPerformed(ActionEvent e) {
                 String Scamerapath = getfilepath.Selectfilepath(2);
                 cameradatabasepath.setText(Scamerapath);
-                Properties properties = new Properties();
-                try (FileInputStream fis = new FileInputStream("properties"+system.identifysystem_String()+"settings.properties");
-                     InputStreamReader reader = new InputStreamReader(fis, StandardCharsets.UTF_8)) {
-                    properties.load(fis);
-                    // 读取属性值...
-                } catch (IOException ea) {
-                    ea.printStackTrace();
-                }
-                // 设置属性值
-                properties.setProperty("cameradatabasepath",Scamerapath);
-
-                try (FileOutputStream fos = new FileOutputStream("properties"+system.identifysystem_String()+"settings.properties")) {
-                    // 将属性以XML格式写入文件
-                    properties.store(fos, null);
-                    System.out.println("Properties written to XML file.");
-                } catch (IOException ea) {
-                    ea.printStackTrace();
-                }
+                WriteToProperties writeToProperties = new WriteToProperties();
+                String[][] filenamelist = new String[2][10];
+                filenamelist[0][0]="cameradatabasepath";
+                filenamelist[1][0]=Scamerapath;
+                writeToProperties.writetoproperties("settings",filenamelist);
             }
         });
         ConnectButton2.addActionListener(new ActionListener() {
@@ -264,24 +285,11 @@ public class Mainpage {
             public void actionPerformed(ActionEvent e) {
                 String Sphonepath = getfilepath.Selectfilepath(2);
                 phonedatabasepath.setText(Sphonepath);
-                Properties properties = new Properties();
-                try (FileInputStream fis = new FileInputStream("properties"+system.identifysystem_String()+"settings.properties");
-                     InputStreamReader reader = new InputStreamReader(fis, StandardCharsets.UTF_8)) {
-                    properties.load(fis);
-                    // 读取属性值...
-                } catch (IOException ea) {
-                    ea.printStackTrace();
-                }
-                // 设置属性值
-                properties.setProperty("phonedatabasepath",Sphonepath);
-
-                try (FileOutputStream fos = new FileOutputStream("properties"+system.identifysystem_String()+"settings.properties")) {
-                    // 将属性以XML格式写入文件
-                    properties.store(fos, null);
-                    System.out.println("Properties written to XML file.");
-                } catch (IOException ea) {
-                    ea.printStackTrace();
-                }
+                WriteToProperties writeToProperties = new WriteToProperties();
+                String[][] filenamelist = new String[2][10];
+                filenamelist[0][0]="phonedatabasepath";
+                filenamelist[1][0]=Sphonepath;
+                writeToProperties.writetoproperties("settings",filenamelist);
             }
         });
     }
@@ -297,12 +305,12 @@ public class Mainpage {
         int UIwidth=0,UIheight=0;
         if (systemtype.identifysystem_int()==1) //MAC及linux系统下窗口大小
         {
-            UIwidth=600;
+            UIwidth=1100;
             UIheight=450;
         }
         else //Windows系统下窗口大小
         {
-            UIwidth=800;
+            UIwidth=1300;
             UIheight=600;
         }
         //设置大小
@@ -312,5 +320,4 @@ public class Mainpage {
         frame.setVisible(true);
         frame.setTitle("图片文件管理仓库");
     }
-
 }

@@ -1,5 +1,6 @@
 package UIPAGE;
 
+import Module.File.WriteToProperties;
 import Module.IdentifySystem;
 
 import javax.swing.*;
@@ -84,47 +85,21 @@ public class DatabaseConnectionForm extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 String address = addressField.getText();
                 String username = usernameField.getText();
-                String password = new String(passwordField.getPassword());
-
-                // 在这里执行数据库连接操作
-                // 这里只是一个示例，你可以根据需要进行自定义
-
-                System.out.println("地址: " + address);
-                System.out.println("用户名: " + username);
-                System.out.println("密码: " + password);
-            }
-        });
-        confirmButton.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                String address = addressField.getText();
-                String username = usernameField.getText();
                 String password = passwordField.getText();
 
                 try {
                     Connection connection = DriverManager.getConnection("jdbc:mysql://"+address, username, password);
                     try
                     {
-
-                        Properties properties = new Properties();
-                        try (FileInputStream fis = new FileInputStream("properties"+system.identifysystem_String()+"settings.properties");
-                             InputStreamReader reader = new InputStreamReader(fis, StandardCharsets.UTF_8)) {
-                            properties.load(fis);
-                            // 读取属性值...
-                        } catch (IOException ea) {
-                            ea.printStackTrace();
-                        }
-                        // 设置属性值
-                        properties.setProperty("databaseaddress",address);
-                        properties.setProperty("databaseusername",username);
-                        properties.setProperty("databasepassword",password);
-
-                        try (FileOutputStream fos = new FileOutputStream("properties"+system.identifysystem_String()+"settings.properties")) {
-                            // 将属性以XML格式写入文件
-                            properties.store(fos, null);
-                            System.out.println("Properties written to XML file.");
-                        } catch (IOException ea) {
-                            ea.printStackTrace();
-                        }
+                        WriteToProperties writeToProperties = new WriteToProperties();
+                        String[][] filenamelist = new String[2][10];
+                        filenamelist[0][0]="databaseaddress";
+                        filenamelist[1][0]=address;
+                        filenamelist[0][1]="databaseusername";
+                        filenamelist[1][1]=username;
+                        filenamelist[0][2]="databasepassword";
+                        filenamelist[1][2]=password;
+                        writeToProperties.writetoproperties("settings",filenamelist);
 
                         // 调用主窗口的回调方法，将数据传递回去
                         callback.onDataEntered(address, username, password);

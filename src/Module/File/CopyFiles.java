@@ -7,8 +7,11 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 
 /*--------------------------------------------
-输入源文件夹路径与目标文件夹路径
-将所有源文件夹文件拷贝至目标文件夹
+用于实现文件拷贝和删除操作。
+
+copyfiles方法：用于将源文件夹中的文件拷贝到目标文件夹
+copyfile方法：用于批量拷贝文件。接受源文件夹路径、图片文件夹路径和拷贝文件夹路径作为参数
+deletefiles方法：用于删除指定文件夹中以"JB"开头的文件。它接受图片文件夹路径作为参数
 --------------------------------------------*/
 
 public class CopyFiles {
@@ -54,5 +57,24 @@ public class CopyFiles {
 
         }
 
+    }
+    public void deletefiles(String imgpath)
+    {
+        File file = new File(imgpath);
+        File[] imglist = file.listFiles();
+        System.out.println("\n\n" + "-------------------------Start to delete failed files-------------------------");
+        if (file.exists() && file.isDirectory())
+        {
+            for (int i = 0; i < imglist.length; i++)
+            {
+                if (imglist[i].getName().startsWith("JB"))
+                {
+                    String name = imglist[i].getName();
+                    imglist[i].delete();
+                    System.out.println("succeeded: " + name);
+                }
+            }
+        }
+        System.out.println("-------------------------Delete failed files succeeded-------------------------");
     }
 }
