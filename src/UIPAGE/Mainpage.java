@@ -7,6 +7,8 @@ import Module.File.Selectfilepath;
 import Module.IdentifySystem;
 import OLD.algorithm.VersionNumber;
 import com.formdev.flatlaf.FlatDarkLaf;
+import com.formdev.flatlaf.FlatLaf;
+import com.formdev.flatlaf.FlatLightLaf;
 
 import javax.swing.*;
 import java.awt.*;
@@ -25,8 +27,8 @@ public class Mainpage {
     private JTabbedPane tabbedPane;
     private JButton CheckButton;
     private JButton RenamestartButton;
-    private JCheckBox CheckBox_3lot;
-    private JCheckBox CheckBox_addlot;
+    private JCheckBox CheckBox_digit;
+    private JCheckBox CheckBox_prefix;
     private JCheckBox CheckBox_classification;
     private JCheckBox CheckBox_addfromdatabase;
     private JButton SelectButton_lastpath;
@@ -149,8 +151,7 @@ public class Mainpage {
         }
 
         versionLabel.setText(versionnumber.VersionNumber());//显示为当前版本号
-        githuburlLabel.setText("<html><u>"+versionnumber.Github()+"</u></html>");
-
+        githuburlLabel.setText("<html><u>"+versionnumber.Github()+"</u></html>");//显示github地址
         connecttodatabase.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -222,6 +223,23 @@ public class Mainpage {
                 }
             }
         });
+        RenamestartButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                int digit_check=0,prefix_check=0;
+                if (CheckBox_digit.isSelected())
+                {
+                    digit_check = 1;
+                }
+                if (CheckBox_prefix.isSelected())
+                {
+                    prefix_check = 1;
+                }
+                copyfiles.copyfile(renamecsvpath.getText(),firstpath.getText(),lastpath.getText());
+                renamefiles.renamefile(renamecsvpath.getText(),lastpath.getText(),digit_check,prefix_check);
+                JOptionPane.showMessageDialog(null,"重命名完成");
+            }
+        });
         githuburlLabel.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseEntered(MouseEvent e) {
@@ -256,22 +274,12 @@ public class Mainpage {
                         tabbedPane.setEnabledAt(3, true);
                         ConnectButton1.setEnabled(true);
                         ConnectButton2.setEnabled(true);
-                        CheckBox_3lot.setEnabled(true);
-                        CheckBox_addlot.setEnabled(true);
                         CheckBox_addfromdatabase.setEnabled(true);
                         CheckBox_classification.setEnabled(true);
                         mode.setText("当前正在开发调试模式");
                     }
                     clickCount = 0; // 重置计数器
                 }
-            }
-        });
-        RenamestartButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                copyfiles.copyfile(renamecsvpath.getText(),firstpath.getText(),lastpath.getText());
-                renamefiles.renamefile(renamecsvpath.getText(),lastpath.getText(),0,0);
-                JOptionPane.showMessageDialog(null,"重命名完成");
             }
         });
     }
@@ -285,10 +293,15 @@ public class Mainpage {
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         IdentifySystem systemtype = new IdentifySystem();
         int UIwidth=0,UIheight=0;
-        if (systemtype.identifysystem_int()==1) //MAC系统下窗口大小
+        if (systemtype.identifysystem_int()==1) //MAC及linux系统下窗口大小
         {
             UIwidth=600;
             UIheight=450;
+        }
+        else //Windows系统下窗口大小
+        {
+            UIwidth=800;
+            UIheight=600;
         }
         //设置大小
         frame.setSize(UIwidth,UIheight);

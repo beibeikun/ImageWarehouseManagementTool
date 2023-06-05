@@ -113,17 +113,17 @@
                 <properties/>
                 <border type="none" title="命名格式"/>
                 <children>
-                  <component id="21cb6" class="javax.swing.JCheckBox" binding="CheckBox_3lot">
+                  <component id="21cb6" class="javax.swing.JCheckBox" binding="CheckBox_digit">
                     <constraints/>
                     <properties>
-                      <enabled value="false"/>
+                      <enabled value="true"/>
                       <text value="使用三位编号"/>
                     </properties>
                   </component>
-                  <component id="26371" class="javax.swing.JCheckBox" binding="CheckBox_addlot">
+                  <component id="26371" class="javax.swing.JCheckBox" binding="CheckBox_prefix">
                     <constraints/>
                     <properties>
-                      <enabled value="false"/>
+                      <enabled value="true"/>
                       <text value="添加前缀"/>
                     </properties>
                   </component>

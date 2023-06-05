@@ -8,17 +8,17 @@ import java.io.IOException;
 /*--------------------------------------------
 用于对文件根据csv进行重命名
 excelpath-csv文件路径
-c1check-添加为三位编号
-c2check-添加前缀
+digit_check-添加为三位编号
+prefix_check-添加前缀
 （未完成）使用String[] failedfile尝试从图片库中进行拉取
 --------------------------------------------*/
 
 public class RenameFiles
 {
-    public void renamefile(String excelpath, String imgpath, int c1check, int c2check)
+    public void renamefile(String excelpath, String imgpath, int digit_check, int prefix_check)
     {
         String[][] filenamelist = new String[2][10000]; //存放对应的JB号-Lot号
-        String[] failedfile = new String[10000]; //存放转换失败的文件名，但现在好像用不上
+        String[] failedfile = new String[10000]; //存放转换失败的文件名，现在用不上
         int failednum = 0; //同上用于计数
 
         /*-------读取csv文件储存到filenamelist-------*/
@@ -66,7 +66,7 @@ public class RenameFiles
                     dest = null;
                     if (filenamelist[0][x].equals(FrontName))
                     {
-                        if (c1check == 1)
+                        if (digit_check == 1)
                         {
                             int num = Integer.parseInt(filenamelist[1][x]);
                             if (num / 10 == 0)
@@ -83,9 +83,9 @@ public class RenameFiles
                             newName = filenamelist[1][x] + BehindName;
                         }
 
-                        if (c2check == 1) //判定是否添加前缀
+                        if (prefix_check == 1) //判定是否添加前缀
                         {
-                            newName = "Lot " + newName;
+                            newName = "Lot" + newName;
                         }
                         dest = new File(imgpath + "/" + newName);
                         oldname = imglist[i].getName();
