@@ -5,6 +5,14 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 
+/*--------------------------------------------
+用于对文件根据csv进行重命名
+excelpath-csv文件路径
+c1check-添加为三位编号
+c2check-添加前缀
+（未完成）使用String[] failedfile尝试从图片库中进行拉取
+--------------------------------------------*/
+
 public class RenameFiles
 {
     public void renamefile(String excelpath, String imgpath, int c1check, int c2check)

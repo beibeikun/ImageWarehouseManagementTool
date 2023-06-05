@@ -22,24 +22,24 @@ IMS是一个跨平台自动图片仓库管理工具，目前尚处在早期开�
 
 IMS 是一款免费开源软件，地址：https://github.com/beibeikun/IMG_ManagementSystem
 
-早期开发阶段GUI预览图：
+开发阶段GUI预览图：
 ![gui](https://raw.githubusercontent.com/beibeikun/IMG_ManagementSystem/master/gui.png)
 
 
 
-## 功能 Features（更新中）
+## 功能（更新中）
 
 - **批量自动重命名**
 
-## 安装 Installation（待更新）
+## 已知问题（待更新）
 
-## 已知问题 Known Issues（待更新）
+- **无法执行按文件夹分类**
 
-## 相关项目 Relative Repositories
+## 相关项目
 
 - [Flatlaf](https://github.com/JFormDesigner/FlatLaf)，IMS所使用的Look and Feel for Java Swing desktop applications。
 
-## 更新日志 Update Log
+## 更新日志
 - **2023/06/02**-可以进行数据库连接
 - **2023/06/01**-新UI基础功能可以使用
 - **2023/05/31**-重构部分功能模块
