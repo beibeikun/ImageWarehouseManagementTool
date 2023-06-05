@@ -87,8 +87,6 @@ public class Mainpage {
         tabbedPane.setEnabledAt(1, false);
         tabbedPane.setEnabledAt(2, false);
         tabbedPane.setEnabledAt(3, false);
-        ConnectButton1.setEnabled(false);
-        ConnectButton2.setEnabled(false);
 
 
         Properties settingsproperties = new Properties();
@@ -100,6 +98,8 @@ public class Mainpage {
             firstpath.setText(settingsproperties.getProperty("firstpath"));
             lastpath.setText(settingsproperties.getProperty("lastpath"));
             renamecsvpath.setText(settingsproperties.getProperty("renamecsvpath"));
+            cameradatabasepath.setText(settingsproperties.getProperty("cameradatabasepath"));
+            phonedatabasepath.setText(settingsproperties.getProperty("phonedatabasepath"));
             // 读取属性值...
         } catch (IOException e) {
             e.printStackTrace();
@@ -113,7 +113,6 @@ public class Mainpage {
                 DatabaseConnectionForm databaseConnectionForm = new DatabaseConnectionForm(new DataCallback() {
                     public void onDataEntered(String address, String username, String password) {
                         // 在这里处理从第二个窗口返回的数据
-                        // 在示例中，我们只是将数据设置到主窗口的文本框中
                         databaseaddress.setText(address);
                         databaseusername.setText(username);
                     }
@@ -227,13 +226,61 @@ public class Mainpage {
                         tabbedPane.setEnabledAt(1, true);
                         tabbedPane.setEnabledAt(2, true);
                         tabbedPane.setEnabledAt(3, true);
-                        ConnectButton1.setEnabled(true);
-                        ConnectButton2.setEnabled(true);
                         CheckBox_addfromdatabase.setEnabled(true);
                         CheckBox_classification.setEnabled(true);
                         mode.setText("当前正在开发调试模式");
                     }
                     clickCount = 0; // 重置计数器
+                }
+            }
+        });
+        ConnectButton1.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String Scamerapath = getfilepath.Selectfilepath(2);
+                cameradatabasepath.setText(Scamerapath);
+                Properties properties = new Properties();
+                try (FileInputStream fis = new FileInputStream("properties"+system.identifysystem_String()+"settings.properties");
+                     InputStreamReader reader = new InputStreamReader(fis, StandardCharsets.UTF_8)) {
+                    properties.load(fis);
+                    // 读取属性值...
+                } catch (IOException ea) {
+                    ea.printStackTrace();
+                }
+                // 设置属性值
+                properties.setProperty("cameradatabasepath",Scamerapath);
+
+                try (FileOutputStream fos = new FileOutputStream("properties"+system.identifysystem_String()+"settings.properties")) {
+                    // 将属性以XML格式写入文件
+                    properties.store(fos, null);
+                    System.out.println("Properties written to XML file.");
+                } catch (IOException ea) {
+                    ea.printStackTrace();
+                }
+            }
+        });
+        ConnectButton2.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String Sphonepath = getfilepath.Selectfilepath(2);
+                phonedatabasepath.setText(Sphonepath);
+                Properties properties = new Properties();
+                try (FileInputStream fis = new FileInputStream("properties"+system.identifysystem_String()+"settings.properties");
+                     InputStreamReader reader = new InputStreamReader(fis, StandardCharsets.UTF_8)) {
+                    properties.load(fis);
+                    // 读取属性值...
+                } catch (IOException ea) {
+                    ea.printStackTrace();
+                }
+                // 设置属性值
+                properties.setProperty("phonedatabasepath",Sphonepath);
+
+                try (FileOutputStream fos = new FileOutputStream("properties"+system.identifysystem_String()+"settings.properties")) {
+                    // 将属性以XML格式写入文件
+                    properties.store(fos, null);
+                    System.out.println("Properties written to XML file.");
+                } catch (IOException ea) {
+                    ea.printStackTrace();
                 }
             }
         });
