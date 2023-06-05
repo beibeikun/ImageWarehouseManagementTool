@@ -16,11 +16,10 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
 import java.net.URI;
+import java.nio.charset.StandardCharsets;
+import java.util.Properties;
 
 public class Mainpage {
     private JPanel panel1;
@@ -67,6 +66,17 @@ public class Mainpage {
 
     static VersionNumber versionnumber = new VersionNumber();//获取版本号
     public Mainpage() {
+        Properties properties = new Properties();
+
+        try (FileInputStream fis = new FileInputStream("properties/zh_CN.properties");
+             InputStreamReader reader = new InputStreamReader(fis, StandardCharsets.UTF_8)) {
+            properties.load(reader);
+            CheckBox_digit.setText(properties.getProperty("CheckBox_digit"));
+            CheckBox_prefix.setText(properties.getProperty("CheckBox_prefix"));
+            // 读取属性值...
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         tabbedPane.setEnabledAt(1, false);
         tabbedPane.setEnabledAt(2, false);
         tabbedPane.setEnabledAt(3, false);
