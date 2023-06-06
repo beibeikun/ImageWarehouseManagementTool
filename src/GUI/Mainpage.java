@@ -326,12 +326,14 @@ public class Mainpage {
                     ScrollPane1.setVisible(true);
                     frame.setSize(frame.getWidth()+600, frame.getHeight());
                     consolebutton.setText("<");
+                    frame.setLocationRelativeTo(null);
                 }
                 else
                 {
                     ScrollPane1.setVisible(false);
                     frame.setSize(frame.getWidth()-600, frame.getHeight());
                     consolebutton.setText(">");
+                    frame.setLocationRelativeTo(null);
                 }
 
             }
