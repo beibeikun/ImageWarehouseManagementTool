@@ -1,8 +1,7 @@
-package UIPAGE;
+package GUI;
 
 import Module.File.*;
-import Module.IdentifySystem;
-import Module.VersionNumber;
+import Module.Others.*;
 import com.formdev.flatlaf.FlatDarkLaf;
 
 import javax.swing.*;
@@ -58,16 +57,19 @@ public class Mainpage {
     private JCheckBox 完成后删除源文件CheckBox;
     private JTextArea textArea1;
     private JScrollPane ScrollPane1;
+    private JButton consolebutton;
     private JTextArea consoleTextArea;
     private static MenuBar menuBar;
 
     SelectFilePath getfilepath = new SelectFilePath();
     FilenameCheck checkfile = new FilenameCheck();
-    CopyFiles copyfiles = new CopyFiles();
+    FileOperations copyfiles = new FileOperations();
     RenameFiles renamefiles = new RenameFiles();
 
+    static JFrame frame = new JFrame("MainpageUI");
     static VersionNumber versionnumber = new VersionNumber();//获取版本号
     public Mainpage() {
+        ScrollPane1.setVisible(false);
         //识别系统语言
         Locale defaultLocale = Locale.getDefault();
         String language = defaultLocale.getLanguage();
@@ -238,9 +240,13 @@ public class Mainpage {
                 {
                     prefix_check = 1;
                 }
-                copyfiles.copyFiles(renamecsvpath.getText(),firstpath.getText(),lastpath.getText());
+                try {
+                    copyfiles.copyFiles(renamecsvpath.getText(),firstpath.getText(),lastpath.getText());
+                } catch (IOException ex) {
+                    throw new RuntimeException(ex);
+                }
                 renamefiles.renameFiles(renamecsvpath.getText(),lastpath.getText(),digit_check,prefix_check);
-                copyfiles.deleteFiles(lastpath.getText());
+                copyfiles.deleteFiles(lastpath.getText(),"JB");
                 if (CheckBox_classification.isSelected())
                 {
                     filePrefixMove.filePrefixMove(lastpath.getText()," (");
@@ -312,25 +318,42 @@ public class Mainpage {
                 writeToProperties.writeToProperties("settings",filenamelist);
             }
         });
+        consolebutton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (consolebutton.getText().equals(">"))
+                {
+                    ScrollPane1.setVisible(true);
+                    frame.setSize(frame.getWidth()+600, frame.getHeight());
+                    consolebutton.setText("<");
+                }
+                else
+                {
+                    ScrollPane1.setVisible(false);
+                    frame.setSize(frame.getWidth()-600, frame.getHeight());
+                    consolebutton.setText(">");
+                }
+
+            }
+        });
     }
     public interface DataCallback {
         void onDataEntered(String address, String username, String password);
     }
     public static void main(String[] args) {
         FlatDarkLaf.setup();
-        JFrame frame = new JFrame("MainpageUI");
         frame.setContentPane(new Mainpage().panel1);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         IdentifySystem systemtype = new IdentifySystem();
         int UIwidth=0,UIheight=0;
         if (systemtype.identifySystem_int()==1) //MAC及linux系统下窗口大小
         {
-            UIwidth=1100;
+            UIwidth=600;
             UIheight=450;
         }
         else //Windows系统下窗口大小
         {
-            UIwidth=1300;
+            UIwidth=800;
             UIheight=600;
         }
         //设置大小

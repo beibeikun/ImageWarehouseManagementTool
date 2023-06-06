@@ -1,6 +1,6 @@
 package OLD.algorithm;
 
-import Module.IdentifySystem;
+import Module.Others.IdentifySystem;
 
 import java.io.File;
 

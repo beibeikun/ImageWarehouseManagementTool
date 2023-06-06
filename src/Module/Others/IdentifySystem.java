@@ -1,4 +1,4 @@
-package Module;
+package Module.Others;
 
 /**
  * 系统识别工具类，用于识别当前操作系统类型。

@@ -1,6 +1,6 @@
 package Module.File;
 
-import Module.IdentifySystem;
+import Module.Others.IdentifySystem;
 
 import java.io.FileInputStream;
 import java.io.FileOutputStream;

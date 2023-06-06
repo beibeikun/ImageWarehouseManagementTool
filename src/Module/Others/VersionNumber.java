@@ -1,4 +1,4 @@
-package Module;
+package Module.Others;
 
 /**
  * 版本号工具类，用于获取版本号和 GitHub 仓库地址。

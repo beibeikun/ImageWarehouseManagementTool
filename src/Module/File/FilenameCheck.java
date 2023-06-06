@@ -1,11 +1,6 @@
 package Module.File;
 
-import Module.IdentifySystem;
-import Module.File.IsContainChinese;
-
 import java.io.*;
-import java.nio.charset.StandardCharsets;
-import java.util.Properties;
 
 /**
  * 用于检查源文件夹、目标文件夹和CSV文件夹路径的合法性和正确性。

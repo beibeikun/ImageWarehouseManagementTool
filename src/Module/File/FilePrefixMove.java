@@ -1,11 +1,11 @@
 package Module.File;
 
-import Module.IdentifySystem;
+import Module.Others.IdentifySystem;
 
 import java.io.File;
 import java.util.Objects;
 
-import static Module.File.CopyFiles.copy;
+import static Module.File.FileOperations.copyFile;
 
 /**
  * 用于移动文件并修改文件名前缀的功能。
@@ -37,7 +37,7 @@ public class FilePrefixMove {
                     System.out.println("succeeded: Create file\"" + name + "\"");
                     file1.mkdirs();
                 }
-                copy(lastpath + system.identifySystem_String() + value.getName(), lastpath + system.identifySystem_String() + name);
+                copyFile(lastpath + system.identifySystem_String() + value.getName(), lastpath + system.identifySystem_String() + name);
                 System.out.println("succeeded:\"" + value.getName() + "\"");
                 value.delete();
             }

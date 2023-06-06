@@ -1,7 +1,7 @@
-package UIPAGE;
+package GUI;
 
 import Module.File.WriteToProperties;
-import Module.IdentifySystem;
+import Module.Others.IdentifySystem;
 
 import javax.swing.*;
 import java.awt.*;
