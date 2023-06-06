@@ -17,6 +17,8 @@ import java.util.Locale;
 import java.util.Properties;
 
 import static Module.File.DeleteDirectory.deleteDirectory;
+import static Module.File.FileNameCheck.checkFilePath;
+import static Module.File.WriteToProperties.writeToProperties;
 
 public class Mainpage {
     private JPanel panel1;
@@ -30,7 +32,7 @@ public class Mainpage {
     private JButton SelectButton_lastpath;
     private JButton SelectButton_firstpath;
     private JCheckBox 替换已存在的图片CheckBox;
-    private JButton 开始添加Button;
+    private JButton AddtocameradatabaseButton;
     private JButton 开始移除Button;
     private JTextField textField1;
     private JButton 查询Button;
@@ -54,7 +56,7 @@ public class Mainpage {
     private JLabel testmode;
     private JToolBar Namingformat;
     private JLabel mode;
-    private JCheckBox 完成后删除源文件CheckBox;
+    private JCheckBox deleteCheckBox;
     private JTextArea textArea1;
     private JScrollPane ScrollPane1;
     private JButton consolebutton;
@@ -62,7 +64,7 @@ public class Mainpage {
     private static MenuBar menuBar;
 
     SelectFilePath getfilepath = new SelectFilePath();
-    FilenameCheck checkfile = new FilenameCheck();
+    FileNameCheck checkfile = new FileNameCheck();
     FileOperations copyfiles = new FileOperations();
     RenameFiles renamefiles = new RenameFiles();
 
@@ -87,7 +89,6 @@ public class Mainpage {
             e.printStackTrace();
         }
         //开发中无法使用的按钮
-        tabbedPane.setEnabledAt(1, false);
         tabbedPane.setEnabledAt(2, false);
         tabbedPane.setEnabledAt(3, false);
 
@@ -137,6 +138,10 @@ public class Mainpage {
             public void actionPerformed(ActionEvent e) {
                 String Sfirstpath = getfilepath.selectFilePath(2);
                 firstpath.setText(Sfirstpath);
+                String[][] filenamelist = new String[2][10];
+                filenamelist[0][0] = "firstpath";
+                filenamelist[1][0] = firstpath.getText();
+                writeToProperties("settings", filenamelist);
             }
         });
         SelectButton_lastpath.addActionListener(new ActionListener() {
@@ -144,6 +149,10 @@ public class Mainpage {
             public void actionPerformed(ActionEvent e) {
                 String Slastpath = getfilepath.selectFilePath(2);
                 lastpath.setText(Slastpath);
+                String[][] filenamelist = new String[2][10];
+                filenamelist[0][0] = "lastpath";
+                filenamelist[1][0] = lastpath.getText();
+                writeToProperties("settings", filenamelist);
             }
         });
         SelectButton_renamecsvpath.addActionListener(new ActionListener() {
@@ -151,34 +160,41 @@ public class Mainpage {
             public void actionPerformed(ActionEvent e) {
                 String Srenamecsvpath = getfilepath.selectFilePath(1);
                 renamecsvpath.setText(Srenamecsvpath);
+                String[][] filenamelist = new String[2][10];
+                filenamelist[0][0] = "renamecsvpath";
+                filenamelist[1][0] = renamecsvpath.getText();
+                writeToProperties("settings", filenamelist);
             }
         });
         CheckButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                int i = checkfile.namecheck(renamecsvpath.getText(),firstpath.getText(),lastpath.getText());
-                if (i==1)
+                int renamecsvpathcheck = checkFilePath(renamecsvpath.getText(), false);
+                int firstpathcheck = checkFilePath(firstpath.getText(), false);
+                int lastpathcheck = checkFilePath(lastpath.getText(), true);
+
+                if (renamecsvpathcheck==1 && firstpathcheck==1 && lastpathcheck==1)
                 {
                     JOptionPane.showMessageDialog(null,"检查通过");
                     RenamestartButton.setEnabled(true);
                 }
-                else if (i==2)
+                else if (renamecsvpathcheck==2 || firstpathcheck==2 || lastpathcheck==2)
                 {
                     JOptionPane.showMessageDialog(null,"未选取路径","路径错误",JOptionPane.WARNING_MESSAGE);
                 }
-                else if (i==3)
+                else if (renamecsvpathcheck==3 || firstpathcheck==3 || lastpathcheck==3)
                 {
                     JOptionPane.showMessageDialog(null,"路径名存在中文字符","路径错误",JOptionPane.WARNING_MESSAGE);
                 }
-                else if (i==41)
+                else if (renamecsvpathcheck==4)
                 {
                     JOptionPane.showMessageDialog(null,"CSV文件不存在","路径错误",JOptionPane.WARNING_MESSAGE);
                 }
-                else if (i==42)
+                else if (firstpathcheck==4)
                 {
                     JOptionPane.showMessageDialog(null,"源文件夹路径不存在","路径错误",JOptionPane.WARNING_MESSAGE);
                 }
-                else if (i==43)
+                else if (lastpathcheck==4)
                 {
                     int n = JOptionPane.showConfirmDialog(null, "目标文件夹不存在,是否创建对应文件夹", "标题",JOptionPane.YES_NO_OPTION); //返回值为0或1
                     if (n==0)
@@ -189,19 +205,9 @@ public class Mainpage {
                         JOptionPane.showMessageDialog(null,"文件夹已创建，检查通过");
                         RenamestartButton.setEnabled(true);
                         System.out.println("successed: folder created");
-
-                        WriteToProperties writeToProperties = new WriteToProperties();
-                        String[][] filenamelist = new String[2][10];
-                        filenamelist[0][0] = "firstpath";
-                        filenamelist[1][0] = firstpath.getText();
-                        filenamelist[0][1] = "renamecsvpath";
-                        filenamelist[1][1] = renamecsvpath.getText();
-                        filenamelist[0][2] = "lastpath";
-                        filenamelist[1][2] = lastpath.getText();
-                        writeToProperties.writeToProperties("settings", filenamelist);
                     }
                 }
-                else if (i==5)
+                else if (lastpathcheck==5)
                 {
                     int n = JOptionPane.showConfirmDialog(null, "目标文件夹非空,是否清空对应文件夹", "标题",JOptionPane.YES_NO_OPTION);
                     if (n==0)
@@ -213,16 +219,6 @@ public class Mainpage {
                         JOptionPane.showMessageDialog(null,"文件夹已清空，检查通过");
                         RenamestartButton.setEnabled(true);
                         System.out.println("successed: folder emptied");
-
-                        WriteToProperties writeToProperties = new WriteToProperties();
-                        String[][] filenamelist = new String[2][10];
-                        filenamelist[0][0] = "firstpath";
-                        filenamelist[1][0] = firstpath.getText();
-                        filenamelist[0][1] = "renamecsvpath";
-                        filenamelist[1][1] = renamecsvpath.getText();
-                        filenamelist[0][2] = "lastpath";
-                        filenamelist[1][2] = lastpath.getText();
-                        writeToProperties.writeToProperties("settings", filenamelist);
                     }
                 }
             }
@@ -241,7 +237,7 @@ public class Mainpage {
                     prefix_check = 1;
                 }
                 try {
-                    copyfiles.copyFiles(renamecsvpath.getText(),firstpath.getText(),lastpath.getText());
+                    copyfiles.copyFiles(firstpath.getText(),lastpath.getText(),0);
                 } catch (IOException ex) {
                     throw new RuntimeException(ex);
                 }
@@ -284,7 +280,6 @@ public class Mainpage {
                     int n = JOptionPane.showConfirmDialog(null,"是否进入开发调试模式","",JOptionPane.YES_NO_OPTION);
                     if (n == 0)
                     {
-                        tabbedPane.setEnabledAt(1, true);
                         tabbedPane.setEnabledAt(2, true);
                         tabbedPane.setEnabledAt(3, true);
                         CheckBox_addfromdatabase.setEnabled(true);
@@ -299,11 +294,10 @@ public class Mainpage {
             public void actionPerformed(ActionEvent e) {
                 String Scamerapath = getfilepath.selectFilePath(2);
                 cameradatabasepath.setText(Scamerapath);
-                WriteToProperties writeToProperties = new WriteToProperties();
                 String[][] filenamelist = new String[2][10];
                 filenamelist[0][0]="cameradatabasepath";
                 filenamelist[1][0]=Scamerapath;
-                writeToProperties.writeToProperties("settings",filenamelist);
+                writeToProperties("settings",filenamelist);
             }
         });
         ConnectButton2.addActionListener(new ActionListener() {
@@ -311,11 +305,10 @@ public class Mainpage {
             public void actionPerformed(ActionEvent e) {
                 String Sphonepath = getfilepath.selectFilePath(2);
                 phonedatabasepath.setText(Sphonepath);
-                WriteToProperties writeToProperties = new WriteToProperties();
                 String[][] filenamelist = new String[2][10];
                 filenamelist[0][0]="phonedatabasepath";
                 filenamelist[1][0]=Sphonepath;
-                writeToProperties.writeToProperties("settings",filenamelist);
+                writeToProperties("settings",filenamelist);
             }
         });
         consolebutton.addActionListener(new ActionListener() {
@@ -336,6 +329,37 @@ public class Mainpage {
                     frame.setLocationRelativeTo(null);
                 }
 
+            }
+        });
+        AddtocameradatabaseButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                int filepathcheck = checkFilePath(firstpath.getText(),false);
+                if (filepathcheck==1)
+                {
+                    try {
+                        String[] prefixes = FileCompression.compressFilesByPrefix(firstpath.getText(), cameradatabasepath.getText());
+                        if (deleteCheckBox.isSelected())//完成后删除文件
+                        {
+                            //TODO 完成后删除源文件夹中的所有内容
+                        }
+
+                    } catch (IOException ex) {
+                        throw new RuntimeException(ex);
+                    }
+                }
+                else if (filepathcheck == 2)
+                {
+                    JOptionPane.showMessageDialog(null,"未选取路径","路径错误",JOptionPane.WARNING_MESSAGE);
+                }
+                else if (filepathcheck == 3)
+                {
+                    JOptionPane.showMessageDialog(null,"路径名存在中文字符","路径错误",JOptionPane.WARNING_MESSAGE);
+                }
+                else if (filepathcheck == 4)
+                {
+                    JOptionPane.showMessageDialog(null,"源文件夹路径不存在","路径错误",JOptionPane.WARNING_MESSAGE);
+                }
             }
         });
     }

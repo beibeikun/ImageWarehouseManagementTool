@@ -6,30 +6,45 @@ import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 
+import static Module.File.FileNameCheck.checkFilePath;
+
 /**
  * 文件拷贝和删除操作类。
  */
 public class FileOperations {
     /**
      * 批量拷贝文件。
-     *
-     * @param sourceFolderPath 源文件夹路径
-     * @param imageFolderPath  图片文件夹路径
-     * @param copyFolderPath   拷贝文件夹路径
+     * @param firstfolderpath  源文件夹路径
+     * @param lastfolderpath   目标文件夹路径
      */
-    public void copyFiles(String sourceFolderPath, String imageFolderPath, String copyFolderPath) throws IOException {
+    public void copyFiles( String firstfolderpath, String lastfolderpath, int prefixnumbers) throws IOException {
         IdentifySystem systemIdentifier = new IdentifySystem();
-        File imageFolder = new File(imageFolderPath);
+        File imageFolder = new File(firstfolderpath);
         File[] imageList = imageFolder.listFiles();
 
         if (imageFolder.exists() && imageFolder.isDirectory()) {
             System.out.println("\n\n" + "-------------------------Start to copy-------------------------");
 
             for (File image : imageList) {
-                if (!Files.isHidden(Paths.get(imageFolderPath + systemIdentifier.identifySystem_String() + image.getName()))) {
+                if (!Files.isHidden(Paths.get(firstfolderpath + systemIdentifier.identifySystem_String() + image.getName()))) {
                     // 在这里执行对非隐藏文件的操作
-                    copyFile(imageFolderPath + systemIdentifier.identifySystem_String() + image.getName(), copyFolderPath);
-                    System.out.println("succeeded: " + image.getName());
+                    if (prefixnumbers!=0)
+                    {
+                        String filepath = lastfolderpath + systemIdentifier.identifySystem_String() + image.getName().substring(0,prefixnumbers);
+                        System.out.println(filepath);
+                        int i =checkFilePath(filepath,false);
+                        if (i==4)
+                        {
+                            File directory = new File(filepath);
+                            boolean created = directory.mkdirs();
+                        }
+                        copyFile(firstfolderpath + systemIdentifier.identifySystem_String() + image.getName(), filepath);
+                    }
+                    else
+                    {
+                        copyFile(firstfolderpath + systemIdentifier.identifySystem_String() + image.getName(), lastfolderpath);
+                        System.out.println("succeeded: " + image.getName());
+                    }
                 }
             }
 

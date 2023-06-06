@@ -8,7 +8,6 @@ public class XuanMulu
     //打开文件目录对话框
     public String XuanMulu(int type)
     {
-        // TODO Auto-generated method stub
         String filepath = "";
         JFileChooser chooser = new JFileChooser();
         if (type == 2)

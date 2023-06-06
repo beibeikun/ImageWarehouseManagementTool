@@ -1,6 +1,5 @@
 package GUI;
 
-import Module.File.WriteToProperties;
 import Module.Others.IdentifySystem;
 
 import javax.swing.*;
@@ -13,6 +12,8 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.Properties;
+
+import static Module.File.WriteToProperties.writeToProperties;
 
 public class DatabaseConnectionForm extends JFrame {
     private JTextField addressField;
@@ -91,7 +92,7 @@ public class DatabaseConnectionForm extends JFrame {
                     Connection connection = DriverManager.getConnection("jdbc:mysql://"+address, username, password);
                     try
                     {
-                        WriteToProperties writeToProperties = new WriteToProperties();
+
                         String[][] filenamelist = new String[2][10];
                         filenamelist[0][0]="databaseaddress";
                         filenamelist[1][0]=address;
@@ -99,7 +100,7 @@ public class DatabaseConnectionForm extends JFrame {
                         filenamelist[1][1]=username;
                         filenamelist[0][2]="databasepassword";
                         filenamelist[1][2]=password;
-                        writeToProperties.writeToProperties("settings",filenamelist);
+                        writeToProperties("settings",filenamelist);
 
                         // 调用主窗口的回调方法，将数据传递回去
                         callback.onDataEntered(address, username, password);

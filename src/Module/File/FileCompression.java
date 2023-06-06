@@ -6,9 +6,11 @@ import java.io.*;
 import java.util.*;
 import java.util.zip.*;
 
+import static Module.File.DeleteDirectory.deleteDirectory;
+import static Module.File.FileOperations.copyFile;
+
 /**
  * 文件压缩功能实现类。
- *
  * 根据指定的源文件夹路径和目标文件夹路径，压缩符合条件的文件。
  * 遍历源文件夹中的文件列表，根据文件名中的前缀将文件分类。
  * 使用 Map 数据结构来跟踪每个前缀与对应文件列表的关系。
@@ -24,9 +26,9 @@ public class FileCompression {
      * @param destinationFolder 目标文件夹路径
      * @return 包含所有前缀的字符串数组
      */
-    public static String[] compressFilesByPrefix(String sourceFolder, String destinationFolder) {
+    public static String[] compressFilesByPrefix(String sourceFolder, String destinationFolder) throws IOException {
         IdentifySystem system = new IdentifySystem();
-        String temporaryDestinationFolder = sourceFolder +system.identifySystem_String() + "TemporaryCompression";
+        String temporaryDestinationFolder = sourceFolder + "TemporaryCompression";
         File folder = new File(sourceFolder);
         File[] files = folder.listFiles();
         File file1 = new File(temporaryDestinationFolder);
@@ -60,8 +62,10 @@ public class FileCompression {
             String compressedFile = temporaryDestinationFolder + system.identifySystem_String() + prefix + ".zip";
             compressFiles(fileList, compressedFile);
         }
-
-        // 目前压缩的文件还都在临时文件夹，需要转移到图片库
+        FileOperations fileOperations = new FileOperations();
+        fileOperations.copyFiles(temporaryDestinationFolder,destinationFolder,6);
+        File directory = new File(temporaryDestinationFolder);
+        boolean deleted = deleteDirectory(directory); //删除临时文件夹
 
         return prefixArray;
     }
@@ -125,7 +129,7 @@ public class FileCompression {
      *
      * @param args 命令行参数
      */
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
         String sourceFolder = "/Users/bbk/Documents/test1";
         String destinationFolder = "/Users/bbk/Documents/test2";
         String[] prefixes = FileCompression.compressFilesByPrefix(sourceFolder, destinationFolder);

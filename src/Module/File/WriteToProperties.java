@@ -19,7 +19,7 @@ public class WriteToProperties {
      * @param filename     文件名
      * @param writeinlist  写入的属性列表，包含键值对数组
      */
-    public void writeToProperties(String filename, String[][] writeinlist) {
+    public static void writeToProperties(String filename, String[][] writeinlist) {
         IdentifySystem system = new IdentifySystem();
         Properties properties = new Properties();
         try (FileInputStream fis = new FileInputStream("properties" + system.identifySystem_String() + filename + ".properties");
