@@ -28,14 +28,14 @@ IMS 是一款免费开源软件，地址：https://github.com/beibeikun/IMG_Mana
 - **~~数据库连接~~**
 - **~~文件库连接~~**
 - **批量文件处理**
-- **用户登录**
-- **管理系统**
+- **~~用户登录~~（在[IMS_web](https://github.com/beibeikun/IMG_ManagementSystem_web)开发）**
+- **~~管理系统~~（在[IMS_web](https://github.com/beibeikun/IMG_ManagementSystem_web)开发）**
 
 ## 已知问题（待更新）
 
 - **~~无法执行按文件夹分类~~**
 - **~~使用三位编号时存在问题~~**
-- **无法正确记录用户之前所选择的文件路径**
+- **~~无法正确记录用户之前所选择的文件路径~~**
 
 ## 相关项目
 
