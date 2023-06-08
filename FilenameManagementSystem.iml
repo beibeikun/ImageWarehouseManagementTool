@@ -10,7 +10,7 @@
     <orderEntry type="module-library" exported="">
       <library>
         <CLASSES>
-          <root url="jar://$USER_HOME$/Downloads/flatlaf-3.1.1.jar!/" />
+          <root url="jar://$USER_HOME$/Documents/jar/flatlaf-3.1.1.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -19,7 +19,7 @@
     <orderEntry type="module-library" exported="">
       <library>
         <CLASSES>
-          <root url="jar://$USER_HOME$/Downloads/mysql-connector-j-8.0.33/mysql-connector-j-8.0.33.jar!/" />
+          <root url="jar://$USER_HOME$/Documents/jar/mysql-connector-j-8.0.33.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />

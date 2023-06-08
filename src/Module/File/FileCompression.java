@@ -8,6 +8,7 @@ import java.util.zip.*;
 
 import static Module.File.DeleteDirectory.deleteDirectory;
 import static Module.File.FileOperations.copyFile;
+import static Module.File.ImageCompression.imageCompression;
 
 /**
  * 文件压缩功能实现类。
@@ -60,6 +61,11 @@ public class FileCompression {
             List<File> fileList = entry.getValue();
 
             String compressedFile = temporaryDestinationFolder + system.identifySystem_String() + prefix + ".zip";
+            System.out.println(11111+":"+compressedFile);
+            System.out.println(sourceFolder + system.identifySystem_String() + prefix + ".JPG");
+            System.out.println(destinationFolder+system.identifySystem_String()+"thumbnail");
+            copyFile(sourceFolder + system.identifySystem_String() + prefix + ".JPG",destinationFolder+system.identifySystem_String()+"thumbnail");
+            imageCompression(destinationFolder+system.identifySystem_String()+"thumbnail" + system.identifySystem_String() + prefix + ".JPG",0);
             compressFiles(fileList, compressedFile);
         }
         FileOperations fileOperations = new FileOperations();
@@ -98,6 +104,7 @@ public class FileCompression {
         try {
             FileOutputStream fos = new FileOutputStream(compressedFile);
             ZipOutputStream zipOut = new ZipOutputStream(fos);
+            zipOut.setLevel(Deflater.BEST_COMPRESSION);
 
             for (File file : files) {
                 FileInputStream fis = new FileInputStream(file);
@@ -117,8 +124,6 @@ public class FileCompression {
 
             zipOut.close();
             fos.close();
-
-            System.out.println("文件压缩成功：" + compressedFile);
         } catch (IOException e) {
             e.printStackTrace();
         }

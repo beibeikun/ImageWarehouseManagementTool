@@ -13,11 +13,14 @@ import java.awt.event.MouseEvent;
 import java.io.*;
 import java.net.URI;
 import java.nio.charset.StandardCharsets;
+import java.time.Duration;
+import java.time.Instant;
 import java.util.Locale;
 import java.util.Properties;
 
 import static Module.File.DeleteDirectory.deleteDirectory;
 import static Module.File.FileNameCheck.checkFilePath;
+import static GUI.ImageUtils.openImage;
 import static Module.File.WriteToProperties.writeToProperties;
 
 public class Mainpage {
@@ -35,7 +38,7 @@ public class Mainpage {
     private JButton AddtocameradatabaseButton;
     private JButton 开始移除Button;
     private JTextField textField1;
-    private JButton 查询Button;
+    private JButton SearchButton;
     private JLabel versionLabel;
     private JLabel firstpath;
     private JLabel lastpath;
@@ -71,6 +74,8 @@ public class Mainpage {
     static JFrame frame = new JFrame("MainpageUI");
     static VersionNumber versionnumber = new VersionNumber();//获取版本号
     public Mainpage() {
+        Instant instant2 = Instant.now();
+        System.out.println(instant2);
         ScrollPane1.setVisible(false);
         //识别系统语言
         Locale defaultLocale = Locale.getDefault();
@@ -88,9 +93,6 @@ public class Mainpage {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        //开发中无法使用的按钮
-        tabbedPane.setEnabledAt(2, false);
-        tabbedPane.setEnabledAt(3, false);
 
 
         Properties settingsproperties = new Properties();
@@ -119,6 +121,7 @@ public class Mainpage {
 
         versionLabel.setText(versionnumber.getVersionNumber());//显示为当前版本号
         githuburlLabel.setText("<html><u>"+versionnumber.getGithub()+"</u></html>");//显示github地址
+
         connecttodatabase.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -226,6 +229,7 @@ public class Mainpage {
         RenamestartButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                Instant instant1 = Instant.now();
                 FilePrefixMove filePrefixMove = new FilePrefixMove();
                 int digit_check=0,prefix_check=0;
                 if (CheckBox_digit.isSelected())
@@ -247,7 +251,10 @@ public class Mainpage {
                 {
                     filePrefixMove.filePrefixMove(lastpath.getText()," (");
                 }
-                JOptionPane.showMessageDialog(null,"重命名完成");
+                Instant instant2 = Instant.now();
+                Duration duration = Duration.between(instant1, instant2);
+                long diffSeconds = duration.getSeconds();
+                JOptionPane.showMessageDialog(null,"任务完成，本次耗时："+diffSeconds+"秒");
                 RenamestartButton.setEnabled(false);
             }
         });
@@ -268,24 +275,6 @@ public class Mainpage {
                     Desktop.getDesktop().browse(new URI(versionnumber.getGithub()));
                 } catch (Exception ea) {
                     ea.printStackTrace();
-                }
-            }
-        });
-        versionLabel.addMouseListener(new MouseAdapter() {
-            int clickCount = 0;
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                clickCount++;
-                if (clickCount == 5) {
-                    int n = JOptionPane.showConfirmDialog(null,"是否进入开发调试模式","",JOptionPane.YES_NO_OPTION);
-                    if (n == 0)
-                    {
-                        tabbedPane.setEnabledAt(2, true);
-                        tabbedPane.setEnabledAt(3, true);
-                        CheckBox_addfromdatabase.setEnabled(true);
-                        mode.setText("当前正在开发调试模式");
-                    }
-                    clickCount = 0; // 重置计数器
                 }
             }
         });
@@ -337,6 +326,7 @@ public class Mainpage {
                 int filepathcheck = checkFilePath(firstpath.getText(),false);
                 if (filepathcheck==1)
                 {
+                    Instant instant1 = Instant.now();
                     try {
                         String[] prefixes = FileCompression.compressFilesByPrefix(firstpath.getText(), cameradatabasepath.getText());
                         if (deleteCheckBox.isSelected())//完成后删除文件
@@ -347,6 +337,12 @@ public class Mainpage {
                     } catch (IOException ex) {
                         throw new RuntimeException(ex);
                     }
+                    Instant instant2 = Instant.now();
+                    Duration duration = Duration.between(instant1, instant2);
+                    long diffSeconds = duration.getSeconds();
+                    JOptionPane.showMessageDialog(null,"任务完成，本次耗时："+diffSeconds+"秒");
+
+
                 }
                 else if (filepathcheck == 2)
                 {
@@ -360,6 +356,14 @@ public class Mainpage {
                 {
                     JOptionPane.showMessageDialog(null,"源文件夹路径不存在","路径错误",JOptionPane.WARNING_MESSAGE);
                 }
+            }
+        });
+        SearchButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String path = cameradatabasepath.getText() +system.identifySystem_String()+"thumbnail"+system.identifySystem_String()+ textField1.getText()+".JPG";
+                System.out.println(path);
+                openImage(path);
             }
         });
     }
