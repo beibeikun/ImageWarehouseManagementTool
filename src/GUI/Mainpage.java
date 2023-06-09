@@ -411,6 +411,6 @@ public class Mainpage {
         frame.setLocationRelativeTo(null);
         //使窗体显示在屏幕中央
         frame.setVisible(true);
-        frame.setTitle("图片文件管理仓库");
+        frame.setTitle("IWMT");
     }
 }
