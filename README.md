@@ -2,7 +2,7 @@
 
 <img src="logo.png" width = "150" height = "150" alt="logo">
 
-# _ImgManagementSystem_
+# _ImageWarehouseManagementTool_
 </div>
 <br>
     <div align="center">
@@ -15,9 +15,9 @@
     </div>
 <br>
 
-IMS是一个C/S架构跨平台自动图片仓库管理工具，目前尚处在早期开发阶段
+IWMT是一个C/S架构跨平台图片仓库管理工具，目前尚处在开发阶段
 
-IMS 是一款免费开源软件，地址：https://github.com/beibeikun/ImgManagementSystem
+IWMT 是一款免费开源软件，地址：https://github.com/beibeikun/ImgManagementSystem
 
 开发阶段GUI预览图（预览图具有时效性，仅供参考）：
 ![gui](gui.jpg)
@@ -45,7 +45,7 @@ IMS 是一款免费开源软件，地址：https://github.com/beibeikun/ImgManag
 ## 相关项目
 
 - [Flatlaf](https://github.com/JFormDesigner/FlatLaf)，IMS所使用的Java Swing外观库。
-- [IWS](https://github.com/beibeikun/ImgWorkflowSystem)，一个C/S架构跨平台图片拍摄工作流工具。
+- [PWMT](https://github.com/beibeikun/ImgWorkflowSystem)，一个C/S架构跨平台图片拍摄工作流工具。
 - [Tesseract-OCR](https://github.com/tesseract-ocr/tesseract)，开源OCR引擎
 
 
