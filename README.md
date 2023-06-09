@@ -1,6 +1,6 @@
 <div align="center">
 
-<img src=".idea/icon.svg" width = "100" height = "100" alt="logo">
+<img src="logo.png" width = "150" height = "150" alt="logo">
 
 # _ImgManagementSystem_
 </div>
@@ -45,7 +45,7 @@ IMS 是一款免费开源软件，地址：https://github.com/beibeikun/ImgManag
 ## 相关项目
 
 - [Flatlaf](https://github.com/JFormDesigner/FlatLaf)，IMS所使用的Java Swing外观库。
-- [IWS](https://github.com/beibeikun/ImgWorkflowSystem)，IWS，一个C/S架构跨平台图片拍摄工作流工具。
+- [IWS](https://github.com/beibeikun/ImgWorkflowSystem)，一个C/S架构跨平台图片拍摄工作流工具。
 - [Tesseract-OCR](https://github.com/tesseract-ocr/tesseract)，开源OCR引擎
 
 
