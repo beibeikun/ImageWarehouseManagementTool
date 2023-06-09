@@ -1,6 +1,6 @@
 <div align="center">
 
-# _IMG-ManagementSystem_
+# _ImgManagementSystem_
 </div>
 <br>
     <div align="center">

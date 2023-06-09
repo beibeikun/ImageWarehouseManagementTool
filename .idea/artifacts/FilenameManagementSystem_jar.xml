@@ -2,7 +2,7 @@
   <artifact type="jar" name="FilenameManagementSystem:jar">
     <output-path>$PROJECT_DIR$/out/artifacts/FilenameManagementSystem_jar</output-path>
     <root id="archive" name="FilenameManagementSystem.jar">
-      <element id="module-output" name="FilenameManagementSystem" />
+      <element id="module-output" name="ImgManagementSystem" />
     </root>
   </artifact>
 </component>
