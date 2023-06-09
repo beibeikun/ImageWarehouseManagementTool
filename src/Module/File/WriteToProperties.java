@@ -9,6 +9,8 @@ import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
 import java.util.Properties;
 
+import static Module.Others.SystemPrintOut.systemPrintOut;
+
 /**
  * 写入属性到Properties文件的工具类。
  */
@@ -39,7 +41,7 @@ public class WriteToProperties {
         try (FileOutputStream fos = new FileOutputStream("properties" + system.identifySystem_String() + filename + ".properties")) {
             // 将属性写入文件
             properties.store(fos, null);
-            System.out.println("Properties written to file.");
+            systemPrintOut("Properties written to file",1,1);
         } catch (IOException e) {
             e.printStackTrace();
         }

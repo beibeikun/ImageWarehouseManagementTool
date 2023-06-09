@@ -82,7 +82,7 @@ public class FileCompression {
      * @param fileName 文件名
      * @return 前缀字符串
      */
-    private static String getPrefix(String fileName) {
+    public static String getPrefix(String fileName) {
         int startIndex = fileName.indexOf("(");
         int endIndex = fileName.indexOf(")");
 

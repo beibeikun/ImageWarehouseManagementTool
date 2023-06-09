@@ -7,6 +7,7 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 
 import static Module.File.FileNameCheck.checkFilePath;
+import static Module.Others.SystemPrintOut.systemPrintOut;
 
 /**
  * 文件拷贝和删除操作类。
@@ -23,7 +24,8 @@ public class FileOperations {
         File[] imageList = imageFolder.listFiles();
 
         if (imageFolder.exists() && imageFolder.isDirectory()) {
-            System.out.println("\n\n" + "-------------------------Start to copy-------------------------");
+            System.out.println("\nSTART TO COPY");
+            systemPrintOut(null,0,0);
 
             for (File image : imageList) {
                 if (!Files.isHidden(Paths.get(firstfolderpath + systemIdentifier.identifySystem_String() + image.getName()))) {
@@ -43,12 +45,12 @@ public class FileOperations {
                     else
                     {
                         copyFile(firstfolderpath + systemIdentifier.identifySystem_String() + image.getName(), lastfolderpath);
-                        System.out.println("succeeded: " + image.getName());
+                        systemPrintOut(image.getName(),1,1);
                     }
                 }
             }
-
-            System.out.println("-------------------------Copy succeeded-------------------------");
+            System.out.println("\nCOPY SUCCESSED");
+            systemPrintOut(null,0,0);
         }
     }
 

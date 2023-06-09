@@ -3,6 +3,7 @@ package OLD.algorithm;
 import java.io.File;
 import java.util.Objects;
 
+import static Module.Others.SystemPrintOut.systemPrintOut;
 import static OLD.algorithm.Copy.copy;
 
 public class Classification
@@ -33,12 +34,12 @@ public class Classification
                 File file1 = new File(imgpath + symbol + clName);
                 if (!file1.exists())
                 {
-                    System.out.println("Succeeded: Create file\"" + clName + "\"");
+                    systemPrintOut("Create file\"" + clName + "\"",1,1);
                     file1.mkdirs();
                 }
                 copy(imgpath + symbol + value.getName(), imgpath + symbol + clName);
                 value.delete();
-                System.out.println("Succeeded: " + name);
+                systemPrintOut(name,1,1);
             }
         }
         System.out.println("-------------------------Classification succeeded-------------------------");

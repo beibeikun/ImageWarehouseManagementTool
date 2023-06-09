@@ -3,6 +3,8 @@ package Module.File;
 import javax.swing.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
+import static Module.Others.SystemPrintOut.systemPrintOut;
+
 /**
  * 文件路径选择工具类，用于打开文件选择对话框并返回所选文件的路径。
  */
@@ -26,7 +28,7 @@ public class SelectFilePath {
         int returnVal = chooser.showOpenDialog(chooser);
         if (returnVal == JFileChooser.APPROVE_OPTION) {
             filePath = chooser.getSelectedFile().getAbsolutePath();
-            System.out.println("--Directory selected-- " + filePath); // 此处为测试输出点
+            systemPrintOut("Directory selected: " + filePath,1,1);
         }
         return filePath;
     }

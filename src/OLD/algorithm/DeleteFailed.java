@@ -2,6 +2,8 @@ package OLD.algorithm;
 
 import java.io.File;
 
+import static Module.Others.SystemPrintOut.systemPrintOut;
+
 public class DeleteFailed
 {
     public void deletefiles(String imgpath)
@@ -17,7 +19,7 @@ public class DeleteFailed
                 {
                     String name = imglist[i].getName();
                     imglist[i].delete();
-                    System.out.println("succeeded: " + name);
+                    systemPrintOut(name,1,1);
                 }
             }
         }

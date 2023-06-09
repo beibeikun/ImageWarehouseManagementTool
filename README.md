@@ -18,7 +18,7 @@ IMS是一个C/S架构跨平台自动图片仓库管理工具，目前尚处在�
 IMS 是一款免费开源软件，地址：https://github.com/beibeikun/IMG_ManagementSystem
 
 开发阶段GUI预览图（预览图具有时效性，仅供参考）：
-![gui](gui.png)
+![gui](gui.jpg)
 
 
 

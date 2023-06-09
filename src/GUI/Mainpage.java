@@ -19,9 +19,11 @@ import java.util.Locale;
 import java.util.Properties;
 
 import static Module.File.DeleteDirectory.deleteDirectory;
+import static Module.File.ExtractMainImage.extractMainImage;
 import static Module.File.FileNameCheck.checkFilePath;
 import static GUI.ImageUtils.openImage;
 import static Module.File.WriteToProperties.writeToProperties;
+import static Module.Others.SystemPrintOut.systemPrintOut;
 
 public class Mainpage {
     private JPanel panel1;
@@ -63,6 +65,8 @@ public class Mainpage {
     private JTextArea textArea1;
     private JScrollPane ScrollPane1;
     private JButton consolebutton;
+    private JButton ExtractMainImageButton;
+    private JComboBox comboBox1;
     private JTextArea consoleTextArea;
     private static MenuBar menuBar;
 
@@ -74,8 +78,6 @@ public class Mainpage {
     static JFrame frame = new JFrame("MainpageUI");
     static VersionNumber versionnumber = new VersionNumber();//获取版本号
     public Mainpage() {
-        Instant instant2 = Instant.now();
-        System.out.println(instant2);
         ScrollPane1.setVisible(false);
         //识别系统语言
         Locale defaultLocale = Locale.getDefault();
@@ -120,7 +122,7 @@ public class Mainpage {
         }));
 
         versionLabel.setText(versionnumber.getVersionNumber());//显示为当前版本号
-        githuburlLabel.setText("<html><u>"+versionnumber.getGithub()+"</u></html>");//显示github地址
+        githuburlLabel.setText("<html><u>GitHub Homepage</u></html>");//显示github地址
 
         connecttodatabase.addActionListener(new ActionListener() {
             @Override
@@ -179,11 +181,13 @@ public class Mainpage {
                 if (renamecsvpathcheck==1 && firstpathcheck==1 && lastpathcheck==1)
                 {
                     JOptionPane.showMessageDialog(null,"检查通过");
+                    systemPrintOut("Inspection passed",1,1);
                     RenamestartButton.setEnabled(true);
                 }
                 else if (renamecsvpathcheck==2 || firstpathcheck==2 || lastpathcheck==2)
                 {
                     JOptionPane.showMessageDialog(null,"未选取路径","路径错误",JOptionPane.WARNING_MESSAGE);
+                    systemPrintOut("No path selected",2,1);
                 }
                 else if (renamecsvpathcheck==3 || firstpathcheck==3 || lastpathcheck==3)
                 {
@@ -207,7 +211,7 @@ public class Mainpage {
                         boolean created = directory.mkdirs();
                         JOptionPane.showMessageDialog(null,"文件夹已创建，检查通过");
                         RenamestartButton.setEnabled(true);
-                        System.out.println("successed: folder created");
+                        systemPrintOut("Folder created, inspection passed",1,1);
                     }
                 }
                 else if (lastpathcheck==5)
@@ -221,7 +225,7 @@ public class Mainpage {
                         boolean created = directory.mkdirs();
                         JOptionPane.showMessageDialog(null,"文件夹已清空，检查通过");
                         RenamestartButton.setEnabled(true);
-                        System.out.println("successed: folder emptied");
+                        systemPrintOut("Folder emptied, inspection passed",1,1);
                     }
                 }
             }
@@ -323,38 +327,42 @@ public class Mainpage {
         AddtocameradatabaseButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                int filepathcheck = checkFilePath(firstpath.getText(),false);
-                if (filepathcheck==1)
+                int n = JOptionPane.showConfirmDialog(null, "上传任务耗时长，运行期间界面假死为正常现象，请勿终止程序或断开硬盘！", "确认",JOptionPane.YES_NO_OPTION); //返回值为0或1
+                if (n==0)
                 {
-                    Instant instant1 = Instant.now();
-                    try {
-                        String[] prefixes = FileCompression.compressFilesByPrefix(firstpath.getText(), cameradatabasepath.getText());
-                        if (deleteCheckBox.isSelected())//完成后删除文件
-                        {
-                            //TODO 完成后删除源文件夹中的所有内容
+                    int filepathcheck = checkFilePath(firstpath.getText(),false);
+                    if (filepathcheck==1)
+                    {
+                        Instant instant1 = Instant.now();
+                        try {
+                            String[] prefixes = FileCompression.compressFilesByPrefix(firstpath.getText(), cameradatabasepath.getText());
+                            if (deleteCheckBox.isSelected())//完成后删除文件
+                            {
+                                //TODO 完成后删除源文件夹中的所有内容
+                            }
+
+                        } catch (IOException ex) {
+                            throw new RuntimeException(ex);
                         }
+                        Instant instant2 = Instant.now();
+                        Duration duration = Duration.between(instant1, instant2);
+                        long diffSeconds = duration.getSeconds();
+                        JOptionPane.showMessageDialog(null,"任务完成，本次耗时："+diffSeconds+"秒");
 
-                    } catch (IOException ex) {
-                        throw new RuntimeException(ex);
+
                     }
-                    Instant instant2 = Instant.now();
-                    Duration duration = Duration.between(instant1, instant2);
-                    long diffSeconds = duration.getSeconds();
-                    JOptionPane.showMessageDialog(null,"任务完成，本次耗时："+diffSeconds+"秒");
-
-
-                }
-                else if (filepathcheck == 2)
-                {
-                    JOptionPane.showMessageDialog(null,"未选取路径","路径错误",JOptionPane.WARNING_MESSAGE);
-                }
-                else if (filepathcheck == 3)
-                {
-                    JOptionPane.showMessageDialog(null,"路径名存在中文字符","路径错误",JOptionPane.WARNING_MESSAGE);
-                }
-                else if (filepathcheck == 4)
-                {
-                    JOptionPane.showMessageDialog(null,"源文件夹路径不存在","路径错误",JOptionPane.WARNING_MESSAGE);
+                    else if (filepathcheck == 2)
+                    {
+                        JOptionPane.showMessageDialog(null,"未选取路径","路径错误",JOptionPane.WARNING_MESSAGE);
+                    }
+                    else if (filepathcheck == 3)
+                    {
+                        JOptionPane.showMessageDialog(null,"路径名存在中文字符","路径错误",JOptionPane.WARNING_MESSAGE);
+                    }
+                    else if (filepathcheck == 4)
+                    {
+                        JOptionPane.showMessageDialog(null,"源文件夹路径不存在","路径错误",JOptionPane.WARNING_MESSAGE);
+                    }
                 }
             }
         });
@@ -364,6 +372,18 @@ public class Mainpage {
                 String path = cameradatabasepath.getText() +system.identifySystem_String()+"thumbnail"+system.identifySystem_String()+ textField1.getText()+".JPG";
                 System.out.println(path);
                 openImage(path);
+            }
+        });
+        ExtractMainImageButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Instant instant1 = Instant.now();
+                extractMainImage(firstpath.getText(),lastpath.getText());
+                Instant instant2 = Instant.now();
+                Duration duration = Duration.between(instant1, instant2);
+                long diffSeconds = duration.getSeconds();
+                JOptionPane.showMessageDialog(null,"任务完成，本次耗时："+diffSeconds+"秒");
+
             }
         });
     }
