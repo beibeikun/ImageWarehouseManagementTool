@@ -1,5 +1,7 @@
 <div align="center">
 
+<img src=".idea/icon.svg" width = "100" height = "100" alt="logo">
+
 # _ImgManagementSystem_
 </div>
 <br>
