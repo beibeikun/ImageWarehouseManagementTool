@@ -65,7 +65,7 @@ public class FileCompression {
             System.out.println(sourceFolder + system.identifySystem_String() + prefix + ".JPG");
             System.out.println(destinationFolder+system.identifySystem_String()+"thumbnail");
             copyFile(sourceFolder + system.identifySystem_String() + prefix + ".JPG",destinationFolder+system.identifySystem_String()+"thumbnail");
-            imageCompression(destinationFolder+system.identifySystem_String()+"thumbnail" + system.identifySystem_String() + prefix + ".JPG",0);
+            imageCompression(destinationFolder+system.identifySystem_String()+"thumbnail" + system.identifySystem_String() + prefix + ".JPG",2500);
             compressFiles(fileList, compressedFile);
         }
         FileOperations fileOperations = new FileOperations();
