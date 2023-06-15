@@ -4,10 +4,12 @@ import Module.Others.IdentifySystem;
 
 import java.io.*;
 import java.nio.file.Files;
+import java.nio.file.Path;
 import java.nio.file.Paths;
 
 import static Module.File.FileNameCheck.checkFilePath;
 import static Module.Others.SystemPrintOut.systemPrintOut;
+import static Module.Refactor.FileChecker.isSystemOrHiddenFile;
 
 /**
  * 文件拷贝和删除操作类。
@@ -28,7 +30,10 @@ public class FileOperations {
             systemPrintOut(null,0,0);
 
             for (File image : imageList) {
-                if (!Files.isHidden(Paths.get(firstfolderpath + systemIdentifier.identifySystem_String() + image.getName()))) {
+                Path path = Paths.get(firstfolderpath + systemIdentifier.identifySystem_String() + image.getName());
+                // 将 Path 对象转换为 File 对象
+                File file = path.toFile();
+                if (!isSystemOrHiddenFile(file)) {
                     // 在这里执行对非隐藏文件的操作
                     if (prefixnumbers!=0)
                     {
