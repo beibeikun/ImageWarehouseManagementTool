@@ -15,9 +15,9 @@ public class SelectFilePath {
      * @param type 选择对话框的类型，1表示选择Excel文件，2表示选择文件夹
      * @return 所选文件的路径
      */
-    public String selectFilePath(int type) {
+    public String selectFilePath(int type, String nowpath) {
         String filePath = "";
-        JFileChooser chooser = new JFileChooser();
+        JFileChooser chooser = new JFileChooser(nowpath);
         if (type == 2) {
             chooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
         }

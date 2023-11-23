@@ -69,7 +69,7 @@ public class Mainpage {
     private JButton ExtractMainImageButton;
     private JComboBox comboBox1;
     private JButton AddtophonedatabaseButton;
-    private JComboBox comboBox2;
+    private JComboBox selectdatabase;
     private JButton takemainfromdatabaseButton;
     private JButton checkMainIMGButton;
     private JTextArea consoleTextArea;
@@ -117,7 +117,7 @@ public class Mainpage {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        /*
+
         System.setOut(new PrintStream(new OutputStream()
         {
             @Override
@@ -127,7 +127,7 @@ public class Mainpage {
             }
         }));
 
-         */
+
 
         versionLabel.setText(versionnumber.getVersionNumber());//显示为当前版本号
         githuburlLabel.setText("<html><u>GitHub Homepage</u></html>");//显示github地址
@@ -149,7 +149,7 @@ public class Mainpage {
         SelectButton_firstpath.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                String Sfirstpath = getfilepath.selectFilePath(2);
+                String Sfirstpath = getfilepath.selectFilePath(2,firstpath.getText());
                 firstpath.setText(Sfirstpath);
                 String[][] filenamelist = new String[2][10];
                 filenamelist[0][0] = "firstpath";
@@ -160,7 +160,7 @@ public class Mainpage {
         SelectButton_lastpath.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                String Slastpath = getfilepath.selectFilePath(2);
+                String Slastpath = getfilepath.selectFilePath(2,lastpath.getText());
                 lastpath.setText(Slastpath);
                 String[][] filenamelist = new String[2][10];
                 filenamelist[0][0] = "lastpath";
@@ -171,7 +171,7 @@ public class Mainpage {
         SelectButton_renamecsvpath.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                String Srenamecsvpath = getfilepath.selectFilePath(1);
+                String Srenamecsvpath = getfilepath.selectFilePath(1,renamecsvpath.getText());
                 renamecsvpath.setText(Srenamecsvpath);
                 String[][] filenamelist = new String[2][10];
                 filenamelist[0][0] = "renamecsvpath";
@@ -259,6 +259,16 @@ public class Mainpage {
                 }
                 if (CheckBox_addfromdatabase.isSelected())
                 {
+                    String item = (String) selectdatabase.getSelectedItem();
+                    String databasepath = null;
+                    if (item.equals("camera"))
+                    {
+                        databasepath = cameradatabasepath.getText();
+                    }
+                    else if (item.equals("phone"))
+                    {
+                        databasepath = phonedatabasepath.getText();
+                    }
                     /*------------------------------------拉取老图------------------------------------*/
                     String[][] fileNameList = new String[2][10000]; // 存放对应的JB号-Lot号
                     int index = 0;
@@ -279,9 +289,9 @@ public class Mainpage {
                         return;
                     }
                     for (int x = 1; x < index; x++) {
-                        File fileCheck = new File(cameradatabasepath.getText() + system.identifySystem_String() + fileNameList[0][x].substring(0, 6) + system.identifySystem_String() + fileNameList[0][x] + ".zip");
+                        File fileCheck = new File(databasepath + system.identifySystem_String() + fileNameList[0][x].substring(0, 6) + system.identifySystem_String() + fileNameList[0][x] + ".zip");
                         if (fileCheck.exists()) {
-                            copyFile(cameradatabasepath.getText() + system.identifySystem_String() + fileNameList[0][x].substring(0, 6) + system.identifySystem_String() + fileNameList[0][x] + ".zip", lastpath.getText());
+                            copyFile(databasepath + system.identifySystem_String() + fileNameList[0][x].substring(0, 6) + system.identifySystem_String() + fileNameList[0][x] + ".zip", lastpath.getText());
                             try {
                                 ZipExtractor extra = new ZipExtractor();
                                 extra.extractZip(lastpath.getText() + system.identifySystem_String() + fileNameList[0][x] + ".zip");
@@ -334,7 +344,7 @@ public class Mainpage {
         ConnectButton1.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                String Scamerapath = getfilepath.selectFilePath(2);
+                String Scamerapath = getfilepath.selectFilePath(2,cameradatabasepath.getText());
                 cameradatabasepath.setText(Scamerapath);
                 String[][] filenamelist = new String[2][10];
                 filenamelist[0][0]="cameradatabasepath";
@@ -345,7 +355,7 @@ public class Mainpage {
         ConnectButton2.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                String Sphonepath = getfilepath.selectFilePath(2);
+                String Sphonepath = getfilepath.selectFilePath(2,phonedatabasepath.getText());
                 phonedatabasepath.setText(Sphonepath);
                 String[][] filenamelist = new String[2][10];
                 filenamelist[0][0]="phonedatabasepath";
@@ -460,7 +470,7 @@ public class Mainpage {
         SearchButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                String path = cameradatabasepath.getText() +system.identifySystem_String()+"thumbnail"+system.identifySystem_String()+ textField1.getText()+".JPG";
+                String path = cameradatabasepath.getText() +system.identifySystem_String()+"thumbnail"+system.identifySystem_String()+"JB"+ textField1.getText()+".JPG";
                 System.out.println(path);
                 openImage(path);
             }
