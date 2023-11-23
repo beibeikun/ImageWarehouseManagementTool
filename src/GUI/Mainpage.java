@@ -22,6 +22,7 @@ import static Module.File.DeleteDirectory.deleteDirectory;
 import static Module.File.ExtractMainImage.extractMainImage;
 import static Module.File.FileNameCheck.checkFilePath;
 import static GUI.ImageUtils.openImage;
+import static Module.File.FileOperations.copyFile;
 import static Module.File.WriteToProperties.writeToProperties;
 import static Module.Others.SystemPrintOut.systemPrintOut;
 
@@ -67,6 +68,10 @@ public class Mainpage {
     private JButton consolebutton;
     private JButton ExtractMainImageButton;
     private JComboBox comboBox1;
+    private JButton AddtophonedatabaseButton;
+    private JComboBox comboBox2;
+    private JButton takemainfromdatabaseButton;
+    private JButton checkMainIMGButton;
     private JTextArea consoleTextArea;
     private static MenuBar menuBar;
 
@@ -112,6 +117,7 @@ public class Mainpage {
         } catch (IOException e) {
             e.printStackTrace();
         }
+        /*
         System.setOut(new PrintStream(new OutputStream()
         {
             @Override
@@ -120,6 +126,8 @@ public class Mainpage {
                 textArea1.append(String.valueOf((char) b));
             }
         }));
+
+         */
 
         versionLabel.setText(versionnumber.getVersionNumber());//显示为当前版本号
         githuburlLabel.setText("<html><u>GitHub Homepage</u></html>");//显示github地址
@@ -249,7 +257,44 @@ public class Mainpage {
                 } catch (IOException ex) {
                     throw new RuntimeException(ex);
                 }
-                renamefiles.renameFiles(renamecsvpath.getText(),lastpath.getText(),digit_check,prefix_check);
+                /*------------------------------------拉取老图------------------------------------*/
+                String[][] fileNameList = new String[2][10000]; // 存放对应的JB号-Lot号
+                int index = 0;
+                /* 读取Excel文件，将映射关系存储到fileNameList数组中 */
+                try (BufferedReader br = new BufferedReader(new FileReader(renamecsvpath.getText()))) {
+                    String line;
+                    String cvsSplitBy = ",";
+
+                    while ((line = br.readLine()) != null) {
+                        // 使用逗号作为分隔符
+                        String[] country = line.split(cvsSplitBy);
+                        fileNameList[0][index] = country[0];
+                        fileNameList[1][index] = country[1];
+                        index++;
+                    }
+                } catch (IOException ex) {
+                    ex.printStackTrace();
+                    return;
+                }
+                for (int x = 1; x < index; x++) {
+                    File fileCheck = new File(cameradatabasepath.getText() + system.identifySystem_String() + fileNameList[0][x].substring(0, 6) + system.identifySystem_String() + fileNameList[0][x] + ".zip");
+                    if (fileCheck.exists()) {
+                        copyFile(cameradatabasepath.getText() + system.identifySystem_String() + fileNameList[0][x].substring(0, 6) + system.identifySystem_String() + fileNameList[0][x] + ".zip", lastpath.getText());
+                        try {
+                            ZipExtractor extra = new ZipExtractor();
+                            extra.extractZip(lastpath.getText() + system.identifySystem_String() + fileNameList[0][x] + ".zip");
+                        } catch (Exception ex) {
+                            ex.printStackTrace();
+                            System.out.println("解压文件夹失败");
+                        }
+                        File file = new File(lastpath.getText() + system.identifySystem_String() + fileNameList[0][x] + ".zip");
+                        file.delete();
+                    }
+                }
+                System.out.println("EEEEEEENNNNNNNDDDDDDDD");
+                /*------------------------------------拉取老图------------------------------------*/
+
+                renamefiles.renameFiles(renamecsvpath.getText(),lastpath.getText(),digit_check,prefix_check,0,cameradatabasepath.getText());
                 copyfiles.deleteFiles(lastpath.getText(),"JB");
                 if (CheckBox_classification.isSelected())
                 {
@@ -335,7 +380,49 @@ public class Mainpage {
                     {
                         Instant instant1 = Instant.now();
                         try {
-                            String[] prefixes = FileCompression.compressFilesByPrefix(firstpath.getText(), cameradatabasepath.getText());
+                            String[] prefixes = FileCompression.compressFilesByPrefix(firstpath.getText(), cameradatabasepath.getText(),1);
+                            if (deleteCheckBox.isSelected())//完成后删除文件
+                            {
+                                //TODO 完成后删除源文件夹中的所有内容
+                            }
+
+                        } catch (IOException ex) {
+                            throw new RuntimeException(ex);
+                        }
+                        Instant instant2 = Instant.now();
+                        Duration duration = Duration.between(instant1, instant2);
+                        long diffSeconds = duration.getSeconds();
+                        JOptionPane.showMessageDialog(null,"任务完成，本次耗时："+diffSeconds+"秒");
+
+
+                    }
+                    else if (filepathcheck == 2)
+                    {
+                        JOptionPane.showMessageDialog(null,"未选取路径","路径错误",JOptionPane.WARNING_MESSAGE);
+                    }
+                    else if (filepathcheck == 3)
+                    {
+                        JOptionPane.showMessageDialog(null,"路径名存在中文字符","路径错误",JOptionPane.WARNING_MESSAGE);
+                    }
+                    else if (filepathcheck == 4)
+                    {
+                        JOptionPane.showMessageDialog(null,"源文件夹路径不存在","路径错误",JOptionPane.WARNING_MESSAGE);
+                    }
+                }
+            }
+        });
+        AddtophonedatabaseButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                int n = JOptionPane.showConfirmDialog(null, "上传任务耗时长，运行期间界面假死为正常现象，请勿终止程序或断开硬盘！", "确认",JOptionPane.YES_NO_OPTION); //返回值为0或1
+                if (n==0)
+                {
+                    int filepathcheck = checkFilePath(firstpath.getText(),false);
+                    if (filepathcheck==1)
+                    {
+                        Instant instant1 = Instant.now();
+                        try {
+                            String[] prefixes = FileCompression.compressFilesByPrefix(firstpath.getText(), phonedatabasepath.getText(),2);
                             if (deleteCheckBox.isSelected())//完成后删除文件
                             {
                                 //TODO 完成后删除源文件夹中的所有内容
@@ -384,6 +471,87 @@ public class Mainpage {
                 long diffSeconds = duration.getSeconds();
                 JOptionPane.showMessageDialog(null,"任务完成，本次耗时："+diffSeconds+"秒");
 
+            }
+        });
+        takemainfromdatabaseButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Instant instant1 = Instant.now();
+                String[] fileNameList = new String[10000]; // 存放对应的JB号-Lot号
+                int index = 0;
+                /* 读取Excel文件，将映射关系存储到fileNameList数组中 */
+                try (BufferedReader br = new BufferedReader(new FileReader(renamecsvpath.getText()))) {
+                    String line;
+                    String cvsSplitBy = ",";
+
+                    while ((line = br.readLine()) != null) {
+                        // 使用逗号作为分隔符
+                        String[] country = line.split(cvsSplitBy);
+                        fileNameList[index] = country[0];
+                        index++;
+                    }
+                } catch (IOException ex) {
+                    ex.printStackTrace();
+                    return;
+                }
+                for (int x = 1; x < index; x++) {
+                    File fileCheck = new File(cameradatabasepath.getText() + system.identifySystem_String() + "thumbnail" + system.identifySystem_String() + fileNameList[x] + ".JPG");
+                    if (fileCheck.exists()) {
+                        copyFile(cameradatabasepath.getText() + system.identifySystem_String() + "thumbnail" + system.identifySystem_String() + fileNameList[x] + ".JPG", lastpath.getText());
+                    }
+                }
+                Instant instant2 = Instant.now();
+                Duration duration = Duration.between(instant1, instant2);
+                long diffSeconds = duration.getSeconds();
+                JOptionPane.showMessageDialog(null,"任务完成，本次耗时："+diffSeconds+"秒");
+            }
+        });
+        checkMainIMGButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Instant instant1 = Instant.now();
+                String[] fileNameList = new String[10000]; // 存放对应的JB号-Lot号
+                int index = 0;
+                /* 读取Excel文件，将映射关系存储到fileNameList数组中 */
+                try (BufferedReader br = new BufferedReader(new FileReader(renamecsvpath.getText()))) {
+                    String line;
+                    String cvsSplitBy = ",";
+
+                    while ((line = br.readLine()) != null) {
+                        // 使用逗号作为分隔符
+                        String[] country = line.split(cvsSplitBy);
+                        fileNameList[index] = country[0];
+                        index++;
+                    }
+                } catch (IOException ex) {
+                    ex.printStackTrace();
+                    return;
+                }
+                String[] failedfileNameList = new String[10000];
+                int y = 0;
+                for (int x = 1; x < index; x++) {
+                    System.out.println(firstpath.getText() + system.identifySystem_String() + fileNameList[x] + ".jpg");
+                    File fileCheck = new File(firstpath.getText() + system.identifySystem_String() + fileNameList[x] + ".jpg");
+                    if (!fileCheck.exists()) {
+                        failedfileNameList[y]=fileNameList[x];
+                        y++;
+                    }
+                }
+                try (BufferedWriter writer = new BufferedWriter(new FileWriter(lastpath.getText() + system.identifySystem_String() + "failed.csv"))) {
+                    // 将数组中的每个元素写入文件，每个元素占一行
+                    for (String element : failedfileNameList) {
+                        writer.write(element);
+                        writer.newLine();  // 换行
+                    }
+
+                    System.out.println("TXT文件已创建：" + lastpath.getText() + system.identifySystem_String() + "failed.csv");
+                } catch (IOException ex) {
+                    ex.printStackTrace();
+                }
+                Instant instant2 = Instant.now();
+                Duration duration = Duration.between(instant1, instant2);
+                long diffSeconds = duration.getSeconds();
+                JOptionPane.showMessageDialog(null,"任务完成，本次耗时："+diffSeconds+"秒");
             }
         });
     }

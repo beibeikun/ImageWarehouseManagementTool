@@ -27,7 +27,7 @@ public class FileCompression {
      * @param destinationFolder 目标文件夹路径
      * @return 包含所有前缀的字符串数组
      */
-    public static String[] compressFilesByPrefix(String sourceFolder, String destinationFolder) throws IOException {
+    public static String[] compressFilesByPrefix(String sourceFolder, String destinationFolder, int mode) throws IOException {
         IdentifySystem system = new IdentifySystem();
         String temporaryDestinationFolder = sourceFolder + "TemporaryCompression";
         File folder = new File(sourceFolder);
@@ -64,8 +64,11 @@ public class FileCompression {
             System.out.println(11111+":"+compressedFile);
             System.out.println(sourceFolder + system.identifySystem_String() + prefix + ".JPG");
             System.out.println(destinationFolder+system.identifySystem_String()+"thumbnail");
-            copyFile(sourceFolder + system.identifySystem_String() + prefix + ".JPG",destinationFolder+system.identifySystem_String()+"thumbnail");
-            imageCompression(destinationFolder+system.identifySystem_String()+"thumbnail" + system.identifySystem_String() + prefix + ".JPG",2500);
+            if (mode==1)
+            {
+                copyFile(sourceFolder + system.identifySystem_String() + prefix + ".JPG",destinationFolder+system.identifySystem_String()+"thumbnail");
+                imageCompression(destinationFolder+system.identifySystem_String()+"thumbnail" + system.identifySystem_String() + prefix + ".JPG",2500);
+            }
             compressFiles(fileList, compressedFile);
         }
         FileOperations fileOperations = new FileOperations();
@@ -137,7 +140,7 @@ public class FileCompression {
     public static void main(String[] args) throws IOException {
         String sourceFolder = "/Users/bbk/Documents/test1";
         String destinationFolder = "/Users/bbk/Documents/test2";
-        String[] prefixes = FileCompression.compressFilesByPrefix(sourceFolder, destinationFolder);
+        String[] prefixes = FileCompression.compressFilesByPrefix(sourceFolder, destinationFolder,1);
 
         System.out.println("Prefixes:");
         for (String prefix : prefixes) {
