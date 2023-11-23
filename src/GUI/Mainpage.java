@@ -257,42 +257,46 @@ public class Mainpage {
                 } catch (IOException ex) {
                     throw new RuntimeException(ex);
                 }
-                /*------------------------------------拉取老图------------------------------------*/
-                String[][] fileNameList = new String[2][10000]; // 存放对应的JB号-Lot号
-                int index = 0;
-                /* 读取Excel文件，将映射关系存储到fileNameList数组中 */
-                try (BufferedReader br = new BufferedReader(new FileReader(renamecsvpath.getText()))) {
-                    String line;
-                    String cvsSplitBy = ",";
+                if (CheckBox_addfromdatabase.isSelected())
+                {
+                    /*------------------------------------拉取老图------------------------------------*/
+                    String[][] fileNameList = new String[2][10000]; // 存放对应的JB号-Lot号
+                    int index = 0;
+                    /* 读取Excel文件，将映射关系存储到fileNameList数组中 */
+                    try (BufferedReader br = new BufferedReader(new FileReader(renamecsvpath.getText()))) {
+                        String line;
+                        String cvsSplitBy = ",";
 
-                    while ((line = br.readLine()) != null) {
-                        // 使用逗号作为分隔符
-                        String[] country = line.split(cvsSplitBy);
-                        fileNameList[0][index] = country[0];
-                        fileNameList[1][index] = country[1];
-                        index++;
-                    }
-                } catch (IOException ex) {
-                    ex.printStackTrace();
-                    return;
-                }
-                for (int x = 1; x < index; x++) {
-                    File fileCheck = new File(cameradatabasepath.getText() + system.identifySystem_String() + fileNameList[0][x].substring(0, 6) + system.identifySystem_String() + fileNameList[0][x] + ".zip");
-                    if (fileCheck.exists()) {
-                        copyFile(cameradatabasepath.getText() + system.identifySystem_String() + fileNameList[0][x].substring(0, 6) + system.identifySystem_String() + fileNameList[0][x] + ".zip", lastpath.getText());
-                        try {
-                            ZipExtractor extra = new ZipExtractor();
-                            extra.extractZip(lastpath.getText() + system.identifySystem_String() + fileNameList[0][x] + ".zip");
-                        } catch (Exception ex) {
-                            ex.printStackTrace();
-                            System.out.println("解压文件夹失败");
+                        while ((line = br.readLine()) != null) {
+                            // 使用逗号作为分隔符
+                            String[] country = line.split(cvsSplitBy);
+                            fileNameList[0][index] = country[0];
+                            fileNameList[1][index] = country[1];
+                            index++;
                         }
-                        File file = new File(lastpath.getText() + system.identifySystem_String() + fileNameList[0][x] + ".zip");
-                        file.delete();
+                    } catch (IOException ex) {
+                        ex.printStackTrace();
+                        return;
                     }
+                    for (int x = 1; x < index; x++) {
+                        File fileCheck = new File(cameradatabasepath.getText() + system.identifySystem_String() + fileNameList[0][x].substring(0, 6) + system.identifySystem_String() + fileNameList[0][x] + ".zip");
+                        if (fileCheck.exists()) {
+                            copyFile(cameradatabasepath.getText() + system.identifySystem_String() + fileNameList[0][x].substring(0, 6) + system.identifySystem_String() + fileNameList[0][x] + ".zip", lastpath.getText());
+                            try {
+                                ZipExtractor extra = new ZipExtractor();
+                                extra.extractZip(lastpath.getText() + system.identifySystem_String() + fileNameList[0][x] + ".zip");
+                            } catch (Exception ex) {
+                                ex.printStackTrace();
+                                System.out.println("解压文件夹失败");
+                            }
+                            File file = new File(lastpath.getText() + system.identifySystem_String() + fileNameList[0][x] + ".zip");
+                            file.delete();
+                        }
+                    }
+                    System.out.println("EEEEEEENNNNNNNDDDDDDDD");
+                    /*------------------------------------拉取老图------------------------------------*/
                 }
-                System.out.println("EEEEEEENNNNNNNDDDDDDDD");
-                /*------------------------------------拉取老图------------------------------------*/
+
 
                 renamefiles.renameFiles(renamecsvpath.getText(),lastpath.getText(),digit_check,prefix_check,0,cameradatabasepath.getText());
                 copyfiles.deleteFiles(lastpath.getText(),"JB");

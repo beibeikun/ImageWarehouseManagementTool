@@ -10,7 +10,7 @@ public class VersionNumber {
      * @return 版本号字符串
      */
     public String getVersionNumber() {
-        return "Build: 0.1.230609 by beibeikun";
+        return "Build: 0.1.231123 by beibeikun";
     }
 
     /**

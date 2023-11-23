@@ -161,8 +161,9 @@
                   <component id="9aa6c" class="javax.swing.JCheckBox" binding="CheckBox_addfromdatabase">
                     <constraints/>
                     <properties>
-                      <enabled value="false"/>
+                      <enabled value="true"/>
                       <text value="尝试从库中提取缺少的文件"/>
+                      <visible value="true"/>
                     </properties>
                   </component>
                   <hspacer id="31837">
