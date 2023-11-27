@@ -20,7 +20,7 @@ IWMT是一个C/S架构跨平台图片仓库管理工具，目前尚处在开发�
 IWMT 是一款免费开源软件，地址：https://github.com/beibeikun/ImgManagementSystem
 
 开发阶段GUI预览图（预览图具有时效性，仅供参考）：
-![gui](gui.jpg)
+![gui](GUI.png)
 
 
 
