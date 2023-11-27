@@ -23,6 +23,7 @@ import static Module.File.ExtractMainImage.extractMainImage;
 import static Module.File.FileNameCheck.checkFilePath;
 import static GUI.ImageUtils.openImage;
 import static Module.File.FileOperations.copyFile;
+import static Module.File.FolderCsvComparator.compareAndGenerateCsv;
 import static Module.File.WriteToProperties.writeToProperties;
 import static Module.Others.SystemPrintOut.systemPrintOut;
 
@@ -72,6 +73,7 @@ public class Mainpage {
     private JComboBox selectdatabase;
     private JButton takemainfromdatabaseButton;
     private JButton checkMainIMGButton;
+    private JComboBox comboBox2;
     private JTextArea consoleTextArea;
     private static MenuBar menuBar;
 
@@ -191,6 +193,8 @@ public class Mainpage {
                     JOptionPane.showMessageDialog(null,"检查通过");
                     systemPrintOut("Inspection passed",1,1);
                     RenamestartButton.setEnabled(true);
+                    takemainfromdatabaseButton.setEnabled(true);
+                    ExtractMainImageButton.setEnabled(true);
                 }
                 else if (renamecsvpathcheck==2 || firstpathcheck==2 || lastpathcheck==2)
                 {
@@ -219,6 +223,8 @@ public class Mainpage {
                         boolean created = directory.mkdirs();
                         JOptionPane.showMessageDialog(null,"文件夹已创建，检查通过");
                         RenamestartButton.setEnabled(true);
+                        takemainfromdatabaseButton.setEnabled(true);
+                        ExtractMainImageButton.setEnabled(true);
                         systemPrintOut("Folder created, inspection passed",1,1);
                     }
                 }
@@ -233,6 +239,8 @@ public class Mainpage {
                         boolean created = directory.mkdirs();
                         JOptionPane.showMessageDialog(null,"文件夹已清空，检查通过");
                         RenamestartButton.setEnabled(true);
+                        takemainfromdatabaseButton.setEnabled(true);
+                        ExtractMainImageButton.setEnabled(true);
                         systemPrintOut("Folder emptied, inspection passed",1,1);
                     }
                 }
@@ -319,6 +327,8 @@ public class Mainpage {
                 long diffSeconds = duration.getSeconds();
                 JOptionPane.showMessageDialog(null,"任务完成，本次耗时："+diffSeconds+"秒");
                 RenamestartButton.setEnabled(false);
+                takemainfromdatabaseButton.setEnabled(false);
+                ExtractMainImageButton.setEnabled(false);
             }
         });
         githuburlLabel.addMouseListener(new MouseAdapter() {
@@ -484,6 +494,9 @@ public class Mainpage {
                 Duration duration = Duration.between(instant1, instant2);
                 long diffSeconds = duration.getSeconds();
                 JOptionPane.showMessageDialog(null,"任务完成，本次耗时："+diffSeconds+"秒");
+                RenamestartButton.setEnabled(false);
+                takemainfromdatabaseButton.setEnabled(false);
+                ExtractMainImageButton.setEnabled(false);
 
             }
         });
@@ -518,50 +531,22 @@ public class Mainpage {
                 Duration duration = Duration.between(instant1, instant2);
                 long diffSeconds = duration.getSeconds();
                 JOptionPane.showMessageDialog(null,"任务完成，本次耗时："+diffSeconds+"秒");
+                RenamestartButton.setEnabled(false);
+                takemainfromdatabaseButton.setEnabled(false);
+                ExtractMainImageButton.setEnabled(false);
             }
         });
         checkMainIMGButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 Instant instant1 = Instant.now();
-                String[] fileNameList = new String[10000]; // 存放对应的JB号-Lot号
-                int index = 0;
-                /* 读取Excel文件，将映射关系存储到fileNameList数组中 */
-                try (BufferedReader br = new BufferedReader(new FileReader(renamecsvpath.getText()))) {
-                    String line;
-                    String cvsSplitBy = ",";
-
-                    while ((line = br.readLine()) != null) {
-                        // 使用逗号作为分隔符
-                        String[] country = line.split(cvsSplitBy);
-                        fileNameList[index] = country[0];
-                        index++;
-                    }
+                try {
+                    compareAndGenerateCsv(firstpath.getText(), renamecsvpath.getText());
                 } catch (IOException ex) {
                     ex.printStackTrace();
-                    return;
+                    System.err.println("Error during comparison.");
                 }
-                String[] failedfileNameList = new String[10000];
-                int y = 0;
-                for (int x = 1; x < index; x++) {
-                    System.out.println(firstpath.getText() + system.identifySystem_String() + fileNameList[x] + ".jpg");
-                    File fileCheck = new File(firstpath.getText() + system.identifySystem_String() + fileNameList[x] + ".jpg");
-                    if (!fileCheck.exists()) {
-                        failedfileNameList[y]=fileNameList[x];
-                        y++;
-                    }
-                }
-                try (BufferedWriter writer = new BufferedWriter(new FileWriter(lastpath.getText() + system.identifySystem_String() + "failed.csv"))) {
-                    // 将数组中的每个元素写入文件，每个元素占一行
-                    for (String element : failedfileNameList) {
-                        writer.write(element);
-                        writer.newLine();  // 换行
-                    }
 
-                    System.out.println("TXT文件已创建：" + lastpath.getText() + system.identifySystem_String() + "failed.csv");
-                } catch (IOException ex) {
-                    ex.printStackTrace();
-                }
                 Instant instant2 = Instant.now();
                 Duration duration = Duration.between(instant1, instant2);
                 long diffSeconds = duration.getSeconds();
