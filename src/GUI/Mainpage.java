@@ -2,6 +2,7 @@ package GUI;
 
 import Module.File.*;
 import Module.Others.*;
+import Module.Refactor.CompleteNameChangeProcess;
 import com.formdev.flatlaf.FlatDarkLaf;
 
 import javax.swing.*;
@@ -250,78 +251,31 @@ public class Mainpage {
             @Override
             public void actionPerformed(ActionEvent e) {
                 Instant instant1 = Instant.now();
-                FilePrefixMove filePrefixMove = new FilePrefixMove();
-                int digit_check=0,prefix_check=0;
-                if (CheckBox_digit.isSelected())
+                int check_usedatabase = 0,check_whichdatabase = 0;
+                if (CheckBox_addfromdatabase.isSelected())
                 {
-                    digit_check = 1;
+                    check_usedatabase = 1;
                 }
-                if (CheckBox_prefix.isSelected())
+                if (selectdatabase.getSelectedItem().equals("phone"))
                 {
-                    prefix_check = 1;
+                    check_whichdatabase = 1;
                 }
+                String databasepath = null;
+                if (check_whichdatabase==0)
+                {
+                    databasepath = cameradatabasepath.getText();
+                }
+                else {
+                    databasepath = phonedatabasepath.getText();
+                }
+                CompleteNameChangeProcess completeNameChangeProcess = new CompleteNameChangeProcess();
                 try {
-                    copyfiles.copyFiles(firstpath.getText(),lastpath.getText(),0);
+                    completeNameChangeProcess.completeNameChangeProcess(databasepath, firstpath.getText(), lastpath.getText(), renamecsvpath.getText(), check_usedatabase);
                 } catch (IOException ex) {
                     throw new RuntimeException(ex);
                 }
-                if (CheckBox_addfromdatabase.isSelected())
-                {
-                    String item = (String) selectdatabase.getSelectedItem();
-                    String databasepath = null;
-                    if (item.equals("camera"))
-                    {
-                        databasepath = cameradatabasepath.getText();
-                    }
-                    else if (item.equals("phone"))
-                    {
-                        databasepath = phonedatabasepath.getText();
-                    }
-                    /*------------------------------------拉取老图------------------------------------*/
-                    String[][] fileNameList = new String[2][10000]; // 存放对应的JB号-Lot号
-                    int index = 0;
-                    /* 读取Excel文件，将映射关系存储到fileNameList数组中 */
-                    try (BufferedReader br = new BufferedReader(new FileReader(renamecsvpath.getText()))) {
-                        String line;
-                        String cvsSplitBy = ",";
-
-                        while ((line = br.readLine()) != null) {
-                            // 使用逗号作为分隔符
-                            String[] country = line.split(cvsSplitBy);
-                            fileNameList[0][index] = country[0];
-                            fileNameList[1][index] = country[1];
-                            index++;
-                        }
-                    } catch (IOException ex) {
-                        ex.printStackTrace();
-                        return;
-                    }
-                    for (int x = 1; x < index; x++) {
-                        File fileCheck = new File(databasepath + system.identifySystem_String() + fileNameList[0][x].substring(0, 6) + system.identifySystem_String() + fileNameList[0][x] + ".zip");
-                        if (fileCheck.exists()) {
-                            copyFile(databasepath + system.identifySystem_String() + fileNameList[0][x].substring(0, 6) + system.identifySystem_String() + fileNameList[0][x] + ".zip", lastpath.getText());
-                            try {
-                                ZipExtractor extra = new ZipExtractor();
-                                extra.extractZip(lastpath.getText() + system.identifySystem_String() + fileNameList[0][x] + ".zip");
-                            } catch (Exception ex) {
-                                ex.printStackTrace();
-                                System.out.println("解压文件夹失败");
-                            }
-                            File file = new File(lastpath.getText() + system.identifySystem_String() + fileNameList[0][x] + ".zip");
-                            file.delete();
-                        }
-                    }
-                    System.out.println("EEEEEEENNNNNNNDDDDDDDD");
-                    /*------------------------------------拉取老图------------------------------------*/
-                }
 
 
-                renamefiles.renameFiles(renamecsvpath.getText(),lastpath.getText(),digit_check,prefix_check,0,cameradatabasepath.getText());
-                copyfiles.deleteFiles(lastpath.getText(),"JB");
-                if (CheckBox_classification.isSelected())
-                {
-                    filePrefixMove.filePrefixMove(lastpath.getText()," (");
-                }
                 Instant instant2 = Instant.now();
                 Duration duration = Duration.between(instant1, instant2);
                 long diffSeconds = duration.getSeconds();
