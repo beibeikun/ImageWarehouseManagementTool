@@ -49,8 +49,6 @@ public class ImageCompression {
 
             // 保存目标图片到文件
             ImageIO.write(targetImage, "jpg", new File(imgpath));
-
-            System.out.println("图片压缩完成！");
         } catch (IOException e) {
             e.printStackTrace();
         }
