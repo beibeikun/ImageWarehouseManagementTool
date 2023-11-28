@@ -9,14 +9,15 @@ public class CompleteNameChangeProcess {
     /**
      * 完成文件名更改的整个过程。
      *
-     * @param nasFolderPath         NAS 文件夹路径
-     * @param sourceFolderPath      源文件夹路径
-     * @param targetFolderPath      目标文件夹路径
-     * @param CSVPath               CSV 文件路径
+     * @param nasFolderPath           NAS 文件夹路径
+     * @param sourceFolderPath        源文件夹路径
+     * @param targetFolderPath        目标文件夹路径
+     * @param CSVPath                 CSV 文件路径
      * @param checkBoxAddFromDatabase 复选框标志，1 表示添加数据库中的文件，0 表示不添加
-     * @throws IOException 如果文件操作失败
+     * @param imgsize                 压缩图片尺寸，为0则不压缩
+     * @throws IOException            如果文件操作失败
      */
-    public void completeNameChangeProcess(String nasFolderPath, String sourceFolderPath, String targetFolderPath, String CSVPath, int checkBoxAddFromDatabase) throws IOException {
+    public void completeNameChangeProcess(String nasFolderPath, String sourceFolderPath, String targetFolderPath, String CSVPath, int checkBoxAddFromDatabase, int imgsize) throws IOException {
         // 从 CSV 中提取要提取的文件名数组
         String[] fileNamesToExtract = ArrayExtractor.excludeFirstElement(ArrayExtractor.extractRow(ReadCsvFile.csvToArray(CSVPath), 0));
 
@@ -35,6 +36,13 @@ public class CompleteNameChangeProcess {
         RenameFiles.renameFiles(CSVPath, targetFolderPath, 0, 0);
 
         // 删除目标文件夹中包含关键词的文件
+        //TODO:现在这个方法用关键自负去判断不够合理，需要优化
         DeleteFilesWithKeyword.deleteFilesWithKeyword(targetFolderPath, "JB");
+
+        //根据 imgsize 判断图片是否需要压缩
+        if (imgsize != 0)
+        {
+            CompressImagesInBatches.compressImagesInBatches(targetFolderPath, imgsize);
+        }
     }
 }

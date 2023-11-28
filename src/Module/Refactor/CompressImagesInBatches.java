@@ -7,8 +7,8 @@ import static Module.Refactor.FileChecker.isSystemOrHiddenFile;
 public class CompressImagesInBatches {
 
     public static void main(String[] args) {
-        String folderPath = "/Users/bbk/photographs/test3";
-        int imageSize = 300;
+        String folderPath = "/Users/bbk/photographs/test2";
+        int imageSize = 2500;
         compressImagesInBatches(folderPath, imageSize);
     }
 
@@ -42,15 +42,20 @@ public class CompressImagesInBatches {
 
         // 遍历文件列表并输出文件名
         for (File file : files) {
+            completedNums++;
+            float progress = ((float) completedNums / filesNums) * 100;
             //判断隐藏文件
             if (!isSystemOrHiddenFile(file))
             {
                 // 压缩图像
                 imageCompression(String.valueOf(file), imageSize);
-                completedNums++;
-                float progress = ((float) completedNums / filesNums) * 100;
-                System.out.println("第" + completedNums + "件  共" + filesNums + "件  已完成" + String.format("%.2f", progress) + "%");
+                System.out.println("第" + completedNums + "件  共" + filesNums + "件");
             }
+            else
+            {
+                System.out.println("不支持的文件，跳过");
+            }
+            System.out.println("已完成" + String.format("%.2f", progress) + "%");
         }
     }
 }

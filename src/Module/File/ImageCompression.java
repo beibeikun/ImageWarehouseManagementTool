@@ -6,7 +6,7 @@ import java.awt.RenderingHints;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
-
+//TODO:有奇怪的问题，个别图片会旋转，原因可能为exif中旋转数据丢失
 public class ImageCompression {
     /**
      * 压缩图片，通过调整尺寸保持宽高比。

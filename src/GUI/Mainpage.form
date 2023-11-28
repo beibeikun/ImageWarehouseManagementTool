@@ -182,7 +182,7 @@
                   <hspacer id="31837">
                     <constraints/>
                   </hspacer>
-                  <component id="27117" class="javax.swing.JComboBox" binding="comboBox2" default-binding="true">
+                  <component id="27117" class="javax.swing.JComboBox" binding="imgsizecomboBox">
                     <constraints/>
                     <properties>
                       <model>

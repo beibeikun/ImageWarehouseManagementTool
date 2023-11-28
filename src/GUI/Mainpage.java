@@ -74,7 +74,7 @@ public class Mainpage {
     private JComboBox selectdatabase;
     private JButton takemainfromdatabaseButton;
     private JButton checkMainIMGButton;
-    private JComboBox comboBox2;
+    private JComboBox imgsizecomboBox;
     private JTextArea consoleTextArea;
     private static MenuBar menuBar;
 
@@ -266,7 +266,17 @@ public class Mainpage {
                 }
                 CompleteNameChangeProcess completeNameChangeProcess = new CompleteNameChangeProcess();
                 try {
-                    completeNameChangeProcess.completeNameChangeProcess(databasepath, firstpath.getText(), lastpath.getText(), renamecsvpath.getText(), check_usedatabase);
+                    int imgsize;
+                    if (imgsizecomboBox.getSelectedItem().equals("原尺寸"))
+                    {
+                        imgsize = 0;
+                    }
+                    else
+                    {
+                        imgsize= Integer.parseInt(imgsizecomboBox.getSelectedItem().toString().substring(0, 4));
+                    }
+                    System.out.println(imgsize);
+                    completeNameChangeProcess.completeNameChangeProcess(databasepath, firstpath.getText(), lastpath.getText(), renamecsvpath.getText(), check_usedatabase, imgsize);
                 } catch (IOException ex) {
                     throw new RuntimeException(ex);
                 }
