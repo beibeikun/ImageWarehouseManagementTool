@@ -2,9 +2,9 @@ package Module.Refactor;
 import java.io.File;
 
 import static Module.File.ImageCompression.imageCompression;
+import static Module.Refactor.FileChecker.isSystemOrHiddenFile;
 
 public class CompressImagesInBatches {
-    private static final int DEFAULT_IMAGE_SIZE = 300;
 
     public static void main(String[] args) {
         String folderPath = "/Users/bbk/photographs/test3";
@@ -42,11 +42,15 @@ public class CompressImagesInBatches {
 
         // 遍历文件列表并输出文件名
         for (File file : files) {
-            // 压缩图像
-            imageCompression(String.valueOf(file), imageSize);
-            completedNums++;
-            float progress = ((float) completedNums / filesNums) * 100;
-            System.out.println("第" + completedNums + "件  共" + filesNums + "件  已完成" + String.format("%.2f", progress) + "%");
+            //判断隐藏文件
+            if (!isSystemOrHiddenFile(file))
+            {
+                // 压缩图像
+                imageCompression(String.valueOf(file), imageSize);
+                completedNums++;
+                float progress = ((float) completedNums / filesNums) * 100;
+                System.out.println("第" + completedNums + "件  共" + filesNums + "件  已完成" + String.format("%.2f", progress) + "%");
+            }
         }
     }
 }
