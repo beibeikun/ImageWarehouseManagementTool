@@ -1,4 +1,7 @@
 package Module.Refactor;
+import com.drew.imaging.ImageProcessingException;
+import com.drew.metadata.MetadataException;
+
 import java.io.IOException;
 
 /**
@@ -17,7 +20,7 @@ public class CompleteNameChangeProcess {
      * @param imgsize                 压缩图片尺寸，为0则不压缩
      * @throws IOException            如果文件操作失败
      */
-    public void completeNameChangeProcess(String nasFolderPath, String sourceFolderPath, String targetFolderPath, String CSVPath, int checkBoxAddFromDatabase, int imgsize) throws IOException {
+    public void completeNameChangeProcess(String nasFolderPath, String sourceFolderPath, String targetFolderPath, String CSVPath, int checkBoxAddFromDatabase, int imgsize) throws IOException, ImageProcessingException, MetadataException {
         // 从 CSV 中提取要提取的文件名数组
         String[] fileNamesToExtract = ArrayExtractor.excludeFirstElement(ArrayExtractor.extractRow(ReadCsvFile.csvToArray(CSVPath), 0));
 

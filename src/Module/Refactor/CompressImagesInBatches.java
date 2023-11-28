@@ -1,13 +1,17 @@
 package Module.Refactor;
-import java.io.File;
+import com.drew.imaging.ImageProcessingException;
+import com.drew.metadata.MetadataException;
 
-import static Module.File.ImageCompression.imageCompression;
+import java.io.File;
+import java.io.IOException;
+
+import static Module.Refactor.ImageCompression.imageCompression;
 import static Module.Refactor.FileChecker.isSystemOrHiddenFile;
 
 public class CompressImagesInBatches {
 
-    public static void main(String[] args) {
-        String folderPath = "/Users/bbk/photographs/test2";
+    public static void main(String[] args) throws ImageProcessingException, IOException, MetadataException {
+        String folderPath = "D:\\2222";
         int imageSize = 2500;
         compressImagesInBatches(folderPath, imageSize);
     }
@@ -18,7 +22,7 @@ public class CompressImagesInBatches {
      * @param folderPath 文件夹路径
      * @param imageSize  目标图像大小
      */
-    public static void compressImagesInBatches(String folderPath, int imageSize) {
+    public static void compressImagesInBatches(String folderPath, int imageSize) throws ImageProcessingException, IOException, MetadataException {
         // 创建文件夹对象
         File folder = new File(folderPath);
 
@@ -44,6 +48,7 @@ public class CompressImagesInBatches {
         for (File file : files) {
             completedNums++;
             float progress = ((float) completedNums / filesNums) * 100;
+            System.out.print("已完成" + String.format("%.2f", progress) + "%   ");
             //判断隐藏文件
             if (!isSystemOrHiddenFile(file))
             {
@@ -55,7 +60,6 @@ public class CompressImagesInBatches {
             {
                 System.out.println("不支持的文件，跳过");
             }
-            System.out.println("已完成" + String.format("%.2f", progress) + "%");
         }
     }
 }

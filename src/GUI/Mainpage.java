@@ -3,6 +3,8 @@ package GUI;
 import Module.File.*;
 import Module.Others.*;
 import Module.Refactor.CompleteNameChangeProcess;
+import com.drew.imaging.ImageProcessingException;
+import com.drew.metadata.MetadataException;
 import com.formdev.flatlaf.FlatDarkLaf;
 
 import javax.swing.*;
@@ -278,6 +280,10 @@ public class Mainpage {
                     System.out.println(imgsize);
                     completeNameChangeProcess.completeNameChangeProcess(databasepath, firstpath.getText(), lastpath.getText(), renamecsvpath.getText(), check_usedatabase, imgsize);
                 } catch (IOException ex) {
+                    throw new RuntimeException(ex);
+                } catch (ImageProcessingException ex) {
+                    throw new RuntimeException(ex);
+                } catch (MetadataException ex) {
                     throw new RuntimeException(ex);
                 }
 

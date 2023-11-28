@@ -40,7 +40,7 @@ public class ImageRotator {
             }
         }
 
-        File outputFile = new File("/Users/bbk/photographs/test2/JB1234-333 (4).JPG"); // 替换为实际的输出路径
+        File outputFile = new File(imagePath); // 替换为实际的输出路径
         ImageIO.write(rotatedImage, "jpg", outputFile);
     }
 }
