@@ -3,6 +3,8 @@ package Module.File;
 import Module.Others.IdentifySystem;
 
 import java.io.File;
+import java.io.IOException;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -12,10 +14,22 @@ import static Module.File.FileCompression.getPrefix;
 import static Module.File.FileOperations.copyFile;
 
 public class ExtractMainImage {
-    public static void extractMainImage(String sourceFolder, String destinationFolder)
-    {
+
+    /**
+     * 从源文件夹中提取主图像到目标文件夹。
+     *
+     * @param sourceFolder      源文件夹路径
+     * @param destinationFolder 目标文件夹路径
+     */
+    public static void extractMainImage(String sourceFolder, String destinationFolder) {
         IdentifySystem system = new IdentifySystem();
         File folder = new File(sourceFolder);
+
+        if (!folder.exists() || !folder.isDirectory()) {
+            System.err.println("Source folder does not exist or is not a directory.");
+            return;
+        }
+
         File[] files = folder.listFiles();
         Map<String, List<File>> prefixToFileListMap = new HashMap<>();
 
@@ -30,9 +44,11 @@ public class ExtractMainImage {
                 }
             }
         }
+
         String[] prefixArray = prefixToFileListMap.keySet().toArray(new String[0]);
-        for (int i = 0; i < prefixArray.length; i++) {
-            copyFile(sourceFolder + system.identifySystem_String() + prefixArray[i] + ".JPG",destinationFolder);
+        for (String prefix : prefixArray) {
+            String sourceFilePath = Paths.get(sourceFolder, system.identifySystem_String() + prefix + ".JPG").toString();
+            copyFile(sourceFilePath, destinationFolder);
         }
     }
 }

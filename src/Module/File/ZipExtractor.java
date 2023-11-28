@@ -1,5 +1,7 @@
 package Module.File;
-
+/*------------------------------------------------------------------
+已重构，该代码当前停用
+------------------------------------------------------------------*/
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;

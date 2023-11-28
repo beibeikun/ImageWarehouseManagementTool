@@ -79,9 +79,6 @@ public class Mainpage {
     private static MenuBar menuBar;
 
     SelectFilePath getfilepath = new SelectFilePath();
-    FileNameCheck checkfile = new FileNameCheck();
-    FileOperations copyfiles = new FileOperations();
-    RenameFiles renamefiles = new RenameFiles();
 
     static JFrame frame = new JFrame("MainpageUI");
     static VersionNumber versionnumber = new VersionNumber();//获取版本号
@@ -200,7 +197,6 @@ public class Mainpage {
                 else if (renamecsvpathcheck==2 || firstpathcheck==2 || lastpathcheck==2)
                 {
                     JOptionPane.showMessageDialog(null,"未选取路径","路径错误",JOptionPane.WARNING_MESSAGE);
-                    systemPrintOut("No path selected",2,1);
                 }
                 else if (renamecsvpathcheck==3 || firstpathcheck==3 || lastpathcheck==3)
                 {

@@ -58,7 +58,7 @@
                   <component id="c2aff" class="javax.swing.JLabel" binding="lastpath">
                     <constraints/>
                     <properties>
-                      <text value="Label"/>
+                      <text value="          "/>
                     </properties>
                   </component>
                   <hspacer id="67ff8">
@@ -87,7 +87,7 @@
                   <component id="d300a" class="javax.swing.JLabel" binding="renamecsvpath">
                     <constraints/>
                     <properties>
-                      <text value="Label"/>
+                      <text value="          "/>
                     </properties>
                   </component>
                   <hspacer id="8c3dd">
@@ -594,7 +594,7 @@
           <component id="10061" class="javax.swing.JLabel" binding="firstpath">
             <constraints/>
             <properties>
-              <text value="Label"/>
+              <text value="          "/>
             </properties>
           </component>
           <hspacer id="77806">
