@@ -32,7 +32,7 @@ public class START_WITH_TERMINAL {
         SystemChecker system = new SystemChecker();//获取系统类型
         String firstpath = null,lastpath = null,renamecsvpath = null,cameradatabasepath = null,phonedatabasepath = null;
         Properties settingsproperties = new Properties();
-        try (FileInputStream fis = new FileInputStream("properties" + system.identifySystem_String() + "settings.properties");
+        try (FileInputStream fis = new FileInputStream("src" + system.identifySystem_String() + "properties" + system.identifySystem_String() + "settings.properties");
              InputStreamReader reader = new InputStreamReader(fis, StandardCharsets.UTF_8)) {
             settingsproperties.load(reader);
             firstpath=settingsproperties.getProperty("firstpath");
@@ -130,6 +130,9 @@ public class START_WITH_TERMINAL {
                     extractMainImage(firstpath, lastpath);
                     menu();
                     break;
+                case 4:
+                    stopProgram();
+                    break;
                 default:
                     System.out.println("无效的操作，请重新输入");
                     menu();
@@ -143,6 +146,10 @@ public class START_WITH_TERMINAL {
         System.out.println("| 11.输入源文件夹路径 12.输入目标文件夹路径 13.输入csv文件路径 14.输入相机图片库路径 15.输入手机图片库路径");
         System.out.println("| 21.执行重命名 22.从相机图片库中根据csv提取主图 23.从源文件夹中中提取主图");
         System.out.println("| 31.上传至相机图片库 32.上传至手机图片库");
+        System.out.println("| 4.结束程序");
         System.out.println("————————————————————————————————————————————————————————————————————————————————————————————————————"+ ANSI_RESET);
+    }
+    private static void stopProgram() {
+        System.exit(0);
     }
 }

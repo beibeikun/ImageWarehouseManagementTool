@@ -7,16 +7,24 @@ public class SystemPrintOut {
         String info = "[" + getCorrectTime() + "]";
         String success = "   Succeeded: ";
         String error = "   [E R R O R]: ";
-        if (type == 0) {
-            System.out.println("---------------------------------------------------------------------------------");
-        } else if (type == 1) {
-            System.out.println(info + success + printoutmessage);
-        } else if (type == 2) {
-            System.out.println(info + error + printoutmessage);
-        } else if (type == 3) {
-            System.out.println("---------------------------------------------------------------------------------");
-            System.out.println("                 "+printoutmessage);
-            System.out.println("---------------------------------------------------------------------------------");
+        switch (type)
+        {
+            case 0:
+                System.out.println("---------------------------------------------------------------------------------");
+                break;
+            case 1:
+                System.out.println(info + success + printoutmessage);
+                break;
+            case 2:
+                System.out.println(info + error + printoutmessage);
+                break;
+            case 3:
+                System.out.println("---------------------------------------------------------------------------------");
+                System.out.println("                 "+printoutmessage);
+                System.out.println("---------------------------------------------------------------------------------");
+                break;
+            default:
+                break;
         }
     }
 

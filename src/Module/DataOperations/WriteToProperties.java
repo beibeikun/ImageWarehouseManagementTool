@@ -9,6 +9,7 @@ import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
 import java.util.Properties;
 
+import static Module.Others.GetSettingsPath.settingspath;
 import static Module.Others.SystemPrintOut.systemPrintOut;
 
 /**
@@ -24,7 +25,7 @@ public class WriteToProperties {
     public static void writeToProperties(String filename, String[][] writeinlist) {
         SystemChecker system = new SystemChecker();
         Properties properties = new Properties();
-        try (FileInputStream fis = new FileInputStream("properties" + system.identifySystem_String() + filename + ".properties");
+        try (FileInputStream fis = new FileInputStream(settingspath());
              InputStreamReader reader = new InputStreamReader(fis, StandardCharsets.UTF_8)) {
             properties.load(fis);
             // 读取属性值...
@@ -38,7 +39,7 @@ public class WriteToProperties {
             i++;
         }
 
-        try (FileOutputStream fos = new FileOutputStream("properties" + system.identifySystem_String() + filename + ".properties")) {
+        try (FileOutputStream fos = new FileOutputStream(settingspath())) {
             // 将属性写入文件
             properties.store(fos, null);
             systemPrintOut("Properties written to file", 1, 1);

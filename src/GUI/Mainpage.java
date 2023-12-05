@@ -8,12 +8,14 @@ import com.drew.imaging.ImageProcessingException;
 import com.drew.metadata.MetadataException;
 import com.formdev.flatlaf.FlatDarkLaf;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.image.BufferedImage;
 import java.io.*;
 import java.net.URI;
 import java.nio.charset.StandardCharsets;
@@ -28,6 +30,7 @@ import static Module.DataOperations.FolderCsvComparator.compareAndGenerateCsv;
 import static Module.DataOperations.WriteToProperties.writeToProperties;
 import static Module.FileOperations.ExtractMainImage.extractMainImage;
 import static Module.FileOperations.TakeMainFromDatabase.takeMainFromDatabase;
+import static Module.Others.GetSettingsPath.settingspath;
 import static Module.Others.GetTimeConsuming.getTimeConsuming;
 import static Module.Others.SystemPrintOut.systemPrintOut;
 
@@ -93,7 +96,7 @@ public class Mainpage {
         language = language + ".properties";
         Properties properties = new Properties();
         SystemChecker system = new SystemChecker();//获取系统类型
-        try (FileInputStream fis = new FileInputStream("properties" + system.identifySystem_String() + language);
+        try (FileInputStream fis = new FileInputStream("src" + system.identifySystem_String() + "properties" + system.identifySystem_String() + language);
              InputStreamReader reader = new InputStreamReader(fis, StandardCharsets.UTF_8)) {
             properties.load(reader);
             CheckBox_digit.setText(properties.getProperty("CheckBox_digit"));
@@ -111,7 +114,7 @@ public class Mainpage {
         }));
 
         Properties settingsproperties = new Properties();
-        try (FileInputStream fis = new FileInputStream("properties" + system.identifySystem_String() + "settings.properties");
+        try (FileInputStream fis = new FileInputStream(settingspath());
              InputStreamReader reader = new InputStreamReader(fis, StandardCharsets.UTF_8)) {
             settingsproperties.load(reader);
             databaseaddress.setText(settingsproperties.getProperty("databaseaddress"));
@@ -449,6 +452,16 @@ public class Mainpage {
     }
 
     public static void main(String[] args) {
+        try {
+            // 创建File对象
+            File imageFile = new File("logo.ico");
+
+            // 使用ImageIO读取文件并转换为BufferedImage
+            BufferedImage image = ImageIO.read(imageFile);
+            frame.setIconImage(image);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         FlatDarkLaf.setup();
         frame.setContentPane(new Mainpage().panel1);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
