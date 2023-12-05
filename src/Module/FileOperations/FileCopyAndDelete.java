@@ -53,8 +53,7 @@ public class FileCopyAndDelete {
         File[] imageList = imageFolder.listFiles();
 
         if (imageFolder.exists() && imageFolder.isDirectory()) {
-            System.out.println("\nSTART TO COPY");
-            systemPrintOut(null, 0, 0);
+            systemPrintOut("Start to copy", 3, 0);
 
             for (File image : imageList) {
                 Path path = Paths.get(firstfolderpath + systemIdentifier.identifySystem_String() + image.getName());
@@ -64,7 +63,7 @@ public class FileCopyAndDelete {
                     // 在这里执行对非隐藏文件的操作
                     if (prefixnumbers != 0) {
                         String filepath = lastfolderpath + systemIdentifier.identifySystem_String() + image.getName().substring(0, prefixnumbers);
-                        System.out.println(filepath);
+                        systemPrintOut("Upload:"+image.getName(), 1, 0);
                         int i = checkFilePath(filepath, false);
                         if (i == 4) {
                             File directory = new File(filepath);
@@ -73,11 +72,10 @@ public class FileCopyAndDelete {
                         copyFile(firstfolderpath + systemIdentifier.identifySystem_String() + image.getName(), filepath);
                     } else {
                         copyFile(firstfolderpath + systemIdentifier.identifySystem_String() + image.getName(), lastfolderpath);
-                        systemPrintOut(image.getName(), 1, 1);
+                        systemPrintOut(image.getName(), 1, 0);
                     }
                 }
             }
-            System.out.println("\nCOPY SUCCESSED");
             systemPrintOut(null, 0, 0);
         }
     }

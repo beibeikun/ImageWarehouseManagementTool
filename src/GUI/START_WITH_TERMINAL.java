@@ -1,6 +1,9 @@
 package GUI;
 
 import Module.CheckOperations.SystemChecker;
+import Module.Refactor.CompleteNameChangeProcess;
+import com.drew.imaging.ImageProcessingException;
+import com.drew.metadata.MetadataException;
 
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -9,6 +12,8 @@ import java.nio.charset.StandardCharsets;
 import java.util.Properties;
 import java.util.Scanner;
 
+import static Module.FileOperations.ExtractMainImage.extractMainImage;
+import static Module.FileOperations.TakeMainFromDatabase.takeMainFromDatabase;
 import static Module.Others.SystemPrintOut.systemPrintOut;
 
 public class START_WITH_TERMINAL {
@@ -22,7 +27,7 @@ public class START_WITH_TERMINAL {
     public static final String ANSI_CYAN = "\u001B[36m";
     public static final String ANSI_WHITE = "\u001B[37m";
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws ImageProcessingException, IOException, MetadataException {
         Scanner scanner = new Scanner(System.in);
         SystemChecker system = new SystemChecker();//获取系统类型
         String firstpath = null,lastpath = null,renamecsvpath = null,cameradatabasepath = null,phonedatabasepath = null;
@@ -46,6 +51,9 @@ public class START_WITH_TERMINAL {
             systemPrintOut("读取失败，不存在设置信息",2,0);
             e.printStackTrace();
         }
+        System.out.println(ANSI_RED+ "注意！终端版不具备检查功能！请谨慎操作！"+ ANSI_RESET);
+        System.out.println(ANSI_RED+ "注意！终端版不具备检查功能！请谨慎操作！"+ ANSI_RESET);
+        System.out.println(ANSI_RED+ "注意！终端版不具备检查功能！请谨慎操作！"+ ANSI_RESET);
         menu();
         while (true) {
             String input = scanner.nextLine();
@@ -89,15 +97,37 @@ public class START_WITH_TERMINAL {
                     menu();
                     break;
                 case 21:
-                    System.out.println("21");
+                    System.out.println(ANSI_BLUE+ "请输入图片库类型，0为不使用图片库，1为相机图片库，2为手机图片库" + ANSI_RESET);
+                    input = scanner.nextLine();
+                    int choose = Integer.parseInt(input);
+                    String databasepath = null;
+                    int database = 1;
+                    switch (choose) {
+                        case 0:
+                            database = 0;
+                            break;
+                        case 1:
+                            databasepath = cameradatabasepath;
+                            break;
+                        case 2:
+                            databasepath = phonedatabasepath;
+                            break;
+                        default:
+                            break;
+                    }
+                    System.out.println(ANSI_BLUE+ "请输入图片压缩尺寸，0为不压缩" + ANSI_RESET);
+                    input = scanner.nextLine();
+                    int imgsize = Integer.parseInt(input);
+                    CompleteNameChangeProcess completeNameChangeProcess = new CompleteNameChangeProcess();
+                    completeNameChangeProcess.completeNameChangeProcess(cameradatabasepath,firstpath,lastpath,renamecsvpath,database,imgsize);
                     menu();
                     break;
                 case 22:
-                    System.out.println("22");
+                    takeMainFromDatabase(renamecsvpath,cameradatabasepath,lastpath);
                     menu();
                     break;
                 case 23:
-                    System.out.println(firstpath);
+                    extractMainImage(firstpath, lastpath);
                     menu();
                     break;
                 default:
@@ -108,10 +138,11 @@ public class START_WITH_TERMINAL {
         }
     }
     private static void menu() {
-        System.out.println("-----------------------------------------------------------------------------------------------------");
-        System.out.println(ANSI_YELLOW+ "菜单"+ ANSI_RESET);
-        System.out.println(ANSI_YELLOW+ "11.输入源文件夹路径 12.输入目标文件夹路径 13.输入csv文件路径 14.输入相机图片库路径 15.输入手机图片库路径"+ ANSI_RESET);
-        System.out.println(ANSI_YELLOW+ "21.检查文件正确性 22.上传至相机图片库 23.上传至手机图片库"+ ANSI_RESET);
-        System.out.println("-----------------------------------------------------------------------------------------------------");
+        System.out.println(ANSI_YELLOW+ "————————————————————————————————————————————————————————————————————————————————————————————————————");
+        System.out.println("| 菜单");
+        System.out.println("| 11.输入源文件夹路径 12.输入目标文件夹路径 13.输入csv文件路径 14.输入相机图片库路径 15.输入手机图片库路径");
+        System.out.println("| 21.执行重命名 22.从相机图片库中根据csv提取主图 23.从源文件夹中中提取主图");
+        System.out.println("| 31.上传至相机图片库 32.上传至手机图片库");
+        System.out.println("————————————————————————————————————————————————————————————————————————————————————————————————————"+ ANSI_RESET);
     }
 }

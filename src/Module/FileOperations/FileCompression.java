@@ -19,6 +19,7 @@ import java.util.zip.ZipOutputStream;
 import static Module.CheckOperations.HiddenFilesChecker.isSystemOrHiddenFile;
 import static Module.FileOperations.DeleteDirectory.deleteDirectory;
 import static Module.FileOperations.FileCopyAndDelete.copyFile;
+import static Module.Others.SystemPrintOut.systemPrintOut;
 import static Module.ZipOperations.ImageCompression.imageCompression;
 
 /**
@@ -39,6 +40,7 @@ public class FileCompression {
      * @return 包含所有前缀的字符串数组
      */
     public static String[] compressFilesByPrefix(String sourceFolder, String destinationFolder, int mode) throws IOException, ImageProcessingException, MetadataException {
+        systemPrintOut("Start compression upload",3,0);
         SystemChecker system = new SystemChecker();
         String temporaryDestinationFolder = sourceFolder + "TemporaryCompression";
         File folder = new File(sourceFolder);
@@ -75,12 +77,11 @@ public class FileCompression {
             List<File> fileList = entry.getValue();
 
             String compressedFile = temporaryDestinationFolder + system.identifySystem_String() + prefix + ".zip";
-            System.out.println(11111 + ":" + compressedFile);
-            System.out.println(sourceFolder + system.identifySystem_String() + prefix + ".JPG");
-            System.out.println(destinationFolder + system.identifySystem_String() + "thumbnail");
+            systemPrintOut("Zipped:"+compressedFile,1,0);
             if (mode == 1) {
                 copyFile(sourceFolder + system.identifySystem_String() + prefix + ".JPG", destinationFolder + system.identifySystem_String() + "thumbnail");
                 imageCompression(destinationFolder + system.identifySystem_String() + "thumbnail" + system.identifySystem_String() + prefix + ".JPG", 2500);
+                systemPrintOut("Thumbnail upload:"+prefix,1,0);
             }
             compressFiles(fileList, compressedFile);
         }
