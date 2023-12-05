@@ -3,16 +3,29 @@ package GUI;
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
-import java.io.*;
+import java.io.File;
+import java.io.IOException;
+
+import static Module.Others.SystemPrintOut.systemPrintOut;
 
 public class ImageUtils {
+    /**
+     * 打开并显示图像及相关信息的GUI窗口。
+     *
+     * @param imagePath 图像文件的路径
+     */
     public static void openImage(String imagePath) {
         try {
-            // 读取图片文件
+            // 读取图像文件
             File imageFile = new File(imagePath);
+            if (!imageFile.exists()) {
+                JOptionPane.showMessageDialog(null, "文件不存在", "错误", JOptionPane.ERROR_MESSAGE);
+                systemPrintOut("Image file does not exist",2,0);
+                return;
+            }
             Image image = ImageIO.read(imageFile);
 
-            // 计算缩放后的图片尺寸
+            // 计算缩放后的图像尺寸
             int maxDimension = Math.max(image.getWidth(null), image.getHeight(null));
             int scaledWidth = image.getWidth(null);
             int scaledHeight = image.getHeight(null);
@@ -22,7 +35,7 @@ public class ImageUtils {
                 scaledHeight = (int) (scale * image.getHeight(null));
             }
 
-            // 创建左侧面板用于显示图片
+            // 创建左侧面板用于显示图像
             int finalScaledWidth = scaledWidth;
             int finalScaledHeight = scaledHeight;
             JPanel imagePanel = new JPanel() {
@@ -41,7 +54,7 @@ public class ImageUtils {
             infoTextArea.setEditable(false);
             infoPanel.add(new JScrollPane(infoTextArea), BorderLayout.CENTER);
 
-            // 创建分割窗格，左侧显示图片，右侧显示信息
+            // 创建分割窗格，左侧显示图像，右侧显示信息
             JSplitPane splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, imagePanel, infoPanel);
             splitPane.setResizeWeight(0.5); // 设置左右两侧面板的宽度比例
 
@@ -53,14 +66,9 @@ public class ImageUtils {
             frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
             frame.getContentPane().add(splitPane);
             frame.setVisible(true);
+            systemPrintOut("Open:"+imagePath,1,0);
         } catch (IOException e) {
             e.printStackTrace();
         }
-    }
-
-    public static void main(String[] args) {
-        String imagePath = "/Users/bbk/Documents/testdatabase/camera/thumbnail/JB1326-001.JPG";
-        String info = "This is some information about the image.";
-        openImage(imagePath);
     }
 }

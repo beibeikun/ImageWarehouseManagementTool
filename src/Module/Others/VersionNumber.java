@@ -10,7 +10,7 @@ public class VersionNumber {
      * @return 版本号字符串
      */
     public String getVersionNumber() {
-        return "Build: 0.1.231123 by beibeikun";
+        return "Build: 0.1.231205 by beibeikun";
     }
 
     /**
@@ -19,6 +19,6 @@ public class VersionNumber {
      * @return GitHub 仓库地址字符串
      */
     public String getGithub() {
-        return "https://github.com/beibeikun/IMG_ManagementSystem";
+        return "https://github.com/beibeikun/ImageWarehouseManagementTool";
     }
 }

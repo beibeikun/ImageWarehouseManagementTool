@@ -6,8 +6,7 @@ import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 
 public class GetCorrectTime {
-    public static String getCorrectTime()
-    {
+    public static String getCorrectTime() {
         long millis = System.currentTimeMillis();
         Instant instant = Instant.ofEpochMilli(millis);
         LocalDateTime localDateTime = LocalDateTime.ofInstant(instant, ZoneId.systemDefault());

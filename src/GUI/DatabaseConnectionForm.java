@@ -1,24 +1,26 @@
 package GUI;
 
-import Module.Others.IdentifySystem;
+import Module.CheckOperations.SystemChecker;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.*;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.Properties;
 
-import static Module.File.WriteToProperties.writeToProperties;
+import static Module.DataOperations.WriteToProperties.writeToProperties;
 
 public class DatabaseConnectionForm extends JFrame {
-    private JTextField addressField;
-    private JTextField usernameField;
-    private JPasswordField passwordField;
+    private final JTextField addressField;
+    private final JTextField usernameField;
+    private final JPasswordField passwordField;
     private JToggleButton showPasswordToggle;
 
     public DatabaseConnectionForm(Mainpage.DataCallback callback) {
@@ -71,8 +73,8 @@ public class DatabaseConnectionForm extends JFrame {
         gbc.gridwidth = 2;
         JButton confirmButton = new JButton("确认");
         Properties properties = new Properties();
-        IdentifySystem system = new IdentifySystem();//获取系统类型
-        try (FileInputStream fis = new FileInputStream("properties"+system.identifySystem_String()+"settings.properties");
+        SystemChecker system = new SystemChecker();//获取系统类型
+        try (FileInputStream fis = new FileInputStream("properties" + system.identifySystem_String() + "settings.properties");
              InputStreamReader reader = new InputStreamReader(fis, StandardCharsets.UTF_8)) {
             properties.load(reader);
             addressField.setText(properties.getProperty("databaseaddress"));
@@ -89,32 +91,29 @@ public class DatabaseConnectionForm extends JFrame {
                 String password = passwordField.getText();
 
                 try {
-                    Connection connection = DriverManager.getConnection("jdbc:mysql://"+address, username, password);
-                    try
-                    {
+                    Connection connection = DriverManager.getConnection("jdbc:mysql://" + address, username, password);
+                    try {
 
                         String[][] filenamelist = new String[2][10];
-                        filenamelist[0][0]="databaseaddress";
-                        filenamelist[1][0]=address;
-                        filenamelist[0][1]="databaseusername";
-                        filenamelist[1][1]=username;
-                        filenamelist[0][2]="databasepassword";
-                        filenamelist[1][2]=password;
-                        writeToProperties("settings",filenamelist);
+                        filenamelist[0][0] = "databaseaddress";
+                        filenamelist[1][0] = address;
+                        filenamelist[0][1] = "databaseusername";
+                        filenamelist[1][1] = username;
+                        filenamelist[0][2] = "databasepassword";
+                        filenamelist[1][2] = password;
+                        writeToProperties("settings", filenamelist);
 
                         // 调用主窗口的回调方法，将数据传递回去
                         callback.onDataEntered(address, username, password);
-                        JOptionPane.showMessageDialog(null,"数据库连接测试通过");
+                        JOptionPane.showMessageDialog(null, "数据库连接测试通过");
                         dispose(); // 关闭当前窗口
-                    }
-                    catch (Exception ea)
-                    {
+                    } catch (Exception ea) {
                         ea.printStackTrace();
                     }
                     // 连接成功后的操作
                 } catch (SQLException ea) {
                     ea.printStackTrace();
-                    JOptionPane.showMessageDialog(null,"数据库连接测试失败","连接错误",JOptionPane.WARNING_MESSAGE);
+                    JOptionPane.showMessageDialog(null, "数据库连接测试失败", "连接错误", JOptionPane.WARNING_MESSAGE);
                     // 连接失败时的处理
                 }
 
