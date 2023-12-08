@@ -2,7 +2,7 @@
 
 <img src="logo.png" width = "200" alt="logo">
 
-# _ImageWarehouseManagementTool_
+# _Image Warehouse Management Tool_
 </div>
 <br>
     <div align="center">
@@ -15,7 +15,7 @@
     </div>
 <br>
 
-IWMT是一个C/S架构跨平台图片仓库管理工具，目前尚处在开发阶段
+IWMT是一个跨平台图片仓库管理工具
 
 IWMT 是一款免费开源软件，地址：https://github.com/beibeikun/ImgManagementSystem
 
@@ -30,9 +30,7 @@ IWMT 是一款免费开源软件，地址：https://github.com/beibeikun/ImgMana
 - **~~数据库连接~~**
 - **~~文件库连接~~**
 - **批量文件处理**
-- **OCR识别图片内容并自动重命名**
-- **~~用户登录~~（在[IMS_web](https://github.com/beibeikun/IMG_ManagementSystem_web)开发）**
-- **~~管理系统~~（在[IMS_web](https://github.com/beibeikun/IMG_ManagementSystem_web)开发）**
+- **文件校对**
 
 ## 已知问题（待更新）
 
@@ -44,9 +42,8 @@ IWMT 是一款免费开源软件，地址：https://github.com/beibeikun/ImgMana
 
 ## 相关项目
 
-- [Flatlaf](https://github.com/JFormDesigner/FlatLaf)，IMS所使用的Java Swing外观库。
+- [Flatlaf](https://github.com/JFormDesigner/FlatLaf)，IWMT所使用的Java Swing外观库。
 - [PWMT](https://github.com/beibeikun/ImgWorkflowSystem)，一个C/S架构跨平台图片拍摄工作流工具。
-- [Tesseract-OCR](https://github.com/tesseract-ocr/tesseract)，开源OCR引擎
 
 
 ## 更新日志
