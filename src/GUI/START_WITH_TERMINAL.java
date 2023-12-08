@@ -14,6 +14,7 @@ import java.util.Scanner;
 
 import static Module.FileOperations.ExtractMainImage.extractMainImage;
 import static Module.FileOperations.TakeMainFromDatabase.takeMainFromDatabase;
+import static Module.Others.GetSettingsPath.settingspath;
 import static Module.Others.SystemPrintOut.systemPrintOut;
 
 public class START_WITH_TERMINAL {
@@ -32,7 +33,7 @@ public class START_WITH_TERMINAL {
         SystemChecker system = new SystemChecker();//获取系统类型
         String firstpath = null,lastpath = null,renamecsvpath = null,cameradatabasepath = null,phonedatabasepath = null;
         Properties settingsproperties = new Properties();
-        try (FileInputStream fis = new FileInputStream("src" + system.identifySystem_String() + "properties" + system.identifySystem_String() + "settings.properties");
+        try (FileInputStream fis = new FileInputStream(settingspath());
              InputStreamReader reader = new InputStreamReader(fis, StandardCharsets.UTF_8)) {
             settingsproperties.load(reader);
             firstpath=settingsproperties.getProperty("firstpath");
