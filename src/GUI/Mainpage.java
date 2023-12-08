@@ -30,6 +30,7 @@ import static Module.DataOperations.FolderCsvComparator.compareAndGenerateCsv;
 import static Module.DataOperations.WriteToProperties.writeToProperties;
 import static Module.FileOperations.ExtractMainImage.extractMainImage;
 import static Module.FileOperations.TakeMainFromDatabase.takeMainFromDatabase;
+import static Module.Others.FirstTimeCheck.firstTimeCheck;
 import static Module.Others.GetSettingsPath.settingspath;
 import static Module.Others.GetTimeConsuming.getTimeConsuming;
 import static Module.Others.SystemPrintOut.systemPrintOut;
@@ -452,9 +453,11 @@ public class Mainpage {
     }
 
     public static void main(String[] args) {
+        SystemChecker system = new SystemChecker();//获取系统类型
+        firstTimeCheck();
         try {
             // 创建File对象
-            File imageFile = new File("logo.ico");
+            File imageFile = new File(System.getProperty("user.home") + system.identifySystem_String() + "Documents" + system.identifySystem_String() + "IWMT"+ system.identifySystem_String() + "logo.png");
 
             // 使用ImageIO读取文件并转换为BufferedImage
             BufferedImage image = ImageIO.read(imageFile);
@@ -481,7 +484,7 @@ public class Mainpage {
         frame.setLocationRelativeTo(null);
         //使窗体显示在屏幕中央
         frame.setVisible(true);
-        frame.setTitle("IWMT");
+        frame.setTitle("Image Warehouse Management Tool");
     }
 
     public interface DataCallback {
