@@ -9,7 +9,7 @@ import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
 import java.util.Properties;
 
-import static Module.Others.GetSettingsPath.settingspath;
+import static Module.Others.GetPropertiesPath.settingspath;
 import static Module.Others.SystemPrintOut.systemPrintOut;
 
 /**

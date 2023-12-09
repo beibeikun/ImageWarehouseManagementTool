@@ -21,7 +21,7 @@
         </properties>
         <border type="none"/>
         <children>
-          <grid id="f1e6f" layout-manager="GridLayoutManager" row-count="6" column-count="6" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+          <grid id="f1e6f" binding="Tab1" layout-manager="GridLayoutManager" row-count="6" column-count="6" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
             <margin top="0" left="0" bottom="0" right="0"/>
             <constraints>
               <tabbedpane title="批量重命名"/>
@@ -121,7 +121,7 @@
                   <hspacer id="1af37">
                     <constraints/>
                   </hspacer>
-                  <component id="1307f" class="javax.swing.JLabel">
+                  <component id="1307f" class="javax.swing.JLabel" binding="Suffix">
                     <constraints/>
                     <properties>
                       <text value="后缀格式  "/>
@@ -186,7 +186,7 @@
                     <constraints/>
                     <properties>
                       <model>
-                        <item value="原尺寸"/>
+                        <item value="fullsize"/>
                         <item value="1000px"/>
                         <item value="2500px"/>
                       </model>
@@ -245,7 +245,7 @@
               </component>
             </children>
           </grid>
-          <grid id="c5279" layout-manager="GridLayoutManager" row-count="5" column-count="3" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+          <grid id="c5279" binding="Tab2" layout-manager="GridLayoutManager" row-count="5" column-count="3" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
             <margin top="0" left="0" bottom="0" right="0"/>
             <constraints>
               <tabbedpane title="上传至仓库"/>
@@ -331,7 +331,7 @@
               </hspacer>
             </children>
           </grid>
-          <grid id="2097f" layout-manager="GridLayoutManager" row-count="3" column-count="2" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+          <grid id="2097f" binding="Tab3" layout-manager="GridLayoutManager" row-count="3" column-count="2" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
             <margin top="0" left="0" bottom="0" right="0"/>
             <constraints>
               <tabbedpane title="从仓库删除"/>
@@ -386,7 +386,7 @@
               </grid>
             </children>
           </grid>
-          <grid id="87eb" layout-manager="GridLayoutManager" row-count="2" column-count="3" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+          <grid id="87eb" binding="Tab4" layout-manager="GridLayoutManager" row-count="2" column-count="3" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
             <margin top="0" left="0" bottom="0" right="0"/>
             <constraints>
               <tabbedpane title="仓库查询"/>
@@ -426,7 +426,7 @@
               </grid>
             </children>
           </grid>
-          <grid id="db407" layout-manager="GridLayoutManager" row-count="7" column-count="3" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+          <grid id="db407" binding="Tab5" layout-manager="GridLayoutManager" row-count="7" column-count="3" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
             <margin top="0" left="0" bottom="0" right="0"/>
             <constraints>
               <tabbedpane title="仓库配置"/>

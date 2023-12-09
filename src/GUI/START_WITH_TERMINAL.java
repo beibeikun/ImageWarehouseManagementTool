@@ -16,7 +16,7 @@ import java.util.Scanner;
 import static Module.DataOperations.WriteToProperties.writeToProperties;
 import static Module.FileOperations.ExtractMainImage.extractMainImage;
 import static Module.FileOperations.TakeMainFromDatabase.takeMainFromDatabase;
-import static Module.Others.GetSettingsPath.settingspath;
+import static Module.Others.GetPropertiesPath.settingspath;
 import static Module.Others.SystemPrintOut.systemPrintOut;
 import static Module.ZipOperations.CompressImagesInBatches.compressImagesInBatches;
 

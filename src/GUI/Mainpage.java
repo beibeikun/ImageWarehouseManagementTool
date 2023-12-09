@@ -27,8 +27,9 @@ import static Module.DataOperations.FolderCsvComparator.compareAndGenerateCsv;
 import static Module.DataOperations.WriteToProperties.writeToProperties;
 import static Module.FileOperations.ExtractMainImage.extractMainImage;
 import static Module.FileOperations.TakeMainFromDatabase.takeMainFromDatabase;
-import static Module.Others.FirstTimeCheck.firstTimeCheck;
-import static Module.Others.GetSettingsPath.settingspath;
+import static Module.Others.StartCheck.StartCheck;
+import static Module.Others.GetPropertiesPath.propertiespath;
+import static Module.Others.GetPropertiesPath.settingspath;
 import static Module.Others.GetTimeConsuming.getTimeConsuming;
 import static Module.Others.SystemPrintOut.systemPrintOut;
 
@@ -83,6 +84,12 @@ public class Mainpage {
     private JButton takemainfromdatabaseButton;
     private JButton checkMainIMGButton;
     private JComboBox imgsizecomboBox;
+    private JPanel Tab1;
+    private JPanel Tab2;
+    private JPanel Tab3;
+    private JPanel Tab4;
+    private JPanel Tab5;
+    private JLabel Suffix;
     private JTextArea consoleTextArea;
 
     public Mainpage() {
@@ -94,12 +101,38 @@ public class Mainpage {
         language = language + ".properties";
         Properties properties = new Properties();
         SystemChecker system = new SystemChecker();//获取系统类型
-        try (FileInputStream fis = new FileInputStream("src" + system.identifySystem_String() + "properties" + system.identifySystem_String() + language);
+        try (FileInputStream fis = new FileInputStream(propertiespath() + language);
              InputStreamReader reader = new InputStreamReader(fis, StandardCharsets.UTF_8)) {
             properties.load(reader);
+            SelectButton_firstpath.setText(properties.getProperty("SelectButton_firstpath"));
+            JT_firstpath.setBorder(BorderFactory.createTitledBorder(properties.getProperty("JT_firstpath")));
+
+            tabbedPane.setTitleAt(0, properties.getProperty("Tab1"));
+            JT_lastpath.setBorder(BorderFactory.createTitledBorder(properties.getProperty("JT_lastpath")));
+            SelectButton_lastpath.setText(properties.getProperty("SelectButton_lastpath"));
+            JT_renamecsvpath.setBorder(BorderFactory.createTitledBorder(properties.getProperty("JT_renamecsvpath")));
+            SelectButton_renamecsvpath.setText(properties.getProperty("SelectButton_renamecsvpath"));
+            Namingformat.setBorder(BorderFactory.createTitledBorder(properties.getProperty("Namingformat")));
             CheckBox_digit.setText(properties.getProperty("CheckBox_digit"));
             CheckBox_prefix.setText(properties.getProperty("CheckBox_prefix"));
-            SelectButton_firstpath.setText(properties.getProperty("SelectButton_firstpath"));
+            Suffix.setText(properties.getProperty("Suffix"));
+            Othersettings.setBorder(BorderFactory.createTitledBorder(properties.getProperty("Othersettings")));
+            CheckBox_classification.setText(properties.getProperty("CheckBox_classification"));
+            CheckBox_addfromdatabase.setText(properties.getProperty("CheckBox_addfromdatabase"));
+            CheckButton.setText(properties.getProperty("CheckButton"));
+            RenamestartButton.setText(properties.getProperty("RenamestartButton"));
+            takemainfromdatabaseButton.setText(properties.getProperty("takemainfromdatabaseButton"));
+            ExtractMainImageButton.setText(properties.getProperty("ExtractMainImageButton"));
+            checkMainIMGButton.setText(properties.getProperty("checkMainIMGButton"));
+
+            tabbedPane.setTitleAt(1, properties.getProperty("Tab2"));
+
+            tabbedPane.setTitleAt(2, properties.getProperty("Tab3"));
+
+            tabbedPane.setTitleAt(3, properties.getProperty("Tab4"));
+
+            tabbedPane.setTitleAt(4, properties.getProperty("Tab5"));
+
             // 读取属性值...
         } catch (IOException e) {
             e.printStackTrace();
@@ -238,7 +271,7 @@ public class Mainpage {
                 CompleteNameChangeProcess completeNameChangeProcess = new CompleteNameChangeProcess();
                 try {
                     int imgsize;
-                    if (imgsizecomboBox.getSelectedItem().equals("原尺寸")) {
+                    if (imgsizecomboBox.getSelectedItem().equals("fullsize")) {
                         imgsize = 0;
                     } else {
                         imgsize = Integer.parseInt(imgsizecomboBox.getSelectedItem().toString().substring(0, 4));
@@ -459,10 +492,10 @@ public class Mainpage {
 
     public static void main(String[] args) {
         SystemChecker system = new SystemChecker();//获取系统类型
-        firstTimeCheck();
+        StartCheck();
         try {
             // 创建File对象
-            File imageFile = new File(System.getProperty("user.home") + system.identifySystem_String() + "Documents" + system.identifySystem_String() + "IWMT"+ system.identifySystem_String() + "README_logo.png");
+            File imageFile = new File(System.getProperty("user.home") + system.identifySystem_String() + "Documents" + system.identifySystem_String() + "IWMT"+ system.identifySystem_String() + "logo.png");
 
             // 使用ImageIO读取文件并转换为BufferedImage
             BufferedImage image = ImageIO.read(imageFile);

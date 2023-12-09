@@ -7,7 +7,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
-public class GetSettingsPath {
+public class GetPropertiesPath {
     public static String settingspath()
     {
         SystemChecker system = new SystemChecker();//获取系统类型
@@ -29,5 +29,10 @@ public class GetSettingsPath {
 
         return System.getProperty("user.home") + system.identifySystem_String() + "Documents" + system.identifySystem_String() + "IWMT" + system.identifySystem_String() + "settings.properties";
 
+    }
+    public static String propertiespath()
+    {
+        SystemChecker system = new SystemChecker();//获取系统类型
+        return System.getProperty("user.home") + system.identifySystem_String() + "Documents" + system.identifySystem_String() + "IWMT" + system.identifySystem_String();
     }
 }

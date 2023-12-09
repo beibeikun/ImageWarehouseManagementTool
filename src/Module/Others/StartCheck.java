@@ -11,8 +11,8 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 
-public class FirstTimeCheck {
-    public static boolean firstTimeCheck() {
+public class StartCheck {
+    public static boolean StartCheck() {
         SystemChecker system = new SystemChecker();//获取系统类型
 
         String folderPath = System.getProperty("user.home") + system.identifySystem_String() + "Documents" + system.identifySystem_String() + "IWMT";
@@ -26,14 +26,16 @@ public class FirstTimeCheck {
                 // 创建文件夹
                 Files.createDirectories(folder);
 
-                String imageUrl = "https://ooo.0x0.ooo/2023/12/08/OAE5Eb.png"; // 替换为您要下载的图片的URL
-                String savePath = System.getProperty("user.home") + system.identifySystem_String() + "Documents" + system.identifySystem_String() + "IWMT"+ system.identifySystem_String() + "logo.png"; // 替换为您希望保存图片的本地路径
+                String logoUrl = "https://raw.githubusercontent.com/beibeikun/ImageWarehouseManagementTool/master/logo/logo.png"; // 替换为您要下载的图片的URL
+                String logoPath = System.getProperty("user.home") + system.identifySystem_String() + "Documents" + system.identifySystem_String() + "IWMT"+ system.identifySystem_String() + "logo.png"; // 替换为您希望保存图片的本地路径
+                String zhpropertiesUrl = "https://github.com/beibeikun/ImageWarehouseManagementTool/blob/master/properties/zh.properties";
+                String zhpropertiesPath = System.getProperty("user.home") + system.identifySystem_String() + "Documents" + system.identifySystem_String() + "IWMT"+ system.identifySystem_String() + "zh.properties";
 
                 try {
-                    downloadImage(imageUrl, savePath);
-                    System.out.println("Image downloaded successfully!");
+                    downloadFile(logoUrl, logoPath);
+                    downloadFile(zhpropertiesUrl, zhpropertiesPath);
                 } catch (IOException e) {
-                    System.err.println("Error downloading image: " + e.getMessage());
+                    throw new RuntimeException(e);
                 }
 
                 return false;
@@ -46,8 +48,8 @@ public class FirstTimeCheck {
         }
 
     }
-    public static void downloadImage(String imageUrl, String savePath) throws IOException {
-        URL url = new URL(imageUrl);
+    public static void downloadFile(String fileUrl, String savePath) throws IOException {
+        URL url = new URL(fileUrl);
         HttpURLConnection connection = (HttpURLConnection) url.openConnection();
         connection.setRequestProperty("User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.3");
 
