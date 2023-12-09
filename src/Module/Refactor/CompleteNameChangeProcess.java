@@ -13,6 +13,7 @@ import com.drew.metadata.MetadataException;
 
 import java.io.IOException;
 
+import static Module.FileOperations.FilePrefixMove.filePrefixMove;
 import static Module.Others.SystemPrintOut.systemPrintOut;
 
 /**
@@ -31,7 +32,7 @@ public class CompleteNameChangeProcess {
      * @param imgsize                 压缩图片尺寸，为0则不压缩
      * @throws IOException 如果文件操作失败
      */
-    public void completeNameChangeProcess(String nasFolderPath, String sourceFolderPath, String targetFolderPath, String CSVPath, int checkBoxAddFromDatabase, int imgsize) throws IOException, ImageProcessingException, MetadataException {
+    public void completeNameChangeProcess(String nasFolderPath, String sourceFolderPath, String targetFolderPath, String CSVPath, int checkBoxAddFromDatabase, int imgsize, boolean terminal, boolean prefixmove) throws IOException, ImageProcessingException, MetadataException {
         // 从 CSV 中提取要提取的文件名数组
         String[] fileNamesToExtract = ArrayExtractor.excludeFirstElement(ArrayExtractor.extractRow(ReadCsvFile.csvToArray(CSVPath), 0));
         systemPrintOut("Start to rename",3,0);
@@ -55,8 +56,14 @@ public class CompleteNameChangeProcess {
         //根据 imgsize 判断图片是否需要压缩
         if (imgsize != 0) {
             systemPrintOut(null,0,0);
-            CompressImagesInBatches.compressImagesInBatches(targetFolderPath, imgsize,false);
+            CompressImagesInBatches.compressImagesInBatches(targetFolderPath, imgsize,terminal);
         }
         systemPrintOut(null,0,0);
+        //根据prefixmove判断是否需要分类
+        if (prefixmove)
+        {
+            filePrefixMove(targetFolderPath," (");
+            systemPrintOut(null,0,0);
+        }
     }
 }

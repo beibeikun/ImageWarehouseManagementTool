@@ -147,8 +147,18 @@ public class START_WITH_TERMINAL {
                     System.out.println(ANSI_BLUE+ "请输入图片压缩尺寸，0为不压缩" + ANSI_RESET);
                     input = scanner.nextLine();
                     int imgsize = Integer.parseInt(input);
+                    System.out.println(ANSI_BLUE+ "是否需要按文件夹分类？ 1.是 2.否" + ANSI_RESET);
+                    input = scanner.nextLine();
+                    boolean prefix;
+                    if (Integer.parseInt(input)==1)
+                    {
+                        prefix=true;
+                    }
+                    else {
+                        prefix=false;
+                    }
                     CompleteNameChangeProcess completeNameChangeProcess = new CompleteNameChangeProcess();
-                    completeNameChangeProcess.completeNameChangeProcess(cameradatabasepath,firstpath,lastpath,renamecsvpath,database,imgsize);
+                    completeNameChangeProcess.completeNameChangeProcess(cameradatabasepath,firstpath,lastpath,renamecsvpath,database,imgsize,true,prefix);
                     menu();
                     break;
                 case 22:

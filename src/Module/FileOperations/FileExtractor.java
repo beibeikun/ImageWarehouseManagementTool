@@ -28,7 +28,6 @@ public class FileExtractor {
         for (String fileName : fileNamesToExtract) {
             // 构建源文件的路径
             Path sourcePath = Paths.get(sourceFolderPath, system.identifySystem_String() + fileName.substring(0, 6) + system.identifySystem_String() + fileName + ".zip");
-
             // 检查文件是否存在
             if (fileExists(sourcePath)) {
                 // 复制文件到目标文件夹

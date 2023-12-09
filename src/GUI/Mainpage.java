@@ -230,6 +230,11 @@ public class Mainpage {
                 } else {
                     databasepath = phonedatabasepath.getText();
                 }
+                boolean prefix=false;
+                if (CheckBox_digit.isSelected())
+                {
+                    prefix=true;
+                }
                 CompleteNameChangeProcess completeNameChangeProcess = new CompleteNameChangeProcess();
                 try {
                     int imgsize;
@@ -239,7 +244,7 @@ public class Mainpage {
                         imgsize = Integer.parseInt(imgsizecomboBox.getSelectedItem().toString().substring(0, 4));
                     }
                     systemPrintOut("Start to rename",1,0);
-                    completeNameChangeProcess.completeNameChangeProcess(databasepath, firstpath.getText(), lastpath.getText(), renamecsvpath.getText(), check_usedatabase, imgsize);
+                    completeNameChangeProcess.completeNameChangeProcess(databasepath, firstpath.getText(), lastpath.getText(), renamecsvpath.getText(), check_usedatabase, imgsize,false,prefix);
                 } catch (IOException | ImageProcessingException | MetadataException ex) {
                     throw new RuntimeException(ex);
                 }
