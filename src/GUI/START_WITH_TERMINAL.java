@@ -1,6 +1,7 @@
 package GUI;
 
 import Module.CheckOperations.SystemChecker;
+import Module.FileOperations.FileCompression;
 import Module.Refactor.CompleteNameChangeProcess;
 import com.drew.imaging.ImageProcessingException;
 import com.drew.metadata.MetadataException;
@@ -12,10 +13,12 @@ import java.nio.charset.StandardCharsets;
 import java.util.Properties;
 import java.util.Scanner;
 
+import static Module.DataOperations.WriteToProperties.writeToProperties;
 import static Module.FileOperations.ExtractMainImage.extractMainImage;
 import static Module.FileOperations.TakeMainFromDatabase.takeMainFromDatabase;
 import static Module.Others.GetSettingsPath.settingspath;
 import static Module.Others.SystemPrintOut.systemPrintOut;
+import static Module.ZipOperations.CompressImagesInBatches.compressImagesInBatches;
 
 public class START_WITH_TERMINAL {
     public static final String ANSI_RESET = "\u001B[0m";
@@ -65,35 +68,60 @@ public class START_WITH_TERMINAL {
                 System.out.println("无效的输入，请重新输入");
                 continue;
             }
+            String[][] filenamelist = new String[2][10];
+            int zipornot;
+            String[] prefixes;
 
             switch (choice) {
+                //输入源文件夹路径
                 case 11:
                     input = scanner.nextLine();
                     firstpath = input;
+
+                    filenamelist[0][0] = "firstpath";
+                    filenamelist[1][0] = firstpath;
+                    writeToProperties("settings", filenamelist);
                     System.out.println(ANSI_CYAN+ "源文件夹设置为:"+firstpath+ ANSI_RESET);
                     menu();
                     break;
+                //输入目标文件夹路径
                 case 12:
                     input = scanner.nextLine();
                     lastpath = input;
+
+                    filenamelist[0][0] = "lastpath";
+                    filenamelist[1][0] = lastpath;
+                    writeToProperties("settings", filenamelist);
                     System.out.println(ANSI_CYAN+ "目标文件夹设置为:"+lastpath+ ANSI_RESET);
                     menu();
                     break;
                 case 13:
                     input = scanner.nextLine();
                     renamecsvpath = input;
+
+                    filenamelist[0][0] = "renamecsvpath";
+                    filenamelist[1][0] = renamecsvpath;
+                    writeToProperties("settings", filenamelist);
                     System.out.println(ANSI_CYAN+ "csv文件设置为:"+renamecsvpath+ ANSI_RESET);
                     menu();
                     break;
                 case 14:
                     input = scanner.nextLine();
                     cameradatabasepath = input;
+
+                    filenamelist[0][0] = "cameradatabasepath";
+                    filenamelist[1][0] = cameradatabasepath;
+                    writeToProperties("settings", filenamelist);
                     System.out.println(ANSI_CYAN+ "相机图片库设置为:"+cameradatabasepath+ ANSI_RESET);
                     menu();
                     break;
                 case 15:
                     input = scanner.nextLine();
                     phonedatabasepath = input;
+
+                    filenamelist[0][0] = "phonedatabasepath";
+                    filenamelist[1][0] = phonedatabasepath;
+                    writeToProperties("settings", filenamelist);
                     System.out.println(ANSI_CYAN+ "手机图片库设置为:"+phonedatabasepath+ ANSI_RESET);
                     menu();
                     break;
@@ -130,6 +158,26 @@ public class START_WITH_TERMINAL {
                 case 23:
                     extractMainImage(firstpath, lastpath);
                     menu();
+                    break;
+                case 31:
+                    System.out.println(ANSI_BLUE+ "是否压缩图片？ 1.是 2.否" + ANSI_RESET);
+                    input = scanner.nextLine();
+                    zipornot = Integer.parseInt(input);
+                    if (zipornot == 1)
+                    {
+                        compressImagesInBatches(firstpath,5000,true);
+                    }
+                    prefixes = FileCompression.compressFilesByPrefix(firstpath, cameradatabasepath, 1);
+                    break;
+                case 32:
+                    System.out.println(ANSI_BLUE+ "是否压缩图片？ 1.是 2.否" + ANSI_RESET);
+                    input = scanner.nextLine();
+                    zipornot = Integer.parseInt(input);
+                    if (zipornot == 1)
+                    {
+                        compressImagesInBatches(firstpath,5000,true);
+                    }
+                    prefixes = FileCompression.compressFilesByPrefix(firstpath, phonedatabasepath, 1);
                     break;
                 case 4:
                     stopProgram();

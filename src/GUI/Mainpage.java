@@ -11,10 +11,7 @@ import com.formdev.flatlaf.FlatDarkLaf;
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
+import java.awt.event.*;
 import java.awt.image.BufferedImage;
 import java.io.*;
 import java.net.URI;
@@ -102,6 +99,7 @@ public class Mainpage {
             properties.load(reader);
             CheckBox_digit.setText(properties.getProperty("CheckBox_digit"));
             CheckBox_prefix.setText(properties.getProperty("CheckBox_prefix"));
+            SelectButton_firstpath.setText(properties.getProperty("SelectButton_firstpath"));
             // 读取属性值...
         } catch (IOException e) {
             e.printStackTrace();
@@ -450,6 +448,8 @@ public class Mainpage {
         });
         /*--------------------------------按键监听--------------------------------*/
 
+        tabbedPane.addComponentListener(new ComponentAdapter() {
+        });
     }
 
     public static void main(String[] args) {
@@ -457,7 +457,7 @@ public class Mainpage {
         firstTimeCheck();
         try {
             // 创建File对象
-            File imageFile = new File(System.getProperty("user.home") + system.identifySystem_String() + "Documents" + system.identifySystem_String() + "IWMT"+ system.identifySystem_String() + "logo.png");
+            File imageFile = new File(System.getProperty("user.home") + system.identifySystem_String() + "Documents" + system.identifySystem_String() + "IWMT"+ system.identifySystem_String() + "README_logo.png");
 
             // 使用ImageIO读取文件并转换为BufferedImage
             BufferedImage image = ImageIO.read(imageFile);

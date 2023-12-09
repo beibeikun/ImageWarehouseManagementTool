@@ -55,7 +55,7 @@ public class CompleteNameChangeProcess {
         //根据 imgsize 判断图片是否需要压缩
         if (imgsize != 0) {
             systemPrintOut(null,0,0);
-            CompressImagesInBatches.compressImagesInBatches(targetFolderPath, imgsize);
+            CompressImagesInBatches.compressImagesInBatches(targetFolderPath, imgsize,false);
         }
         systemPrintOut(null,0,0);
     }

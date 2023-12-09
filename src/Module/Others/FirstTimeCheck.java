@@ -56,7 +56,4 @@ public class FirstTimeCheck {
             Files.copy(in, outputPath, StandardCopyOption.REPLACE_EXISTING);
         }
     }
-    public static void main(String[] args) {
-        firstTimeCheck();
-    }
 }

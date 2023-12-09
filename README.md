@@ -1,6 +1,6 @@
 <div align="center">
 
-<img src="logo.png" width = "200" alt="logo">
+<img src="logo/README_logo.png" width = "200" alt="logo">
 
 # _Image Warehouse Management Tool_
 </div>
@@ -20,7 +20,7 @@ IWMT是一个跨平台图片仓库管理工具
 IWMT 是一款免费开源软件，地址：https://github.com/beibeikun/ImgManagementSystem
 
 开发阶段GUI预览图（预览图具有时效性，仅供参考）：
-![gui](GUI.png)
+![gui](logo/GUI.png)
 
 
 
