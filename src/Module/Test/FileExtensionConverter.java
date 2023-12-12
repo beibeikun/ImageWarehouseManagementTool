@@ -5,6 +5,7 @@ import java.io.File;
 //TODO:没注释啊，这模块是干啥的？
 public class FileExtensionConverter {
     public static void convertFileExtensionsToUppercase(String directoryPath) {
+
         File directory = new File(directoryPath);
         if (!directory.isDirectory()) {
             System.out.println("Invalid directory path: " + directoryPath);

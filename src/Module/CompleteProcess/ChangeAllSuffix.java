@@ -7,6 +7,7 @@ import static Module.CheckOperations.HiddenFilesChecker.isSystemOrHiddenFile;
 import static Module.FileOperations.ChangeSuffix.changeSuffix;
 import static Module.FileOperations.CreateTemporaryDestinationFolder.createTemporaryDestinationFolder;
 import static Module.FileOperations.FolderCopy.copyFolder;
+import static Module.Others.SystemPrintOut.systemPrintOut;
 //TODO:能用了但还没实装
 /**
  * 批量更改文件后缀的类
@@ -19,6 +20,7 @@ public class ChangeAllSuffix {
      * @param filepath 文件夹路径
      */
     public static void changeAllSuffix(String filepath, String targetpath, int mode) throws IOException {
+        systemPrintOut("Start to change suffix", 3, 0);
         String suffixfolder;
         if (mode == 1)
         {
@@ -28,6 +30,7 @@ public class ChangeAllSuffix {
             suffixfolder = targetpath;
         }
         copyFolder(filepath,suffixfolder);
+        systemPrintOut(null, 0, 0);
         // 创建文件夹对象
         File imageFolder = new File(suffixfolder);
 
@@ -48,6 +51,7 @@ public class ChangeAllSuffix {
                 }
             }
         }
+        systemPrintOut(null, 0, 0);
     }
 
     /**
@@ -57,7 +61,7 @@ public class ChangeAllSuffix {
      */
     public static void main(String[] args) throws IOException {
         // 示例用法
-        String image = "/Users/bbk/photographs/test";
-        changeAllSuffix(image,"",0);
+        String image = "D:\\1111\\222";
+        changeAllSuffix(image,"",1);
     }
 }

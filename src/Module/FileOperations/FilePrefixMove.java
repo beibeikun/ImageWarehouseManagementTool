@@ -3,6 +3,7 @@ package Module.FileOperations;
 import Module.CheckOperations.SystemChecker;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.Objects;
 
 import static Module.FileOperations.FileCopyAndDelete.copyFile;
@@ -43,5 +44,10 @@ public class FilePrefixMove {
                 value.delete();
             }
         }
+    }
+    public static void main(String[] args) throws IOException {
+        // 示例用法
+        String image = "D:\\1111\\222";
+        filePrefixMove(image," (");
     }
 }

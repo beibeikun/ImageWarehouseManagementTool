@@ -257,6 +257,7 @@ public class Mainpage {
                 SwingWorker<Void, Void> worker = new SwingWorker<Void, Void>() {
                     @Override
                     protected Void doInBackground() throws Exception {
+                        CheckButton.setEnabled(false);
                         Instant instant1 = Instant.now();
                         int check_usedatabase = 0, check_whichdatabase = 0;
                         if (CheckBox_addfromdatabase.isSelected()) {
@@ -272,7 +273,7 @@ public class Mainpage {
                             databasepath = phonedatabasepath.getText();
                         }
                         boolean prefix=false;
-                        if (CheckBox_digit.isSelected())
+                        if (CheckBox_classification.isSelected())
                         {
                             prefix=true;
                         }
@@ -302,6 +303,7 @@ public class Mainpage {
 
                         Instant instant2 = Instant.now();
                         JOptionPane.showMessageDialog(null, "任务完成，本次耗时：" + getTimeConsuming(instant1, instant2) + "秒");
+                        CheckButton.setEnabled(true);
                         return null;
                     }
                 };
@@ -345,10 +347,19 @@ public class Mainpage {
         ExtractMainImageButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                Instant instant1 = Instant.now();
-                extractMainImage(firstpath.getText(), lastpath.getText());
-                Instant instant2 = Instant.now();
-                JOptionPane.showMessageDialog(null, "任务完成，本次耗时：" + getTimeConsuming(instant1,instant2) + "秒");
+                SwingWorker<Void, Void> worker = new SwingWorker<Void, Void>() {
+                    @Override
+                    protected Void doInBackground() throws Exception {
+                        CheckButton.setEnabled(false);
+                        Instant instant1 = Instant.now();
+                        extractMainImage(firstpath.getText(), lastpath.getText());
+                        Instant instant2 = Instant.now();
+                        JOptionPane.showMessageDialog(null, "任务完成，本次耗时：" + getTimeConsuming(instant1,instant2) + "秒");
+                        CheckButton.setEnabled(true);
+                        return null;
+                    }
+                };
+                worker.execute();
                 RenamestartButton.setEnabled(false);
                 takemainfromdatabaseButton.setEnabled(false);
                 ExtractMainImageButton.setEnabled(false);
@@ -361,14 +372,23 @@ public class Mainpage {
         changeSuffixButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                Instant instant1 = Instant.now();
-                try {
-                    changeAllSuffix(firstpath.getText(),lastpath.getText(),1);
-                } catch (IOException ex) {
-                    throw new RuntimeException(ex);
-                }
-                Instant instant2 = Instant.now();
-                JOptionPane.showMessageDialog(null, "任务完成，本次耗时：" + getTimeConsuming(instant1,instant2) + "秒");
+                SwingWorker<Void, Void> worker = new SwingWorker<Void, Void>() {
+                    @Override
+                    protected Void doInBackground() throws Exception {
+                        CheckButton.setEnabled(false);
+                        Instant instant1 = Instant.now();
+                        try {
+                            changeAllSuffix(firstpath.getText(),lastpath.getText(),1);
+                        } catch (IOException ex) {
+                            throw new RuntimeException(ex);
+                        }
+                        Instant instant2 = Instant.now();
+                        JOptionPane.showMessageDialog(null, "任务完成，本次耗时：" + getTimeConsuming(instant1,instant2) + "秒");
+                        CheckButton.setEnabled(true);
+                        return null;
+                    }
+                };
+                worker.execute();
                 RenamestartButton.setEnabled(false);
                 takemainfromdatabaseButton.setEnabled(false);
                 ExtractMainImageButton.setEnabled(false);
@@ -381,15 +401,24 @@ public class Mainpage {
         checkMainIMGButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                Instant instant1 = Instant.now();
-                try {
-                    compareAndGenerateCsv(firstpath.getText(), renamecsvpath.getText(), lastpath.getText());
-                } catch (IOException ex) {
-                    ex.printStackTrace();
-                }
+                SwingWorker<Void, Void> worker = new SwingWorker<Void, Void>() {
+                    @Override
+                    protected Void doInBackground() throws Exception {
+                        CheckButton.setEnabled(false);
+                        Instant instant1 = Instant.now();
+                        try {
+                            compareAndGenerateCsv(firstpath.getText(), renamecsvpath.getText(), lastpath.getText());
+                        } catch (IOException ex) {
+                            ex.printStackTrace();
+                        }
 
-                Instant instant2 = Instant.now();
-                JOptionPane.showMessageDialog(null, "任务完成，本次耗时：" + getTimeConsuming(instant1, instant2) + "秒");
+                        Instant instant2 = Instant.now();
+                        JOptionPane.showMessageDialog(null, "任务完成，本次耗时：" + getTimeConsuming(instant1, instant2) + "秒");
+                        CheckButton.setEnabled(true);
+                        return null;
+                    }
+                };
+                worker.execute();
             }
         });
         /*================================第二页：上传至仓库================================*/
@@ -398,33 +427,39 @@ public class Mainpage {
         AddtocameradatabaseButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                int n = JOptionPane.showConfirmDialog(null, "上传任务耗时长，运行期间界面假死为正常现象，请勿终止程序或断开硬盘！", "确认", JOptionPane.YES_NO_OPTION); //返回值为0或1
-                if (n == 0) {
-                    int filepathcheck = checkFilePath(firstpath.getText(), false);
-                    if (filepathcheck == 1) {
-                        Instant instant1 = Instant.now();
-                        try {
-                            compressImgToZipAndUpload(firstpath.getText(), cameradatabasepath.getText(), 1);
-                            if (deleteCheckBox.isSelected())//完成后删除文件
-                            {
-                                //TODO 完成后删除源文件夹中的所有内容
+                SwingWorker<Void, Void> worker = new SwingWorker<Void, Void>() {
+                    @Override
+                    protected Void doInBackground() throws Exception {
+                        CheckButton.setEnabled(false);
+                        int filepathcheck = checkFilePath(firstpath.getText(), false);
+                        if (filepathcheck == 1) {
+                            Instant instant1 = Instant.now();
+                            try {
+                                compressImgToZipAndUpload(firstpath.getText(), cameradatabasepath.getText(), 1);
+                                if (deleteCheckBox.isSelected())//完成后删除文件
+                                {
+                                    //TODO 完成后删除源文件夹中的所有内容
+                                }
+
+                            } catch (IOException | ImageProcessingException | MetadataException ex) {
+                                throw new RuntimeException(ex);
                             }
+                            Instant instant2 = Instant.now();
+                            JOptionPane.showMessageDialog(null, "任务完成，本次耗时：" + getTimeConsuming(instant1,instant2) + "秒");
 
-                        } catch (IOException | ImageProcessingException | MetadataException ex) {
-                            throw new RuntimeException(ex);
+
+                        } else if (filepathcheck == 2) {
+                            JOptionPane.showMessageDialog(null, "未选取路径", "路径错误", JOptionPane.WARNING_MESSAGE);
+                        } else if (filepathcheck == 3) {
+                            JOptionPane.showMessageDialog(null, "路径名存在中文字符", "路径错误", JOptionPane.WARNING_MESSAGE);
+                        } else if (filepathcheck == 4) {
+                            JOptionPane.showMessageDialog(null, "源文件夹路径不存在", "路径错误", JOptionPane.WARNING_MESSAGE);
                         }
-                        Instant instant2 = Instant.now();
-                        JOptionPane.showMessageDialog(null, "任务完成，本次耗时：" + getTimeConsuming(instant1,instant2) + "秒");
-
-
-                    } else if (filepathcheck == 2) {
-                        JOptionPane.showMessageDialog(null, "未选取路径", "路径错误", JOptionPane.WARNING_MESSAGE);
-                    } else if (filepathcheck == 3) {
-                        JOptionPane.showMessageDialog(null, "路径名存在中文字符", "路径错误", JOptionPane.WARNING_MESSAGE);
-                    } else if (filepathcheck == 4) {
-                        JOptionPane.showMessageDialog(null, "源文件夹路径不存在", "路径错误", JOptionPane.WARNING_MESSAGE);
+                        CheckButton.setEnabled(true);
+                        return null;
                     }
-                }
+                };
+                worker.execute();
             }
         });
 
@@ -432,33 +467,39 @@ public class Mainpage {
         AddtophonedatabaseButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                int n = JOptionPane.showConfirmDialog(null, "上传任务耗时长，运行期间界面假死为正常现象，请勿终止程序或断开硬盘！", "确认", JOptionPane.YES_NO_OPTION); //返回值为0或1
-                if (n == 0) {
-                    int filepathcheck = checkFilePath(firstpath.getText(), false);
-                    if (filepathcheck == 1) {
-                        Instant instant1 = Instant.now();
-                        try {
-                            compressImgToZipAndUpload(firstpath.getText(), phonedatabasepath.getText(), 0);
-                            if (deleteCheckBox.isSelected())//完成后删除文件
-                            {
-                                //TODO 完成后删除源文件夹中的所有内容
+                SwingWorker<Void, Void> worker = new SwingWorker<Void, Void>() {
+                    @Override
+                    protected Void doInBackground() throws Exception {
+                        CheckButton.setEnabled(false);
+                        int filepathcheck = checkFilePath(firstpath.getText(), false);
+                        if (filepathcheck == 1) {
+                            Instant instant1 = Instant.now();
+                            try {
+                                compressImgToZipAndUpload(firstpath.getText(), phonedatabasepath.getText(), 0);
+                                if (deleteCheckBox.isSelected())//完成后删除文件
+                                {
+                                    //TODO 完成后删除源文件夹中的所有内容
+                                }
+
+                            } catch (IOException | ImageProcessingException | MetadataException ex) {
+                                throw new RuntimeException(ex);
                             }
+                            Instant instant2 = Instant.now();
+                            JOptionPane.showMessageDialog(null, "任务完成，本次耗时：" + getTimeConsuming(instant1,instant2) + "秒");
 
-                        } catch (IOException | ImageProcessingException | MetadataException ex) {
-                            throw new RuntimeException(ex);
+
+                        } else if (filepathcheck == 2) {
+                            JOptionPane.showMessageDialog(null, "未选取路径", "路径错误", JOptionPane.WARNING_MESSAGE);
+                        } else if (filepathcheck == 3) {
+                            JOptionPane.showMessageDialog(null, "路径名存在中文字符", "路径错误", JOptionPane.WARNING_MESSAGE);
+                        } else if (filepathcheck == 4) {
+                            JOptionPane.showMessageDialog(null, "源文件夹路径不存在", "路径错误", JOptionPane.WARNING_MESSAGE);
                         }
-                        Instant instant2 = Instant.now();
-                        JOptionPane.showMessageDialog(null, "任务完成，本次耗时：" + getTimeConsuming(instant1,instant2) + "秒");
-
-
-                    } else if (filepathcheck == 2) {
-                        JOptionPane.showMessageDialog(null, "未选取路径", "路径错误", JOptionPane.WARNING_MESSAGE);
-                    } else if (filepathcheck == 3) {
-                        JOptionPane.showMessageDialog(null, "路径名存在中文字符", "路径错误", JOptionPane.WARNING_MESSAGE);
-                    } else if (filepathcheck == 4) {
-                        JOptionPane.showMessageDialog(null, "源文件夹路径不存在", "路径错误", JOptionPane.WARNING_MESSAGE);
+                        CheckButton.setEnabled(true);
+                        return null;
                     }
-                }
+                };
+                worker.execute();
             }
         });
         /*================================第三页：从仓库删除================================*/

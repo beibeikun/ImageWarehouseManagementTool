@@ -63,11 +63,12 @@ public class CompleteNameChangeProcess {
         systemPrintOut(null, 0, 0);
         //根据 suffix 判断是否需要生成其他后缀
         if (suffix != 0) {
-            changeAllSuffix(targetFolderPath,"",0);
+            changeAllSuffix(targetFolderPath,"",1);
         }
         systemPrintOut(null, 0, 0);
         //根据prefixmove判断是否需要分类
         if (prefixmove) {
+            System.out.println("111111111111"+targetFolderPath);
             filePrefixMove(targetFolderPath, " (");
             systemPrintOut(null, 0, 0);
         }
