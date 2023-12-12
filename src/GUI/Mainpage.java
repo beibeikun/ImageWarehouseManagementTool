@@ -144,6 +144,7 @@ public class Mainpage {
             @Override
             public void write(int b) {
                 textArea1.append(String.valueOf((char) b));
+                textArea1.setCaretPosition(textArea1.getDocument().getLength());
             }
         }));
 
@@ -253,67 +254,85 @@ public class Mainpage {
         RenamestartButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                Instant instant1 = Instant.now();
-                int check_usedatabase = 0, check_whichdatabase = 0;
-                if (CheckBox_addfromdatabase.isSelected()) {
-                    check_usedatabase = 1;
-                }
-                if (selectdatabase.getSelectedItem().equals("phone")) {
-                    check_whichdatabase = 1;
-                }
-                String databasepath = null;
-                if (check_whichdatabase == 0) {
-                    databasepath = cameradatabasepath.getText();
-                } else {
-                    databasepath = phonedatabasepath.getText();
-                }
-                boolean prefix=false;
-                if (CheckBox_digit.isSelected())
-                {
-                    prefix=true;
-                }
-                String suffix = "";
-                int suffixtype = 0;
-                if (suffixCheckBox.isSelected())
-                {
-                    suffix = (String) comboBox1.getSelectedItem();
-                }
-                if (suffix.equals("_x")) {
-                    suffixtype = 1;
-                }
-                CompleteNameChangeProcess completeNameChangeProcess = new CompleteNameChangeProcess();
-                try {
-                    int imgsize;
-                    if (imgsizecomboBox.getSelectedItem().equals("fullsize")) {
-                        imgsize = 0;
-                    } else {
-                        imgsize = Integer.parseInt(imgsizecomboBox.getSelectedItem().toString().substring(0, 4));
+                SwingWorker<Void, Void> worker = new SwingWorker<Void, Void>() {
+                    @Override
+                    protected Void doInBackground() throws Exception {
+                        Instant instant1 = Instant.now();
+                        int check_usedatabase = 0, check_whichdatabase = 0;
+                        if (CheckBox_addfromdatabase.isSelected()) {
+                            check_usedatabase = 1;
+                        }
+                        if (selectdatabase.getSelectedItem().equals("phone")) {
+                            check_whichdatabase = 1;
+                        }
+                        String databasepath = null;
+                        if (check_whichdatabase == 0) {
+                            databasepath = cameradatabasepath.getText();
+                        } else {
+                            databasepath = phonedatabasepath.getText();
+                        }
+                        boolean prefix=false;
+                        if (CheckBox_digit.isSelected())
+                        {
+                            prefix=true;
+                        }
+                        String suffix = "";
+                        int suffixtype = 0;
+                        if (suffixCheckBox.isSelected())
+                        {
+                            suffix = (String) comboBox1.getSelectedItem();
+                        }
+                        if (suffix.equals("_x")) {
+                            suffixtype = 1;
+                        }
+                        CompleteNameChangeProcess completeNameChangeProcess = new CompleteNameChangeProcess();
+                        try {
+                            int imgsize;
+                            if (imgsizecomboBox.getSelectedItem().equals("fullsize")) {
+                                imgsize = 0;
+                            } else {
+                                imgsize = Integer.parseInt(imgsizecomboBox.getSelectedItem().toString().substring(0, 4));
+                            }
+                            systemPrintOut("Start to rename",1,0);
+                            completeNameChangeProcess.completeNameChangeProcess(databasepath, firstpath.getText(), lastpath.getText(), renamecsvpath.getText(), check_usedatabase, imgsize,false,prefix,suffixtype);
+                        } catch (IOException | ImageProcessingException | MetadataException ex) {
+                            throw new RuntimeException(ex);
+                        }
+
+
+                        Instant instant2 = Instant.now();
+                        JOptionPane.showMessageDialog(null, "任务完成，本次耗时：" + getTimeConsuming(instant1, instant2) + "秒");
+                        return null;
                     }
-                    systemPrintOut("Start to rename",1,0);
-                    completeNameChangeProcess.completeNameChangeProcess(databasepath, firstpath.getText(), lastpath.getText(), renamecsvpath.getText(), check_usedatabase, imgsize,false,prefix,suffixtype);
-                } catch (IOException | ImageProcessingException | MetadataException ex) {
-                    throw new RuntimeException(ex);
-                }
+                };
 
-
-                Instant instant2 = Instant.now();
-                JOptionPane.showMessageDialog(null, "任务完成，本次耗时：" + getTimeConsuming(instant1, instant2) + "秒");
+                worker.execute();
                 RenamestartButton.setEnabled(false);
                 takemainfromdatabaseButton.setEnabled(false);
                 ExtractMainImageButton.setEnabled(false);
                 changeSuffixButton.setEnabled(false);
                 checkMainIMGButton.setEnabled(false);
             }
+
         });
 
         //执行从数据库中拉取csv列出的文件主图（缩略图）
         takemainfromdatabaseButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                Instant instant1 = Instant.now();
-                takeMainFromDatabase(renamecsvpath.getText(),cameradatabasepath.getText(),lastpath.getText());
-                Instant instant2 = Instant.now();
-                JOptionPane.showMessageDialog(null, "任务完成，本次耗时：" + getTimeConsuming(instant1,instant2) + "秒");
+                SwingWorker<Void, Void> worker = new SwingWorker<Void, Void>() {
+                    @Override
+                    protected Void doInBackground() throws Exception {
+                        CheckButton.setEnabled(false);
+                        Instant instant1 = Instant.now();
+                        takeMainFromDatabase(renamecsvpath.getText(),cameradatabasepath.getText(),lastpath.getText());
+                        Instant instant2 = Instant.now();
+                        JOptionPane.showMessageDialog(null, "任务完成，本次耗时：" + getTimeConsuming(instant1,instant2) + "秒");
+                        CheckButton.setEnabled(true);
+                        return null;
+                    }
+                };
+                worker.execute();
                 RenamestartButton.setEnabled(false);
                 takemainfromdatabaseButton.setEnabled(false);
                 ExtractMainImageButton.setEnabled(false);
@@ -530,37 +549,39 @@ public class Mainpage {
 
     public static void main(String[] args) {
         SystemChecker system = new SystemChecker();//获取系统类型
-        StartCheck();
-        try {
-            // 创建File对象
-            File imageFile = new File(System.getProperty("user.home") + system.identifySystem_String() + "Documents" + system.identifySystem_String() + "IWMT"+ system.identifySystem_String() + "logo.png");
+        SwingUtilities.invokeLater(() -> {
+            StartCheck();
+            try {
+                // 创建File对象
+                File imageFile = new File(System.getProperty("user.home") + system.identifySystem_String() + "Documents" + system.identifySystem_String() + "IWMT"+ system.identifySystem_String() + "logo.png");
 
-            // 使用ImageIO读取文件并转换为BufferedImage
-            BufferedImage image = ImageIO.read(imageFile);
-            frame.setIconImage(image);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        FlatDarkLaf.setup();
-        frame.setContentPane(new Mainpage().panel1);
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        SystemChecker systemtype = new SystemChecker();
-        int UIwidth = 0, UIheight = 0;
-        if (systemtype.identifySystem_int() == 1) //MAC及linux系统下窗口大小
-        {
-            UIwidth = 600;
-            UIheight = 450;
-        } else //Windows系统下窗口大小
-        {
-            UIwidth = 800;
-            UIheight = 600;
-        }
-        //设置大小
-        frame.setSize(UIwidth, UIheight);
-        frame.setLocationRelativeTo(null);
-        //使窗体显示在屏幕中央
-        frame.setVisible(true);
-        frame.setTitle("Image Warehouse Management Tool");
+                // 使用ImageIO读取文件并转换为BufferedImage
+                BufferedImage image = ImageIO.read(imageFile);
+                frame.setIconImage(image);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            FlatDarkLaf.setup();
+            frame.setContentPane(new Mainpage().panel1);
+            frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+            SystemChecker systemtype = new SystemChecker();
+            int UIwidth = 0, UIheight = 0;
+            if (systemtype.identifySystem_int() == 1) //MAC及linux系统下窗口大小
+            {
+                UIwidth = 600;
+                UIheight = 450;
+            } else //Windows系统下窗口大小
+            {
+                UIwidth = 800;
+                UIheight = 600;
+            }
+            //设置大小
+            frame.setSize(UIwidth, UIheight);
+            frame.setLocationRelativeTo(null);
+            //使窗体显示在屏幕中央
+            frame.setVisible(true);
+            frame.setTitle("Image Warehouse Management Tool");
+        });
     }
 
     public interface DataCallback {
