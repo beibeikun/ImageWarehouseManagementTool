@@ -49,7 +49,7 @@ public class FileExtractor {
 
         // 使用Files.copy方法复制文件
         Files.copy(sourcePath, targetPath, StandardCopyOption.REPLACE_EXISTING);
-        systemPrintOut("Get:"+targetPath,1,0);
+        systemPrintOut("Get:" + targetPath, 1, 0);
     }
 
     /**

@@ -1,4 +1,4 @@
-package Module.ZipOperations;
+package Module.CompressOperations;
 
 import com.drew.imaging.ImageProcessingException;
 import com.drew.metadata.MetadataException;
@@ -9,7 +9,7 @@ import java.text.DecimalFormat;
 
 import static Module.CheckOperations.HiddenFilesChecker.isSystemOrHiddenFile;
 import static Module.Others.SystemPrintOut.systemPrintOut;
-import static Module.ZipOperations.ImageCompression.imageCompression;
+import static Module.CompressOperations.ImageCompression.imageCompression;
 
 public class CompressImagesInBatches {
 
@@ -42,22 +42,16 @@ public class CompressImagesInBatches {
             if (!isSystemOrHiddenFile(file)) {
                 // 压缩图像
                 imageCompression(String.valueOf(file), imageSize);
-                if (percent)
-                {
-                    systemPrintOut("now: " + completedNums + " All: " + filesNums + " Completed: " + progress_S + "% Compressed: " + file,1,0);
-                }
-                else
-                {
-                    systemPrintOut("Compressed: "+file,1,0);
+                if (percent) {
+                    systemPrintOut("now: " + completedNums + " All: " + filesNums + " Completed: " + progress_S + "% Compressed: " + file, 1, 0);
+                } else {
+                    systemPrintOut("Compressed: " + file, 1, 0);
                 }
             } else {
-                if (percent)
-                {
-                    systemPrintOut("now: " + completedNums + " All: " + filesNums + " Completed: " + progress_S + "% Unsupported file: " + file,2,0);
-                }
-                else
-                {
-                    systemPrintOut("Unsupported file: "+file,2,0);
+                if (percent) {
+                    systemPrintOut("now: " + completedNums + " All: " + filesNums + " Completed: " + progress_S + "% Unsupported file: " + file, 2, 0);
+                } else {
+                    systemPrintOut("Unsupported file: " + file, 2, 0);
                 }
 
             }

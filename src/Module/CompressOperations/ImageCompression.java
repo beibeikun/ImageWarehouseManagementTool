@@ -1,4 +1,4 @@
-package Module.ZipOperations;
+package Module.CompressOperations;
 //TODO:要测试要测试要测试
 
 import com.drew.imaging.ImageProcessingException;

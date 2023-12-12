@@ -24,9 +24,9 @@ public class DeleteFilesWithKeyword {
                 if (file.getName().contains(keyword)) {
                     // 删除文件
                     if (file.delete()) {
-                        systemPrintOut("Delete:"+ file.getName(),1,0);
+                        systemPrintOut("Delete:" + file.getName(), 1, 0);
                     } else {
-                        systemPrintOut("Failed:"+ file.getName(),2,0);
+                        systemPrintOut("Failed:" + file.getName(), 2, 0);
                     }
                 }
             }

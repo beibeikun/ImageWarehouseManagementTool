@@ -57,7 +57,7 @@ public class FilePathChecker {
      * @param firstpathcheck     源文件夹路径检查结果（1: 合法, 2: 未选取路径, 3: 路径名存在中文字符, 4: 路径不存在）
      * @param lastpathcheck      目标文件夹路径检查结果（1: 合法, 2: 未选取路径, 3: 路径名存在中文字符, 4: 路径不存在, 5: 路径非空）
      * @param lastpath           目标文件夹路径
-     * @return                   检查通过返回 true，否则返回 false
+     * @return 检查通过返回 true，否则返回 false
      */
     public static boolean checkback(int renamecsvpathcheck, int firstpathcheck, int lastpathcheck, String lastpath) {
         if (renamecsvpathcheck == 1 && firstpathcheck == 1 && lastpathcheck == 1) {

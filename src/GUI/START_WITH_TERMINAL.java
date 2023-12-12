@@ -1,8 +1,7 @@
 package GUI;
 
 import Module.CheckOperations.SystemChecker;
-import Module.FileOperations.FileCompression;
-import Module.Refactor.CompleteNameChangeProcess;
+import Module.CompleteProcess.CompleteNameChangeProcess;
 import com.drew.imaging.ImageProcessingException;
 import com.drew.metadata.MetadataException;
 
@@ -18,7 +17,8 @@ import static Module.FileOperations.ExtractMainImage.extractMainImage;
 import static Module.FileOperations.TakeMainFromDatabase.takeMainFromDatabase;
 import static Module.Others.GetPropertiesPath.settingspath;
 import static Module.Others.SystemPrintOut.systemPrintOut;
-import static Module.ZipOperations.CompressImagesInBatches.compressImagesInBatches;
+import static Module.CompleteProcess.CompressImgToZipAndUpload.compressImgToZipAndUpload;
+import static Module.CompressOperations.CompressImagesInBatches.compressImagesInBatches;
 
 public class START_WITH_TERMINAL {
     public static final String ANSI_RESET = "\u001B[0m";
@@ -130,20 +130,16 @@ public class START_WITH_TERMINAL {
                     input = scanner.nextLine();
                     int choose = Integer.parseInt(input);
                     String databasepath = null;
-                    int database = 1;
-                    switch (choose) {
-                        case 0:
-                            database = 0;
-                            break;
-                        case 1:
-                            databasepath = cameradatabasepath;
-                            break;
-                        case 2:
-                            databasepath = phonedatabasepath;
-                            break;
-                        default:
-                            break;
+                    int database = 0;
+                    if (choose == 1)
+                    {
+                        databasepath = cameradatabasepath;
                     }
+                    else if (choose == 2)
+                    {
+                        databasepath = phonedatabasepath;
+                    }
+
                     System.out.println(ANSI_BLUE+ "请输入图片压缩尺寸，0为不压缩" + ANSI_RESET);
                     input = scanner.nextLine();
                     int imgsize = Integer.parseInt(input);
@@ -158,7 +154,7 @@ public class START_WITH_TERMINAL {
                         prefix=false;
                     }
                     CompleteNameChangeProcess completeNameChangeProcess = new CompleteNameChangeProcess();
-                    completeNameChangeProcess.completeNameChangeProcess(cameradatabasepath,firstpath,lastpath,renamecsvpath,database,imgsize,true,prefix);
+                    completeNameChangeProcess.completeNameChangeProcess(databasepath,firstpath,lastpath,renamecsvpath,database,imgsize,true,prefix);
                     menu();
                     break;
                 case 22:
@@ -177,7 +173,8 @@ public class START_WITH_TERMINAL {
                     {
                         compressImagesInBatches(firstpath,5000,true);
                     }
-                    prefixes = FileCompression.compressFilesByPrefix(firstpath, cameradatabasepath, 1);
+                    compressImgToZipAndUpload(firstpath, cameradatabasepath, 1);
+                    menu();
                     break;
                 case 32:
                     System.out.println(ANSI_BLUE+ "是否压缩图片？ 1.是 2.否" + ANSI_RESET);
@@ -187,7 +184,8 @@ public class START_WITH_TERMINAL {
                     {
                         compressImagesInBatches(firstpath,5000,true);
                     }
-                    prefixes = FileCompression.compressFilesByPrefix(firstpath, phonedatabasepath, 1);
+                    compressImgToZipAndUpload(firstpath, phonedatabasepath, 0);
+                    menu();
                     break;
                 case 4:
                     stopProgram();

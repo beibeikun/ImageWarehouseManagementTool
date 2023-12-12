@@ -88,7 +88,7 @@ public class RenameFiles {
                         }
                     } catch (NumberFormatException e) {
                         // 处理数字解析异常
-                        systemPrintOut("Failed:" + name,2,0);
+                        systemPrintOut("Failed:" + name, 2, 0);
                         return;
                     }
                 }
@@ -98,14 +98,14 @@ public class RenameFiles {
 
                 File dest = new File(imagePath + File.separator + newName);
                 if (image.renameTo(dest)) {
-                    systemPrintOut("Renamed:" + name + " --> " + newName,1,0);
+                    systemPrintOut("Renamed:" + name + " --> " + newName, 1, 0);
                     renamed = true;
                     break;
                 }
             }
         }
         if (!renamed) {
-            systemPrintOut("Failed:" + name,2,0);
+            systemPrintOut("Failed:" + name, 2, 0);
         }
     }
 }

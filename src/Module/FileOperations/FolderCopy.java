@@ -30,7 +30,7 @@ public class FolderCopy {
                 Files.createDirectories(targetFile.getParent());
 
                 if (!isSystemOrHiddenFile(file.toFile())) {
-                    systemPrintOut("Copy:"+file+"-->"+targetFile,1,0);
+                    systemPrintOut("Copy:" + file + "-->" + targetFile, 1, 0);
                     Files.copy(file, targetFile, StandardCopyOption.REPLACE_EXISTING);
                 }
                 // 复制文件

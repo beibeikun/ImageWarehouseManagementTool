@@ -14,7 +14,7 @@ public class ChineseCharactersChecker {
      * @return 如果字符串包含中文字符，则返回true；否则返回false
      */
     public boolean isContainChinese(String str) {
-        Pattern p = Pattern.compile("[\u4E00-\u9FA5]");
+        Pattern p = Pattern.compile("[一-龥]");
         Matcher m = p.matcher(str);
         return m.find();
     }

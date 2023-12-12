@@ -15,8 +15,8 @@ public class FilePrefixMove {
     /**
      * 将指定路径下的文件移动到新路径，并修改文件名前缀。
      *
-     * @param lastpath   文件夹的路径
-     * @param character  需要修改的文件名前缀字符
+     * @param lastpath  文件夹的路径
+     * @param character 需要修改的文件名前缀字符
      */
     public static void filePrefixMove(String lastpath, String character) {
         File file = new File(lastpath);
@@ -35,11 +35,11 @@ public class FilePrefixMove {
                 }
                 File file1 = new File(lastpath + system.identifySystem_String() + name);
                 if (!file1.exists()) {
-                    systemPrintOut("Create file\"" + name + "\"",1,0);
+                    systemPrintOut("Create file\"" + name + "\"", 1, 0);
                     file1.mkdirs();
                 }
                 copyFile(lastpath + system.identifySystem_String() + value.getName(), lastpath + system.identifySystem_String() + name);
-                systemPrintOut(value.getName(),1,0);
+                systemPrintOut(value.getName(), 1, 0);
                 value.delete();
             }
         }

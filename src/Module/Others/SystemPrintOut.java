@@ -7,8 +7,7 @@ public class SystemPrintOut {
         String info = "[" + getCorrectTime() + "]";
         String success = "   Succeeded: ";
         String error = "   [E R R O R]: ";
-        switch (type)
-        {
+        switch (type) {
             case 0:
                 System.out.println("---------------------------------------------------------------------------------");
                 break;
@@ -20,7 +19,7 @@ public class SystemPrintOut {
                 break;
             case 3:
                 System.out.println("---------------------------------------------------------------------------------");
-                System.out.println("                 "+printoutmessage);
+                System.out.println("                 " + printoutmessage);
                 System.out.println("---------------------------------------------------------------------------------");
                 break;
             default:

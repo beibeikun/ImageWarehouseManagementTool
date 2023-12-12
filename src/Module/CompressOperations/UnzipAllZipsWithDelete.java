@@ -1,4 +1,4 @@
-package Module.ZipOperations;
+package Module.CompressOperations;
 
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -35,7 +35,7 @@ public class UnzipAllZipsWithDelete {
                 if (Files.exists(zipFilePath)) {
                     Files.delete(zipFilePath);
                 }
-                systemPrintOut("Unzip:"+zipFilePath,1,0);
+                systemPrintOut("Unzip:" + zipFilePath, 1, 0);
             }
         }
     }

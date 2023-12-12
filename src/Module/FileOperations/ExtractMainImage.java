@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.Map;
 
 import static Module.CheckOperations.HiddenFilesChecker.isSystemOrHiddenFile;
-import static Module.FileOperations.FileCompression.getPrefix;
+import static Module.DataOperations.GetPrefix.getPrefix;
 import static Module.FileOperations.FileCopyAndDelete.copyFile;
 import static Module.Others.SystemPrintOut.systemPrintOut;
 
@@ -23,7 +23,7 @@ public class ExtractMainImage {
      * @param destinationFolder 目标文件夹路径
      */
     public static void extractMainImage(String sourceFolder, String destinationFolder) {
-        systemPrintOut("Start to take main img from source path",3,0);
+        systemPrintOut("Start to take main img from source path", 3, 0);
         SystemChecker system = new SystemChecker();
         File folder = new File(sourceFolder);
 
@@ -50,12 +50,11 @@ public class ExtractMainImage {
         String[] prefixArray = prefixToFileListMap.keySet().toArray(new String[0]);
         for (String prefix : prefixArray) {
             String sourceFilePath = Paths.get(sourceFolder, system.identifySystem_String() + prefix + ".JPG").toString();
-            if (!isSystemOrHiddenFile(new File(sourceFilePath)))
-            {
+            if (!isSystemOrHiddenFile(new File(sourceFilePath))) {
                 copyFile(sourceFilePath, destinationFolder);
-                systemPrintOut("Copy:"+prefix,1,0);
+                systemPrintOut("Copy:" + prefix, 1, 0);
             }
         }
-        systemPrintOut(null,0,0);
+        systemPrintOut(null, 0, 0);
     }
 }

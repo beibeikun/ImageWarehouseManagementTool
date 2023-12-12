@@ -1,9 +1,8 @@
 package GUI;
 
 import Module.CheckOperations.SystemChecker;
-import Module.FileOperations.FileCompression;
 import Module.Others.VersionNumber;
-import Module.Refactor.CompleteNameChangeProcess;
+import Module.CompleteProcess.CompleteNameChangeProcess;
 import com.drew.imaging.ImageProcessingException;
 import com.drew.metadata.MetadataException;
 import com.formdev.flatlaf.FlatDarkLaf;
@@ -32,6 +31,7 @@ import static Module.Others.GetPropertiesPath.propertiespath;
 import static Module.Others.GetPropertiesPath.settingspath;
 import static Module.Others.GetTimeConsuming.getTimeConsuming;
 import static Module.Others.SystemPrintOut.systemPrintOut;
+import static Module.CompleteProcess.CompressImgToZipAndUpload.compressImgToZipAndUpload;
 
 public class Mainpage {
     static JFrame frame = new JFrame("MainpageUI");
@@ -90,6 +90,8 @@ public class Mainpage {
     private JPanel Tab4;
     private JPanel Tab5;
     private JLabel Suffix;
+    private JButton 从服务器选择Button;
+    private JButton 更换后缀Button;
     private JTextArea consoleTextArea;
 
     public Mainpage() {
@@ -347,7 +349,7 @@ public class Mainpage {
                     if (filepathcheck == 1) {
                         Instant instant1 = Instant.now();
                         try {
-                            String[] prefixes = FileCompression.compressFilesByPrefix(firstpath.getText(), cameradatabasepath.getText(), 1);
+                            compressImgToZipAndUpload(firstpath.getText(), cameradatabasepath.getText(), 1);
                             if (deleteCheckBox.isSelected())//完成后删除文件
                             {
                                 //TODO 完成后删除源文件夹中的所有内容
@@ -381,7 +383,7 @@ public class Mainpage {
                     if (filepathcheck == 1) {
                         Instant instant1 = Instant.now();
                         try {
-                            String[] prefixes = FileCompression.compressFilesByPrefix(firstpath.getText(), phonedatabasepath.getText(), 2);
+                            compressImgToZipAndUpload(firstpath.getText(), phonedatabasepath.getText(), 0);
                             if (deleteCheckBox.isSelected())//完成后删除文件
                             {
                                 //TODO 完成后删除源文件夹中的所有内容

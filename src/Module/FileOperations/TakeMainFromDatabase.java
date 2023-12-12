@@ -22,9 +22,8 @@ public class TakeMainFromDatabase {
      * @param databasepath 数据库文件的根路径
      * @param folderpath   目标文件夹路径
      */
-    public static void takeMainFromDatabase(String csvpath, String databasepath, String folderpath)
-    {
-        systemPrintOut("Start to take main img from database",3,0);
+    public static void takeMainFromDatabase(String csvpath, String databasepath, String folderpath) {
+        systemPrintOut("Start to take main img from database", 3, 0);
         SystemChecker system = new SystemChecker();
         String[] fileNameList = new String[10000]; // 存放对应的JB号-Lot号
         int index = 0;
@@ -47,9 +46,9 @@ public class TakeMainFromDatabase {
             File fileCheck = new File(databasepath + system.identifySystem_String() + "thumbnail" + system.identifySystem_String() + fileNameList[x] + ".JPG");
             if (fileCheck.exists()) {
                 copyFile(databasepath + system.identifySystem_String() + "thumbnail" + system.identifySystem_String() + fileNameList[x] + ".JPG", folderpath);
-                systemPrintOut("Copy:"+fileNameList[x],1,0);
+                systemPrintOut("Copy:" + fileNameList[x], 1, 0);
             }
         }
-        systemPrintOut(null,0,0);
+        systemPrintOut(null, 0, 0);
     }
 }
