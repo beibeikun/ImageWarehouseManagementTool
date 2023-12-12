@@ -419,6 +419,11 @@ public class Mainpage {
                     }
                 };
                 worker.execute();
+                RenamestartButton.setEnabled(false);
+                takemainfromdatabaseButton.setEnabled(false);
+                ExtractMainImageButton.setEnabled(false);
+                changeSuffixButton.setEnabled(false);
+                checkMainIMGButton.setEnabled(false);
             }
         });
         /*================================第二页：上传至仓库================================*/
