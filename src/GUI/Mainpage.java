@@ -22,6 +22,7 @@ import java.util.Properties;
 import static GUI.ImageUtils.openImage;
 import static Module.CheckOperations.FilePathChecker.checkFilePath;
 import static Module.CheckOperations.FilePathChecker.checkback;
+import static Module.CompleteProcess.ChangeAllSuffix.changeAllSuffix;
 import static Module.DataOperations.FolderCsvComparator.compareAndGenerateCsv;
 import static Module.DataOperations.WriteToProperties.writeToProperties;
 import static Module.FileOperations.ExtractMainImage.extractMainImage;
@@ -90,8 +91,8 @@ public class Mainpage {
     private JPanel Tab4;
     private JPanel Tab5;
     private JLabel Suffix;
-    private JButton 从服务器选择Button;
-    private JButton 更换后缀Button;
+    private JButton changeSuffixButton;
+    private JCheckBox suffixCheckBox;
     private JTextArea consoleTextArea;
 
     public Mainpage() {
@@ -117,7 +118,6 @@ public class Mainpage {
             Namingformat.setBorder(BorderFactory.createTitledBorder(properties.getProperty("Namingformat")));
             CheckBox_digit.setText(properties.getProperty("CheckBox_digit"));
             CheckBox_prefix.setText(properties.getProperty("CheckBox_prefix"));
-            Suffix.setText(properties.getProperty("Suffix"));
             Othersettings.setBorder(BorderFactory.createTitledBorder(properties.getProperty("Othersettings")));
             CheckBox_classification.setText(properties.getProperty("CheckBox_classification"));
             CheckBox_addfromdatabase.setText(properties.getProperty("CheckBox_addfromdatabase"));
@@ -243,6 +243,8 @@ public class Mainpage {
                     RenamestartButton.setEnabled(true);
                     takemainfromdatabaseButton.setEnabled(true);
                     ExtractMainImageButton.setEnabled(true);
+                    changeSuffixButton.setEnabled(true);
+                    checkMainIMGButton.setEnabled(true);
                 }
             }
         });
@@ -270,6 +272,15 @@ public class Mainpage {
                 {
                     prefix=true;
                 }
+                String suffix = "";
+                int suffixtype = 0;
+                if (suffixCheckBox.isSelected())
+                {
+                    suffix = (String) comboBox1.getSelectedItem();
+                }
+                if (suffix.equals("_x")) {
+                    suffixtype = 1;
+                }
                 CompleteNameChangeProcess completeNameChangeProcess = new CompleteNameChangeProcess();
                 try {
                     int imgsize;
@@ -279,7 +290,7 @@ public class Mainpage {
                         imgsize = Integer.parseInt(imgsizecomboBox.getSelectedItem().toString().substring(0, 4));
                     }
                     systemPrintOut("Start to rename",1,0);
-                    completeNameChangeProcess.completeNameChangeProcess(databasepath, firstpath.getText(), lastpath.getText(), renamecsvpath.getText(), check_usedatabase, imgsize,false,prefix);
+                    completeNameChangeProcess.completeNameChangeProcess(databasepath, firstpath.getText(), lastpath.getText(), renamecsvpath.getText(), check_usedatabase, imgsize,false,prefix,suffixtype);
                 } catch (IOException | ImageProcessingException | MetadataException ex) {
                     throw new RuntimeException(ex);
                 }
@@ -290,6 +301,8 @@ public class Mainpage {
                 RenamestartButton.setEnabled(false);
                 takemainfromdatabaseButton.setEnabled(false);
                 ExtractMainImageButton.setEnabled(false);
+                changeSuffixButton.setEnabled(false);
+                checkMainIMGButton.setEnabled(false);
             }
         });
 
@@ -304,6 +317,8 @@ public class Mainpage {
                 RenamestartButton.setEnabled(false);
                 takemainfromdatabaseButton.setEnabled(false);
                 ExtractMainImageButton.setEnabled(false);
+                changeSuffixButton.setEnabled(false);
+                checkMainIMGButton.setEnabled(false);
             }
         });
 
@@ -318,7 +333,28 @@ public class Mainpage {
                 RenamestartButton.setEnabled(false);
                 takemainfromdatabaseButton.setEnabled(false);
                 ExtractMainImageButton.setEnabled(false);
+                changeSuffixButton.setEnabled(false);
+                checkMainIMGButton.setEnabled(false);
 
+            }
+        });
+        //更换后缀名
+        changeSuffixButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Instant instant1 = Instant.now();
+                try {
+                    changeAllSuffix(firstpath.getText(),lastpath.getText(),1);
+                } catch (IOException ex) {
+                    throw new RuntimeException(ex);
+                }
+                Instant instant2 = Instant.now();
+                JOptionPane.showMessageDialog(null, "任务完成，本次耗时：" + getTimeConsuming(instant1,instant2) + "秒");
+                RenamestartButton.setEnabled(false);
+                takemainfromdatabaseButton.setEnabled(false);
+                ExtractMainImageButton.setEnabled(false);
+                changeSuffixButton.setEnabled(false);
+                checkMainIMGButton.setEnabled(false);
             }
         });
 

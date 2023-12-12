@@ -31,10 +31,11 @@ public class CompressImgToZipAndUpload {
      * @throws IOException 如果文件操作失败
      */
     public static void compressImgToZipAndUpload(String sourceFolder,String destinationFolder,int mode) throws IOException, ImageProcessingException, MetadataException {
+        systemPrintOut("Start to upload", 3, 0);
         SystemChecker system = new SystemChecker();
 
         //创建一个临时文件夹来储存压缩包
-        String temporaryDestinationFolder = createTemporaryDestinationFolder(sourceFolder);
+        String temporaryDestinationFolder = createTemporaryDestinationFolder(sourceFolder,"TemporaryCompression");
         //缩略图路径
         String thumbnailFolder = destinationFolder + system.identifySystem_String() + "thumbnail";
         //mode为1，检查缩略图路径
@@ -50,10 +51,8 @@ public class CompressImgToZipAndUpload {
                 directory.mkdirs();
             }
         }
-        //获取源文件夹内所有文件名
-        String[] test = getFileNames(sourceFolder);
-        //处理文件名数组，去除文件后缀名、去除 "(x)" 后缀并删除重复项，只保留一个
-        String[] FileNames = processFileNames(test);
+        //获取源文件夹内所有文件名,处理文件名数组，去除文件后缀名、去除 "(x)" 后缀并删除重复项，只保留一个
+        String[] FileNames = processFileNames(getFileNames(sourceFolder));
         for (int i = 0; i < FileNames.length; i++) {
             //mode为1，上传缩略图
             if (mode == 1)
@@ -65,6 +64,7 @@ public class CompressImgToZipAndUpload {
             //获取同一前缀的文件列表
             List<File> readytocompress = searchFiles(sourceFolder,FileNames[i]);
             compressFiles(readytocompress,temporaryDestinationFolder + system.identifySystem_String() +FileNames[i]+".zip");
+            systemPrintOut("Compressed:" + FileNames[i]+".zip", 1, 0);
         }
         //把压缩包从临时文件夹移动到目标文件夹并按前缀分类
         copyFiles(temporaryDestinationFolder, destinationFolder, 6);

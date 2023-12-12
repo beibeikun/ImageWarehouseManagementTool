@@ -13,9 +13,9 @@ public class CreateTemporaryDestinationFolder {
      * @param sourceFolder 源文件夹路径
      * @return 临时目标文件夹路径
      */
-    public static String createTemporaryDestinationFolder(String sourceFolder) {
+    public static String createTemporaryDestinationFolder(String sourceFolder,String suffix) {
         // 构建临时目标文件夹路径
-        String temporaryDestinationFolder = sourceFolder + "TemporaryCompression";
+        String temporaryDestinationFolder = sourceFolder + suffix;
 
         // 创建临时目标文件夹对象
         File tempFolder = new File(temporaryDestinationFolder);

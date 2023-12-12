@@ -93,12 +93,6 @@
                   <hspacer id="8c3dd">
                     <constraints/>
                   </hspacer>
-                  <component id="6c3ce" class="javax.swing.JButton" binding="从服务器选择Button" default-binding="true">
-                    <constraints/>
-                    <properties>
-                      <text value="从服务器选择"/>
-                    </properties>
-                  </component>
                 </children>
               </toolbar>
               <toolbar id="94a02" binding="Namingformat">
@@ -127,20 +121,19 @@
                   <hspacer id="1af37">
                     <constraints/>
                   </hspacer>
-                  <component id="1307f" class="javax.swing.JLabel" binding="Suffix">
+                  <component id="2a00b" class="javax.swing.JCheckBox" binding="suffixCheckBox">
                     <constraints/>
                     <properties>
-                      <text value="后缀格式  "/>
+                      <text value="同时生成后缀"/>
                     </properties>
                   </component>
                   <component id="ef713" class="javax.swing.JComboBox" binding="comboBox1" default-binding="true">
                     <constraints/>
                     <properties>
-                      <enabled value="false"/>
+                      <enabled value="true"/>
                       <maximumSize width="60" height="25"/>
                       <minimumSize width="60" height="25"/>
                       <model>
-                        <item value="(x)"/>
                         <item value="_x"/>
                       </model>
                       <preferredSize width="60" height="25"/>
@@ -246,14 +239,16 @@
                   <grid row="5" column="5" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
                 </constraints>
                 <properties>
+                  <enabled value="false"/>
                   <text value="校对主图"/>
                 </properties>
               </component>
-              <component id="f3f87" class="javax.swing.JButton" binding="更换后缀Button" default-binding="true">
+              <component id="f3f87" class="javax.swing.JButton" binding="changeSuffixButton">
                 <constraints>
                   <grid row="5" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
                 </constraints>
                 <properties>
+                  <enabled value="false"/>
                   <text value="更换后缀"/>
                 </properties>
               </component>

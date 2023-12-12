@@ -13,6 +13,7 @@ import com.drew.metadata.MetadataException;
 
 import java.io.IOException;
 
+import static Module.CompleteProcess.ChangeAllSuffix.changeAllSuffix;
 import static Module.FileOperations.FilePrefixMove.filePrefixMove;
 import static Module.Others.SystemPrintOut.systemPrintOut;
 
@@ -30,9 +31,10 @@ public class CompleteNameChangeProcess {
      * @param CSVPath                 CSV 文件路径
      * @param checkBoxAddFromDatabase 复选框标志，1 表示添加数据库中的文件，0 表示不添加
      * @param imgsize                 压缩图片尺寸，为0则不压缩
+     * @param suffix                  后缀判定
      * @throws IOException 如果文件操作失败
      */
-    public void completeNameChangeProcess(String nasFolderPath, String sourceFolderPath, String targetFolderPath, String CSVPath, int checkBoxAddFromDatabase, int imgsize, boolean terminal, boolean prefixmove) throws IOException, ImageProcessingException, MetadataException {
+    public void completeNameChangeProcess(String nasFolderPath, String sourceFolderPath, String targetFolderPath, String CSVPath, int checkBoxAddFromDatabase, int imgsize, boolean terminal, boolean prefixmove, int suffix) throws IOException, ImageProcessingException, MetadataException {
         // 从 CSV 中提取要提取的文件名数组
         String[] fileNamesToExtract = ArrayExtractor.excludeFirstElement(ArrayExtractor.extractRow(ReadCsvFile.csvToArray(CSVPath), 0));
         systemPrintOut("Start to rename", 3, 0);
@@ -57,6 +59,11 @@ public class CompleteNameChangeProcess {
         if (imgsize != 0) {
             systemPrintOut(null, 0, 0);
             CompressImagesInBatches.compressImagesInBatches(targetFolderPath, imgsize, terminal);
+        }
+        systemPrintOut(null, 0, 0);
+        //根据 suffix 判断是否需要生成其他后缀
+        if (suffix != 0) {
+            changeAllSuffix(targetFolderPath,"",0);
         }
         systemPrintOut(null, 0, 0);
         //根据prefixmove判断是否需要分类

@@ -154,7 +154,7 @@ public class START_WITH_TERMINAL {
                         prefix=false;
                     }
                     CompleteNameChangeProcess completeNameChangeProcess = new CompleteNameChangeProcess();
-                    completeNameChangeProcess.completeNameChangeProcess(databasepath,firstpath,lastpath,renamecsvpath,database,imgsize,true,prefix);
+                    completeNameChangeProcess.completeNameChangeProcess(databasepath,firstpath,lastpath,renamecsvpath,database,imgsize,true,prefix,0);
                     menu();
                     break;
                 case 22:

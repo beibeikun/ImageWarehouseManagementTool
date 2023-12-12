@@ -3,6 +3,7 @@ package Module.FileOperations;
 import java.io.File;
 
 import static Module.FileOperations.FileRenameWithKeyword.renameFileWithKeyword;
+import static Module.Others.SystemPrintOut.systemPrintOut;
 
 /**
  * 更改文件后缀的类
@@ -17,23 +18,22 @@ public class ChangeSuffix {
     public static void changeSuffix(File file) {
         // 获取文件路径的字符串表示
         String filepath = String.valueOf(file);
+        if (!extractStringFromFileName(filepath, "(", ")").isEmpty()) {
+            // 从文件名中提取序列号，这里假设序列号在文件名中用括号括起来
+            int serialnumber = Integer.parseInt(extractStringFromFileName(filepath, "(", ")"));
 
-        // 从文件名中提取序列号，这里假设序列号在文件名中用括号括起来
-        int serialnumber = Integer.parseInt(extractStringFromFileName(filepath, "(", ")"));
+            // 如果序列号小于10，将括号后的"0"插入文件名中
+            if (serialnumber < 10) {
+                filepath = renameFileWithKeyword(filepath, "(", "(0");
+            }
 
-        // 如果序列号小于10，将括号后的"0"插入文件名中
-        if (serialnumber < 10) {
-            filepath = renameFileWithKeyword(filepath, "(", "(0");
-            System.out.println(filepath);
+            // 将文件名中的空格和括号替换为下划线
+            filepath = renameFileWithKeyword(filepath, " (", "_");
+
+            // 移除文件名中的右括号
+            filepath = renameFileWithKeyword(filepath, ")", "");
+            systemPrintOut("Change suffix:"+filepath,1,0);
         }
-
-        // 将文件名中的空格和括号替换为下划线
-        filepath = renameFileWithKeyword(filepath, " (", "_");
-        System.out.println(filepath);
-
-        // 移除文件名中的右括号
-        filepath = renameFileWithKeyword(filepath, ")", "");
-        System.out.println(filepath);
     }
 
     /**
