@@ -18,6 +18,7 @@ public class CompressImagesInBatches {
      *
      * @param folderPath 文件夹路径
      * @param imageSize  目标图像大小
+     * @param percent    是否输出百分比
      */
     public static void compressImagesInBatches(String folderPath, int imageSize, boolean percent) throws ImageProcessingException, IOException, MetadataException {
         // 创建文件夹对象

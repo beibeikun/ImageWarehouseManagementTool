@@ -26,6 +26,7 @@ import static Module.CompleteProcess.ChangeAllSuffix.changeAllSuffix;
 import static Module.DataOperations.FolderCsvComparator.compareAndGenerateCsv;
 import static Module.DataOperations.WriteToProperties.writeToProperties;
 import static Module.FileOperations.ExtractMainImage.extractMainImage;
+import static Module.FileOperations.FilePrefixMove.filePrefixMove;
 import static Module.FileOperations.TakeMainFromDatabase.takeMainFromDatabase;
 import static Module.Others.StartCheck.StartCheck;
 import static Module.Others.GetPropertiesPath.propertiespath;
@@ -93,6 +94,8 @@ public class Mainpage {
     private JLabel Suffix;
     private JButton changeSuffixButton;
     private JCheckBox suffixCheckBox;
+    private JPanel Tab6;
+    private JButton linshi;
     private JTextArea consoleTextArea;
 
     public Mainpage() {
@@ -561,6 +564,22 @@ public class Mainpage {
                 filenamelist[1][0] = Sphonepath;
                 writeToProperties("settings", filenamelist);
             }
+        });
+        linshi.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                SwingWorker<Void, Void> worker = new SwingWorker<Void, Void>() {
+                    @Override
+                    protected Void doInBackground() throws Exception {
+                        filePrefixMove(firstpath.getText(),"-");
+                        return null;
+                    }
+                };
+
+                worker.execute();
+
+            }
+
         });
         /*================================底部================================*/
 
