@@ -10,9 +10,9 @@ public class VersionNumber
      *
      * @return 版本号字符串
      */
-    public String getVersionNumber()
+    public static String getVersionNumber()
     {
-        return "Build: Beta1.2.240301 by beibeikun";
+        return "Build: Beta1.2.240302 by beibeikun";
     } //2024.03.01
 
     /**

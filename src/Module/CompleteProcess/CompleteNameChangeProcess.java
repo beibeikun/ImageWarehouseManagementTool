@@ -21,6 +21,7 @@ import static Module.CompleteProcess.ChangeAllSuffix.changeAllSuffix;
 import static Module.CompressOperations.ImageCompression.compressImgWithFileListUseMultithreading;
 import static Module.DataOperations.FileLister.getFileNamesInList;
 import static Module.DataOperations.ListExtractor.removeElementFromList;
+import static Module.FileOperations.CreateFolder.createFolderWithTime;
 import static Module.FileOperations.FilePrefixMove.filePrefixMove;
 import static Module.Others.GetCorrectTime.getCorrectTimeToFolderName;
 import static Module.Others.SystemPrintOut.systemPrintOut;
@@ -51,11 +52,7 @@ public class CompleteNameChangeProcess
         // 将文件名数组转化为列表
         List<String> readyToCopyNameList = Arrays.asList(fileNamesToExtract);
         // 用当前时间新建一个文件夹来存储
-        targetFolderPath = targetFolderPath + system.identifySystem_String() + getCorrectTimeToFolderName();
-        // 创建 File 对象
-        File file = new File(targetFolderPath);
-        // 创建文件夹
-        file.mkdir();
+        targetFolderPath = createFolderWithTime(targetFolderPath);
         // 输出“开始重命名”
         systemPrintOut("Start to rename", 3, 0);
         // 用于储存数据库中存在的文件名

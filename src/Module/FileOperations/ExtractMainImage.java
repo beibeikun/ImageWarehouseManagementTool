@@ -7,6 +7,7 @@ import java.io.IOException;
 
 import static Module.DataOperations.FileLister.getFileNames;
 import static Module.DataOperations.FileNameProcessor.processFileNames;
+import static Module.FileOperations.CreateFolder.createFolderWithTime;
 import static Module.FileOperations.FileCopyAndDelete.copyFile;
 import static Module.Others.SystemPrintOut.systemPrintOut;
 
@@ -23,6 +24,7 @@ public class ExtractMainImage
     {
         systemPrintOut("Start to take main img from source path", 3, 0);
         SystemChecker system = new SystemChecker();
+        destinationFolder = createFolderWithTime(destinationFolder);
         File folder = new File(sourceFolder);
 
         if (! folder.exists() || ! folder.isDirectory())

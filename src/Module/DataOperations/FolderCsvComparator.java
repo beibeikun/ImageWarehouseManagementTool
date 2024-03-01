@@ -10,6 +10,7 @@ import java.util.Set;
 
 import static Module.DataOperations.FileLister.getFileNames;
 import static Module.DataOperations.FileNameProcessor.processFileNames;
+import static Module.FileOperations.CreateFolder.createFolderWithTime;
 import static Module.Others.SystemPrintOut.systemPrintOut;
 
 public class FolderCsvComparator
@@ -26,6 +27,7 @@ public class FolderCsvComparator
      */
     public static void compareAndGenerateCsv(String folderPath, String csvFilePath, String outpath) throws IOException
     {
+        outpath = createFolderWithTime(outpath);
         systemPrintOut("Start to compare", 3, 0);
         String outputCsvPath = outpath + File.separator + "COMPARISON_RESULT.csv";
         systemPrintOut("Create csv", 1, 0);

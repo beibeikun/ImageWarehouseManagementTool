@@ -25,6 +25,7 @@ import static Module.CheckOperations.FilePathChecker.checkback;
 import static Module.CompleteProcess.ChangeAllSuffix.changeAllSuffix;
 import static Module.CompleteProcess.CompressImgToZipAndUpload.compressImgToZipAndUpload;
 import static Module.DataOperations.FolderCsvComparator.compareAndGenerateCsv;
+import static Module.DataOperations.GetLatestSubfolderPath.getLatestSubfolder;
 import static Module.DataOperations.ImgSize.getImgSize;
 import static Module.DataOperations.WriteToProperties.writeToProperties;
 import static Module.FileOperations.ExtractMainImage.extractMainImage;
@@ -89,19 +90,20 @@ public class Mainpage
     private JButton checkMainIMGButton;
     private JComboBox imgsizecomboBox;
     private JPanel Tab1;
-    private JPanel Tab2;
     private JPanel Tab3;
-    private JPanel Tab4;
     private JPanel Tab5;
+    private JPanel Tab4;
+    private JPanel Tab6;
     private JLabel Suffix;
     private JButton changeSuffixButton;
     private JCheckBox suffixCheckBox;
-    private JPanel Tab6;
+    private JPanel Tab2;
     private JButton linshi;
     private JComboBox cameraSizeComboBox;
     private JComboBox phoneSizeComboBox;
     private JCheckBox 替换已存在的图片CheckBox1;
     private JCheckBox 完成后删除源文件CheckBox;
+    private JButton changeTargetToSourceButton;
     private JTextArea consoleTextArea;
 
     public Mainpage()
@@ -188,6 +190,11 @@ public class Mainpage
         versionLabel.setText(versionnumber.getVersionNumber());//显示为当前版本号
         githuburlLabel.setText("<html><u>GitHub Homepage</u></html>");//显示github地址
 
+        String[][] filenamelist = new String[2][10];
+        filenamelist[0][0] = "versionNumber";
+        filenamelist[1][0] = versionLabel.getText();
+        writeToProperties("settings", filenamelist);
+
         /*--------------------------------按键监听--------------------------------*/
         /*================================顶部================================*/
 
@@ -223,6 +230,18 @@ public class Mainpage
             {
                 String Sfirstpath = getfilepath.selectFilePath(2, firstpath.getText());
                 firstpath.setText(Sfirstpath);
+                String[][] filenamelist = new String[2][10];
+                filenamelist[0][0] = "firstpath";
+                filenamelist[1][0] = firstpath.getText();
+                writeToProperties("settings", filenamelist);
+            }
+        });
+        changeTargetToSourceButton.addActionListener(new ActionListener()
+        {
+            @Override
+            public void actionPerformed(ActionEvent e)
+            {
+                firstpath.setText(getLatestSubfolder(lastpath.getText()));
                 String[][] filenamelist = new String[2][10];
                 filenamelist[0][0] = "firstpath";
                 filenamelist[1][0] = firstpath.getText();
@@ -274,9 +293,7 @@ public class Mainpage
                 {
                     RenamestartButton.setEnabled(true);
                     takemainfromdatabaseButton.setEnabled(true);
-                    ExtractMainImageButton.setEnabled(true);
                     changeSuffixButton.setEnabled(true);
-                    checkMainIMGButton.setEnabled(true);
                 }
             }
         });
@@ -346,9 +363,7 @@ public class Mainpage
                 worker.execute();
                 RenamestartButton.setEnabled(false);
                 takemainfromdatabaseButton.setEnabled(false);
-                ExtractMainImageButton.setEnabled(false);
                 changeSuffixButton.setEnabled(false);
-                checkMainIMGButton.setEnabled(false);
             }
 
         });
@@ -376,9 +391,7 @@ public class Mainpage
                 worker.execute();
                 RenamestartButton.setEnabled(false);
                 takemainfromdatabaseButton.setEnabled(false);
-                ExtractMainImageButton.setEnabled(false);
                 changeSuffixButton.setEnabled(false);
-                checkMainIMGButton.setEnabled(false);
             }
         });
 
@@ -393,21 +406,17 @@ public class Mainpage
                     @Override
                     protected Void doInBackground() throws Exception
                     {
-                        CheckButton.setEnabled(false);
                         Instant instant1 = Instant.now();
                         extractMainImage(firstpath.getText(), lastpath.getText());
                         Instant instant2 = Instant.now();
                         JOptionPane.showMessageDialog(null, "任务完成，本次耗时：" + getTimeConsuming(instant1, instant2) + "秒");
-                        CheckButton.setEnabled(true);
                         return null;
                     }
                 };
                 worker.execute();
                 RenamestartButton.setEnabled(false);
                 takemainfromdatabaseButton.setEnabled(false);
-                ExtractMainImageButton.setEnabled(false);
                 changeSuffixButton.setEnabled(false);
-                checkMainIMGButton.setEnabled(false);
 
             }
         });
@@ -441,9 +450,7 @@ public class Mainpage
                 worker.execute();
                 RenamestartButton.setEnabled(false);
                 takemainfromdatabaseButton.setEnabled(false);
-                ExtractMainImageButton.setEnabled(false);
                 changeSuffixButton.setEnabled(false);
-                checkMainIMGButton.setEnabled(false);
             }
         });
 
@@ -458,7 +465,6 @@ public class Mainpage
                     @Override
                     protected Void doInBackground() throws Exception
                     {
-                        CheckButton.setEnabled(false);
                         Instant instant1 = Instant.now();
                         try
                         {
@@ -471,16 +477,13 @@ public class Mainpage
 
                         Instant instant2 = Instant.now();
                         JOptionPane.showMessageDialog(null, "任务完成，本次耗时：" + getTimeConsuming(instant1, instant2) + "秒");
-                        CheckButton.setEnabled(true);
                         return null;
                     }
                 };
                 worker.execute();
                 RenamestartButton.setEnabled(false);
                 takemainfromdatabaseButton.setEnabled(false);
-                ExtractMainImageButton.setEnabled(false);
                 changeSuffixButton.setEnabled(false);
-                checkMainIMGButton.setEnabled(false);
             }
         });
         /*================================第二页：上传至仓库================================*/
