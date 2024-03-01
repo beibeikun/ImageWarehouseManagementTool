@@ -19,13 +19,13 @@ import java.nio.charset.StandardCharsets;
 import java.util.Properties;
 import java.util.Scanner;
 
+import static Module.CompleteProcess.CompressImgToZipAndUpload.compressImgToZipAndUpload;
+import static Module.CompressOperations.CompressImagesInBatches.compressImagesInBatches;
 import static Module.DataOperations.WriteToProperties.writeToProperties;
 import static Module.FileOperations.ExtractMainImage.extractMainImage;
 import static Module.FileOperations.TakeMainFromDatabase.takeMainFromDatabase;
 import static Module.Others.GetPropertiesPath.settingspath;
 import static Module.Others.SystemPrintOut.systemPrintOut;
-import static Module.CompleteProcess.CompressImgToZipAndUpload.compressImgToZipAndUpload;
-import static Module.CompressOperations.CompressImagesInBatches.compressImagesInBatches;
 
 public class START_WITH_TERMINAL {
     public static final String ANSI_RESET = "\u001B[0m";
@@ -204,6 +204,7 @@ public class START_WITH_TERMINAL {
             }
         }
     }
+
     private static void menu() {
         System.out.println(ANSI_YELLOW+ "————————————————————————————————————————————————————————————————————————————————————————————————————");
         System.out.println("| 菜单");

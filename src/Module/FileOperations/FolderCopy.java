@@ -10,8 +10,8 @@ import java.util.List;
 import static Module.CheckOperations.HiddenFilesChecker.isSystemOrHiddenFile;
 import static Module.DataOperations.FileLister.getFileNames;
 import static Module.DataOperations.GetPrefix.getPrefix;
+import static Module.FileOperations.FileCopyAndDelete.copyFile;
 import static Module.Others.SystemPrintOut.systemPrintOut;
-import static Module.Test.FileOperations.copyFile;
 
 public class FolderCopy {
     /**
@@ -70,7 +70,7 @@ public class FolderCopy {
      * @param targetFolderPath 目标文件夹路径
      * @param nameList 文件名列表
      */
-    public static void copyFolderWithList(String sourceFolderPath, String targetFolderPath, List<String> nameList) {
+    public static void copyFolderWithList(String sourceFolderPath, String targetFolderPath, List<String> nameList) throws IOException {
         String[] sourceFiles = getFileNames(sourceFolderPath);
         SystemChecker system = new SystemChecker();
 

@@ -1,8 +1,8 @@
 package GUI;
 
 import Module.CheckOperations.SystemChecker;
-import Module.Others.VersionNumber;
 import Module.CompleteProcess.CompleteNameChangeProcess;
+import Module.Others.VersionNumber;
 import com.drew.imaging.ImageProcessingException;
 import com.drew.metadata.MetadataException;
 import com.formdev.flatlaf.FlatDarkLaf;
@@ -23,18 +23,18 @@ import static GUI.ImageUtils.openImage;
 import static Module.CheckOperations.FilePathChecker.checkFilePath;
 import static Module.CheckOperations.FilePathChecker.checkback;
 import static Module.CompleteProcess.ChangeAllSuffix.changeAllSuffix;
+import static Module.CompleteProcess.CompressImgToZipAndUpload.compressImgToZipAndUpload;
 import static Module.DataOperations.FolderCsvComparator.compareAndGenerateCsv;
 import static Module.DataOperations.ImgSize.getImgSize;
 import static Module.DataOperations.WriteToProperties.writeToProperties;
 import static Module.FileOperations.ExtractMainImage.extractMainImage;
 import static Module.FileOperations.FilePrefixMove.filePrefixMove;
 import static Module.FileOperations.TakeMainFromDatabase.takeMainFromDatabase;
-import static Module.Others.StartCheck.StartCheck;
 import static Module.Others.GetPropertiesPath.propertiespath;
 import static Module.Others.GetPropertiesPath.settingspath;
 import static Module.Others.GetTimeConsuming.getTimeConsuming;
+import static Module.Others.StartCheck.StartCheck;
 import static Module.Others.SystemPrintOut.systemPrintOut;
-import static Module.CompleteProcess.CompressImgToZipAndUpload.compressImgToZipAndUpload;
 
 public class Mainpage {
     static JFrame frame = new JFrame("MainpageUI");

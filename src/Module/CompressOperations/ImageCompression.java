@@ -1,5 +1,4 @@
 package Module.CompressOperations;
-//TODO:要测试要测试要测试
 import net.coobird.thumbnailator.Thumbnails;
 
 import java.io.File;

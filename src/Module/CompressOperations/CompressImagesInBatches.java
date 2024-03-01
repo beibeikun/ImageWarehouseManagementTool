@@ -8,8 +8,8 @@ import java.io.IOException;
 import java.text.DecimalFormat;
 
 import static Module.CheckOperations.HiddenFilesChecker.isSystemOrHiddenFile;
-import static Module.Others.SystemPrintOut.systemPrintOut;
 import static Module.CompressOperations.ImageCompression.imageCompression;
+import static Module.Others.SystemPrintOut.systemPrintOut;
 
 public class CompressImagesInBatches {
 

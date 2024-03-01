@@ -6,7 +6,6 @@ import Module.DataOperations.ReadCsvFile;
 import java.io.File;
 
 import static Module.CheckOperations.HiddenFilesChecker.isSystemOrHiddenFile;
-import static Module.DataOperations.ReadCsvFile.csvToArray;
 import static Module.Others.SystemPrintOut.systemPrintOut;
 
 /**

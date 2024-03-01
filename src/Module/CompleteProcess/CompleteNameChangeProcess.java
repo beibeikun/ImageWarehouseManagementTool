@@ -1,19 +1,21 @@
 package Module.CompleteProcess;
 
 import Module.CheckOperations.SystemChecker;
+import Module.CompressOperations.UnzipAllZipsWithDelete;
 import Module.DataOperations.ArrayExtractor;
 import Module.DataOperations.ReadCsvFile;
 import Module.FileOperations.DeleteFilesWithKeyword;
 import Module.FileOperations.FileExtractor;
 import Module.FileOperations.FolderCopy;
 import Module.FileOperations.RenameFiles;
-import Module.CompressOperations.UnzipAllZipsWithDelete;
 import com.drew.imaging.ImageProcessingException;
 import com.drew.metadata.MetadataException;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 import static Module.CompleteProcess.ChangeAllSuffix.changeAllSuffix;
 import static Module.CompressOperations.ImageCompression.compressImgWithFileListUseMultithreading;
@@ -73,7 +75,6 @@ public class CompleteNameChangeProcess {
         RenameFiles.renameFiles(CSVPath, targetFolderPath, 0, 0);
         systemPrintOut(null, 0, 0);
         // 删除目标文件夹中包含关键词的文件
-        //TODO:现在这个方法用关键字符去判断不够合理，需要优化，不过现在应该用不到了
         DeleteFilesWithKeyword.deleteFilesWithKeyword(targetFolderPath, "JB");
         //根据 imgsize 判断图片是否需要压缩，不为0即需要压缩
         if (imgsize != 0) {

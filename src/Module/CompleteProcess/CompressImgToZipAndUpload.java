@@ -8,16 +8,16 @@ import java.io.File;
 import java.io.IOException;
 import java.util.List;
 
+import static Module.CompressOperations.CompressFileList.compressFiles;
 import static Module.CompressOperations.ImageCompression.compressImgWithFileListUseMultithreading;
+import static Module.CompressOperations.ImageCompression.imageCompression;
+import static Module.DataOperations.FileLister.getFileNames;
+import static Module.DataOperations.FileNameProcessor.processFileNames;
+import static Module.DataOperations.FileSearch.searchFiles;
 import static Module.FileOperations.CreateTemporaryDestinationFolder.createTemporaryFolder;
 import static Module.FileOperations.DeleteDirectory.deleteDirectory;
 import static Module.FileOperations.FileCopyAndDelete.*;
 import static Module.Others.SystemPrintOut.systemPrintOut;
-import static Module.DataOperations.FileLister.getFileNames;
-import static Module.DataOperations.FileNameProcessor.processFileNames;
-import static Module.DataOperations.FileSearch.searchFiles;
-import static Module.CompressOperations.CompressFileList.compressFiles;
-import static Module.CompressOperations.ImageCompression.imageCompression;
 
 
 /**
