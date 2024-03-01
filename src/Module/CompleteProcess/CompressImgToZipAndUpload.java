@@ -30,7 +30,7 @@ public class CompressImgToZipAndUpload {
      * @param mode                    1.相机图 其他.手机图
      * @throws IOException 如果文件操作失败
      */
-    public static void compressImgToZipAndUpload(String sourceFolder,String destinationFolder,int mode) throws IOException, ImageProcessingException, MetadataException {
+    public static void compressImgToZipAndUpload(String sourceFolder,String destinationFolder,int mode,int imgsize) throws IOException, ImageProcessingException, MetadataException {
         systemPrintOut("Start to upload", 3, 0);
         SystemChecker system = new SystemChecker();
 
@@ -63,9 +63,17 @@ public class CompressImgToZipAndUpload {
             }
             //获取同一前缀的文件列表
             List<File> readytocompress = searchFiles(sourceFolder,FileNames[i]);
+            if (imgsize != 0) {
+                for (File file : readytocompress) {
+                    String imgpath = file.getAbsolutePath();
+                    imageCompression(imgpath, imgsize);
+                    systemPrintOut("Compressed: " + file, 1, 0);
+                }
+            }
+            int x=i+1;
             //压缩同一前缀的文件
             compressFiles(readytocompress,temporaryDestinationFolder + system.identifySystem_String() +FileNames[i]+".zip");
-            systemPrintOut("Compressed:" + FileNames[i]+".zip", 1, 0);
+            systemPrintOut("Compressed:" + FileNames[i]+".zip" + "    (" + x + "/" + FileNames.length + ")", 1, 0);
         }
         //把压缩包从临时文件夹移动到目标文件夹并按前缀分类
         copyFiles(temporaryDestinationFolder, destinationFolder, 6);

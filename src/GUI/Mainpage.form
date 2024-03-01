@@ -272,6 +272,18 @@
                 <properties/>
                 <border type="none" title="相机库相关设置"/>
                 <children>
+                  <component id="716ff" class="javax.swing.JComboBox" binding="cameraSizeComboBox">
+                    <constraints/>
+                    <properties>
+                      <model>
+                        <item value="5000px"/>
+                        <item value="fullsize"/>
+                      </model>
+                    </properties>
+                  </component>
+                  <hspacer id="7bc8b">
+                    <constraints/>
+                  </hspacer>
                   <component id="f3a02" class="javax.swing.JCheckBox" binding="替换已存在的图片CheckBox" default-binding="true">
                     <constraints/>
                     <properties>
@@ -324,7 +336,35 @@
                 </constraints>
                 <properties/>
                 <border type="none" title="手机库相关设置"/>
-                <children/>
+                <children>
+                  <component id="15c" class="javax.swing.JComboBox" binding="phoneSizeComboBox">
+                    <constraints/>
+                    <properties>
+                      <model>
+                        <item value="4000px"/>
+                        <item value="fullsize"/>
+                      </model>
+                    </properties>
+                  </component>
+                  <hspacer id="29e48">
+                    <constraints/>
+                  </hspacer>
+                  <component id="82555" class="javax.swing.JCheckBox" binding="替换已存在的图片CheckBox1" default-binding="true">
+                    <constraints/>
+                    <properties>
+                      <enabled value="false"/>
+                      <selected value="true"/>
+                      <text value="替换已存在的图片"/>
+                    </properties>
+                  </component>
+                  <component id="d8924" class="javax.swing.JCheckBox" binding="完成后删除源文件CheckBox" default-binding="true">
+                    <constraints/>
+                    <properties>
+                      <enabled value="false"/>
+                      <text value="完成后删除源文件"/>
+                    </properties>
+                  </component>
+                </children>
               </toolbar>
               <component id="34540" class="javax.swing.JButton" binding="AddtophonedatabaseButton">
                 <constraints>

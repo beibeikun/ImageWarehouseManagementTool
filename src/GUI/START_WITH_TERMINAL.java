@@ -1,3 +1,10 @@
+/*--------------------------------------------------------------------------------
+
+
+缺少维护，不保证完全可用
+
+
+--------------------------------------------------------------------------------*/
 package GUI;
 
 import Module.CheckOperations.SystemChecker;
@@ -173,7 +180,7 @@ public class START_WITH_TERMINAL {
                     {
                         compressImagesInBatches(firstpath,5000,true);
                     }
-                    compressImgToZipAndUpload(firstpath, cameradatabasepath, 1);
+                    compressImgToZipAndUpload(firstpath, cameradatabasepath, 1,0);
                     menu();
                     break;
                 case 32:
@@ -184,7 +191,7 @@ public class START_WITH_TERMINAL {
                     {
                         compressImagesInBatches(firstpath,5000,true);
                     }
-                    compressImgToZipAndUpload(firstpath, phonedatabasepath, 0);
+                    compressImgToZipAndUpload(firstpath, phonedatabasepath, 0,0);
                     menu();
                     break;
                 case 4:

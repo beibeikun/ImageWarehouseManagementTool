@@ -97,6 +97,10 @@ public class Mainpage {
     private JCheckBox suffixCheckBox;
     private JPanel Tab6;
     private JButton linshi;
+    private JComboBox cameraSizeComboBox;
+    private JComboBox phoneSizeComboBox;
+    private JCheckBox 替换已存在的图片CheckBox1;
+    private JCheckBox 完成后删除源文件CheckBox;
     private JTextArea consoleTextArea;
 
     public Mainpage() {
@@ -242,7 +246,7 @@ public class Mainpage {
             public void actionPerformed(ActionEvent e) {
                 int renamecsvpathcheck = checkFilePath(renamecsvpath.getText(), false);
                 int firstpathcheck = checkFilePath(firstpath.getText(), false);
-                int lastpathcheck = checkFilePath(lastpath.getText(), true);
+                int lastpathcheck = checkFilePath(lastpath.getText(), false);
                 if (checkback(renamecsvpathcheck,firstpathcheck,lastpathcheck,lastpath.getText()))
                 {
                     RenamestartButton.setEnabled(true);
@@ -291,8 +295,8 @@ public class Mainpage {
                             suffixtype = 1;
                         }
                         CompleteNameChangeProcess completeNameChangeProcess = new CompleteNameChangeProcess();
+                        int imgsize = getImgSize(imgsizecomboBox.getSelectedItem().toString());
                         try {
-                            int imgsize = getImgSize(imgsizecomboBox.getSelectedItem().toString());
                             systemPrintOut("Start to rename",1,0);
                             completeNameChangeProcess.completeNameChangeProcess(databasepath, firstpath.getText(), lastpath.getText(), renamecsvpath.getText(), check_usedatabase, imgsize,false,prefix,suffixtype);
                         } catch (IOException | ImageProcessingException | MetadataException ex) {
@@ -436,10 +440,11 @@ public class Mainpage {
                     protected Void doInBackground() throws Exception {
                         CheckButton.setEnabled(false);
                         int filepathcheck = checkFilePath(firstpath.getText(), false);
+                        int imgsize = getImgSize(cameraSizeComboBox.getSelectedItem().toString());
                         if (filepathcheck == 1) {
                             Instant instant1 = Instant.now();
                             try {
-                                compressImgToZipAndUpload(firstpath.getText(), cameradatabasepath.getText(), 1);
+                                compressImgToZipAndUpload(firstpath.getText(), cameradatabasepath.getText(), 1,imgsize);
                                 if (deleteCheckBox.isSelected())//完成后删除文件
                                 {
                                     //TODO 完成后删除源文件夹中的所有内容
@@ -476,10 +481,11 @@ public class Mainpage {
                     protected Void doInBackground() throws Exception {
                         CheckButton.setEnabled(false);
                         int filepathcheck = checkFilePath(firstpath.getText(), false);
+                        int imgsize = getImgSize(phoneSizeComboBox.getSelectedItem().toString());
                         if (filepathcheck == 1) {
                             Instant instant1 = Instant.now();
                             try {
-                                compressImgToZipAndUpload(firstpath.getText(), phonedatabasepath.getText(), 0);
+                                compressImgToZipAndUpload(firstpath.getText(), phonedatabasepath.getText(), 0,imgsize);
                                 if (deleteCheckBox.isSelected())//完成后删除文件
                                 {
                                     //TODO 完成后删除源文件夹中的所有内容

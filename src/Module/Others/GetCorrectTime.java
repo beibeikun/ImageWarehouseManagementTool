@@ -16,4 +16,14 @@ public class GetCorrectTime {
         String formattedDateTime = localDateTime.format(formatter);
         return formattedDateTime;
     }
+    public static String getCorrectTimeToFolderName() {
+        long millis = System.currentTimeMillis();
+        Instant instant = Instant.ofEpochMilli(millis);
+        LocalDateTime localDateTime = LocalDateTime.ofInstant(instant, ZoneId.systemDefault());
+
+// 格式化时间，包括毫秒部分
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyMMdd_HHmmss");
+        String formattedDateTime = localDateTime.format(formatter);
+        return formattedDateTime;
+    }
 }

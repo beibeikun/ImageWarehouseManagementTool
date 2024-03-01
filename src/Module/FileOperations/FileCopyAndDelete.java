@@ -73,7 +73,7 @@ public class FileCopyAndDelete {
                         copyFile(firstfolderpath + systemIdentifier.identifySystem_String() + image.getName(), filepath);
                     } else {
                         copyFile(firstfolderpath + systemIdentifier.identifySystem_String() + image.getName(), lastfolderpath);
-                        systemPrintOut(image.getName(), 1, 0);
+                        systemPrintOut("Upload:" + image.getName(), 1, 0);
                     }
                 }
             }

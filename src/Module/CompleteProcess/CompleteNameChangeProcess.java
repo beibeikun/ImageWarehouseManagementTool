@@ -1,5 +1,6 @@
 package Module.CompleteProcess;
 
+import Module.CheckOperations.SystemChecker;
 import Module.DataOperations.ArrayExtractor;
 import Module.DataOperations.ReadCsvFile;
 import Module.FileOperations.DeleteFilesWithKeyword;
@@ -11,11 +12,13 @@ import Module.CompressOperations.UnzipAllZipsWithDelete;
 import com.drew.imaging.ImageProcessingException;
 import com.drew.metadata.MetadataException;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.*;
 
 import static Module.CompleteProcess.ChangeAllSuffix.changeAllSuffix;
 import static Module.FileOperations.FilePrefixMove.filePrefixMove;
+import static Module.Others.GetCorrectTime.getCorrectTimeToFolderName;
 import static Module.Others.SystemPrintOut.systemPrintOut;
 
 /**
@@ -36,9 +39,17 @@ public class CompleteNameChangeProcess {
      * @throws IOException 如果文件操作失败
      */
     public void completeNameChangeProcess(String nasFolderPath, String sourceFolderPath, String targetFolderPath, String CSVPath, int checkBoxAddFromDatabase, int imgsize, boolean terminal, boolean prefixmove, int suffix) throws IOException, ImageProcessingException, MetadataException {
+        SystemChecker system = new SystemChecker();
         // 从 CSV 中提取要提取的文件名数组
         String[] fileNamesToExtract = ArrayExtractor.extractRow(ReadCsvFile.csvToArray(CSVPath), 0);
         List<String> readyToCopyNameList = Arrays.asList(fileNamesToExtract);
+        //用当前时间新建一个文件夹来存储
+        targetFolderPath = targetFolderPath + system.identifySystem_String() + getCorrectTimeToFolderName();
+        // 创建 File 对象
+        File file = new File(targetFolderPath);
+        // 创建文件夹
+        file.mkdir();
+
         systemPrintOut("Start to rename", 3, 0);
         //储存数据库中存在的文件名
         List<String> databaseNamelist = new ArrayList<>();
