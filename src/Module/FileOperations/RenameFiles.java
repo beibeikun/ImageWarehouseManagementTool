@@ -1,5 +1,8 @@
 package Module.FileOperations;
 
+import Module.DataOperations.ArrayExtractor;
+import Module.DataOperations.ReadCsvFile;
+
 import java.io.File;
 
 import static Module.CheckOperations.HiddenFilesChecker.isSystemOrHiddenFile;
@@ -24,9 +27,9 @@ public class RenameFiles {
      */
     public static void renameFiles(String excelPath, String imagePath, int digitCheck, int prefixCheck) {
         // 从Excel中获取映射关系
-        String[][] JB_LOTArray = csvToArray(excelPath);
-        String[] JBArray = JB_LOTArray[0];
-        String[] LOTArray = JB_LOTArray[1];
+        //String[][] JB_LOTArray = csvToArray(excelPath);
+        String[] JBArray = ArrayExtractor.extractRow(ReadCsvFile.csvToArray(excelPath), 0);
+        String[] LOTArray = ArrayExtractor.extractRow(ReadCsvFile.csvToArray(excelPath), 1);
 
         // 获取图片文件夹下的文件列表
         File imageFolder = new File(imagePath);

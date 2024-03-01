@@ -188,6 +188,7 @@
                         <item value="fullsize"/>
                         <item value="1000px"/>
                         <item value="2500px"/>
+                        <item value="4000px"/>
                       </model>
                     </properties>
                   </component>

@@ -7,6 +7,8 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
+import java.util.ArrayList;
+import java.util.List;
 
 import static Module.Others.SystemPrintOut.systemPrintOut;
 
@@ -22,9 +24,9 @@ public class FileExtractor {
      * @param fileNamesToExtract 要提取的文件名数组
      * @throws IOException 如果文件操作失败
      */
-    public static void extractFiles(String sourceFolderPath, String targetFolderPath, String[] fileNamesToExtract) throws IOException {
+    public static List<String> extractFiles(String sourceFolderPath, String targetFolderPath, String[] fileNamesToExtract) throws IOException {
         SystemChecker system = new SystemChecker();
-
+        List<String> nameList = new ArrayList<>();
         for (String fileName : fileNamesToExtract) {
             // 构建源文件的路径
             Path sourcePath = Paths.get(sourceFolderPath, system.identifySystem_String() + fileName.substring(0, 6) + system.identifySystem_String() + fileName + ".zip");
@@ -32,8 +34,10 @@ public class FileExtractor {
             if (fileExists(sourcePath)) {
                 // 复制文件到目标文件夹
                 copyFileToFolder(sourcePath, targetFolderPath);
+                nameList.add(fileName);
             }
         }
+        return nameList;
     }
 
     /**

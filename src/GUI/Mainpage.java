@@ -24,6 +24,7 @@ import static Module.CheckOperations.FilePathChecker.checkFilePath;
 import static Module.CheckOperations.FilePathChecker.checkback;
 import static Module.CompleteProcess.ChangeAllSuffix.changeAllSuffix;
 import static Module.DataOperations.FolderCsvComparator.compareAndGenerateCsv;
+import static Module.DataOperations.ImgSize.getImgSize;
 import static Module.DataOperations.WriteToProperties.writeToProperties;
 import static Module.FileOperations.ExtractMainImage.extractMainImage;
 import static Module.FileOperations.FilePrefixMove.filePrefixMove;
@@ -291,12 +292,7 @@ public class Mainpage {
                         }
                         CompleteNameChangeProcess completeNameChangeProcess = new CompleteNameChangeProcess();
                         try {
-                            int imgsize;
-                            if (imgsizecomboBox.getSelectedItem().equals("fullsize")) {
-                                imgsize = 0;
-                            } else {
-                                imgsize = Integer.parseInt(imgsizecomboBox.getSelectedItem().toString().substring(0, 4));
-                            }
+                            int imgsize = getImgSize(imgsizecomboBox.getSelectedItem().toString());
                             systemPrintOut("Start to rename",1,0);
                             completeNameChangeProcess.completeNameChangeProcess(databasepath, firstpath.getText(), lastpath.getText(), renamecsvpath.getText(), check_usedatabase, imgsize,false,prefix,suffixtype);
                         } catch (IOException | ImageProcessingException | MetadataException ex) {

@@ -17,7 +17,7 @@ public class FileOperations {
      * @param sourceFilePath 源文件路径
      * @param destFolderPath 目标文件夹路径
      */
-    static void copyFile(String sourceFilePath, String destFolderPath) {
+    public static void copyFile(String sourceFilePath, String destFolderPath) {
         SystemChecker systemIdentifier = new SystemChecker();
 
         String newFileName = sourceFilePath.substring(sourceFilePath.lastIndexOf(systemIdentifier.identifySystem_String()) + 1); // 目标文件名

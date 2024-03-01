@@ -12,6 +12,7 @@ import com.drew.imaging.ImageProcessingException;
 import com.drew.metadata.MetadataException;
 
 import java.io.IOException;
+import java.util.*;
 
 import static Module.CompleteProcess.ChangeAllSuffix.changeAllSuffix;
 import static Module.FileOperations.FilePrefixMove.filePrefixMove;
@@ -36,18 +37,29 @@ public class CompleteNameChangeProcess {
      */
     public void completeNameChangeProcess(String nasFolderPath, String sourceFolderPath, String targetFolderPath, String CSVPath, int checkBoxAddFromDatabase, int imgsize, boolean terminal, boolean prefixmove, int suffix) throws IOException, ImageProcessingException, MetadataException {
         // 从 CSV 中提取要提取的文件名数组
-        String[] fileNamesToExtract = ArrayExtractor.excludeFirstElement(ArrayExtractor.extractRow(ReadCsvFile.csvToArray(CSVPath), 0));
+        String[] fileNamesToExtract = ArrayExtractor.extractRow(ReadCsvFile.csvToArray(CSVPath), 0);
+        List<String> readyToCopyNameList = Arrays.asList(fileNamesToExtract);
         systemPrintOut("Start to rename", 3, 0);
+        //储存数据库中存在的文件名
+        List<String> databaseNamelist = new ArrayList<>();
         // 根据 checkBoxAddFromDatabase 标志判断是否添加数据库中的文件
         if (checkBoxAddFromDatabase == 1) {
             // 提取压缩包
-            FileExtractor.extractFiles(nasFolderPath, targetFolderPath, fileNamesToExtract);
+            databaseNamelist = FileExtractor.extractFiles(nasFolderPath, targetFolderPath, fileNamesToExtract);
             // 解压压缩包并删除
             UnzipAllZipsWithDelete.unzipAllZipsInFolder(targetFolderPath);
             systemPrintOut(null, 0, 0);
         }
+
+        Set<String> setA = new HashSet<>(readyToCopyNameList);
+        Set<String> setB = new HashSet<>(databaseNamelist);
+        // 将 setB 中的元素从 setA 中删除
+        setA.removeAll(setB);
+        // 将 setA 转换为 List<String>
+        readyToCopyNameList = new ArrayList<>(setA);
+
         // 从源文件夹拷贝文件到目标文件夹
-        FolderCopy.copyFolder(sourceFolderPath, targetFolderPath);
+        FolderCopy.copyFolderWithList(sourceFolderPath, targetFolderPath,readyToCopyNameList);
         systemPrintOut(null, 0, 0);
         // 重命名文件
         RenameFiles.renameFiles(CSVPath, targetFolderPath, 0, 0);
@@ -68,7 +80,6 @@ public class CompleteNameChangeProcess {
         systemPrintOut(null, 0, 0);
         //根据prefixmove判断是否需要分类
         if (prefixmove) {
-            System.out.println("111111111111"+targetFolderPath);
             filePrefixMove(targetFolderPath, " (");
             systemPrintOut(null, 0, 0);
         }

@@ -1,11 +1,17 @@
 package Module.FileOperations;
 
+import Module.CheckOperations.SystemChecker;
+
 import java.io.IOException;
 import java.nio.file.*;
 import java.nio.file.attribute.BasicFileAttributes;
+import java.util.List;
 
 import static Module.CheckOperations.HiddenFilesChecker.isSystemOrHiddenFile;
+import static Module.DataOperations.FileLister.getFileNames;
+import static Module.DataOperations.GetPrefix.getPrefix;
 import static Module.Others.SystemPrintOut.systemPrintOut;
+import static Module.Test.FileOperations.copyFile;
 
 public class FolderCopy {
     /**
@@ -56,5 +62,25 @@ public class FolderCopy {
                 return FileVisitResult.CONTINUE;
             }
         });
+    }
+    /**
+     * 按列表复制指定文件到目标文件夹。
+     *
+     * @param sourceFolderPath 源文件夹路径
+     * @param targetFolderPath 目标文件夹路径
+     * @param nameList 文件名列表
+     */
+    public static void copyFolderWithList(String sourceFolderPath, String targetFolderPath, List<String> nameList) {
+        String[] sourceFiles = getFileNames(sourceFolderPath);
+        SystemChecker system = new SystemChecker();
+
+        for (String sourceFile : sourceFiles) {
+            String filecheck = getPrefix(sourceFile);
+            if (nameList.contains(filecheck))
+            {
+                copyFile(sourceFolderPath+system.identifySystem_String()+sourceFile,targetFolderPath);
+                systemPrintOut("Copy:" + sourceFile + "-->" + targetFolderPath, 1, 0);
+            }
+        }
     }
 }
