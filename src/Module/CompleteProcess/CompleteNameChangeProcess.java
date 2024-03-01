@@ -7,7 +7,6 @@ import Module.FileOperations.DeleteFilesWithKeyword;
 import Module.FileOperations.FileExtractor;
 import Module.FileOperations.FolderCopy;
 import Module.FileOperations.RenameFiles;
-import Module.CompressOperations.CompressImagesInBatches;
 import Module.CompressOperations.UnzipAllZipsWithDelete;
 import com.drew.imaging.ImageProcessingException;
 import com.drew.metadata.MetadataException;
@@ -17,6 +16,9 @@ import java.io.IOException;
 import java.util.*;
 
 import static Module.CompleteProcess.ChangeAllSuffix.changeAllSuffix;
+import static Module.CompressOperations.ImageCompression.compressImgWithFileListUseMultithreading;
+import static Module.DataOperations.FileLister.getFileNamesInList;
+import static Module.DataOperations.ListExtractor.removeElementFromList;
 import static Module.FileOperations.FilePrefixMove.filePrefixMove;
 import static Module.Others.GetCorrectTime.getCorrectTimeToFolderName;
 import static Module.Others.SystemPrintOut.systemPrintOut;
@@ -42,33 +44,28 @@ public class CompleteNameChangeProcess {
         SystemChecker system = new SystemChecker();
         // 从 CSV 中提取要提取的文件名数组
         String[] fileNamesToExtract = ArrayExtractor.extractRow(ReadCsvFile.csvToArray(CSVPath), 0);
+        // 将文件名数组转化为列表
         List<String> readyToCopyNameList = Arrays.asList(fileNamesToExtract);
-        //用当前时间新建一个文件夹来存储
+        // 用当前时间新建一个文件夹来存储
         targetFolderPath = targetFolderPath + system.identifySystem_String() + getCorrectTimeToFolderName();
         // 创建 File 对象
         File file = new File(targetFolderPath);
         // 创建文件夹
         file.mkdir();
-
+        // 输出“开始重命名”
         systemPrintOut("Start to rename", 3, 0);
-        //储存数据库中存在的文件名
+        // 用于储存数据库中存在的文件名
         List<String> databaseNamelist = new ArrayList<>();
         // 根据 checkBoxAddFromDatabase 标志判断是否添加数据库中的文件
         if (checkBoxAddFromDatabase == 1) {
-            // 提取压缩包
+            // 提取压缩包并获取数据库中存在的文件名
             databaseNamelist = FileExtractor.extractFiles(nasFolderPath, targetFolderPath, fileNamesToExtract);
             // 解压压缩包并删除
             UnzipAllZipsWithDelete.unzipAllZipsInFolder(targetFolderPath);
             systemPrintOut(null, 0, 0);
         }
-
-        Set<String> setA = new HashSet<>(readyToCopyNameList);
-        Set<String> setB = new HashSet<>(databaseNamelist);
-        // 将 setB 中的元素从 setA 中删除
-        setA.removeAll(setB);
-        // 将 setA 转换为 List<String>
-        readyToCopyNameList = new ArrayList<>(setA);
-
+        //从列表中去除已经在文件仓库中找到的文件
+        readyToCopyNameList = removeElementFromList(readyToCopyNameList,databaseNamelist);
         // 从源文件夹拷贝文件到目标文件夹
         FolderCopy.copyFolderWithList(sourceFolderPath, targetFolderPath,readyToCopyNameList);
         systemPrintOut(null, 0, 0);
@@ -76,12 +73,16 @@ public class CompleteNameChangeProcess {
         RenameFiles.renameFiles(CSVPath, targetFolderPath, 0, 0);
         systemPrintOut(null, 0, 0);
         // 删除目标文件夹中包含关键词的文件
-        //TODO:现在这个方法用关键字符去判断不够合理，需要优化
+        //TODO:现在这个方法用关键字符去判断不够合理，需要优化，不过现在应该用不到了
         DeleteFilesWithKeyword.deleteFilesWithKeyword(targetFolderPath, "JB");
-        //根据 imgsize 判断图片是否需要压缩
+        //根据 imgsize 判断图片是否需要压缩，不为0即需要压缩
         if (imgsize != 0) {
             systemPrintOut(null, 0, 0);
-            CompressImagesInBatches.compressImagesInBatches(targetFolderPath, imgsize, terminal);
+            //获取需要要压缩尺寸的图像列表
+            List<File> files = getFileNamesInList(targetFolderPath);
+            //压缩图片
+            compressImgWithFileListUseMultithreading(files, imgsize);
+            //CompressImagesInBatches.compressImagesInBatches(targetFolderPath, imgsize, terminal);
         }
         systemPrintOut(null, 0, 0);
         //根据 suffix 判断是否需要生成其他后缀

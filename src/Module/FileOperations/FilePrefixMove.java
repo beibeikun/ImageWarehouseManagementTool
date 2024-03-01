@@ -19,7 +19,7 @@ public class FilePrefixMove {
      * @param lastpath  文件夹的路径
      * @param character 需要修改的文件名前缀字符
      */
-    public static void filePrefixMove(String lastpath, String character) {
+    public static void filePrefixMove(String lastpath, String character) throws IOException {
         File file = new File(lastpath);
         File[] imglist = file.listFiles();
         SystemChecker system = new SystemChecker();
@@ -44,10 +44,5 @@ public class FilePrefixMove {
                 value.delete();
             }
         }
-    }
-    public static void main(String[] args) throws IOException {
-        // 示例用法
-        String image = "D:\\1111\\222";
-        filePrefixMove(image," (");
     }
 }

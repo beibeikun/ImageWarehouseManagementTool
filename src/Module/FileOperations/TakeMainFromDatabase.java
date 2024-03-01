@@ -22,7 +22,7 @@ public class TakeMainFromDatabase {
      * @param databasepath 数据库文件的根路径
      * @param folderpath   目标文件夹路径
      */
-    public static void takeMainFromDatabase(String csvpath, String databasepath, String folderpath) {
+    public static void takeMainFromDatabase(String csvpath, String databasepath, String folderpath) throws IOException {
         systemPrintOut("Start to take main img from database", 3, 0);
         SystemChecker system = new SystemChecker();
         String[] fileNameList = new String[10000]; // 存放对应的JB号-Lot号

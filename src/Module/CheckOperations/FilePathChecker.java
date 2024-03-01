@@ -26,17 +26,20 @@ public class FilePathChecker {
         if (checkpath.isEmpty()) {
             // 未选取路径
             return 2;
-        } else {
+        }
+        else {
             ChineseCharactersChecker CNcheck = new ChineseCharactersChecker();
             // 路径中包含中文字符
             if (CNcheck.isContainChinese(checkpath)) {
                 return 3;
-            } else {
+            }
+            else {
                 File fileCheck = new File(checkpath);
                 if (!fileCheck.exists()) {
                     // 文件路径不存在
                     return 4;
-                } else {
+                }
+                else {
                     if (shouldCheckContents) {
                         File[] files = fileCheck.listFiles();
                         if (files != null && files.length > 0) {

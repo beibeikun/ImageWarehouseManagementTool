@@ -6,6 +6,7 @@ package Module.OLD_File;
 import Module.CheckOperations.SystemChecker;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.Objects;
 
 import static Module.FileOperations.FileCopyAndDelete.copyFile;
@@ -20,7 +21,7 @@ public class OLD_FilePrefixMove {
      * @param lastpath  文件夹的路径
      * @param character 需要修改的文件名前缀字符
      */
-    public void filePrefixMove(String lastpath, String character) {
+    public void filePrefixMove(String lastpath, String character) throws IOException {
         File file = new File(lastpath);
         File[] imglist = file.listFiles();
         SystemChecker system = new SystemChecker();

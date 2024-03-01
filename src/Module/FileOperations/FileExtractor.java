@@ -6,10 +6,10 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
 import java.util.List;
 
+import static Module.FileOperations.FileCopyAndDelete.copyFile;
 import static Module.Others.SystemPrintOut.systemPrintOut;
 
 /**
@@ -33,13 +33,13 @@ public class FileExtractor {
             // 检查文件是否存在
             if (fileExists(sourcePath)) {
                 // 复制文件到目标文件夹
-                copyFileToFolder(sourcePath, targetFolderPath);
+                copyFile(sourcePath.toString(), targetFolderPath);
+                systemPrintOut("Get:" + targetFolderPath + system.identifySystem_String() +sourcePath.getFileName().toString(), 1, 0);
                 nameList.add(fileName);
             }
         }
         return nameList;
     }
-
     /**
      * 复制文件到目标文件夹的方法。
      *
@@ -47,6 +47,7 @@ public class FileExtractor {
      * @param targetFolderPath 目标文件夹路径
      * @throws IOException 如果文件复制失败
      */
+    /*
     private static void copyFileToFolder(Path sourcePath, String targetFolderPath) throws IOException {
         // 构建目标文件的路径
         Path targetPath = Paths.get(targetFolderPath, sourcePath.getFileName().toString());
@@ -55,6 +56,8 @@ public class FileExtractor {
         Files.copy(sourcePath, targetPath, StandardCopyOption.REPLACE_EXISTING);
         systemPrintOut("Get:" + targetPath, 1, 0);
     }
+
+     */
 
     /**
      * 检查文件是否存在的方法。

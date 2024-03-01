@@ -3,6 +3,7 @@ package Module.FileOperations;
 import Module.CheckOperations.SystemChecker;
 
 import java.io.File;
+import java.io.IOException;
 
 import static Module.DataOperations.FileLister.getFileNames;
 import static Module.DataOperations.FileNameProcessor.processFileNames;
@@ -17,7 +18,7 @@ public class ExtractMainImage {
      * @param sourceFolder      源文件夹路径
      * @param destinationFolder 目标文件夹路径
      */
-    public static void extractMainImage(String sourceFolder, String destinationFolder) {
+    public static void extractMainImage(String sourceFolder, String destinationFolder) throws IOException {
         systemPrintOut("Start to take main img from source path", 3, 0);
         SystemChecker system = new SystemChecker();
         File folder = new File(sourceFolder);

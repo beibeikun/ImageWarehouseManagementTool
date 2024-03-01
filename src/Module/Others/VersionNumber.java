@@ -10,8 +10,8 @@ public class VersionNumber {
      * @return 版本号字符串
      */
     public String getVersionNumber() {
-        return "Build: 1.1 by beibeikun";
-    } //2023.12.12
+        return "Build: Beta1.2.240301 by beibeikun";
+    } //2024.03.01
 
     /**
      * 获取 GitHub 仓库地址。

@@ -5,10 +5,9 @@ import java.io.IOException;
 
 import static Module.CheckOperations.HiddenFilesChecker.isSystemOrHiddenFile;
 import static Module.FileOperations.ChangeSuffix.changeSuffix;
-import static Module.FileOperations.CreateTemporaryDestinationFolder.createTemporaryDestinationFolder;
+import static Module.FileOperations.CreateTemporaryDestinationFolder.createTemporaryFolder;
 import static Module.FileOperations.FolderCopy.copyFolder;
 import static Module.Others.SystemPrintOut.systemPrintOut;
-//TODO:能用了但还没实装
 /**
  * 批量更改文件后缀的类
  */
@@ -24,7 +23,7 @@ public class ChangeAllSuffix {
         String suffixfolder;
         if (mode == 1)
         {
-            suffixfolder = createTemporaryDestinationFolder(filepath,"_suffix");
+            suffixfolder = createTemporaryFolder(filepath,"_suffix");
         }
         else {
             suffixfolder = targetpath;
@@ -52,16 +51,5 @@ public class ChangeAllSuffix {
             }
         }
         systemPrintOut(null, 0, 0);
-    }
-
-    /**
-     * 主方法，用于测试
-     *
-     * @param args 命令行参数
-     */
-    public static void main(String[] args) throws IOException {
-        // 示例用法
-        String image = "D:\\1111\\222";
-        changeAllSuffix(image,"",1);
     }
 }
