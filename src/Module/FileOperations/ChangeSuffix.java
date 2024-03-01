@@ -8,22 +8,26 @@ import static Module.Others.SystemPrintOut.systemPrintOut;
 /**
  * 更改文件后缀的类
  */
-public class ChangeSuffix {
+public class ChangeSuffix
+{
 
     /**
      * 更改文件后缀的方法
      *
      * @param file 要更改后缀的文件
      */
-    public static void changeSuffix(File file) {
+    public static void changeSuffix(File file)
+    {
         // 获取文件路径的字符串表示
         String filepath = String.valueOf(file);
-        if (!extractStringFromFileName(filepath, "(", ")").isEmpty()) {
+        if (! extractStringFromFileName(filepath, "(", ")").isEmpty())
+        {
             // 从文件名中提取序列号，这里假设序列号在文件名中用括号括起来
             int serialnumber = Integer.parseInt(extractStringFromFileName(filepath, "(", ")"));
 
             // 如果序列号小于10，将括号后的"0"插入文件名中
-            if (serialnumber < 10) {
+            if (serialnumber < 10)
+            {
                 filepath = renameFileWithKeyword(filepath, "(", "(0");
             }
 
@@ -32,7 +36,7 @@ public class ChangeSuffix {
 
             // 移除文件名中的右括号
             filepath = renameFileWithKeyword(filepath, ")", "");
-            systemPrintOut("Change suffix:"+filepath,1,0);
+            systemPrintOut("Change suffix:" + filepath, 1, 0);
         }
     }
 
@@ -44,7 +48,8 @@ public class ChangeSuffix {
      * @param keyword2 关键词2
      * @return 提取的字符串
      */
-    public static String extractStringFromFileName(String filePath, String keyword1, String keyword2) {
+    public static String extractStringFromFileName(String filePath, String keyword1, String keyword2)
+    {
         // 创建文件对象
         File file = new File(filePath);
 
@@ -58,12 +63,14 @@ public class ChangeSuffix {
         int indexKeyword1 = fileName.indexOf(keyword1);
 
         // 如果找到关键词1
-        if (indexKeyword1 != -1) {
+        if (indexKeyword1 != - 1)
+        {
             // 寻找关键词2的位置
             int indexKeyword2 = fileName.indexOf(keyword2, indexKeyword1 + keyword1.length());
 
             // 如果找到关键词2
-            if (indexKeyword2 != -1) {
+            if (indexKeyword2 != - 1)
+            {
                 // 提取关键词1和关键词2之间的字符串
                 result = fileName.substring(indexKeyword1 + keyword1.length(), indexKeyword2);
             }

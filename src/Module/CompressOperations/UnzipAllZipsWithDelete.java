@@ -15,7 +15,8 @@ import static Module.Others.SystemPrintOut.systemPrintOut;
 /**
  * 解压并删除工具类。
  */
-public class UnzipAllZipsWithDelete {
+public class UnzipAllZipsWithDelete
+{
 
     private static final String ZIP_FILE_EXTENSION = "*.zip";
 
@@ -25,14 +26,18 @@ public class UnzipAllZipsWithDelete {
      * @param folderPath 要解压的文件夹路径
      * @throws IOException 如果文件操作失败
      */
-    public static void unzipAllZipsInFolder(String folderPath) throws IOException {
+    public static void unzipAllZipsInFolder(String folderPath) throws IOException
+    {
         Path sourceFolderPath = Paths.get(folderPath);
 
-        try (DirectoryStream<Path> stream = Files.newDirectoryStream(sourceFolderPath, ZIP_FILE_EXTENSION)) {
-            for (Path zipFilePath : stream) {
+        try (DirectoryStream<Path> stream = Files.newDirectoryStream(sourceFolderPath, ZIP_FILE_EXTENSION))
+        {
+            for (Path zipFilePath : stream)
+            {
                 unzipFile(zipFilePath, sourceFolderPath);
                 // 删除已解压的 ZIP 文件
-                if (Files.exists(zipFilePath)) {
+                if (Files.exists(zipFilePath))
+                {
                     Files.delete(zipFilePath);
                 }
                 systemPrintOut("Unzip:" + zipFilePath, 1, 0);
@@ -40,19 +45,24 @@ public class UnzipAllZipsWithDelete {
         }
     }
 
-    private static void unzipFile(Path zipFilePath, Path targetFolder) throws IOException {
-        try (ZipInputStream zipInputStream = new ZipInputStream(new FileInputStream(zipFilePath.toFile()))) {
+    private static void unzipFile(Path zipFilePath, Path targetFolder) throws IOException
+    {
+        try (ZipInputStream zipInputStream = new ZipInputStream(new FileInputStream(zipFilePath.toFile())))
+        {
             ZipEntry entry;
 
-            while ((entry = zipInputStream.getNextEntry()) != null) {
+            while ((entry = zipInputStream.getNextEntry()) != null)
+            {
                 Path entryPath = Paths.get(targetFolder.toString(), entry.getName());
                 Files.createDirectories(entryPath.getParent());
 
-                try (OutputStream outputStream = Files.newOutputStream(entryPath)) {
+                try (OutputStream outputStream = Files.newOutputStream(entryPath))
+                {
                     byte[] buffer = new byte[1024];
                     int length;
 
-                    while ((length = zipInputStream.read(buffer)) > 0) {
+                    while ((length = zipInputStream.read(buffer)) > 0)
+                    {
                         outputStream.write(buffer, 0, length);
                     }
                 }

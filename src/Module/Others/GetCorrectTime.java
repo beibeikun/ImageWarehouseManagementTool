@@ -5,13 +5,15 @@ import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 
-public class GetCorrectTime {
+public class GetCorrectTime
+{
     /**
      * 获取当前时间的字符串表示，包括毫秒部分
      *
      * @return 包含毫秒部分的当前时间字符串
      */
-    public static String getCorrectTime() {
+    public static String getCorrectTime()
+    {
         // 获取当前时间的毫秒数
         long millis = System.currentTimeMillis();
 
@@ -33,7 +35,8 @@ public class GetCorrectTime {
      *
      * @return 适用于文件夹名称的当前时间字符串
      */
-    public static String getCorrectTimeToFolderName() {
+    public static String getCorrectTimeToFolderName()
+    {
         // 获取当前时间的毫秒数
         long millis = System.currentTimeMillis();
 

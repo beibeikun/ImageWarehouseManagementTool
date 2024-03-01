@@ -15,7 +15,8 @@ import static Module.Others.SystemPrintOut.systemPrintOut;
 /**
  * 文件提取工具类，用于从源文件夹中提取特定文件名的文件并复制到目标文件夹中。
  */
-public class FileExtractor {
+public class FileExtractor
+{
     /**
      * 提取文件的方法，从源文件夹中提取特定文件名的文件并复制到目标文件夹中。
      *
@@ -24,17 +25,20 @@ public class FileExtractor {
      * @param fileNamesToExtract 要提取的文件名数组
      * @throws IOException 如果文件操作失败
      */
-    public static List<String> extractFiles(String sourceFolderPath, String targetFolderPath, String[] fileNamesToExtract) throws IOException {
+    public static List<String> extractFiles(String sourceFolderPath, String targetFolderPath, String[] fileNamesToExtract) throws IOException
+    {
         SystemChecker system = new SystemChecker();
         List<String> nameList = new ArrayList<>();
-        for (String fileName : fileNamesToExtract) {
+        for (String fileName : fileNamesToExtract)
+        {
             // 构建源文件的路径
             Path sourcePath = Paths.get(sourceFolderPath, system.identifySystem_String() + fileName.substring(0, 6) + system.identifySystem_String() + fileName + ".zip");
             // 检查文件是否存在
-            if (fileExists(sourcePath)) {
+            if (fileExists(sourcePath))
+            {
                 // 复制文件到目标文件夹
                 copyFile(sourcePath.toString(), targetFolderPath);
-                systemPrintOut("Get:" + targetFolderPath + system.identifySystem_String() +sourcePath.getFileName().toString(), 1, 0);
+                systemPrintOut("Get:" + targetFolderPath + system.identifySystem_String() + sourcePath.getFileName().toString(), 1, 0);
                 nameList.add(fileName);
             }
         }
@@ -65,7 +69,8 @@ public class FileExtractor {
      * @param filePath 文件路径
      * @return true 如果文件存在，否则 false
      */
-    private static boolean fileExists(Path filePath) {
+    private static boolean fileExists(Path filePath)
+    {
         return Files.exists(filePath);
     }
 

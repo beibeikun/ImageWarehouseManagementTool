@@ -3,19 +3,26 @@ package Module.CheckOperations;
 /**
  * 系统识别工具类，用于识别当前操作系统类型。
  */
-public class SystemChecker {
+public class SystemChecker
+{
     /**
      * 识别当前操作系统类型，并返回相应的整数值。
      *
      * @return 操作系统类型的整数值
      */
-    public int identifySystem_int() {
+    public int identifySystem_int()
+    {
         String OSname = System.getProperty("os.name");
-        if (OSname.startsWith("Mac OS")) {
+        if (OSname.startsWith("Mac OS"))
+        {
             return 1; // Mac OS
-        } else if (OSname.startsWith("Windows")) {
+        }
+        else if (OSname.startsWith("Windows"))
+        {
             return 2; // Windows
-        } else {
+        }
+        else
+        {
             return 3; // Unix or Linux
         }
     }
@@ -25,13 +32,19 @@ public class SystemChecker {
      *
      * @return 路径分隔符字符串
      */
-    public String identifySystem_String() {
+    public String identifySystem_String()
+    {
         String OSname = System.getProperty("os.name");
-        if (OSname.startsWith("Mac OS")) {
+        if (OSname.startsWith("Mac OS"))
+        {
             return "/"; // Mac OS
-        } else if (OSname.startsWith("Windows")) {
+        }
+        else if (OSname.startsWith("Windows"))
+        {
             return "\\"; // Windows
-        } else {
+        }
+        else
+        {
             return "/"; // Unix or Linux
         }
     }

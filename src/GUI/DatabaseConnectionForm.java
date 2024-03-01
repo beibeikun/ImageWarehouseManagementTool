@@ -17,13 +17,15 @@ import java.util.Properties;
 
 import static Module.DataOperations.WriteToProperties.writeToProperties;
 
-public class DatabaseConnectionForm extends JFrame {
+public class DatabaseConnectionForm extends JFrame
+{
     private final JTextField addressField;
     private final JTextField usernameField;
     private final JPasswordField passwordField;
     private JToggleButton showPasswordToggle;
 
-    public DatabaseConnectionForm(Mainpage.DataCallback callback) {
+    public DatabaseConnectionForm(Mainpage.DataCallback callback)
+    {
         setTitle("数据库连接");
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE); // 设置关闭操作为仅关闭当前窗口
 
@@ -75,24 +77,31 @@ public class DatabaseConnectionForm extends JFrame {
         Properties properties = new Properties();
         SystemChecker system = new SystemChecker();//获取系统类型
         try (FileInputStream fis = new FileInputStream("properties" + system.identifySystem_String() + "settings.properties");
-             InputStreamReader reader = new InputStreamReader(fis, StandardCharsets.UTF_8)) {
+             InputStreamReader reader = new InputStreamReader(fis, StandardCharsets.UTF_8))
+        {
             properties.load(reader);
             addressField.setText(properties.getProperty("databaseaddress"));
             usernameField.setText(properties.getProperty("databaseusername"));
             passwordField.setText(properties.getProperty("databasepassword"));
             // 读取属性值...
-        } catch (IOException e) {
+        }
+        catch (IOException e)
+        {
             e.printStackTrace();
         }
-        confirmButton.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
+        confirmButton.addActionListener(new ActionListener()
+        {
+            public void actionPerformed(ActionEvent e)
+            {
                 String address = addressField.getText();
                 String username = usernameField.getText();
                 String password = passwordField.getText();
 
-                try {
+                try
+                {
                     Connection connection = DriverManager.getConnection("jdbc:mysql://" + address, username, password);
-                    try {
+                    try
+                    {
 
                         String[][] filenamelist = new String[2][10];
                         filenamelist[0][0] = "databaseaddress";
@@ -107,11 +116,15 @@ public class DatabaseConnectionForm extends JFrame {
                         callback.onDataEntered(address, username, password);
                         JOptionPane.showMessageDialog(null, "数据库连接测试通过");
                         dispose(); // 关闭当前窗口
-                    } catch (Exception ea) {
+                    }
+                    catch (Exception ea)
+                    {
                         ea.printStackTrace();
                     }
                     // 连接成功后的操作
-                } catch (SQLException ea) {
+                }
+                catch (SQLException ea)
+                {
                     ea.printStackTrace();
                     JOptionPane.showMessageDialog(null, "数据库连接测试失败", "连接错误", JOptionPane.WARNING_MESSAGE);
                     // 连接失败时的处理

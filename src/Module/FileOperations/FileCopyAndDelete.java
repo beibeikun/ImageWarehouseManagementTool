@@ -19,15 +19,18 @@ import static Module.Others.SystemPrintOut.systemPrintOut;
 /**
  * 文件拷贝和删除操作类。
  */
-public class FileCopyAndDelete {
+public class FileCopyAndDelete
+{
     /**
      * 拷贝单个文件到目标文件夹。
      *
      * @param sourceFilePath 文件路径
      * @param destFolderPath 目标文件夹路径
      */
-    public static void copyFile(String sourceFilePath, String destFolderPath) throws IOException {
-        if (!isSystemOrHiddenFile(new File(sourceFilePath))) {
+    public static void copyFile(String sourceFilePath, String destFolderPath) throws IOException
+    {
+        if (! isSystemOrHiddenFile(new File(sourceFilePath)))
+        {
             Path targetPath = Paths.get(destFolderPath, Paths.get(sourceFilePath).getFileName().toString());
             Files.copy(Paths.get(sourceFilePath), targetPath, StandardCopyOption.REPLACE_EXISTING);
         }
@@ -58,33 +61,41 @@ public class FileCopyAndDelete {
      *
      * @param firstfolderpath 源文件夹路径
      * @param lastfolderpath  目标文件夹路径
-     * @param prefixnumbers 前缀数
+     * @param prefixnumbers   前缀数
      * @throws IOException 复制文件时可能发生的IO异常
      */
-    public static void copyFiles(String firstfolderpath, String lastfolderpath, int prefixnumbers) throws IOException {
+    public static void copyFiles(String firstfolderpath, String lastfolderpath, int prefixnumbers) throws IOException
+    {
         SystemChecker systemIdentifier = new SystemChecker();
         File imageFolder = new File(firstfolderpath);
         File[] imageList = imageFolder.listFiles();
 
-        if (imageFolder.exists() && imageFolder.isDirectory()) {
+        if (imageFolder.exists() && imageFolder.isDirectory())
+        {
             systemPrintOut("Start to copy", 3, 0);
 
-            for (File image : imageList) {
+            for (File image : imageList)
+            {
                 Path path = Paths.get(firstfolderpath + systemIdentifier.identifySystem_String() + image.getName());
                 // 将 Path 对象转换为 File 对象
                 File file = path.toFile();
-                if (!isSystemOrHiddenFile(file)) {
+                if (! isSystemOrHiddenFile(file))
+                {
                     // 在这里执行对非隐藏文件的操作
-                    if (prefixnumbers != 0) {
+                    if (prefixnumbers != 0)
+                    {
                         String filepath = lastfolderpath + systemIdentifier.identifySystem_String() + image.getName().substring(0, prefixnumbers);
                         systemPrintOut("Upload:" + image.getName(), 1, 0);
                         int i = checkFilePath(filepath, false);
-                        if (i == 4) {
+                        if (i == 4)
+                        {
                             File directory = new File(filepath);
                             boolean created = directory.mkdirs();
                         }
                         copyFile(firstfolderpath + systemIdentifier.identifySystem_String() + image.getName(), filepath);
-                    } else {
+                    }
+                    else
+                    {
                         copyFile(firstfolderpath + systemIdentifier.identifySystem_String() + image.getName(), lastfolderpath);
                         systemPrintOut("Upload:" + image.getName(), 1, 0);
                     }
@@ -93,19 +104,22 @@ public class FileCopyAndDelete {
             systemPrintOut(null, 0, 0);
         }
     }
+
     /**
      * 根据文件列表批量拷贝文件。
      *
-     * @param filelist 源文件列表
-     * @param targetDirPath  目标文件夹路径
+     * @param filelist      源文件列表
+     * @param targetDirPath 目标文件夹路径
      * @throws IOException 复制文件时可能发生的IO异常
      */
-    public static List<File> moveFilesWithList(List<File> filelist,String targetDirPath) throws IOException {
+    public static List<File> moveFilesWithList(List<File> filelist, String targetDirPath) throws IOException
+    {
         File directory = new File(targetDirPath);
         boolean deleted = deleteDirectory(directory);
         boolean created = directory.mkdirs();
         // 复制文件到目标文件夹
-        for (File file : filelist) {
+        for (File file : filelist)
+        {
             // 创建目标文件
             File targetFile = new File(targetDirPath, file.getName());
 

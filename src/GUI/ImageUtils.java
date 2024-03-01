@@ -8,19 +8,23 @@ import java.io.IOException;
 
 import static Module.Others.SystemPrintOut.systemPrintOut;
 
-public class ImageUtils {
+public class ImageUtils
+{
     /**
      * 打开并显示图像及相关信息的GUI窗口。
      *
      * @param imagePath 图像文件的路径
      */
-    public static void openImage(String imagePath) {
-        try {
+    public static void openImage(String imagePath)
+    {
+        try
+        {
             // 读取图像文件
             File imageFile = new File(imagePath);
-            if (!imageFile.exists()) {
+            if (! imageFile.exists())
+            {
                 JOptionPane.showMessageDialog(null, "文件不存在", "错误", JOptionPane.ERROR_MESSAGE);
-                systemPrintOut("Image file does not exist",2,0);
+                systemPrintOut("Image file does not exist", 2, 0);
                 return;
             }
             Image image = ImageIO.read(imageFile);
@@ -29,7 +33,8 @@ public class ImageUtils {
             int maxDimension = Math.max(image.getWidth(null), image.getHeight(null));
             int scaledWidth = image.getWidth(null);
             int scaledHeight = image.getHeight(null);
-            if (maxDimension > 600) {
+            if (maxDimension > 600)
+            {
                 double scale = 600.0 / maxDimension;
                 scaledWidth = (int) (scale * image.getWidth(null));
                 scaledHeight = (int) (scale * image.getHeight(null));
@@ -38,9 +43,11 @@ public class ImageUtils {
             // 创建左侧面板用于显示图像
             int finalScaledWidth = scaledWidth;
             int finalScaledHeight = scaledHeight;
-            JPanel imagePanel = new JPanel() {
+            JPanel imagePanel = new JPanel()
+            {
                 @Override
-                protected void paintComponent(Graphics g) {
+                protected void paintComponent(Graphics g)
+                {
                     super.paintComponent(g);
                     g.drawImage(image, 0, 0, finalScaledWidth, finalScaledHeight, null);
                 }
@@ -66,8 +73,10 @@ public class ImageUtils {
             frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
             frame.getContentPane().add(splitPane);
             frame.setVisible(true);
-            systemPrintOut("Open:"+imagePath,1,0);
-        } catch (IOException e) {
+            systemPrintOut("Open:" + imagePath, 1, 0);
+        }
+        catch (IOException e)
+        {
             e.printStackTrace();
         }
     }
