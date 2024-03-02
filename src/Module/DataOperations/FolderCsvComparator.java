@@ -10,9 +10,11 @@ import java.util.Set;
 
 import static Module.DataOperations.FileLister.getFileNames;
 import static Module.DataOperations.FileNameProcessor.processFileNames;
+import static Module.FileOperations.CreateFolder.createFolderWithTime;
 import static Module.Others.SystemPrintOut.systemPrintOut;
 
-public class FolderCsvComparator {
+public class FolderCsvComparator
+{
     /**
      * 比较文件夹内文件的文件名和CSV文件中列举的文件名，
      * 将不在CSV中但在文件夹内的文件名输出到第一列，
@@ -23,7 +25,9 @@ public class FolderCsvComparator {
      * @param csvFilePath CSV文件路径
      * @throws IOException 如果发生文件读写错误
      */
-    public static void compareAndGenerateCsv(String folderPath, String csvFilePath, String outpath) throws IOException {
+    public static void compareAndGenerateCsv(String folderPath, String csvFilePath, String outpath) throws IOException
+    {
+        outpath = createFolderWithTime(outpath);
         systemPrintOut("Start to compare", 3, 0);
         String outputCsvPath = outpath + File.separator + "COMPARISON_RESULT.csv";
         systemPrintOut("Create csv", 1, 0);
@@ -46,7 +50,8 @@ public class FolderCsvComparator {
      * @param arrayB 第二个字符串数组
      * @return 包含在数组A中但不在数组B中的元素的Set
      */
-    public static Set<String> getArrayDifference(String[] arrayA, String[] arrayB) {
+    public static Set<String> getArrayDifference(String[] arrayA, String[] arrayB)
+    {
         // 将数组A转换为Set
         Set<String> setA = new HashSet<>(Arrays.asList(arrayA));
 
@@ -68,12 +73,15 @@ public class FolderCsvComparator {
      * @param notInFolder 不在文件夹内但在CSV中的文件名集合
      * @throws IOException 如果发生文件写入错误
      */
-    private static void writeCsv(String outputPath, Set<String> notInCsv, Set<String> notInFolder) throws IOException {
-        try (PrintWriter writer = new PrintWriter(new FileWriter(outputPath))) {
+    private static void writeCsv(String outputPath, Set<String> notInCsv, Set<String> notInFolder) throws IOException
+    {
+        try (PrintWriter writer = new PrintWriter(new FileWriter(outputPath)))
+        {
             writer.println("Not_In_CSV, Not_In_Folder");
 
             int maxSize = Math.max(notInCsv.size(), notInFolder.size());
-            for (int i = 0; i < maxSize; i++) {
+            for (int i = 0; i < maxSize; i++)
+            {
                 String csvEntry = i < notInCsv.size() ? notInCsv.toArray(new String[0])[i] : "";
                 String folderEntry = i < notInFolder.size() ? notInFolder.toArray(new String[0])[i] : "";
                 writer.println(csvEntry + "," + folderEntry);

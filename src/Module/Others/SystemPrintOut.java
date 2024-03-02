@@ -2,12 +2,15 @@ package Module.Others;
 
 import static Module.Others.GetCorrectTime.getCorrectTime;
 
-public class SystemPrintOut {
-    public static void systemPrintOut(String printoutmessage, int type, int type2) {
+public class SystemPrintOut
+{
+    public static void systemPrintOut(String printoutmessage, int type, int type2)
+    {
         String info = "[" + getCorrectTime() + "]";
         String success = "   Succeeded: ";
         String error = "   [E R R O R]: ";
-        switch (type) {
+        switch (type)
+        {
             case 0:
                 System.out.println("---------------------------------------------------------------------------------");
                 break;

@@ -21,6 +21,7 @@ import static Module.CompleteProcess.ChangeAllSuffix.changeAllSuffix;
 import static Module.CompressOperations.ImageCompression.compressImgWithFileListUseMultithreading;
 import static Module.DataOperations.FileLister.getFileNamesInList;
 import static Module.DataOperations.ListExtractor.removeElementFromList;
+import static Module.FileOperations.CreateFolder.createFolderWithTime;
 import static Module.FileOperations.FilePrefixMove.filePrefixMove;
 import static Module.Others.GetCorrectTime.getCorrectTimeToFolderName;
 import static Module.Others.SystemPrintOut.systemPrintOut;
@@ -28,7 +29,8 @@ import static Module.Others.SystemPrintOut.systemPrintOut;
 /**
  * 文件名更改处理类，封装了完整的文件名更改过程。
  */
-public class CompleteNameChangeProcess {
+public class CompleteNameChangeProcess
+{
 
     /**
      * 完成文件名更改的整个过程。
@@ -42,24 +44,22 @@ public class CompleteNameChangeProcess {
      * @param suffix                  后缀判定
      * @throws IOException 如果文件操作失败
      */
-    public void completeNameChangeProcess(String nasFolderPath, String sourceFolderPath, String targetFolderPath, String CSVPath, int checkBoxAddFromDatabase, int imgsize, boolean terminal, boolean prefixmove, int suffix) throws IOException, ImageProcessingException, MetadataException {
+    public void completeNameChangeProcess(String nasFolderPath, String sourceFolderPath, String targetFolderPath, String CSVPath, int checkBoxAddFromDatabase, int imgsize, boolean terminal, boolean prefixmove, int suffix) throws IOException, ImageProcessingException, MetadataException
+    {
         SystemChecker system = new SystemChecker();
         // 从 CSV 中提取要提取的文件名数组
         String[] fileNamesToExtract = ArrayExtractor.extractRow(ReadCsvFile.csvToArray(CSVPath), 0);
         // 将文件名数组转化为列表
         List<String> readyToCopyNameList = Arrays.asList(fileNamesToExtract);
         // 用当前时间新建一个文件夹来存储
-        targetFolderPath = targetFolderPath + system.identifySystem_String() + getCorrectTimeToFolderName();
-        // 创建 File 对象
-        File file = new File(targetFolderPath);
-        // 创建文件夹
-        file.mkdir();
+        targetFolderPath = createFolderWithTime(targetFolderPath);
         // 输出“开始重命名”
         systemPrintOut("Start to rename", 3, 0);
         // 用于储存数据库中存在的文件名
         List<String> databaseNamelist = new ArrayList<>();
         // 根据 checkBoxAddFromDatabase 标志判断是否添加数据库中的文件
-        if (checkBoxAddFromDatabase == 1) {
+        if (checkBoxAddFromDatabase == 1)
+        {
             // 提取压缩包并获取数据库中存在的文件名
             databaseNamelist = FileExtractor.extractFiles(nasFolderPath, targetFolderPath, fileNamesToExtract);
             // 解压压缩包并删除
@@ -67,9 +67,9 @@ public class CompleteNameChangeProcess {
             systemPrintOut(null, 0, 0);
         }
         //从列表中去除已经在文件仓库中找到的文件
-        readyToCopyNameList = removeElementFromList(readyToCopyNameList,databaseNamelist);
+        readyToCopyNameList = removeElementFromList(readyToCopyNameList, databaseNamelist);
         // 从源文件夹拷贝文件到目标文件夹
-        FolderCopy.copyFolderWithList(sourceFolderPath, targetFolderPath,readyToCopyNameList);
+        FolderCopy.copyFolderWithList(sourceFolderPath, targetFolderPath, readyToCopyNameList);
         systemPrintOut(null, 0, 0);
         // 重命名文件
         RenameFiles.renameFiles(CSVPath, targetFolderPath, 0, 0);
@@ -77,7 +77,8 @@ public class CompleteNameChangeProcess {
         // 删除目标文件夹中包含关键词的文件
         DeleteFilesWithKeyword.deleteFilesWithKeyword(targetFolderPath, "JB");
         //根据 imgsize 判断图片是否需要压缩，不为0即需要压缩
-        if (imgsize != 0) {
+        if (imgsize != 0)
+        {
             systemPrintOut(null, 0, 0);
             //获取需要要压缩尺寸的图像列表
             List<File> files = getFileNamesInList(targetFolderPath);
@@ -87,12 +88,14 @@ public class CompleteNameChangeProcess {
         }
         systemPrintOut(null, 0, 0);
         //根据 suffix 判断是否需要生成其他后缀
-        if (suffix != 0) {
-            changeAllSuffix(targetFolderPath,"",1);
+        if (suffix != 0)
+        {
+            changeAllSuffix(targetFolderPath, "", 1);
         }
         systemPrintOut(null, 0, 0);
         //根据prefixmove判断是否需要分类
-        if (prefixmove) {
+        if (prefixmove)
+        {
             filePrefixMove(targetFolderPath, " (");
             systemPrintOut(null, 0, 0);
         }
