@@ -2,6 +2,8 @@ package GUI;
 
 import Module.CheckOperations.SystemChecker;
 import Module.CompleteProcess.CompleteNameChangeProcess;
+import Module.DataOperations.ArrayExtractor;
+import Module.DataOperations.ReadCsvFile;
 import Module.Others.VersionNumber;
 import com.drew.imaging.ImageProcessingException;
 import com.drew.metadata.MetadataException;
@@ -16,6 +18,8 @@ import java.io.*;
 import java.net.URI;
 import java.nio.charset.StandardCharsets;
 import java.time.Instant;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Locale;
 import java.util.Properties;
 
@@ -30,6 +34,7 @@ import static Module.DataOperations.ImgSize.getImgSize;
 import static Module.DataOperations.WriteToProperties.writeToProperties;
 import static Module.FileOperations.ExtractMainImage.extractMainImage;
 import static Module.FileOperations.FilePrefixMove.filePrefixMove;
+import static Module.FileOperations.FolderCopy.copyFolderWithList;
 import static Module.FileOperations.TakeMainFromDatabase.takeMainFromDatabase;
 import static Module.Others.GetPropertiesPath.propertiespath;
 import static Module.Others.GetPropertiesPath.settingspath;
@@ -104,6 +109,9 @@ public class Mainpage
     private JCheckBox 替换已存在的图片CheckBox1;
     private JCheckBox 完成后删除源文件CheckBox;
     private JButton changeTargetToSourceButton;
+    private JButton SelectButton_tab2csvpath;
+    private JLabel tab2csvpath;
+    private JButton ExtractAllImageButton;
     private JTextArea consoleTextArea;
 
     public Mainpage()
@@ -148,6 +156,8 @@ public class Mainpage
 
             tabbedPane.setTitleAt(4, properties.getProperty("Tab5"));
 
+            tabbedPane.setTitleAt(5, properties.getProperty("Tab6"));
+
             // 读取属性值...
         }
         catch (IOException e)
@@ -175,6 +185,7 @@ public class Mainpage
             firstpath.setText(settingsproperties.getProperty("firstpath"));
             lastpath.setText(settingsproperties.getProperty("lastpath"));
             renamecsvpath.setText(settingsproperties.getProperty("renamecsvpath"));
+            tab2csvpath.setText(settingsproperties.getProperty("tab2csvpath"));
             cameradatabasepath.setText(settingsproperties.getProperty("cameradatabasepath"));
             phonedatabasepath.setText(settingsproperties.getProperty("phonedatabasepath"));
             systemPrintOut("Read settings file", 1, 0);
@@ -292,7 +303,6 @@ public class Mainpage
                 if (checkback(renamecsvpathcheck, firstpathcheck, lastpathcheck, lastpath.getText()))
                 {
                     RenamestartButton.setEnabled(true);
-                    takemainfromdatabaseButton.setEnabled(true);
                     changeSuffixButton.setEnabled(true);
                 }
             }
@@ -362,7 +372,6 @@ public class Mainpage
 
                 worker.execute();
                 RenamestartButton.setEnabled(false);
-                takemainfromdatabaseButton.setEnabled(false);
                 changeSuffixButton.setEnabled(false);
             }
 
@@ -379,19 +388,14 @@ public class Mainpage
                     @Override
                     protected Void doInBackground() throws Exception
                     {
-                        CheckButton.setEnabled(false);
                         Instant instant1 = Instant.now();
-                        takeMainFromDatabase(renamecsvpath.getText(), cameradatabasepath.getText(), lastpath.getText());
+                        takeMainFromDatabase(tab2csvpath.getText(), cameradatabasepath.getText(), lastpath.getText());
                         Instant instant2 = Instant.now();
                         JOptionPane.showMessageDialog(null, "任务完成，本次耗时：" + getTimeConsuming(instant1, instant2) + "秒");
-                        CheckButton.setEnabled(true);
                         return null;
                     }
                 };
                 worker.execute();
-                RenamestartButton.setEnabled(false);
-                takemainfromdatabaseButton.setEnabled(false);
-                changeSuffixButton.setEnabled(false);
             }
         });
 
@@ -414,9 +418,6 @@ public class Mainpage
                     }
                 };
                 worker.execute();
-                RenamestartButton.setEnabled(false);
-                takemainfromdatabaseButton.setEnabled(false);
-                changeSuffixButton.setEnabled(false);
 
             }
         });
@@ -449,7 +450,6 @@ public class Mainpage
                 };
                 worker.execute();
                 RenamestartButton.setEnabled(false);
-                takemainfromdatabaseButton.setEnabled(false);
                 changeSuffixButton.setEnabled(false);
             }
         });
@@ -468,7 +468,7 @@ public class Mainpage
                         Instant instant1 = Instant.now();
                         try
                         {
-                            compareAndGenerateCsv(firstpath.getText(), renamecsvpath.getText(), lastpath.getText());
+                            compareAndGenerateCsv(firstpath.getText(), tab2csvpath.getText(), lastpath.getText());
                         }
                         catch (IOException ex)
                         {
@@ -481,9 +481,36 @@ public class Mainpage
                     }
                 };
                 worker.execute();
-                RenamestartButton.setEnabled(false);
-                takemainfromdatabaseButton.setEnabled(false);
-                changeSuffixButton.setEnabled(false);
+            }
+        });
+
+        SelectButton_tab2csvpath.addActionListener(new ActionListener()
+        {
+            @Override
+            public void actionPerformed(ActionEvent e)
+            {
+                String Srenamecsvpath = getfilepath.selectFilePath(1, tab2csvpath.getText());
+                tab2csvpath.setText(Srenamecsvpath);
+                String[][] filenamelist = new String[2][10];
+                filenamelist[0][0] = "tab2csvpath";
+                filenamelist[1][0] = tab2csvpath.getText();
+                writeToProperties("settings", filenamelist);
+            }
+        });
+        ExtractAllImageButton.addActionListener(new ActionListener()
+        {
+            @Override
+            public void actionPerformed(ActionEvent e)
+            {
+                List<String> readyToCopyNameList = Arrays.asList(ArrayExtractor.extractRow(ReadCsvFile.csvToArray(tab2csvpath.getText()), 0));
+                try
+                {
+                    copyFolderWithList(firstpath.getText(), lastpath.getText(), readyToCopyNameList);
+                }
+                catch (IOException ex)
+                {
+                    throw new RuntimeException(ex);
+                }
             }
         });
         /*================================第二页：上传至仓库================================*/

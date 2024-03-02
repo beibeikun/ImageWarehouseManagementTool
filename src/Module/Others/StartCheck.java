@@ -76,7 +76,7 @@ public class StartCheck
         }
         else if (!fileVersionNumber.equals(systemVersionNumber))
         {
-            String zhpropertiesUrl = "https://raw.githubusercontent.com/beibeikun/ImageWarehouseManagementTool/dev/properties/zh.properties";
+            String zhpropertiesUrl = "https://raw.githubusercontent.com/beibeikun/ImageWarehouseManagementTool/master/properties/zh.properties";
             String zhpropertiesPath = System.getProperty("user.home") + system.identifySystem_String() + "Documents" + system.identifySystem_String() + "IWMT" + system.identifySystem_String() + "zh.properties";
 
             File file = new File(zhpropertiesPath);

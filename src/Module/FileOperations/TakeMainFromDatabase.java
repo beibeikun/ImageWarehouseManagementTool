@@ -7,6 +7,7 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 
+import static Module.FileOperations.CreateFolder.createFolderWithTime;
 import static Module.FileOperations.FileCopyAndDelete.copyFile;
 import static Module.Others.SystemPrintOut.systemPrintOut;
 
@@ -27,6 +28,7 @@ public class TakeMainFromDatabase
     {
         systemPrintOut("Start to take main img from database", 3, 0);
         SystemChecker system = new SystemChecker();
+        folderpath = createFolderWithTime(folderpath);
         String[] fileNameList = new String[10000]; // 存放对应的JB号-Lot号
         int index = 0;
         /* 读取Excel文件，将映射关系存储到fileNameList数组中 */
