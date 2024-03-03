@@ -788,7 +788,12 @@ public class Mainpage
         SystemChecker system = new SystemChecker();//获取系统类型
         SwingUtilities.invokeLater(() ->
         {
-            StartCheck();
+            FlatDarkLaf.setup();
+            try {
+                StartCheck();
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
             try
             {
                 // 创建File对象
@@ -802,7 +807,6 @@ public class Mainpage
             {
                 e.printStackTrace();
             }
-            FlatDarkLaf.setup();
             frame.setContentPane(new Mainpage().panel1);
             frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
             SystemChecker systemtype = new SystemChecker();

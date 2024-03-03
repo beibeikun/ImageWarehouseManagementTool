@@ -2,6 +2,7 @@ package Module.Others;
 
 import Module.CheckOperations.SystemChecker;
 
+import javax.swing.*;
 import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.URL;
@@ -15,11 +16,15 @@ import java.util.Properties;
 import static Module.Others.GetPropertiesPath.settingspath;
 import static Module.Others.SystemPrintOut.systemPrintOut;
 import static Module.Others.VersionNumber.getVersionNumber;
+import static Module.Test.Example.cheackLatestVersion;
 
 public class StartCheck
 {
-    public static boolean StartCheck()
-    {
+    public static boolean StartCheck() throws IOException {
+        if (cheackLatestVersion()==false)
+        {
+            JOptionPane.showMessageDialog(null, "检查到新版本，请及时更新");
+        }
         String fileVersionNumber = null;
         String systemVersionNumber = getVersionNumber();
 

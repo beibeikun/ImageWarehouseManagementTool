@@ -14,6 +14,7 @@ public class VersionNumber
     {
         return "Build: Beta1.2.240302 by beibeikun";
     } //2024.03.01
+    public static String finalVersionNumber() {return "V1.2";}
 
     /**
      * 获取 GitHub 仓库地址。
@@ -24,4 +25,5 @@ public class VersionNumber
     {
         return "https://github.com/beibeikun/ImageWarehouseManagementTool";
     }
+    public static String getGithubVersionNumberApi() {return "https://api.github.com/repos/beibeikun/ImageWarehouseManagementTool";}
 }
