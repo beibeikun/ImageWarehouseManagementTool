@@ -112,6 +112,7 @@ public class Mainpage
     private JButton SelectButton_tab2csvpath;
     private JLabel tab2csvpath;
     private JButton ExtractAllImageButton;
+    private JButton exchangeFirstPathButton;
     private JTextArea consoleTextArea;
 
     public Mainpage()
@@ -205,6 +206,7 @@ public class Mainpage
         filenamelist[0][0] = "versionNumber";
         filenamelist[1][0] = versionLabel.getText();
         writeToProperties("settings", filenamelist);
+        final String[] exchangeFirstPath = {null};
 
         /*--------------------------------按键监听--------------------------------*/
         /*================================顶部================================*/
@@ -758,6 +760,26 @@ public class Mainpage
 
         tabbedPane.addComponentListener(new ComponentAdapter()
         {
+        });
+        exchangeFirstPathButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (exchangeFirstPath[0] == null)
+                {
+                    exchangeFirstPath[0] = firstpath.getText();
+                    exchangeFirstPathButton.setForeground(Color.GREEN);
+                }
+                else
+                {
+                    String a = firstpath.getText();
+                    firstpath.setText(exchangeFirstPath[0]);
+                    String[][] filenamelist = new String[2][10];
+                    filenamelist[0][0] = "firstpath";
+                    filenamelist[1][0] = firstpath.getText();
+                    writeToProperties("settings", filenamelist);
+                    exchangeFirstPath[0] = a;
+                }
+            }
         });
     }
 
