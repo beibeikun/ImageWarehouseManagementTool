@@ -12,7 +12,7 @@ public class VersionNumber
      */
     public static String getVersionNumber()
     {
-        return "Build: Beta1.2.240302 by beibeikun";
+        return "Build: 1.2 by beibeikun";
     } //2024.03.01
 
     /**
