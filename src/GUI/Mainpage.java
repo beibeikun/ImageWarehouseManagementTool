@@ -502,15 +502,28 @@ public class Mainpage
             @Override
             public void actionPerformed(ActionEvent e)
             {
-                List<String> readyToCopyNameList = Arrays.asList(ArrayExtractor.extractRow(ReadCsvFile.csvToArray(tab2csvpath.getText()), 0));
-                try
+                SwingWorker<Void, Void> worker = new SwingWorker<Void, Void>()
                 {
-                    copyFolderWithList(firstpath.getText(), lastpath.getText(), readyToCopyNameList);
-                }
-                catch (IOException ex)
-                {
-                    throw new RuntimeException(ex);
-                }
+                    @Override
+                    protected Void doInBackground() throws Exception
+                    {
+                        Instant instant1 = Instant.now();
+                        List<String> readyToCopyNameList = Arrays.asList(ArrayExtractor.extractRow(ReadCsvFile.csvToArray(tab2csvpath.getText()), 0));
+                        try
+                        {
+                            copyFolderWithList(firstpath.getText(), lastpath.getText(), readyToCopyNameList);
+                        }
+                        catch (IOException ex)
+                        {
+                            throw new RuntimeException(ex);
+                        }
+
+                        Instant instant2 = Instant.now();
+                        JOptionPane.showMessageDialog(null, "任务完成，本次耗时：" + getTimeConsuming(instant1, instant2) + "秒");
+                        return null;
+                    }
+                };
+                worker.execute();
             }
         });
         /*================================第二页：上传至仓库================================*/
