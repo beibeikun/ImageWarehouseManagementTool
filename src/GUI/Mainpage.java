@@ -4,10 +4,9 @@ import Module.CheckOperations.SystemChecker;
 import Module.CompleteProcess.CompleteNameChangeProcess;
 import Module.DataOperations.ArrayExtractor;
 import Module.DataOperations.ReadCsvFile;
-import Module.Others.VersionNumber;
 import com.drew.imaging.ImageProcessingException;
 import com.drew.metadata.MetadataException;
-import com.formdev.flatlaf.FlatDarkLaf;
+import com.formdev.flatlaf.*;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -32,6 +31,7 @@ import static Module.DataOperations.FolderCsvComparator.compareAndGenerateCsv;
 import static Module.DataOperations.GetLatestSubfolderPath.getLatestSubfolder;
 import static Module.DataOperations.ImgSize.getImgSize;
 import static Module.DataOperations.WriteToProperties.writeToProperties;
+import static Module.FileOperations.DeleteFileFromDatabase.deleteFileFromDatabase;
 import static Module.FileOperations.ExtractMainImage.extractMainImage;
 import static Module.FileOperations.FilePrefixMove.filePrefixMove;
 import static Module.FileOperations.FolderCopy.copyFolderWithList;
@@ -39,13 +39,14 @@ import static Module.FileOperations.TakeMainFromDatabase.takeMainFromDatabase;
 import static Module.Others.GetPropertiesPath.propertiespath;
 import static Module.Others.GetPropertiesPath.settingspath;
 import static Module.Others.GetTimeConsuming.getTimeConsuming;
-import static Module.Others.StartCheck.StartCheck;
+import static Module.Others.StartCheck.startCheck;
 import static Module.Others.SystemPrintOut.systemPrintOut;
+import static Module.Others.VersionNumber.getGithub;
+import static Module.Others.VersionNumber.getVersionNumber;
 
 public class Mainpage
 {
     static JFrame frame = new JFrame("MainpageUI");
-    static VersionNumber versionnumber = new VersionNumber();//获取版本号
     private static MenuBar menuBar;
     SelectFilePath getfilepath = new SelectFilePath();
     private JPanel panel1;
@@ -60,7 +61,7 @@ public class Mainpage
     private JButton SelectButton_firstpath;
     private JCheckBox 替换已存在的图片CheckBox;
     private JButton AddtocameradatabaseButton;
-    private JButton 开始移除Button;
+    private JButton deleteButton;
     private JTextField textField1;
     private JButton SearchButton;
     private JLabel versionLabel;
@@ -113,6 +114,8 @@ public class Mainpage
     private JLabel tab2csvpath;
     private JButton ExtractAllImageButton;
     private JButton exchangeFirstPathButton;
+    private JTextField jbNumTextField;
+    private JComboBox comboBox2;
     private JTextArea consoleTextArea;
 
     public Mainpage()
@@ -199,7 +202,7 @@ public class Mainpage
         }
 
 
-        versionLabel.setText(versionnumber.getVersionNumber());//显示为当前版本号
+        versionLabel.setText(getVersionNumber());//显示为当前版本号
         githuburlLabel.setText("<html><u>GitHub Homepage</u></html>");//显示github地址
 
         String[][] filenamelist = new String[2][10];
@@ -748,7 +751,7 @@ public class Mainpage
             {
                 try
                 {
-                    Desktop.getDesktop().browse(new URI(versionnumber.getGithub()));
+                    Desktop.getDesktop().browse(new URI(getGithub()));
                 }
                 catch (Exception ea)
                 {
@@ -767,7 +770,16 @@ public class Mainpage
                 if (exchangeFirstPath[0] == null)
                 {
                     exchangeFirstPath[0] = firstpath.getText();
-                    exchangeFirstPathButton.setForeground(Color.GREEN);
+                    exchangeFirstPathButton.setBackground(Color.GREEN);
+                    exchangeFirstPathButton.setForeground(Color.BLACK);
+                }
+                else if (firstpath.getText().equals(""))
+                {
+                    firstpath.setText(exchangeFirstPath[0]);
+                    String[][] filenamelist = new String[2][10];
+                    filenamelist[0][0] = "firstpath";
+                    filenamelist[1][0] = firstpath.getText();
+                    writeToProperties("settings", filenamelist);
                 }
                 else
                 {
@@ -781,6 +793,21 @@ public class Mainpage
                 }
             }
         });
+        deleteButton.addActionListener(new ActionListener()
+        {
+            @Override
+            public void actionPerformed(ActionEvent e)
+            {
+                try
+                {
+                    deleteFileFromDatabase(cameradatabasepath.getText(),jbNumTextField.getText());
+                }
+                catch (IOException ex)
+                {
+                    throw new RuntimeException(ex);
+                }
+            }
+        });
     }
 
     public static void main(String[] args)
@@ -788,9 +815,11 @@ public class Mainpage
         SystemChecker system = new SystemChecker();//获取系统类型
         SwingUtilities.invokeLater(() ->
         {
+            System.setProperty("apple.laf.useScreenMenuBar","true");
+
             FlatDarkLaf.setup();
             try {
-                StartCheck();
+                startCheck();
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }

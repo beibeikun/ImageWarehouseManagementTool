@@ -21,9 +21,7 @@ public class VersionNumber
      *
      * @return GitHub 仓库地址字符串
      */
-    public String getGithub()
-    {
-        return "https://github.com/beibeikun/ImageWarehouseManagementTool";
-    }
+    public static String getGithub() {return "https://github.com/beibeikun/ImageWarehouseManagementTool";}
     public static String getGithubVersionNumberApi() {return "https://api.github.com/repos/beibeikun/ImageWarehouseManagementTool";}
+    public static String getGithubLatestRelease() {return  "https://github.com/beibeikun/ImageWarehouseManagementTool/releases/latest";}
 }

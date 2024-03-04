@@ -32,4 +32,9 @@ public class DeleteDirectory
         }
         return directory.delete();
     }
+    public static void deleteFile(String filePath)
+    {
+        File file = new File(filePath);
+        file.delete();
+    }
 }

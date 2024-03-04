@@ -3,8 +3,10 @@ package Module.Others;
 import Module.CheckOperations.SystemChecker;
 
 import javax.swing.*;
+import java.awt.*;
 import java.io.*;
 import java.net.HttpURLConnection;
+import java.net.URI;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
@@ -15,16 +17,32 @@ import java.util.Properties;
 
 import static Module.Others.GetPropertiesPath.settingspath;
 import static Module.Others.SystemPrintOut.systemPrintOut;
+import static Module.Others.VersionNumber.getGithubLatestRelease;
 import static Module.Others.VersionNumber.getVersionNumber;
 import static Module.Test.Example.cheackLatestVersion;
 
 public class StartCheck
 {
-    public static boolean StartCheck() throws IOException {
+    /**
+     * 启动检查类
+     * @return
+     * @throws IOException
+     */
+    public static void startCheck() throws IOException {
+        //检查是否存在新版本
         if (cheackLatestVersion()==false)
         {
             JOptionPane.showMessageDialog(null, "检查到新版本，请及时更新");
+            try
+            {
+                Desktop.getDesktop().browse(new URI(getGithubLatestRelease()));
+            }
+            catch (Exception ea)
+            {
+                ea.printStackTrace();
+            }
         }
+        //获取文档中的版本号与系统内的版本号
         String fileVersionNumber = null;
         String systemVersionNumber = getVersionNumber();
 
@@ -71,8 +89,6 @@ public class StartCheck
                 {
                     throw new RuntimeException(e);
                 }
-
-                return false;
             }
             catch (IOException e)
             {
@@ -95,11 +111,6 @@ public class StartCheck
             {
                 throw new RuntimeException(e);
             }
-            return false;
-        }
-        else
-        {
-            return true;
         }
 
     }
