@@ -16,7 +16,7 @@ public class DeleteFileFromDatabase
     public static void deleteFileFromDatabase(String destinationFolder, String deleteNum) throws IOException
     {
         SystemChecker system = new SystemChecker();
-        System.out.println(deleteTypeCheck(deleteNum));
+        //TODO
         if (deleteTypeCheck(deleteNum)) // 完整
         {
 
