@@ -5,6 +5,7 @@ import java.io.IOException;
 
 import static Module.CheckOperations.HiddenFilesChecker.isSystemOrHiddenFile;
 import static Module.FileOperations.ChangeSuffix.changeSuffix;
+import static Module.FileOperations.CreateFolder.createFolderWithTime;
 import static Module.FileOperations.CreateTemporaryDestinationFolder.createTemporaryFolder;
 import static Module.FileOperations.FolderCopy.copyFolder;
 import static Module.Others.SystemPrintOut.systemPrintOut;
@@ -30,7 +31,7 @@ public class ChangeAllSuffix
         }
         else
         {
-            suffixfolder = targetpath;
+            suffixfolder = createFolderWithTime(targetpath);
         }
         copyFolder(filepath, suffixfolder);
         systemPrintOut(null, 0, 0);

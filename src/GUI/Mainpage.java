@@ -4,10 +4,10 @@ import Module.CheckOperations.SystemChecker;
 import Module.CompleteProcess.CompleteNameChangeProcess;
 import Module.DataOperations.ArrayExtractor;
 import Module.DataOperations.ReadCsvFile;
-import Module.Others.VersionNumber;
 import com.drew.imaging.ImageProcessingException;
 import com.drew.metadata.MetadataException;
-import com.formdev.flatlaf.FlatDarkLaf;
+import com.formdev.flatlaf.*;
+import com.formdev.flatlaf.util.SystemInfo;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -28,10 +28,12 @@ import static Module.CheckOperations.FilePathChecker.checkFilePath;
 import static Module.CheckOperations.FilePathChecker.checkback;
 import static Module.CompleteProcess.ChangeAllSuffix.changeAllSuffix;
 import static Module.CompleteProcess.CompressImgToZipAndUpload.compressImgToZipAndUpload;
+import static Module.CompleteProcess.OnlyCompressFiles.onlyCompressFiles;
 import static Module.DataOperations.FolderCsvComparator.compareAndGenerateCsv;
 import static Module.DataOperations.GetLatestSubfolderPath.getLatestSubfolder;
 import static Module.DataOperations.ImgSize.getImgSize;
 import static Module.DataOperations.WriteToProperties.writeToProperties;
+import static Module.FileOperations.DeleteFileFromDatabase.deleteFileFromDatabase;
 import static Module.FileOperations.ExtractMainImage.extractMainImage;
 import static Module.FileOperations.FilePrefixMove.filePrefixMove;
 import static Module.FileOperations.FolderCopy.copyFolderWithList;
@@ -39,13 +41,14 @@ import static Module.FileOperations.TakeMainFromDatabase.takeMainFromDatabase;
 import static Module.Others.GetPropertiesPath.propertiespath;
 import static Module.Others.GetPropertiesPath.settingspath;
 import static Module.Others.GetTimeConsuming.getTimeConsuming;
-import static Module.Others.StartCheck.StartCheck;
+import static Module.Others.StartCheck.startCheck;
 import static Module.Others.SystemPrintOut.systemPrintOut;
+import static Module.Others.VersionNumber.getGithub;
+import static Module.Others.VersionNumber.getVersionNumber;
 
 public class Mainpage
 {
     static JFrame frame = new JFrame("MainpageUI");
-    static VersionNumber versionnumber = new VersionNumber();//获取版本号
     private static MenuBar menuBar;
     SelectFilePath getfilepath = new SelectFilePath();
     private JPanel panel1;
@@ -56,11 +59,11 @@ public class Mainpage
     private JCheckBox CheckBox_prefix;
     private JCheckBox CheckBox_classification;
     private JCheckBox CheckBox_addfromdatabase;
-    private JButton SelectButton_lastpath;
-    private JButton SelectButton_firstpath;
-    private JCheckBox 替换已存在的图片CheckBox;
+    private JButton selectLastPathButton;
+    private JButton selectFirstPathButton;
+    private JCheckBox cameraReplaceCheckBox;
     private JButton AddtocameradatabaseButton;
-    private JButton 开始移除Button;
+    private JButton deleteButton;
     private JTextField textField1;
     private JButton SearchButton;
     private JLabel versionLabel;
@@ -83,8 +86,8 @@ public class Mainpage
     private JLabel testmode;
     private JToolBar Namingformat;
     private JLabel mode;
-    private JCheckBox deleteCheckBox;
-    private JTextArea textArea1;
+    private JCheckBox cameraDeleteCheckBox;
+    private JTextArea printOutTextArea;
     private JScrollPane ScrollPane1;
     private JButton consolebutton;
     private JButton ExtractMainImageButton;
@@ -106,12 +109,17 @@ public class Mainpage
     private JButton linshi;
     private JComboBox cameraSizeComboBox;
     private JComboBox phoneSizeComboBox;
-    private JCheckBox 替换已存在的图片CheckBox1;
-    private JCheckBox 完成后删除源文件CheckBox;
+    private JCheckBox phoneReplaceCheckBox;
+    private JCheckBox phoneDeleteCheckBox;
     private JButton changeTargetToSourceButton;
     private JButton SelectButton_tab2csvpath;
     private JLabel tab2csvpath;
     private JButton ExtractAllImageButton;
+    private JButton exchangeFirstPathButton;
+    private JTextField jbNumTextField;
+    private JComboBox comboBox2;
+    private JComboBox onlyCompressSizeChooseComboBox;
+    private JButton onlyCompressButton;
     private JTextArea consoleTextArea;
 
     public Mainpage()
@@ -128,12 +136,12 @@ public class Mainpage
              InputStreamReader reader = new InputStreamReader(fis, StandardCharsets.UTF_8))
         {
             properties.load(reader);
-            SelectButton_firstpath.setText(properties.getProperty("SelectButton_firstpath"));
+            selectFirstPathButton.setText(properties.getProperty("SelectButton_firstpath"));
             JT_firstpath.setBorder(BorderFactory.createTitledBorder(properties.getProperty("JT_firstpath")));
 
             tabbedPane.setTitleAt(0, properties.getProperty("Tab1"));
             JT_lastpath.setBorder(BorderFactory.createTitledBorder(properties.getProperty("JT_lastpath")));
-            SelectButton_lastpath.setText(properties.getProperty("SelectButton_lastpath"));
+            selectLastPathButton.setText(properties.getProperty("SelectButton_lastpath"));
             JT_renamecsvpath.setBorder(BorderFactory.createTitledBorder(properties.getProperty("JT_renamecsvpath")));
             SelectButton_renamecsvpath.setText(properties.getProperty("SelectButton_renamecsvpath"));
             Namingformat.setBorder(BorderFactory.createTitledBorder(properties.getProperty("Namingformat")));
@@ -170,8 +178,8 @@ public class Mainpage
             @Override
             public void write(int b)
             {
-                textArea1.append(String.valueOf((char) b));
-                textArea1.setCaretPosition(textArea1.getDocument().getLength());
+                printOutTextArea.append(String.valueOf((char) b));
+                printOutTextArea.setCaretPosition(printOutTextArea.getDocument().getLength());
             }
         }));
 
@@ -198,13 +206,14 @@ public class Mainpage
         }
 
 
-        versionLabel.setText(versionnumber.getVersionNumber());//显示为当前版本号
+        versionLabel.setText(getVersionNumber());//显示为当前版本号
         githuburlLabel.setText("<html><u>GitHub Homepage</u></html>");//显示github地址
 
         String[][] filenamelist = new String[2][10];
         filenamelist[0][0] = "versionNumber";
         filenamelist[1][0] = versionLabel.getText();
         writeToProperties("settings", filenamelist);
+        final String[] exchangeFirstPath = {null};
 
         /*--------------------------------按键监听--------------------------------*/
         /*================================顶部================================*/
@@ -234,7 +243,7 @@ public class Mainpage
         });
 
         //选择源文件夹
-        SelectButton_firstpath.addActionListener(new ActionListener()
+        selectFirstPathButton.addActionListener(new ActionListener()
         {
             @Override
             public void actionPerformed(ActionEvent e)
@@ -247,6 +256,21 @@ public class Mainpage
                 writeToProperties("settings", filenamelist);
             }
         });
+        //选择目标文件夹
+        selectLastPathButton.addActionListener(new ActionListener()
+        {
+            @Override
+            public void actionPerformed(ActionEvent e)
+            {
+                String Slastpath = getfilepath.selectFilePath(2, lastpath.getText());
+                lastpath.setText(Slastpath);
+                String[][] filenamelist = new String[2][10];
+                filenamelist[0][0] = "lastpath";
+                filenamelist[1][0] = lastpath.getText();
+                writeToProperties("settings", filenamelist);
+            }
+        });
+        //将目标文件夹路径复制到源文件夹路径
         changeTargetToSourceButton.addActionListener(new ActionListener()
         {
             @Override
@@ -261,20 +285,6 @@ public class Mainpage
         });
         /*================================第一页：批量重命名================================*/
 
-        //选择目标文件夹
-        SelectButton_lastpath.addActionListener(new ActionListener()
-        {
-            @Override
-            public void actionPerformed(ActionEvent e)
-            {
-                String Slastpath = getfilepath.selectFilePath(2, lastpath.getText());
-                lastpath.setText(Slastpath);
-                String[][] filenamelist = new String[2][10];
-                filenamelist[0][0] = "lastpath";
-                filenamelist[1][0] = lastpath.getText();
-                writeToProperties("settings", filenamelist);
-            }
-        });
 
         //选择csv文件
         SelectButton_renamecsvpath.addActionListener(new ActionListener()
@@ -432,11 +442,10 @@ public class Mainpage
                     @Override
                     protected Void doInBackground() throws Exception
                     {
-                        CheckButton.setEnabled(false);
                         Instant instant1 = Instant.now();
                         try
                         {
-                            changeAllSuffix(firstpath.getText(), lastpath.getText(), 1);
+                            changeAllSuffix(firstpath.getText(), lastpath.getText(), 0);
                         }
                         catch (IOException ex)
                         {
@@ -444,13 +453,10 @@ public class Mainpage
                         }
                         Instant instant2 = Instant.now();
                         JOptionPane.showMessageDialog(null, "任务完成，本次耗时：" + getTimeConsuming(instant1, instant2) + "秒");
-                        CheckButton.setEnabled(true);
                         return null;
                     }
                 };
                 worker.execute();
-                RenamestartButton.setEnabled(false);
-                changeSuffixButton.setEnabled(false);
             }
         });
 
@@ -526,6 +532,29 @@ public class Mainpage
                 worker.execute();
             }
         });
+        onlyCompressButton.addActionListener(new ActionListener()
+        {
+            @Override
+            public void actionPerformed(ActionEvent e)
+            {
+                SwingWorker<Void, Void> worker = new SwingWorker<Void, Void>()
+                {
+                    @Override
+                    protected Void doInBackground() throws Exception
+                    {
+                        Instant instant1 = Instant.now();
+
+                        int imgsize = getImgSize(onlyCompressSizeChooseComboBox.getSelectedItem().toString());
+                        onlyCompressFiles(firstpath.getText(),lastpath.getText(),imgsize);
+
+                        Instant instant2 = Instant.now();
+                        JOptionPane.showMessageDialog(null, "任务完成，本次耗时：" + getTimeConsuming(instant1, instant2) + "秒");
+                        return null;
+                    }
+                };
+                worker.execute();
+            }
+        });
         /*================================第二页：上传至仓库================================*/
 
         //上传到相机图片数据库
@@ -545,13 +574,15 @@ public class Mainpage
                         if (filepathcheck == 1)
                         {
                             Instant instant1 = Instant.now();
+                            boolean coverageDeterminer = false;
+                            boolean deleteQualifier = false;
+                            if (cameraReplaceCheckBox.isSelected())
+                                coverageDeterminer = true;
+                            if (cameraDeleteCheckBox.isSelected())
+                                deleteQualifier = true;
                             try
                             {
-                                compressImgToZipAndUpload(firstpath.getText(), cameradatabasepath.getText(), 1, imgsize);
-                                if (deleteCheckBox.isSelected())//完成后删除文件
-                                {
-                                    //TODO 完成后删除源文件夹中的所有内容
-                                }
+                                compressImgToZipAndUpload(firstpath.getText(), cameradatabasepath.getText(), 1, imgsize, coverageDeterminer, deleteQualifier);
 
                             }
                             catch (IOException | ImageProcessingException | MetadataException ex)
@@ -600,14 +631,15 @@ public class Mainpage
                         if (filepathcheck == 1)
                         {
                             Instant instant1 = Instant.now();
+                            boolean coverageDeterminer = false;
+                            boolean deleteQualifier = false;
+                            if (phoneReplaceCheckBox.isSelected())
+                                coverageDeterminer = true;
+                            if (phoneDeleteCheckBox.isSelected())
+                                deleteQualifier = true;
                             try
                             {
-                                compressImgToZipAndUpload(firstpath.getText(), phonedatabasepath.getText(), 0, imgsize);
-                                if (deleteCheckBox.isSelected())//完成后删除文件
-                                {
-                                    //TODO 完成后删除源文件夹中的所有内容
-                                }
-
+                                compressImgToZipAndUpload(firstpath.getText(), phonedatabasepath.getText(), 0, imgsize,coverageDeterminer, deleteQualifier);
                             }
                             catch (IOException | ImageProcessingException | MetadataException ex)
                             {
@@ -746,7 +778,7 @@ public class Mainpage
             {
                 try
                 {
-                    Desktop.getDesktop().browse(new URI(versionnumber.getGithub()));
+                    Desktop.getDesktop().browse(new URI(getGithub()));
                 }
                 catch (Exception ea)
                 {
@@ -759,14 +791,71 @@ public class Mainpage
         tabbedPane.addComponentListener(new ComponentAdapter()
         {
         });
+        exchangeFirstPathButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (exchangeFirstPath[0] == null)
+                {
+                    exchangeFirstPath[0] = firstpath.getText();
+                    exchangeFirstPathButton.setBackground(Color.GREEN);
+                    exchangeFirstPathButton.setForeground(Color.BLACK);
+                }
+                else if (firstpath.getText().equals(""))
+                {
+                    firstpath.setText(exchangeFirstPath[0]);
+                    String[][] filenamelist = new String[2][10];
+                    filenamelist[0][0] = "firstpath";
+                    filenamelist[1][0] = firstpath.getText();
+                    writeToProperties("settings", filenamelist);
+                }
+                else
+                {
+                    String a = firstpath.getText();
+                    firstpath.setText(exchangeFirstPath[0]);
+                    String[][] filenamelist = new String[2][10];
+                    filenamelist[0][0] = "firstpath";
+                    filenamelist[1][0] = firstpath.getText();
+                    writeToProperties("settings", filenamelist);
+                    exchangeFirstPath[0] = a;
+                }
+            }
+        });
+        deleteButton.addActionListener(new ActionListener()
+        {
+            @Override
+            public void actionPerformed(ActionEvent e)
+            {
+                try
+                {
+                    deleteFileFromDatabase(cameradatabasepath.getText(),jbNumTextField.getText());
+                }
+                catch (IOException ex)
+                {
+                    throw new RuntimeException(ex);
+                }
+            }
+        });
     }
 
     public static void main(String[] args)
     {
+        if( SystemInfo.isMacFullWindowContentSupported ) {
+            frame.getRootPane().putClientProperty( "apple.awt.fullWindowContent", true );
+            frame.getRootPane().putClientProperty( "apple.awt.transparentTitleBar", true );
+        }
+
+
+        frame.setTitle( null );
         SystemChecker system = new SystemChecker();//获取系统类型
         SwingUtilities.invokeLater(() ->
         {
-            StartCheck();
+
+            FlatDarkLaf.setup();
+            try {
+                startCheck();
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
             try
             {
                 // 创建File对象
@@ -780,7 +869,6 @@ public class Mainpage
             {
                 e.printStackTrace();
             }
-            FlatDarkLaf.setup();
             frame.setContentPane(new Mainpage().panel1);
             frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
             SystemChecker systemtype = new SystemChecker();
@@ -800,7 +888,9 @@ public class Mainpage
             frame.setLocationRelativeTo(null);
             //使窗体显示在屏幕中央
             frame.setVisible(true);
-            frame.setTitle("Image Warehouse Management Tool");
+            if( !SystemInfo.isMacFullWindowContentSupported ) {
+                frame.setTitle("Image Warehouse Management Tool");
+            }
         });
     }
 

@@ -13,9 +13,11 @@ import static Module.CompressOperations.ImageCompression.compressImgWithFileList
 import static Module.CompressOperations.ImageCompression.imageCompression;
 import static Module.DataOperations.FileLister.getFileNames;
 import static Module.DataOperations.FileNameProcessor.processFileNames;
+import static Module.DataOperations.FileSearch.isFileExists;
 import static Module.DataOperations.FileSearch.searchFiles;
 import static Module.FileOperations.CreateTemporaryDestinationFolder.createTemporaryFolder;
 import static Module.FileOperations.DeleteDirectory.deleteDirectory;
+import static Module.FileOperations.DeleteFileFromDatabase.deleteFileFromDatabase;
 import static Module.FileOperations.FileCopyAndDelete.*;
 import static Module.Others.SystemPrintOut.systemPrintOut;
 
@@ -31,9 +33,10 @@ public class CompressImgToZipAndUpload
      * @param sourceFolder      源文件夹路径
      * @param destinationFolder 目标文件夹路径
      * @param mode              1.相机图 其他.手机图
+     * @param coverageDeterminer 判断是否覆盖 true为覆盖，false不覆盖
      * @throws IOException 如果文件操作失败
      */
-    public static void compressImgToZipAndUpload(String sourceFolder, String destinationFolder, int mode, int imgsize) throws IOException, ImageProcessingException, MetadataException
+    public static void compressImgToZipAndUpload(String sourceFolder, String destinationFolder, int mode, int imgsize, boolean coverageDeterminer, boolean deleteQualifier) throws IOException, ImageProcessingException, MetadataException
     {
         systemPrintOut("Start to upload", 3, 0);
         SystemChecker system = new SystemChecker();
@@ -62,33 +65,60 @@ public class CompressImgToZipAndUpload
         String[] FileNames = processFileNames(getFileNames(sourceFolder));
         for (int i = 0; i < FileNames.length; i++)
         {
-            //mode为1，上传缩略图
-            if (mode == 1)
+            if (coverageDeterminer==true)
             {
-                copyFile(sourceFolder + system.identifySystem_String() + FileNames[i] + ".JPG", thumbnailFolder);
-                imageCompression(thumbnailFolder + system.identifySystem_String() + FileNames[i] + ".JPG", 2500);
-                systemPrintOut("Thumbnail upload:" + FileNames[i], 1, 0);
+                thumbnailAndCompress(mode,sourceFolder,FileNames,i,thumbnailFolder,imgsize,temporaryCompressedImgFolder,temporaryDestinationFolder);
             }
-            //获取同一前缀的文件列表
-            List<File> readytocompress = searchFiles(sourceFolder, FileNames[i]);
-            //根据 imgsize 判断图片是否需要压缩，不为0即需要压缩
-            if (imgsize != 0)
+            else
             {
-                //复制需要压缩尺寸的图像到临时文件夹，并更新list为移动后的路径
-                readytocompress = moveFilesWithList(readytocompress, temporaryCompressedImgFolder);
-                //压缩图片
-                compressImgWithFileListUseMultithreading(readytocompress, imgsize);
+                //检测仓库中是否存在，如果存在则跳过
+                String databasePath = destinationFolder + system.identifySystem_String() + FileNames[i].substring(0, 6) + system.identifySystem_String() + FileNames[i] +  ".zip";
+                if (!isFileExists(databasePath))
+                {
+                    thumbnailAndCompress(mode,sourceFolder,FileNames,i,thumbnailFolder,imgsize,temporaryCompressedImgFolder,temporaryDestinationFolder);
+                }
+                else
+                {
+                    int x = i + 1;
+                    systemPrintOut("The file has been backed up:" + FileNames[i]+ "    (" + x + "/" + FileNames.length + ")",2,0);
+                }
             }
-            //x为已完成的数量
-            int x = i + 1;
-            //压缩同一前缀的文件
-            compressFiles(readytocompress, temporaryDestinationFolder + system.identifySystem_String() + FileNames[i] + ".zip");
-            systemPrintOut("Compressed:" + FileNames[i] + ".zip" + "    (" + x + "/" + FileNames.length + ")", 1, 0);
         }
         //把压缩包从临时文件夹移动到目标文件夹并按前缀分类
         copyFiles(temporaryDestinationFolder, destinationFolder, 6);
         //删除临时文件夹
         deleteDirectory(new File(temporaryDestinationFolder));
         deleteDirectory(new File(temporaryCompressedImgFolder));
+        if (deleteQualifier)
+        {
+            deleteDirectory(new File(sourceFolder));
+        }
+    }
+
+    private static void thumbnailAndCompress(int mode,String sourceFolder,String[] FileNames,int i,String thumbnailFolder,int imgsize,String temporaryCompressedImgFolder,String temporaryDestinationFolder) throws IOException
+    {
+        SystemChecker system = new SystemChecker();
+        if (mode == 1)
+        {
+            copyFile(sourceFolder + system.identifySystem_String() + FileNames[i] + ".JPG", thumbnailFolder);
+            imageCompression(thumbnailFolder + system.identifySystem_String() + FileNames[i] + ".JPG", 2500);
+            systemPrintOut("Thumbnail upload:" + FileNames[i], 1, 0);
+        }
+        //获取同一前缀的文件列表
+        List<File> readytocompress = searchFiles(sourceFolder, FileNames[i]);
+        //根据 imgsize 判断图片是否需要压缩，不为0即需要压缩
+        if (imgsize != 0)
+        {
+            //复制需要压缩尺寸的图像到临时文件夹，并更新list为移动后的路径
+            readytocompress = moveFilesWithList(readytocompress, temporaryCompressedImgFolder);
+            //压缩图片
+            compressImgWithFileListUseMultithreading(readytocompress, imgsize);
+        }
+        //x为已完成的数量
+        int x = i + 1;
+        //压缩同一前缀的文件
+        compressFiles(readytocompress, temporaryDestinationFolder + system.identifySystem_String() + FileNames[i] + ".zip");
+        systemPrintOut("Compressed:" + FileNames[i] + ".zip" + "    (" + x + "/" + FileNames.length + ")", 1, 0);
+
     }
 }

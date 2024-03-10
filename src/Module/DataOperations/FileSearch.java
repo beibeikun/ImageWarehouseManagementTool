@@ -1,11 +1,15 @@
 package Module.DataOperations;
 
 import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 
 /**
- * 文件搜索类，用于在指定文件夹中查找包含关键词的文件。
+ * 文件搜索类
  */
 public class FileSearch
 {
@@ -50,4 +54,28 @@ public class FileSearch
         // 返回包含关键词的文件列表
         return resultFiles;
     }
+
+    /**
+     * 查找指定路径的文件是否存在
+     * @param filePath 需要查找的文件路径名
+     * @return 存在返回true，不存在返回false
+     * @throws IOException
+     */
+    public static boolean isFileExists(String filePath) throws IOException
+    {
+        Path path = Paths.get(filePath);
+        return Files.exists(path);
+    }
+
+//TODO:检测不到隐藏文件
+    public static boolean isDirectoryEmpty(String dirPath) {
+        File dir = new File(dirPath);
+        if (!dir.isDirectory()) {
+            return false;
+        }
+
+        String[] files = dir.list();
+        return files == null || files.length == 0;
+    }
+
 }

@@ -14,14 +14,14 @@ public class VersionNumber
     {
         return "Build: 1.2 by beibeikun";
     } //2024.03.01
+    public static String finalVersionNumber() {return "V1.2";}
 
     /**
      * 获取 GitHub 仓库地址。
      *
      * @return GitHub 仓库地址字符串
      */
-    public String getGithub()
-    {
-        return "https://github.com/beibeikun/ImageWarehouseManagementTool";
-    }
+    public static String getGithub() {return "https://github.com/beibeikun/ImageWarehouseManagementTool";}
+    public static String getGithubVersionNumberApi() {return "https://api.github.com/repos/beibeikun/ImageWarehouseManagementTool";}
+    public static String getGithubLatestRelease() {return  "https://github.com/beibeikun/ImageWarehouseManagementTool/releases/latest";}
 }
