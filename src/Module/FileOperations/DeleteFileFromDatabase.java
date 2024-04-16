@@ -23,7 +23,7 @@ public class DeleteFileFromDatabase
         }
         else //单个
         {
-            String deletePath = destinationFolder + system.identifySystem_String() + deleteNum.substring(0, 6) + system.identifySystem_String() + deleteNum +  ".zip";
+            String deletePath = destinationFolder + system.identifySystem_String() + deleteNum.substring(0, 6) + system.identifySystem_String() + deleteNum + ".zip";
             String folderPath = destinationFolder + system.identifySystem_String() + deleteNum.substring(0, 6);
             String thumbnailPath = destinationFolder + system.identifySystem_String() + "thumbnail" + system.identifySystem_String() + deleteNum + ".JPG";
             if (isFileExists(deletePath)) //文件存在，执行删除

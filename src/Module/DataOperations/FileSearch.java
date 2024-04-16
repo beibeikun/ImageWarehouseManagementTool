@@ -57,6 +57,7 @@ public class FileSearch
 
     /**
      * 查找指定路径的文件是否存在
+     *
      * @param filePath 需要查找的文件路径名
      * @return 存在返回true，不存在返回false
      * @throws IOException
@@ -67,10 +68,12 @@ public class FileSearch
         return Files.exists(path);
     }
 
-//TODO:检测不到隐藏文件
-    public static boolean isDirectoryEmpty(String dirPath) {
+    //TODO:检测不到隐藏文件
+    public static boolean isDirectoryEmpty(String dirPath)
+    {
         File dir = new File(dirPath);
-        if (!dir.isDirectory()) {
+        if (! dir.isDirectory())
+        {
             return false;
         }
 
