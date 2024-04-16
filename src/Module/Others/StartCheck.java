@@ -15,36 +15,47 @@ import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.util.Properties;
 
+import static Module.Others.CheckVersionFromWebsite.cheackLatestVersion;
 import static Module.Others.GetPropertiesPath.settingspath;
 import static Module.Others.SystemPrintOut.systemPrintOut;
-import static Module.Others.VersionNumber.getGithubLatestRelease;
-import static Module.Others.VersionNumber.getVersionNumber;
-import static Module.Test.Example.cheackLatestVersion;
+import static Module.Others.VersionNumber.*;
 
 public class StartCheck
 {
     /**
      * 启动检查类
-     * @return
-     * @throws IOException
+     *TODO:注释缺失 功能修正
      */
-    public static void startCheck() throws IOException {
-        //检查是否存在新版本
-        if (cheackLatestVersion()==false)
+    public static void startCheck() throws IOException
+    {
+
+        if (! getReleaseType()) // 如果为正式版，则检查版本更新
         {
-            JOptionPane.showMessageDialog(null, "检查到新版本，请及时更新");
-            try
+            if (! cheackLatestVersion())
             {
-                Desktop.getDesktop().browse(new URI(getGithubLatestRelease()));
-            }
-            catch (Exception ea)
-            {
-                ea.printStackTrace();
+                JOptionPane.showMessageDialog(null, "检查到新版本，请及时更新");
+                try
+                {
+                    Desktop.getDesktop().browse(new URI(getGithubLatestRelease()));
+                }
+                catch (Exception ea)
+                {
+                    ea.printStackTrace();
+                }
             }
         }
+
         //获取文档中的版本号与系统内的版本号
         String fileVersionNumber = null;
-        String systemVersionNumber = getVersionNumber();
+        String systemVersionNumber;
+        if (getReleaseType())
+        {
+            systemVersionNumber = officialVersionNumber();
+        }
+        else
+        {
+            systemVersionNumber = betaVersionNumber();
+        }
 
         Properties settingsproperties = new Properties();
         try (FileInputStream fis = new FileInputStream(settingspath());
@@ -67,7 +78,7 @@ public class StartCheck
         // 使用 Paths.get() 创建 Path 对象
         Path folder = Paths.get(folderPath);
 
-        // 检查文件夹是否存在
+        // 检查文件夹是否存在 不存在则新建文件夹并下载配置文件
         if (! Files.exists(folder))
         {
             try
@@ -77,7 +88,16 @@ public class StartCheck
 
                 String logoUrl = "https://raw.githubusercontent.com/beibeikun/ImageWarehouseManagementTool/master/logo/logo.png"; // 替换为您要下载的图片的URL
                 String logoPath = System.getProperty("user.home") + system.identifySystem_String() + "Documents" + system.identifySystem_String() + "IWMT" + system.identifySystem_String() + "logo.png"; // 替换为您希望保存图片的本地路径
-                String zhpropertiesUrl = "https://raw.githubusercontent.com/beibeikun/ImageWarehouseManagementTool/master/properties/zh.properties";
+                String zhpropertiesUrl;
+                if (getReleaseType())
+                {
+                    zhpropertiesUrl = "https://raw.githubusercontent.com/beibeikun/ImageWarehouseManagementTool/master/properties/zh.properties";
+                }
+                else
+                {
+                    zhpropertiesUrl = "https://raw.githubusercontent.com/beibeikun/ImageWarehouseManagementTool/dev/properties/zh.properties";
+                }
+
                 String zhpropertiesPath = System.getProperty("user.home") + system.identifySystem_String() + "Documents" + system.identifySystem_String() + "IWMT" + system.identifySystem_String() + "zh.properties";
 
                 try
@@ -95,9 +115,18 @@ public class StartCheck
                 throw new RuntimeException(e);
             }
         }
-        else if (fileVersionNumber == null || !fileVersionNumber.equals(systemVersionNumber))
+        //检查配置文件是否需要更新
+        else if (fileVersionNumber == null || ! fileVersionNumber.equals(systemVersionNumber))
         {
-            String zhpropertiesUrl = "https://raw.githubusercontent.com/beibeikun/ImageWarehouseManagementTool/master/properties/zh.properties";
+            String zhpropertiesUrl;
+            if (getReleaseType())
+            {
+                zhpropertiesUrl = "https://raw.githubusercontent.com/beibeikun/ImageWarehouseManagementTool/master/properties/zh.properties";
+            }
+            else
+            {
+                zhpropertiesUrl = "https://raw.githubusercontent.com/beibeikun/ImageWarehouseManagementTool/dev/properties/zh.properties";
+            }
             String zhpropertiesPath = System.getProperty("user.home") + system.identifySystem_String() + "Documents" + system.identifySystem_String() + "IWMT" + system.identifySystem_String() + "zh.properties";
 
             File file = new File(zhpropertiesPath);

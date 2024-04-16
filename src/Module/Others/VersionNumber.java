@@ -10,18 +10,43 @@ public class VersionNumber
      *
      * @return 版本号字符串
      */
-    public static String getVersionNumber()
+    public static boolean getReleaseType()
     {
-        return "Build: Beta1.2.240302 by beibeikun";
-    } //2024.03.01
-    public static String finalVersionNumber() {return "V1.2";}
+        /*版本类型
+         * true-正式版
+         * false-测试版
+         * */
+        return false;
+    }
+
+    public static String officialVersionNumber()
+    {
+        return "1.2";
+    } //2024.03.01 //
+
+    public static String betaVersionNumber()
+    {
+        return "1.3.240416";
+    }
+
 
     /**
      * 获取 GitHub 仓库地址。
      *
      * @return GitHub 仓库地址字符串
      */
-    public static String getGithub() {return "https://github.com/beibeikun/ImageWarehouseManagementTool";}
-    public static String getGithubVersionNumberApi() {return "https://api.github.com/repos/beibeikun/ImageWarehouseManagementTool";}
-    public static String getGithubLatestRelease() {return  "https://github.com/beibeikun/ImageWarehouseManagementTool/releases/latest";}
+    public static String getGithub()
+    {
+        return "https://github.com/beibeikun/ImageWarehouseManagementTool";
+    }
+
+    public static String getGithubVersionNumberApi()
+    {
+        return "https://api.github.com/repos/beibeikun/ImageWarehouseManagementTool";
+    }
+
+    public static String getGithubLatestRelease()
+    {
+        return "https://github.com/beibeikun/ImageWarehouseManagementTool/releases/latest";
+    }
 }

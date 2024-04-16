@@ -4,6 +4,7 @@ import Module.DataOperations.ArrayExtractor;
 import Module.DataOperations.ReadCsvFile;
 
 import java.io.File;
+import java.io.IOException;
 
 import static Module.CheckOperations.HiddenFilesChecker.isSystemOrHiddenFile;
 import static Module.Others.SystemPrintOut.systemPrintOut;
@@ -131,4 +132,28 @@ public class RenameFiles
             systemPrintOut("Failed:" + name, 2, 0);
         }
     }
+
+    /**
+     * 将文件重命名为指定名称
+     *
+     * @param filePath 文件路径
+     * @param newName  新名称
+     * @throws IOException 如果文件不存在或目标文件已存在
+     */
+    public static void renameFileWithName(String filePath, String newName) throws IOException
+    {
+        // 获取文件后缀
+        String suffix = "";
+        int index = filePath.lastIndexOf(".");
+        if (index != - 1)
+        {
+            suffix = filePath.substring(index);
+        }
+
+        // 将文件重命名为 newName + 后缀
+        File file = new File(filePath);
+        File newFile = new File(file.getParentFile(), newName + suffix);
+        file.renameTo(newFile);
+    }
+
 }

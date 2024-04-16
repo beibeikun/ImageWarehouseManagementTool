@@ -4,6 +4,7 @@ import Module.CheckOperations.SystemChecker;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Arrays;
 
 import static Module.DataOperations.FileLister.getFileNames;
 import static Module.DataOperations.FileNameProcessor.processFileNames;
@@ -34,6 +35,7 @@ public class ExtractMainImage
         }
         //获取源文件夹内所有文件名,处理文件名数组，去除文件后缀名、去除 "(x)" 后缀并删除重复项，只保留一个
         String[] FileNames = processFileNames(getFileNames(sourceFolder));
+        Arrays.sort(FileNames);
         for (String fileName : FileNames)
         {
             copyFile(sourceFolder + system.identifySystem_String() + fileName + ".JPG", destinationFolder);

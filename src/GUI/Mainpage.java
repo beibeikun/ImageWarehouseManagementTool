@@ -6,7 +6,7 @@ import Module.DataOperations.ArrayExtractor;
 import Module.DataOperations.ReadCsvFile;
 import com.drew.imaging.ImageProcessingException;
 import com.drew.metadata.MetadataException;
-import com.formdev.flatlaf.*;
+import com.formdev.flatlaf.FlatDarkLaf;
 import com.formdev.flatlaf.util.SystemInfo;
 
 import javax.imageio.ImageIO;
@@ -33,6 +33,7 @@ import static Module.DataOperations.FolderCsvComparator.compareAndGenerateCsv;
 import static Module.DataOperations.GetLatestSubfolderPath.getLatestSubfolder;
 import static Module.DataOperations.ImgSize.getImgSize;
 import static Module.DataOperations.WriteToProperties.writeToProperties;
+import static Module.FileOperations.CreateFolder.createFolderWithTime;
 import static Module.FileOperations.DeleteFileFromDatabase.deleteFileFromDatabase;
 import static Module.FileOperations.ExtractMainImage.extractMainImage;
 import static Module.FileOperations.FilePrefixMove.filePrefixMove;
@@ -43,8 +44,7 @@ import static Module.Others.GetPropertiesPath.settingspath;
 import static Module.Others.GetTimeConsuming.getTimeConsuming;
 import static Module.Others.StartCheck.startCheck;
 import static Module.Others.SystemPrintOut.systemPrintOut;
-import static Module.Others.VersionNumber.getGithub;
-import static Module.Others.VersionNumber.getVersionNumber;
+import static Module.Others.VersionNumber.*;
 
 public class Mainpage
 {
@@ -54,27 +54,27 @@ public class Mainpage
     private JPanel panel1;
     private JTabbedPane tabbedPane;
     private JButton CheckButton;
-    private JButton RenamestartButton;
-    private JCheckBox CheckBox_digit;
+    private JButton renameStartButton;
+    private JCheckBox digitCheckBox;
     private JCheckBox CheckBox_prefix;
     private JCheckBox CheckBox_classification;
     private JCheckBox CheckBox_addfromdatabase;
     private JButton selectLastPathButton;
     private JButton selectFirstPathButton;
-    private JCheckBox cameraReplaceCheckBox;
-    private JButton AddtocameradatabaseButton;
+    private JCheckBox uploadReplaceCheckBox;
+    private JButton uploadToDatabaseButton;
     private JButton deleteButton;
     private JTextField textField1;
     private JButton SearchButton;
     private JLabel versionLabel;
-    private JLabel firstpath;
-    private JLabel lastpath;
-    private JLabel renamecsvpath;
+    private JLabel sourceFolderPath;
+    private JLabel targetFolderPath;
+    private JLabel renameCsvPath;
     private JToolBar JT_firstpath;
     private JToolBar JT_renamecsvpath;
     private JToolBar JT_lastpath;
     private JToolBar Othersettings;
-    private JButton SelectButton_renamecsvpath;
+    private JButton selectRenameCsvButton;
     private JButton connecttodatabase;
     private JButton ConnectButton1;
     private JButton ConnectButton2;
@@ -86,16 +86,15 @@ public class Mainpage
     private JLabel testmode;
     private JToolBar Namingformat;
     private JLabel mode;
-    private JCheckBox cameraDeleteCheckBox;
+    private JCheckBox uploadDeleteCheckBox;
     private JTextArea printOutTextArea;
     private JScrollPane ScrollPane1;
-    private JButton consolebutton;
-    private JButton ExtractMainImageButton;
+    private JButton consoleButton;
+    private JButton extractMainImageFromSourceFolderButton;
     private JComboBox comboBox1;
-    private JButton AddtophonedatabaseButton;
     private JComboBox selectdatabase;
-    private JButton takemainfromdatabaseButton;
-    private JButton checkMainIMGButton;
+    private JButton downloadMainImageFromDatabaseButton;
+    private JButton checkMainImageWithCsvButton;
     private JComboBox imgsizecomboBox;
     private JPanel Tab1;
     private JPanel Tab3;
@@ -106,20 +105,18 @@ public class Mainpage
     private JButton changeSuffixButton;
     private JCheckBox suffixCheckBox;
     private JPanel Tab2;
-    private JButton linshi;
-    private JComboBox cameraSizeComboBox;
-    private JComboBox phoneSizeComboBox;
-    private JCheckBox phoneReplaceCheckBox;
-    private JCheckBox phoneDeleteCheckBox;
+    private JButton sortByFolderButton;
+    private JComboBox uploadSizeComboBox;
     private JButton changeTargetToSourceButton;
-    private JButton SelectButton_tab2csvpath;
-    private JLabel tab2csvpath;
-    private JButton ExtractAllImageButton;
+    private JButton selectCheckCsvButton;
+    private JLabel checkCsvPath;
+    private JButton extractAllImageFromSourceFolderButton;
     private JButton exchangeFirstPathButton;
     private JTextField jbNumTextField;
     private JComboBox comboBox2;
     private JComboBox onlyCompressSizeChooseComboBox;
-    private JButton onlyCompressButton;
+    private JButton compressButton;
+    private JComboBox uploadDatabaseComboBox;
     private JTextArea consoleTextArea;
 
     public Mainpage()
@@ -143,18 +140,18 @@ public class Mainpage
             JT_lastpath.setBorder(BorderFactory.createTitledBorder(properties.getProperty("JT_lastpath")));
             selectLastPathButton.setText(properties.getProperty("SelectButton_lastpath"));
             JT_renamecsvpath.setBorder(BorderFactory.createTitledBorder(properties.getProperty("JT_renamecsvpath")));
-            SelectButton_renamecsvpath.setText(properties.getProperty("SelectButton_renamecsvpath"));
+            selectRenameCsvButton.setText(properties.getProperty("SelectButton_renamecsvpath"));
             Namingformat.setBorder(BorderFactory.createTitledBorder(properties.getProperty("Namingformat")));
-            CheckBox_digit.setText(properties.getProperty("CheckBox_digit"));
+            digitCheckBox.setText(properties.getProperty("CheckBox_digit"));
             CheckBox_prefix.setText(properties.getProperty("CheckBox_prefix"));
             Othersettings.setBorder(BorderFactory.createTitledBorder(properties.getProperty("Othersettings")));
             CheckBox_classification.setText(properties.getProperty("CheckBox_classification"));
             CheckBox_addfromdatabase.setText(properties.getProperty("CheckBox_addfromdatabase"));
             CheckButton.setText(properties.getProperty("CheckButton"));
-            RenamestartButton.setText(properties.getProperty("RenamestartButton"));
-            takemainfromdatabaseButton.setText(properties.getProperty("takemainfromdatabaseButton"));
-            ExtractMainImageButton.setText(properties.getProperty("ExtractMainImageButton"));
-            checkMainIMGButton.setText(properties.getProperty("checkMainIMGButton"));
+            renameStartButton.setText(properties.getProperty("RenamestartButton"));
+            downloadMainImageFromDatabaseButton.setText(properties.getProperty("takemainfromdatabaseButton"));
+            extractMainImageFromSourceFolderButton.setText(properties.getProperty("ExtractMainImageButton"));
+            checkMainImageWithCsvButton.setText(properties.getProperty("checkMainIMGButton"));
 
             tabbedPane.setTitleAt(1, properties.getProperty("Tab2"));
 
@@ -190,10 +187,10 @@ public class Mainpage
             settingsproperties.load(reader);
             databaseaddress.setText(settingsproperties.getProperty("databaseaddress"));
             databaseusername.setText(settingsproperties.getProperty("databaseusername"));
-            firstpath.setText(settingsproperties.getProperty("firstpath"));
-            lastpath.setText(settingsproperties.getProperty("lastpath"));
-            renamecsvpath.setText(settingsproperties.getProperty("renamecsvpath"));
-            tab2csvpath.setText(settingsproperties.getProperty("tab2csvpath"));
+            sourceFolderPath.setText(settingsproperties.getProperty("sourceFolderPath"));
+            targetFolderPath.setText(settingsproperties.getProperty("targetFolderPath"));
+            renameCsvPath.setText(settingsproperties.getProperty("renameCsvPath"));
+            checkCsvPath.setText(settingsproperties.getProperty("checkCsvPath"));
             cameradatabasepath.setText(settingsproperties.getProperty("cameradatabasepath"));
             phonedatabasepath.setText(settingsproperties.getProperty("phonedatabasepath"));
             systemPrintOut("Read settings file", 1, 0);
@@ -205,13 +202,21 @@ public class Mainpage
             e.printStackTrace();
         }
 
-
-        versionLabel.setText(getVersionNumber());//显示为当前版本号
-        githuburlLabel.setText("<html><u>GitHub Homepage</u></html>");//显示github地址
-
         String[][] filenamelist = new String[2][10];
         filenamelist[0][0] = "versionNumber";
-        filenamelist[1][0] = versionLabel.getText();
+        if (getReleaseType())
+        {
+            versionLabel.setText("Build: V" + officialVersionNumber() + " by beibeikun");//正式版
+            filenamelist[1][0] = officialVersionNumber();
+        }
+        else
+        {
+            versionLabel.setText("Build: Beta V" + betaVersionNumber() + " by beibeikun");//测试版
+            filenamelist[1][0] = betaVersionNumber();
+        }
+        //versionLabel.setText(getVersionNumber());//显示为当前版本号
+        githuburlLabel.setText("<html><u>GitHub Homepage</u></html>");//显示github地址
+
         writeToProperties("settings", filenamelist);
         final String[] exchangeFirstPath = {null};
 
@@ -219,23 +224,23 @@ public class Mainpage
         /*================================顶部================================*/
 
         //展开&收起信息面板
-        consolebutton.addActionListener(new ActionListener()
+        consoleButton.addActionListener(new ActionListener()
         {
             @Override
             public void actionPerformed(ActionEvent e)
             {
-                if (consolebutton.getText().equals(">"))
+                if (consoleButton.getText().equals(">"))
                 {
                     ScrollPane1.setVisible(true);
                     frame.setSize(frame.getWidth() + 600, frame.getHeight());
-                    consolebutton.setText("<");
+                    consoleButton.setText("<");
                     frame.setLocationRelativeTo(null);
                 }
                 else
                 {
                     ScrollPane1.setVisible(false);
                     frame.setSize(frame.getWidth() - 600, frame.getHeight());
-                    consolebutton.setText(">");
+                    consoleButton.setText(">");
                     frame.setLocationRelativeTo(null);
                 }
 
@@ -248,55 +253,89 @@ public class Mainpage
             @Override
             public void actionPerformed(ActionEvent e)
             {
-                String Sfirstpath = getfilepath.selectFilePath(2, firstpath.getText());
-                firstpath.setText(Sfirstpath);
+                String Sfirstpath = getfilepath.selectFilePath(2, sourceFolderPath.getText());
+                sourceFolderPath.setText(Sfirstpath);
                 String[][] filenamelist = new String[2][10];
-                filenamelist[0][0] = "firstpath";
-                filenamelist[1][0] = firstpath.getText();
+                filenamelist[0][0] = "sourceFolderPath";
+                filenamelist[1][0] = sourceFolderPath.getText();
                 writeToProperties("settings", filenamelist);
             }
         });
+
+        //源文件夹路径临时储存
+        exchangeFirstPathButton.addActionListener(new ActionListener()
+        {
+            @Override
+            public void actionPerformed(ActionEvent e)
+            {
+                if (exchangeFirstPath[0] == null)
+                {
+                    exchangeFirstPath[0] = sourceFolderPath.getText();
+                    exchangeFirstPathButton.setBackground(Color.GREEN);
+                    exchangeFirstPathButton.setForeground(Color.BLACK);
+                }
+                else if (sourceFolderPath.getText().equals(""))
+                {
+                    sourceFolderPath.setText(exchangeFirstPath[0]);
+                    String[][] filenamelist = new String[2][10];
+                    filenamelist[0][0] = "sourceFolderPath";
+                    filenamelist[1][0] = sourceFolderPath.getText();
+                    writeToProperties("settings", filenamelist);
+                }
+                else
+                {
+                    String a = sourceFolderPath.getText();
+                    sourceFolderPath.setText(exchangeFirstPath[0]);
+                    String[][] filenamelist = new String[2][10];
+                    filenamelist[0][0] = "sourceFolderPath";
+                    filenamelist[1][0] = sourceFolderPath.getText();
+                    writeToProperties("settings", filenamelist);
+                    exchangeFirstPath[0] = a;
+                }
+            }
+        });
+
         //选择目标文件夹
         selectLastPathButton.addActionListener(new ActionListener()
         {
             @Override
             public void actionPerformed(ActionEvent e)
             {
-                String Slastpath = getfilepath.selectFilePath(2, lastpath.getText());
-                lastpath.setText(Slastpath);
+                String Slastpath = getfilepath.selectFilePath(2, targetFolderPath.getText());
+                targetFolderPath.setText(Slastpath);
                 String[][] filenamelist = new String[2][10];
-                filenamelist[0][0] = "lastpath";
-                filenamelist[1][0] = lastpath.getText();
+                filenamelist[0][0] = "targetFolderPath";
+                filenamelist[1][0] = targetFolderPath.getText();
                 writeToProperties("settings", filenamelist);
             }
         });
+
         //将目标文件夹路径复制到源文件夹路径
         changeTargetToSourceButton.addActionListener(new ActionListener()
         {
             @Override
             public void actionPerformed(ActionEvent e)
             {
-                firstpath.setText(getLatestSubfolder(lastpath.getText()));
+                sourceFolderPath.setText(getLatestSubfolder(targetFolderPath.getText()));
                 String[][] filenamelist = new String[2][10];
-                filenamelist[0][0] = "firstpath";
-                filenamelist[1][0] = firstpath.getText();
+                filenamelist[0][0] = "sourceFolderPath";
+                filenamelist[1][0] = sourceFolderPath.getText();
                 writeToProperties("settings", filenamelist);
             }
         });
         /*================================第一页：批量重命名================================*/
 
-
         //选择csv文件
-        SelectButton_renamecsvpath.addActionListener(new ActionListener()
+        selectRenameCsvButton.addActionListener(new ActionListener()
         {
             @Override
             public void actionPerformed(ActionEvent e)
             {
-                String Srenamecsvpath = getfilepath.selectFilePath(1, renamecsvpath.getText());
-                renamecsvpath.setText(Srenamecsvpath);
+                String Srenamecsvpath = getfilepath.selectFilePath(1, renameCsvPath.getText());
+                renameCsvPath.setText(Srenamecsvpath);
                 String[][] filenamelist = new String[2][10];
-                filenamelist[0][0] = "renamecsvpath";
-                filenamelist[1][0] = renamecsvpath.getText();
+                filenamelist[0][0] = "renameCsvPath";
+                filenamelist[1][0] = renameCsvPath.getText();
                 writeToProperties("settings", filenamelist);
             }
         });
@@ -307,19 +346,19 @@ public class Mainpage
             @Override
             public void actionPerformed(ActionEvent e)
             {
-                int renamecsvpathcheck = checkFilePath(renamecsvpath.getText(), false);
-                int firstpathcheck = checkFilePath(firstpath.getText(), false);
-                int lastpathcheck = checkFilePath(lastpath.getText(), false);
-                if (checkback(renamecsvpathcheck, firstpathcheck, lastpathcheck, lastpath.getText()))
+                int renamecsvpathcheck = checkFilePath(renameCsvPath.getText(), false);
+                int firstpathcheck = checkFilePath(sourceFolderPath.getText(), false);
+                int lastpathcheck = checkFilePath(targetFolderPath.getText(), false);
+                if (checkback(renamecsvpathcheck, firstpathcheck, lastpathcheck, targetFolderPath.getText()))
                 {
-                    RenamestartButton.setEnabled(true);
+                    renameStartButton.setEnabled(true);
                     changeSuffixButton.setEnabled(true);
                 }
             }
         });
 
         //执行文件重命名
-        RenamestartButton.addActionListener(new ActionListener()
+        renameStartButton.addActionListener(new ActionListener()
         {
             @Override
             public void actionPerformed(ActionEvent e)
@@ -365,7 +404,7 @@ public class Mainpage
                         try
                         {
                             systemPrintOut("Start to rename", 1, 0);
-                            completeNameChangeProcess.completeNameChangeProcess(databasepath, firstpath.getText(), lastpath.getText(), renamecsvpath.getText(), check_usedatabase, imgsize, false, prefix, suffixtype);
+                            completeNameChangeProcess.completeNameChangeProcess(databasepath, sourceFolderPath.getText(), targetFolderPath.getText(), renameCsvPath.getText(), check_usedatabase, imgsize, false, prefix, suffixtype);
                         }
                         catch (IOException | ImageProcessingException | MetadataException ex)
                         {
@@ -381,14 +420,37 @@ public class Mainpage
                 };
 
                 worker.execute();
-                RenamestartButton.setEnabled(false);
+                renameStartButton.setEnabled(false);
                 changeSuffixButton.setEnabled(false);
+            }
+
+        });
+        /*================================第二页：文件操作================================*/
+
+        //将源文件夹内容按前缀进行分类
+        sortByFolderButton.addActionListener(new ActionListener()
+        {
+            @Override
+            public void actionPerformed(ActionEvent e)
+            {
+                SwingWorker<Void, Void> worker = new SwingWorker<Void, Void>()
+                {
+                    @Override
+                    protected Void doInBackground() throws Exception
+                    {
+                        filePrefixMove(sourceFolderPath.getText(), "-");
+                        return null;
+                    }
+                };
+
+                worker.execute();
+
             }
 
         });
 
         //执行从数据库中拉取csv列出的文件主图（缩略图）
-        takemainfromdatabaseButton.addActionListener(new ActionListener()
+        downloadMainImageFromDatabaseButton.addActionListener(new ActionListener()
         {
             @Override
             public void actionPerformed(ActionEvent e)
@@ -399,7 +461,7 @@ public class Mainpage
                     protected Void doInBackground() throws Exception
                     {
                         Instant instant1 = Instant.now();
-                        takeMainFromDatabase(tab2csvpath.getText(), cameradatabasepath.getText(), lastpath.getText());
+                        takeMainFromDatabase(checkCsvPath.getText(), cameradatabasepath.getText(), targetFolderPath.getText());
                         Instant instant2 = Instant.now();
                         JOptionPane.showMessageDialog(null, "任务完成，本次耗时：" + getTimeConsuming(instant1, instant2) + "秒");
                         return null;
@@ -410,7 +472,7 @@ public class Mainpage
         });
 
         //执行从源文件夹中拉取文件主图
-        ExtractMainImageButton.addActionListener(new ActionListener()
+        extractMainImageFromSourceFolderButton.addActionListener(new ActionListener()
         {
             @Override
             public void actionPerformed(ActionEvent e)
@@ -421,7 +483,7 @@ public class Mainpage
                     protected Void doInBackground() throws Exception
                     {
                         Instant instant1 = Instant.now();
-                        extractMainImage(firstpath.getText(), lastpath.getText());
+                        extractMainImage(sourceFolderPath.getText(), targetFolderPath.getText());
                         Instant instant2 = Instant.now();
                         JOptionPane.showMessageDialog(null, "任务完成，本次耗时：" + getTimeConsuming(instant1, instant2) + "秒");
                         return null;
@@ -445,7 +507,7 @@ public class Mainpage
                         Instant instant1 = Instant.now();
                         try
                         {
-                            changeAllSuffix(firstpath.getText(), lastpath.getText(), 0);
+                            changeAllSuffix(sourceFolderPath.getText(), targetFolderPath.getText(), 0);
                         }
                         catch (IOException ex)
                         {
@@ -461,7 +523,7 @@ public class Mainpage
         });
 
         //校对源文件夹中的文件与csv的区别
-        checkMainIMGButton.addActionListener(new ActionListener()
+        checkMainImageWithCsvButton.addActionListener(new ActionListener()
         {
             @Override
             public void actionPerformed(ActionEvent e)
@@ -474,7 +536,7 @@ public class Mainpage
                         Instant instant1 = Instant.now();
                         try
                         {
-                            compareAndGenerateCsv(firstpath.getText(), tab2csvpath.getText(), lastpath.getText());
+                            compareAndGenerateCsv(sourceFolderPath.getText(), checkCsvPath.getText(), targetFolderPath.getText());
                         }
                         catch (IOException ex)
                         {
@@ -490,20 +552,20 @@ public class Mainpage
             }
         });
 
-        SelectButton_tab2csvpath.addActionListener(new ActionListener()
+        selectCheckCsvButton.addActionListener(new ActionListener()
         {
             @Override
             public void actionPerformed(ActionEvent e)
             {
-                String Srenamecsvpath = getfilepath.selectFilePath(1, tab2csvpath.getText());
-                tab2csvpath.setText(Srenamecsvpath);
+                String Srenamecsvpath = getfilepath.selectFilePath(1, checkCsvPath.getText());
+                checkCsvPath.setText(Srenamecsvpath);
                 String[][] filenamelist = new String[2][10];
-                filenamelist[0][0] = "tab2csvpath";
-                filenamelist[1][0] = tab2csvpath.getText();
+                filenamelist[0][0] = "checkCsvPath";
+                filenamelist[1][0] = checkCsvPath.getText();
                 writeToProperties("settings", filenamelist);
             }
         });
-        ExtractAllImageButton.addActionListener(new ActionListener()
+        extractAllImageFromSourceFolderButton.addActionListener(new ActionListener()
         {
             @Override
             public void actionPerformed(ActionEvent e)
@@ -514,10 +576,10 @@ public class Mainpage
                     protected Void doInBackground() throws Exception
                     {
                         Instant instant1 = Instant.now();
-                        List<String> readyToCopyNameList = Arrays.asList(ArrayExtractor.extractRow(ReadCsvFile.csvToArray(tab2csvpath.getText()), 0));
+                        List<String> readyToCopyNameList = Arrays.asList(ArrayExtractor.extractRow(ReadCsvFile.csvToArray(checkCsvPath.getText()), 0));
                         try
                         {
-                            copyFolderWithList(firstpath.getText(), lastpath.getText(), readyToCopyNameList);
+                            copyFolderWithList(sourceFolderPath.getText(), createFolderWithTime(targetFolderPath.getText()), readyToCopyNameList);
                         }
                         catch (IOException ex)
                         {
@@ -532,7 +594,7 @@ public class Mainpage
                 worker.execute();
             }
         });
-        onlyCompressButton.addActionListener(new ActionListener()
+        compressButton.addActionListener(new ActionListener()
         {
             @Override
             public void actionPerformed(ActionEvent e)
@@ -545,7 +607,7 @@ public class Mainpage
                         Instant instant1 = Instant.now();
 
                         int imgsize = getImgSize(onlyCompressSizeChooseComboBox.getSelectedItem().toString());
-                        onlyCompressFiles(firstpath.getText(),lastpath.getText(),imgsize);
+                        onlyCompressFiles(sourceFolderPath.getText(), targetFolderPath.getText(), imgsize);
 
                         Instant instant2 = Instant.now();
                         JOptionPane.showMessageDialog(null, "任务完成，本次耗时：" + getTimeConsuming(instant1, instant2) + "秒");
@@ -555,10 +617,10 @@ public class Mainpage
                 worker.execute();
             }
         });
-        /*================================第二页：上传至仓库================================*/
+        /*================================第三页：仓库相关================================*/
 
         //上传到相机图片数据库
-        AddtocameradatabaseButton.addActionListener(new ActionListener()
+        uploadToDatabaseButton.addActionListener(new ActionListener()
         {
             @Override
             public void actionPerformed(ActionEvent e)
@@ -569,77 +631,43 @@ public class Mainpage
                     protected Void doInBackground() throws Exception
                     {
                         CheckButton.setEnabled(false);
-                        int filepathcheck = checkFilePath(firstpath.getText(), false);
-                        int imgsize = getImgSize(cameraSizeComboBox.getSelectedItem().toString());
+                        int filepathcheck = checkFilePath(sourceFolderPath.getText(), false);
+                        String databaseAddress;
+                        int uploadMode = 0;
+                        if (uploadDatabaseComboBox.getSelectedItem().toString().equals("相机库"))
+                        {
+                            databaseAddress = cameradatabasepath.getText();
+                            uploadMode = 1;
+                        }
+                        else
+                        {
+                            databaseAddress = phonedatabasepath.getText();
+                        }
+                        int imgsize = getImgSize(uploadSizeComboBox.getSelectedItem().toString());
+                        if (imgsize == 1)
+                        {
+                            if (uploadDatabaseComboBox.getSelectedItem().toString().equals("相机库"))
+                            {
+                                imgsize = 5000;
+                            }
+                            else
+                            {
+                                imgsize = 4000;
+                            }
+                        }
                         if (filepathcheck == 1)
                         {
                             Instant instant1 = Instant.now();
                             boolean coverageDeterminer = false;
                             boolean deleteQualifier = false;
-                            if (cameraReplaceCheckBox.isSelected())
+                            if (uploadReplaceCheckBox.isSelected())
                                 coverageDeterminer = true;
-                            if (cameraDeleteCheckBox.isSelected())
+                            if (uploadDeleteCheckBox.isSelected())
                                 deleteQualifier = true;
                             try
                             {
-                                compressImgToZipAndUpload(firstpath.getText(), cameradatabasepath.getText(), 1, imgsize, coverageDeterminer, deleteQualifier);
+                                compressImgToZipAndUpload(sourceFolderPath.getText(), databaseAddress, uploadMode, imgsize, coverageDeterminer, deleteQualifier);
 
-                            }
-                            catch (IOException | ImageProcessingException | MetadataException ex)
-                            {
-                                throw new RuntimeException(ex);
-                            }
-                            Instant instant2 = Instant.now();
-                            JOptionPane.showMessageDialog(null, "任务完成，本次耗时：" + getTimeConsuming(instant1, instant2) + "秒");
-
-
-                        }
-                        else if (filepathcheck == 2)
-                        {
-                            JOptionPane.showMessageDialog(null, "未选取路径", "路径错误", JOptionPane.WARNING_MESSAGE);
-                        }
-                        else if (filepathcheck == 3)
-                        {
-                            JOptionPane.showMessageDialog(null, "路径名存在中文字符", "路径错误", JOptionPane.WARNING_MESSAGE);
-                        }
-                        else if (filepathcheck == 4)
-                        {
-                            JOptionPane.showMessageDialog(null, "源文件夹路径不存在", "路径错误", JOptionPane.WARNING_MESSAGE);
-                        }
-                        CheckButton.setEnabled(true);
-                        return null;
-                    }
-                };
-                worker.execute();
-            }
-        });
-
-        //上传到手机图片数据库
-        AddtophonedatabaseButton.addActionListener(new ActionListener()
-        {
-            @Override
-            public void actionPerformed(ActionEvent e)
-            {
-                SwingWorker<Void, Void> worker = new SwingWorker<Void, Void>()
-                {
-                    @Override
-                    protected Void doInBackground() throws Exception
-                    {
-                        CheckButton.setEnabled(false);
-                        int filepathcheck = checkFilePath(firstpath.getText(), false);
-                        int imgsize = getImgSize(phoneSizeComboBox.getSelectedItem().toString());
-                        if (filepathcheck == 1)
-                        {
-                            Instant instant1 = Instant.now();
-                            boolean coverageDeterminer = false;
-                            boolean deleteQualifier = false;
-                            if (phoneReplaceCheckBox.isSelected())
-                                coverageDeterminer = true;
-                            if (phoneDeleteCheckBox.isSelected())
-                                deleteQualifier = true;
-                            try
-                            {
-                                compressImgToZipAndUpload(firstpath.getText(), phonedatabasepath.getText(), 0, imgsize,coverageDeterminer, deleteQualifier);
                             }
                             catch (IOException | ImageProcessingException | MetadataException ex)
                             {
@@ -734,7 +762,7 @@ public class Mainpage
                 writeToProperties("settings", filenamelist);
             }
         });
-        linshi.addActionListener(new ActionListener()
+        sortByFolderButton.addActionListener(new ActionListener()
         {
             @Override
             public void actionPerformed(ActionEvent e)
@@ -744,7 +772,7 @@ public class Mainpage
                     @Override
                     protected Void doInBackground() throws Exception
                     {
-                        filePrefixMove(firstpath.getText(), "-");
+                        filePrefixMove(sourceFolderPath.getText(), "-");
                         return null;
                     }
                 };
@@ -791,35 +819,6 @@ public class Mainpage
         tabbedPane.addComponentListener(new ComponentAdapter()
         {
         });
-        exchangeFirstPathButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                if (exchangeFirstPath[0] == null)
-                {
-                    exchangeFirstPath[0] = firstpath.getText();
-                    exchangeFirstPathButton.setBackground(Color.GREEN);
-                    exchangeFirstPathButton.setForeground(Color.BLACK);
-                }
-                else if (firstpath.getText().equals(""))
-                {
-                    firstpath.setText(exchangeFirstPath[0]);
-                    String[][] filenamelist = new String[2][10];
-                    filenamelist[0][0] = "firstpath";
-                    filenamelist[1][0] = firstpath.getText();
-                    writeToProperties("settings", filenamelist);
-                }
-                else
-                {
-                    String a = firstpath.getText();
-                    firstpath.setText(exchangeFirstPath[0]);
-                    String[][] filenamelist = new String[2][10];
-                    filenamelist[0][0] = "firstpath";
-                    filenamelist[1][0] = firstpath.getText();
-                    writeToProperties("settings", filenamelist);
-                    exchangeFirstPath[0] = a;
-                }
-            }
-        });
         deleteButton.addActionListener(new ActionListener()
         {
             @Override
@@ -827,7 +826,7 @@ public class Mainpage
             {
                 try
                 {
-                    deleteFileFromDatabase(cameradatabasepath.getText(),jbNumTextField.getText());
+                    deleteFileFromDatabase(cameradatabasepath.getText(), jbNumTextField.getText());
                 }
                 catch (IOException ex)
                 {
@@ -839,18 +838,20 @@ public class Mainpage
 
     public static void main(String[] args)
     {
-        if( SystemInfo.isMacFullWindowContentSupported ) {
-            frame.getRootPane().putClientProperty( "apple.awt.fullWindowContent", true );
-            frame.getRootPane().putClientProperty( "apple.awt.transparentTitleBar", true );
+        if (SystemInfo.isMacFullWindowContentSupported)
+        {
+            frame.getRootPane().putClientProperty("apple.awt.fullWindowContent", true);
+            frame.getRootPane().putClientProperty("apple.awt.transparentTitleBar", true);
         }
 
 
-        frame.setTitle( null );
+        frame.setTitle(null);
         SystemChecker system = new SystemChecker();//获取系统类型
         SwingUtilities.invokeLater(() ->
         {
 
             FlatDarkLaf.setup();
+
             try {
                 startCheck();
             } catch (IOException e) {
@@ -888,7 +889,8 @@ public class Mainpage
             frame.setLocationRelativeTo(null);
             //使窗体显示在屏幕中央
             frame.setVisible(true);
-            if( !SystemInfo.isMacFullWindowContentSupported ) {
+            if (! SystemInfo.isMacFullWindowContentSupported)
+            {
                 frame.setTitle("Image Warehouse Management Tool");
             }
         });

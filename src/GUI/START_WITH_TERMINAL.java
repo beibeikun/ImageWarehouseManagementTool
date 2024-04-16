@@ -184,7 +184,7 @@ public class START_WITH_TERMINAL
                     {
                         compressImagesInBatches(firstpath, 5000, true);
                     }
-                    compressImgToZipAndUpload(firstpath, cameradatabasepath, 1, 0,false,false);
+                    compressImgToZipAndUpload(firstpath, cameradatabasepath, 1, 0, false, false);
                     menu();
                     break;
                 case 32:
@@ -195,7 +195,7 @@ public class START_WITH_TERMINAL
                     {
                         compressImagesInBatches(firstpath, 5000, true);
                     }
-                    compressImgToZipAndUpload(firstpath, phonedatabasepath, 0, 0,false,false);
+                    compressImgToZipAndUpload(firstpath, phonedatabasepath, 0, 0, false, false);
                     menu();
                     break;
                 case 4:

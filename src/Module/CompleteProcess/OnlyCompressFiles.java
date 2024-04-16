@@ -12,7 +12,7 @@ public class OnlyCompressFiles
     public static void onlyCompressFiles(String sourceFolderPath, String targetFolderPath, int imgSize) throws IOException
     {
         targetFolderPath = createFolderWithTime(targetFolderPath);
-        copyFolder(sourceFolderPath,targetFolderPath);
-        compressImgWithFileListUseMultithreading(getFileNamesInList(targetFolderPath),imgSize);
+        copyFolder(sourceFolderPath, targetFolderPath);
+        compressImgWithFileListUseMultithreading(getFileNamesInList(targetFolderPath), imgSize);
     }
 }

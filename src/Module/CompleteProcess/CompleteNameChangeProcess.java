@@ -23,7 +23,6 @@ import static Module.DataOperations.FileLister.getFileNamesInList;
 import static Module.DataOperations.ListExtractor.removeElementFromList;
 import static Module.FileOperations.CreateFolder.createFolderWithTime;
 import static Module.FileOperations.FilePrefixMove.filePrefixMove;
-import static Module.Others.GetCorrectTime.getCorrectTimeToFolderName;
 import static Module.Others.SystemPrintOut.systemPrintOut;
 
 /**
@@ -62,6 +61,7 @@ public class CompleteNameChangeProcess
         {
             // 提取压缩包并获取数据库中存在的文件名
             databaseNamelist = FileExtractor.extractFiles(nasFolderPath, targetFolderPath, fileNamesToExtract);
+            systemPrintOut(null, 0, 0);
             // 解压压缩包并删除
             UnzipAllZipsWithDelete.unzipAllZipsInFolder(targetFolderPath);
             systemPrintOut(null, 0, 0);

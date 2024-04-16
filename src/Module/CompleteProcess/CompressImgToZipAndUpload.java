@@ -17,7 +17,6 @@ import static Module.DataOperations.FileSearch.isFileExists;
 import static Module.DataOperations.FileSearch.searchFiles;
 import static Module.FileOperations.CreateTemporaryDestinationFolder.createTemporaryFolder;
 import static Module.FileOperations.DeleteDirectory.deleteDirectory;
-import static Module.FileOperations.DeleteFileFromDatabase.deleteFileFromDatabase;
 import static Module.FileOperations.FileCopyAndDelete.*;
 import static Module.Others.SystemPrintOut.systemPrintOut;
 
@@ -30,9 +29,9 @@ public class CompressImgToZipAndUpload
     /**
      * 完成图片压缩上传的整个过程。
      *
-     * @param sourceFolder      源文件夹路径
-     * @param destinationFolder 目标文件夹路径
-     * @param mode              1.相机图 其他.手机图
+     * @param sourceFolder       源文件夹路径
+     * @param destinationFolder  目标文件夹路径
+     * @param mode               1.相机图 其他.手机图
      * @param coverageDeterminer 判断是否覆盖 true为覆盖，false不覆盖
      * @throws IOException 如果文件操作失败
      */
@@ -65,22 +64,22 @@ public class CompressImgToZipAndUpload
         String[] FileNames = processFileNames(getFileNames(sourceFolder));
         for (int i = 0; i < FileNames.length; i++)
         {
-            if (coverageDeterminer==true)
+            if (coverageDeterminer)
             {
-                thumbnailAndCompress(mode,sourceFolder,FileNames,i,thumbnailFolder,imgsize,temporaryCompressedImgFolder,temporaryDestinationFolder);
+                thumbnailAndCompress(mode, sourceFolder, FileNames, i, thumbnailFolder, imgsize, temporaryCompressedImgFolder, temporaryDestinationFolder);
             }
             else
             {
                 //检测仓库中是否存在，如果存在则跳过
-                String databasePath = destinationFolder + system.identifySystem_String() + FileNames[i].substring(0, 6) + system.identifySystem_String() + FileNames[i] +  ".zip";
-                if (!isFileExists(databasePath))
+                String databasePath = destinationFolder + system.identifySystem_String() + FileNames[i].substring(0, 6) + system.identifySystem_String() + FileNames[i] + ".zip";
+                if (! isFileExists(databasePath))
                 {
-                    thumbnailAndCompress(mode,sourceFolder,FileNames,i,thumbnailFolder,imgsize,temporaryCompressedImgFolder,temporaryDestinationFolder);
+                    thumbnailAndCompress(mode, sourceFolder, FileNames, i, thumbnailFolder, imgsize, temporaryCompressedImgFolder, temporaryDestinationFolder);
                 }
                 else
                 {
                     int x = i + 1;
-                    systemPrintOut("The file has been backed up:" + FileNames[i]+ "    (" + x + "/" + FileNames.length + ")",2,0);
+                    systemPrintOut("The file has been backed up:" + FileNames[i] + "    (" + x + "/" + FileNames.length + ")", 2, 0);
                 }
             }
         }
@@ -95,7 +94,7 @@ public class CompressImgToZipAndUpload
         }
     }
 
-    private static void thumbnailAndCompress(int mode,String sourceFolder,String[] FileNames,int i,String thumbnailFolder,int imgsize,String temporaryCompressedImgFolder,String temporaryDestinationFolder) throws IOException
+    private static void thumbnailAndCompress(int mode, String sourceFolder, String[] FileNames, int i, String thumbnailFolder, int imgsize, String temporaryCompressedImgFolder, String temporaryDestinationFolder) throws IOException
     {
         SystemChecker system = new SystemChecker();
         if (mode == 1)

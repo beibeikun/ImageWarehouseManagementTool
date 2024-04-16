@@ -8,7 +8,7 @@ import static Module.Others.GetCorrectTime.getCorrectTimeToFolderName;
 
 public class CreateFolder
 {
-    public static String createFolderWithTime (String folderPath)
+    public static String createFolderWithTime(String folderPath)
     {
         SystemChecker system = new SystemChecker();
         folderPath = folderPath + system.identifySystem_String() + getCorrectTimeToFolderName();

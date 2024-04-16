@@ -8,6 +8,10 @@ public class ImgSize
         {
             return 0;
         }
+        else if (size.equals("auto"))
+        {
+            return 1;
+        }
         else
         {
             return Integer.parseInt(size.substring(0, 4));
