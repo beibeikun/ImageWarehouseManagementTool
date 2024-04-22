@@ -86,16 +86,16 @@ public class StartCheck
                 // 创建文件夹
                 Files.createDirectories(folder);
 
-                String logoUrl = "https://raw.githubusercontent.com/beibeikun/ImageWarehouseManagementTool/master/logo/logo.png"; // 替换为您要下载的图片的URL
+                String logoUrl = "https://raw.githubusercontent.com/beibeikun/ImageWarehouseManagementTool/master/src/main/resources/logo.png"; // 替换为您要下载的图片的URL
                 String logoPath = System.getProperty("user.home") + system.identifySystem_String() + "Documents" + system.identifySystem_String() + "IWMT" + system.identifySystem_String() + "logo.png"; // 替换为您希望保存图片的本地路径
                 String zhpropertiesUrl;
                 if (getReleaseType())
                 {
-                    zhpropertiesUrl = "https://raw.githubusercontent.com/beibeikun/ImageWarehouseManagementTool/master/properties/zh.properties";
+                    zhpropertiesUrl = "https://raw.githubusercontent.com/beibeikun/ImageWarehouseManagementTool/master/src/main/resources/zh.properties";
                 }
                 else
                 {
-                    zhpropertiesUrl = "https://raw.githubusercontent.com/beibeikun/ImageWarehouseManagementTool/dev/properties/zh.properties";
+                    zhpropertiesUrl = "https://raw.githubusercontent.com/beibeikun/ImageWarehouseManagementTool/dev/src/main/resources/zh.properties";
                 }
 
                 String zhpropertiesPath = System.getProperty("user.home") + system.identifySystem_String() + "Documents" + system.identifySystem_String() + "IWMT" + system.identifySystem_String() + "zh.properties";
@@ -121,11 +121,11 @@ public class StartCheck
             String zhpropertiesUrl;
             if (getReleaseType())
             {
-                zhpropertiesUrl = "https://raw.githubusercontent.com/beibeikun/ImageWarehouseManagementTool/master/properties/zh.properties";
+                zhpropertiesUrl = "https://raw.githubusercontent.com/beibeikun/ImageWarehouseManagementTool/master/src/main/resources/zh.properties";
             }
             else
             {
-                zhpropertiesUrl = "https://raw.githubusercontent.com/beibeikun/ImageWarehouseManagementTool/dev/properties/zh.properties";
+                zhpropertiesUrl = "https://raw.githubusercontent.com/beibeikun/ImageWarehouseManagementTool/dev/src/main/resources/zh.properties";
             }
             String zhpropertiesPath = System.getProperty("user.home") + system.identifySystem_String() + "Documents" + system.identifySystem_String() + "IWMT" + system.identifySystem_String() + "zh.properties";
 

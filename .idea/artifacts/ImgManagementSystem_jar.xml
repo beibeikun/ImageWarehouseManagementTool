@@ -1,0 +1,16 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="ImgManagementSystem:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/ImgManagementSystem_jar</output-path>
+    <root id="archive" name="ImgManagementSystem.jar">
+      <element id="module-output" name="ImgManagementSystem" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/JAR/gson-2.10.1.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/JAR/flatlaf-3.1.1.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/JAR/xmpcore-6.1.11.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/JAR/commons-io-2.15.0.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/JAR/commons-csv-1.10.0.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/JAR/thumbnailator-0.4.20.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/JAR/mysql-connector-j-8.0.33.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/JAR/metadata-extractor-2.19.0.jar" path-in-jar="/" />
+    </root>
+  </artifact>
+</component>

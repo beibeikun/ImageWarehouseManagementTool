@@ -10,5 +10,8 @@
         <header value="Icon-Path" />
       </option>
     </inspection_tool>
+    <inspection_tool class="ThrowablePrintStackTrace" enabled="true" level="WARNING" enabled_by_default="true">
+      <scope name="Tests" level="WARNING" enabled="false" />
+    </inspection_tool>
   </profile>
 </component>
