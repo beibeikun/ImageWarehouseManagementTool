@@ -18,10 +18,8 @@ import java.io.*;
 import java.net.URI;
 import java.nio.charset.StandardCharsets;
 import java.time.Instant;
-import java.util.Arrays;
+import java.util.*;
 import java.util.List;
-import java.util.Locale;
-import java.util.Properties;
 
 import static GUI.ImageUtils.openImage;
 import static Module.CheckOperations.FilePathChecker.*;
@@ -43,6 +41,8 @@ import static Module.Others.GetTimeConsuming.getTimeConsuming;
 import static Module.Others.StartCheck.startCheck;
 import static Module.Others.SystemPrintOut.systemPrintOut;
 import static Module.Others.VersionNumber.*;
+import static Module.Test.CsvReaderToList.readCsvAndProcess;
+import static Module.Test.PdfFormFiller.batchFillPdfForms;
 
 public class Mainpage
 {
@@ -115,6 +115,11 @@ public class Mainpage
     private JComboBox onlyCompressSizeChooseComboBox;
     private JButton compressButton;
     private JComboBox uploadDatabaseComboBox;
+    private JButton selectPdfCsvButton;
+    private JLabel pdfCsvPath;
+    private JTextField pdfStaffTextField;
+    private JComboBox pdfComboBox;
+    private JButton toPdfButton;
     private JTextArea consoleTextArea;
 
     public Mainpage()
@@ -189,6 +194,7 @@ public class Mainpage
             targetFolderPath.setText(settingsproperties.getProperty("targetFolderPath"));
             renameCsvPath.setText(settingsproperties.getProperty("renameCsvPath"));
             checkCsvPath.setText(settingsproperties.getProperty("checkCsvPath"));
+            pdfCsvPath.setText(settingsproperties.getProperty("pdfCsvPath"));
             cameradatabasepath.setText(settingsproperties.getProperty("cameradatabasepath"));
             phonedatabasepath.setText(settingsproperties.getProperty("phonedatabasepath"));
             systemPrintOut("Read settings file", 1, 0);
@@ -780,6 +786,19 @@ public class Mainpage
             }
 
         });
+        selectPdfCsvButton.addActionListener(new ActionListener()
+        {
+            @Override
+            public void actionPerformed(ActionEvent e)
+            {
+                String Srenamecsvpath = getfilepath.selectFilePath(1, checkCsvPath.getText());
+                pdfCsvPath.setText(Srenamecsvpath);
+                String[][] filenamelist = new String[2][10];
+                filenamelist[0][0] = "pdfCsvPath";
+                filenamelist[1][0] = pdfCsvPath.getText();
+                writeToProperties("settings", filenamelist);
+            }
+        });
         /*================================底部================================*/
 
         //显示github信息
@@ -825,6 +844,32 @@ public class Mainpage
                 try
                 {
                     deleteFileFromDatabase(cameradatabasepath.getText(), jbNumTextField.getText());
+                }
+                catch (IOException ex)
+                {
+                    throw new RuntimeException(ex);
+                }
+            }
+        });
+        toPdfButton.addActionListener(new ActionListener()
+        {
+            @Override
+            public void actionPerformed(ActionEvent e)
+            {
+                try
+                {
+                    String destinationFolder = targetFolderPath.getText();
+                    destinationFolder = createFolderWithTime(destinationFolder);
+                    String pdfPath;
+                    if (Objects.equals(pdfComboBox.getSelectedItem(), "打印"))
+                    {
+                        pdfPath = "/print.pdf";
+                    }
+                    else
+                    {
+                        pdfPath = "/out.pdf";
+                    }
+                    batchFillPdfForms(pdfPath,destinationFolder,pdfStaffTextField.getText(),readCsvAndProcess(pdfCsvPath.getText()));
                 }
                 catch (IOException ex)
                 {

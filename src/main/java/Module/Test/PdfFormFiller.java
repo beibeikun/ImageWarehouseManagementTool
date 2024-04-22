@@ -1,3 +1,6 @@
+package Module.Test;
+
+import Module.CheckOperations.SystemChecker;
 import com.itextpdf.forms.PdfAcroForm;
 import com.itextpdf.forms.fields.PdfFormField;
 import com.itextpdf.kernel.pdf.PdfDocument;
@@ -5,6 +8,7 @@ import com.itextpdf.kernel.pdf.PdfReader;
 import com.itextpdf.kernel.pdf.PdfWriter;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
@@ -15,7 +19,7 @@ public class PdfFormFiller
     public static void main(String[] args) throws IOException
     {
         String src = "/Users/bbk/photographs/各种模版/test1.pdf";  // 源PDF文件路径
-        String destPath = "/Users/bbk/photographs/各种模版/";  // 填写完表单后的PDF文件路径
+        String destPath = "/Users/bbk/photographs/各种模版";  // 填写完表单后的PDF文件路径
         String csv = "/Users/bbk/photographs/各种模版/test.csv";
         String staff = "陳";
 
@@ -33,6 +37,8 @@ public class PdfFormFiller
      * @throws IOException 如果读写文件发生错误。
      */
     public static void batchFillPdfForms(String pdfTemplatePath, String outputDirectory, String operator, List<List<String[][]>> dataGroups) throws IOException {
+        SystemChecker system = new SystemChecker();//获取系统类型
+        outputDirectory = outputDirectory + system.identifySystem_String();
         for (int i = 0; i < dataGroups.size(); i++) {
             fillPdfForm(pdfTemplatePath, outputDirectory, operator, dataGroups.get(i));
         }
@@ -41,7 +47,7 @@ public class PdfFormFiller
     /**
      * 填充一个PDF表单，根据给定的数据。
      *
-     * @param pdfTemplatePath PDF模板文件路径。
+     * @param pdfTemplatePath PDF模板文件路径，在resources内，使用InputStream读取。
      * @param outputDirectory 输出文件目录。
      * @param operator 操作员姓名。
      * @param fieldData 字段数据，每个数组对应表单的一行。
@@ -51,7 +57,8 @@ public class PdfFormFiller
         String JBId = fieldData.get(0)[0][1];
         for (int formIndex = 0; formIndex < fieldData.size(); formIndex++) {
             String outputPath = formatOutputPath(outputDirectory, formIndex, fieldData.size(), JBId);
-            try (PdfDocument pdfDoc = new PdfDocument(new PdfReader(pdfTemplatePath), new PdfWriter(outputPath))) {
+            try (InputStream inputStream = PdfFormFiller.class.getResourceAsStream(pdfTemplatePath);
+                 PdfDocument pdfDoc = new PdfDocument(new PdfReader(inputStream), new PdfWriter(outputPath))) {
                 PdfAcroForm form = PdfAcroForm.getAcroForm(pdfDoc, true);
                 populateFormFields(form, fieldData.get(formIndex));
 
