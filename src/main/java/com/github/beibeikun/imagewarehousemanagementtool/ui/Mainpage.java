@@ -133,7 +133,7 @@ public class Mainpage
         language = language + ".properties";
         Properties properties = new Properties();
         SystemChecker system = new SystemChecker();//获取系统类型
-        try (InputStream inputStream = getClass().getResourceAsStream(system.identifySystem_String() + language);
+        try (InputStream inputStream = getClass().getResourceAsStream("/" + language);
              InputStreamReader reader = new InputStreamReader(inputStream, StandardCharsets.UTF_8))
         {
             properties.load(reader);
