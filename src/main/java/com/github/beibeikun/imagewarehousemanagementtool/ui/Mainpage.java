@@ -63,20 +63,20 @@ public class Mainpage
     private JToolBar JT_lastpath;
     private JToolBar JT_otherSettings;
     private JButton selectRenameCsvButton;
-    private JButton connecttodatabase;
-    private JButton ConnectButton1;
-    private JButton ConnectButton2;
-    private JLabel databaseaddress;
-    private JLabel databaseusername;
-    private JLabel cameradatabasepath;
-    private JLabel phonedatabasepath;
+    private JButton connectToDatabaseButton;
+    private JButton connectToCameraWarehouseButton;
+    private JButton connectToPhoneWarehouseButton;
+    private JLabel databaseAddressText;
+    private JLabel databaseUserNameText;
+    private JLabel cameraWarehouseAddressText;
+    private JLabel phoneWarehouseAddressText;
     private JLabel githuburlLabel;
     private JLabel testmode;
     private JToolBar JT_namingFormat;
     private JLabel mode;
     private JCheckBox uploadDeleteCheckBox;
     private JTextArea printOutTextArea;
-    private JScrollPane ScrollPane1;
+    private JScrollPane printOutScrollPane;
     private JButton consoleButton;
     private JButton extractMainImageFromSourceFolderButton;
     private JComboBox suffixComboBox;
@@ -100,8 +100,8 @@ public class Mainpage
     private JLabel checkCsvPath;
     private JButton extractAllImageFromSourceFolderButton;
     private JButton exchangeFirstPathButton;
-    private JTextField jbNumTextField;
-    private JComboBox comboBox2;
+    private JTextField deleteJBNumTextField;
+    private JComboBox deleteTypeComboBox;
     private JComboBox onlyCompressSizeChooseComboBox;
     private JButton compressButton;
     private JComboBox uploadDatabaseComboBox;
@@ -123,6 +123,18 @@ public class Mainpage
     private JToolBar JT_pdfCsvPath;
     private JLabel pdfStaffLabel;
     private JLabel pdfOutTypeLabel;
+    private JToolBar JT_deleteCsvPath;
+    private JButton selectDeleteCsvButton;
+    private JLabel deleteCsvPath;
+    private JLabel deleteJBLabel;
+    private JLabel deleteTypeLabel;
+    private JToolBar JT_database;
+    private JToolBar JT_cameraWarehouse;
+    private JToolBar JT_phoneWarehouse;
+    private JLabel databaseAddressLabel;
+    private JLabel databaseUserNameLabel;
+    private JLabel cameraWarehouseAddressLabel;
+    private JLabel phoneWarehouseAddressLabel;
     private JTextArea consoleTextArea;
 
     public Mainpage()
@@ -204,11 +216,11 @@ public class Mainpage
     private void initUIComponents()
     {
         // 设置组件属性，如可见性等
-        ScrollPane1.setVisible(false);
+        printOutScrollPane.setVisible(false);
         //识别系统语言
         Locale defaultLocale = Locale.getDefault();
         String language = defaultLocale.getLanguage();
-        //根据系统语言加载资源文件，目前只有中文
+        //根据系统语言加载资源文件，已支持中文/日语
         language = language + ".properties";
         Properties properties = new Properties();
         SystemChecker system = new SystemChecker();//获取系统类型
@@ -306,15 +318,15 @@ public class Mainpage
              InputStreamReader reader = new InputStreamReader(fis, StandardCharsets.UTF_8))
         {
             settingsproperties.load(reader);
-            databaseaddress.setText(settingsproperties.getProperty("databaseaddress"));
-            databaseusername.setText(settingsproperties.getProperty("databaseusername"));
+            databaseAddressText.setText(settingsproperties.getProperty("databaseAddressText"));
+            databaseUserNameText.setText(settingsproperties.getProperty("databaseUserNameText"));
             sourceFolderPath.setText(settingsproperties.getProperty("sourceFolderPath"));
             targetFolderPath.setText(settingsproperties.getProperty("targetFolderPath"));
             renameCsvPath.setText(settingsproperties.getProperty("renameCsvPath"));
             checkCsvPath.setText(settingsproperties.getProperty("checkCsvPath"));
             pdfCsvPath.setText(settingsproperties.getProperty("pdfCsvPath"));
-            cameradatabasepath.setText(settingsproperties.getProperty("cameradatabasepath"));
-            phonedatabasepath.setText(settingsproperties.getProperty("phonedatabasepath"));
+            cameraWarehouseAddressText.setText(settingsproperties.getProperty("cameraWarehouseAddressText"));
+            phoneWarehouseAddressText.setText(settingsproperties.getProperty("phoneWarehouseAddressText"));
 
             // 读取属性值...
         }
@@ -353,7 +365,7 @@ public class Mainpage
         /*================================顶部================================*/
 
         //展开&收起信息面板
-        consoleButton.addActionListener(e -> mainpageutil.informationPanelControl(consoleButton, ScrollPane1, frame));
+        consoleButton.addActionListener(e -> mainpageutil.informationPanelControl(consoleButton, printOutScrollPane, frame));
 
         //选择源文件夹
         selectFirstPathButton.addActionListener(e -> mainpageutil.selectPath(sourceFolderPath,"sourceFolderPath",2));
@@ -387,7 +399,7 @@ public class Mainpage
         //执行文件重命名
         renameStartButton.addActionListener(e ->
         {
-            renameWithTasks(addFromDatabaseCheckBox, selectdatabase, cameradatabasepath, phonedatabasepath, classificationCheckBox, suffixCheckBox, suffixComboBox, imgsizecomboBox, sourceFolderPath, targetFolderPath, renameCsvPath);
+            renameWithTasks(addFromDatabaseCheckBox, selectdatabase, cameraWarehouseAddressText, phoneWarehouseAddressText, classificationCheckBox, suffixCheckBox, suffixComboBox, imgsizecomboBox, sourceFolderPath, targetFolderPath, renameCsvPath);
             renameStartButton.setEnabled(false);
             changeSuffixButton.setEnabled(false);
         });
@@ -420,7 +432,7 @@ public class Mainpage
                     protected Void doInBackground() throws Exception
                     {
                         Instant instant1 = Instant.now();
-                        TakeMainFromDatabase.takeMainFromDatabase(checkCsvPath.getText(), cameradatabasepath.getText(), targetFolderPath.getText());
+                        TakeMainFromDatabase.takeMainFromDatabase(checkCsvPath.getText(), cameraWarehouseAddressText.getText(), targetFolderPath.getText());
                         Instant instant2 = Instant.now();
                         JOptionPane.showMessageDialog(null, "任务完成，本次耗时：" + GetTimeConsuming.getTimeConsuming(instant1, instant2) + "秒");
                         return null;
@@ -567,7 +579,7 @@ public class Mainpage
         /*================================第三页：仓库相关================================*/
 
         //上传到相机图片数据库
-        uploadToDatabaseButton.addActionListener(e -> uploadToWarehouseWithTasks(sourceFolderPath,cameradatabasepath,phonedatabasepath,uploadDatabaseComboBox,uploadSizeComboBox,uploadReplaceCheckBox,uploadDeleteCheckBox));
+        uploadToDatabaseButton.addActionListener(e -> uploadToWarehouseWithTasks(sourceFolderPath, cameraWarehouseAddressText, phoneWarehouseAddressText,uploadDatabaseComboBox,uploadSizeComboBox,uploadReplaceCheckBox,uploadDeleteCheckBox));
         /*================================第三页：从仓库删除================================*/
         //TODO:还没做，这功能有点危险
         /*================================第四页：仓库查询================================*/
@@ -575,13 +587,13 @@ public class Mainpage
         //从数据库中查询主图
         SearchButton.addActionListener(e ->
         {
-            String path = cameradatabasepath.getText() + system.identifySystem_String() + "thumbnail" + system.identifySystem_String() + "JB" + searchJBNumTextField.getText() + ".JPG";
+            String path = cameraWarehouseAddressText.getText() + system.identifySystem_String() + "thumbnail" + system.identifySystem_String() + "JB" + searchJBNumTextField.getText() + ".JPG";
             ImageUtils.openImage(path);
         });
         /*================================第五页：仓库配置================================*/
 
         //连接mysql数据库 TODO:具体功能还没做
-        connecttodatabase.addActionListener(new ActionListener()
+        connectToDatabaseButton.addActionListener(new ActionListener()
         {
             @Override
             public void actionPerformed(ActionEvent e)
@@ -591,8 +603,8 @@ public class Mainpage
                     public void onDataEntered(String address, String username, String password)
                     {
                         // 在这里处理从第二个窗口返回的数据
-                        databaseaddress.setText(address);
-                        databaseusername.setText(username);
+                        databaseAddressText.setText(address);
+                        databaseUserNameText.setText(username);
                     }
                 });
                 databaseConnectionForm.setVisible(true);
@@ -601,10 +613,10 @@ public class Mainpage
         });
 
         //连接相机图片数据库
-        ConnectButton1.addActionListener(e -> mainpageutil.connectToImgWarehouse(cameradatabasepath,"cameradatabasepath"));
+        connectToCameraWarehouseButton.addActionListener(e -> mainpageutil.connectToImgWarehouse(cameraWarehouseAddressText,"cameraWarehouseAddressText"));
 
         //连接手机图片数据库
-        ConnectButton2.addActionListener(e -> mainpageutil.connectToImgWarehouse(phonedatabasepath,"phonedatabasepath"));
+        connectToPhoneWarehouseButton.addActionListener(e -> mainpageutil.connectToImgWarehouse(phoneWarehouseAddressText,"phoneWarehouseAddressText"));
         sortByFolderButton.addActionListener(new ActionListener()
         {
             @Override
@@ -635,7 +647,7 @@ public class Mainpage
         {
             try
             {
-                DeleteFileFromDatabase.deleteFileFromDatabase(cameradatabasepath.getText(), jbNumTextField.getText());
+                DeleteFileFromDatabase.deleteFileFromDatabase(cameraWarehouseAddressText.getText(), deleteJBNumTextField.getText());
             }
             catch (IOException ex)
             {

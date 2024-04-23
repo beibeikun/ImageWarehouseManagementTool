@@ -6,6 +6,7 @@ import java.io.BufferedReader;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -64,7 +65,7 @@ public class ReadCsvFile
         List<String> results = new ArrayList<>();
         try (FileInputStream fis = new FileInputStream(filePath);
              BOMInputStream bomIn = new BOMInputStream(fis);
-             BufferedReader reader = new BufferedReader(new InputStreamReader(bomIn, "UTF-8"))) { // 使用UTF-8编码
+             BufferedReader reader = new BufferedReader(new InputStreamReader(bomIn, StandardCharsets.UTF_8))) { // 使用UTF-8编码
             String line;
             while ((line = reader.readLine()) != null) {
                 String[] values = line.split(",", -1); // 假设逗号为分隔符, 传入-1以保留空白结果
