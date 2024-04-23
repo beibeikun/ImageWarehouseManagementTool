@@ -7,14 +7,11 @@ import com.github.beibeikun.imagewarehousemanagementtool.util.CheckOperations.Sy
 import com.github.beibeikun.imagewarehousemanagementtool.util.DataOperations.*;
 import com.github.beibeikun.imagewarehousemanagementtool.util.FileOperations.*;
 import com.github.beibeikun.imagewarehousemanagementtool.util.Others.*;
-import com.github.beibeikun.imagewarehousemanagementtool.util.Test.AsyncTaskExecutor;
 import com.github.beibeikun.imagewarehousemanagementtool.util.mainpageUtils;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
@@ -27,7 +24,6 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
 import java.util.Properties;
-import java.util.concurrent.Callable;
 
 import static com.github.beibeikun.imagewarehousemanagementtool.util.CompleteProcess.ChangeAllSuffix.changeAllSuffix;
 import static com.github.beibeikun.imagewarehousemanagementtool.util.CompleteProcess.OnlyCompressFiles.onlyCompressFiles;
@@ -39,103 +35,16 @@ public class Mainpage
     private static MenuBar menuBar;
     SelectFilePath getfilepath = new SelectFilePath();
     mainpageUtils mainpageutil = new mainpageUtils();
-    private JPanel panel1;
-    private JTabbedPane tabbedPane;
-    private JButton CheckButton;
-    private JButton renameStartButton;
-    private JCheckBox digitCheckBox;
-    private JCheckBox prefixCheckBox;
-    private JCheckBox classificationCheckBox;
-    private JCheckBox addFromDatabaseCheckBox;
-    private JButton selectLastPathButton;
-    private JButton selectFirstPathButton;
-    private JCheckBox uploadReplaceCheckBox;
-    private JButton uploadToDatabaseButton;
-    private JButton deleteButton;
-    private JTextField searchJBNumTextField;
-    private JButton SearchButton;
-    private JLabel versionLabel;
-    private JLabel sourceFolderPath;
-    private JLabel targetFolderPath;
-    private JLabel renameCsvPath;
-    private JToolBar JT_firstpath;
-    private JToolBar JT_renameCsvPath;
-    private JToolBar JT_lastpath;
-    private JToolBar JT_otherSettings;
-    private JButton selectRenameCsvButton;
-    private JButton connectToDatabaseButton;
-    private JButton connectToCameraWarehouseButton;
-    private JButton connectToPhoneWarehouseButton;
-    private JLabel databaseAddressText;
-    private JLabel databaseUserNameText;
-    private JLabel cameraWarehouseAddressText;
-    private JLabel phoneWarehouseAddressText;
-    private JLabel githuburlLabel;
-    private JLabel testmode;
-    private JToolBar JT_namingFormat;
-    private JLabel mode;
-    private JCheckBox uploadDeleteCheckBox;
-    private JTextArea printOutTextArea;
-    private JScrollPane printOutScrollPane;
-    private JButton consoleButton;
-    private JButton extractMainImageFromSourceFolderButton;
-    private JComboBox suffixComboBox;
-    private JComboBox selectdatabase;
-    private JButton downloadMainImageFromDatabaseButton;
-    private JButton checkMainImageWithCsvButton;
-    private JComboBox imgsizecomboBox;
-    private JPanel Tab1;
-    private JPanel Tab3;
-    private JPanel Tab5;
-    private JPanel Tab4;
-    private JPanel Tab6;
-    private JLabel Suffix;
-    private JButton changeSuffixButton;
-    private JCheckBox suffixCheckBox;
-    private JPanel Tab2;
-    private JButton sortByFolderButton;
-    private JComboBox uploadSizeComboBox;
-    private JButton changeTargetToSourceButton;
-    private JButton selectCheckCsvButton;
-    private JLabel checkCsvPath;
-    private JButton extractAllImageFromSourceFolderButton;
-    private JButton exchangeFirstPathButton;
-    private JTextField deleteJBNumTextField;
-    private JComboBox deleteTypeComboBox;
-    private JComboBox onlyCompressSizeChooseComboBox;
-    private JButton compressButton;
-    private JComboBox uploadDatabaseComboBox;
-    private JButton selectPdfCsvButton;
-    private JLabel pdfCsvPath;
-    private JTextField pdfStaffTextField;
-    private JComboBox pdfOutTypeComboBox;
-    private JButton toPdfButton;
-    private JToolBar JT_checkCsvPath;
-    private JToolBar JT_search;
-    private JLabel enterJBNum;
-    private JToolBar JT_upload;
-    private JLabel suffixLabel;
-    private JLabel sizeLabel;
-    private JLabel addFromDatabaseLabel;
-    private JLabel tab2SizeLabel;
-    private JLabel uploadDatabaseLabel;
-    private JLabel uploadSizeLabel;
-    private JToolBar JT_pdfCsvPath;
-    private JLabel pdfStaffLabel;
-    private JLabel pdfOutTypeLabel;
-    private JToolBar JT_deleteCsvPath;
-    private JButton selectDeleteCsvButton;
-    private JLabel deleteCsvPath;
-    private JLabel deleteJBLabel;
-    private JLabel deleteTypeLabel;
-    private JToolBar JT_database;
-    private JToolBar JT_cameraWarehouse;
-    private JToolBar JT_phoneWarehouse;
-    private JLabel databaseAddressLabel;
-    private JLabel databaseUserNameLabel;
-    private JLabel cameraWarehouseAddressLabel;
-    private JLabel phoneWarehouseAddressLabel;
-    private JTextArea consoleTextArea;
+    private	JButton CheckButton,renameStartButton,selectLastPathButton,selectFirstPathButton,uploadToDatabaseButton,deleteButton,SearchButton,selectRenameCsvButton,connectToDatabaseButton,connectToCameraWarehouseButton,connectToPhoneWarehouseButton,consoleButton,extractMainImageFromSourceFolderButton,downloadMainImageFromDatabaseButton,checkMainImageWithCsvButton,changeSuffixButton,sortByFolderButton,changeTargetToSourceButton,selectCheckCsvButton,extractAllImageFromSourceFolderButton,exchangeFirstPathButton,compressButton,selectPdfCsvButton,toPdfButton,selectDeleteCsvButton;
+    private	JCheckBox digitCheckBox,prefixCheckBox,classificationCheckBox,addFromDatabaseCheckBox,uploadReplaceCheckBox,uploadDeleteCheckBox,suffixCheckBox;
+    private	JComboBox suffixComboBox,selectdatabase,imgsizecomboBox,uploadSizeComboBox,deleteTypeComboBox,onlyCompressSizeChooseComboBox,uploadDatabaseComboBox,pdfOutTypeComboBox;
+    private	JLabel versionLabel,sourceFolderPath,targetFolderPath,renameCsvPath,databaseAddressText,databaseUserNameText,cameraWarehouseAddressText,phoneWarehouseAddressText,githuburlLabel,testmode,mode,Suffix,checkCsvPath,pdfCsvPath,enterJBNum,suffixLabel,sizeLabel,addFromDatabaseLabel,tab2SizeLabel,uploadDatabaseLabel,uploadSizeLabel,pdfStaffLabel,pdfOutTypeLabel,deleteCsvPath,deleteJBLabel,deleteTypeLabel,databaseAddressLabel,databaseUserNameLabel,cameraWarehouseAddressLabel,phoneWarehouseAddressLabel;
+    private	JPanel panel1,Tab1,Tab2,Tab3,Tab4,Tab5,Tab6;
+    private	JScrollPane printOutScrollPane;
+    private	JTabbedPane tabbedPane;
+    private	JTextArea printOutTextArea,consoleTextArea;
+    private	JTextField searchJBNumTextField,deleteJBNumTextField,pdfStaffTextField;
+    private	JToolBar JT_firstpath,JT_renameCsvPath,JT_lastpath,JT_otherSettings,JT_checkCsvPath,JT_search,JT_upload,JT_pdfCsvPath,JT_namingFormat,JT_deleteCsvPath,JT_database,JT_cameraWarehouse,JT_phoneWarehouse;
 
     public Mainpage()
     {
@@ -406,175 +315,109 @@ public class Mainpage
         /*================================第二页：文件操作================================*/
 
         //将源文件夹内容按前缀进行分类
-        sortByFolderButton.addActionListener(e ->
-        {
-            Callable<Void> task = () -> {
-                Instant instant1 = Instant.now();
-                FilePrefixMove.filePrefixMove(sourceFolderPath.getText(), "-");
-                Instant instant2 = Instant.now();
-                JOptionPane.showMessageDialog(null, "任务完成，本次耗时：" + GetTimeConsuming.getTimeConsuming(instant1, instant2) + "秒");
-                return null;
-            };
-            AsyncTaskExecutor.executeInBackground(
-                    task
-            );
-        });
+        sortByFolderButton.addActionListener(e -> filePrefixMoveWithTasks(sourceFolderPath));
 
         //执行从数据库中拉取csv列出的文件主图（缩略图）
-        downloadMainImageFromDatabaseButton.addActionListener(new ActionListener()
-        {
-            @Override
-            public void actionPerformed(ActionEvent e)
-            {
-                SwingWorker<Void, Void> worker = new SwingWorker<Void, Void>()
-                {
-                    @Override
-                    protected Void doInBackground() throws Exception
-                    {
-                        Instant instant1 = Instant.now();
-                        TakeMainFromDatabase.takeMainFromDatabase(checkCsvPath.getText(), cameraWarehouseAddressText.getText(), targetFolderPath.getText());
-                        Instant instant2 = Instant.now();
-                        JOptionPane.showMessageDialog(null, "任务完成，本次耗时：" + GetTimeConsuming.getTimeConsuming(instant1, instant2) + "秒");
-                        return null;
-                    }
-                };
-                worker.execute();
-            }
-        });
+        downloadMainImageFromDatabaseButton.addActionListener(e ->takeMainFromDatabaseWithTasks(checkCsvPath, cameraWarehouseAddressText, targetFolderPath));
 
         //执行从源文件夹中拉取文件主图
-        extractMainImageFromSourceFolderButton.addActionListener(new ActionListener()
-        {
-            @Override
-            public void actionPerformed(ActionEvent e)
-            {
-                SwingWorker<Void, Void> worker = new SwingWorker<Void, Void>()
-                {
-                    @Override
-                    protected Void doInBackground() throws Exception
-                    {
-                        Instant instant1 = Instant.now();
-                        ExtractMainImage.extractMainImage(sourceFolderPath.getText(), targetFolderPath.getText());
-                        Instant instant2 = Instant.now();
-                        JOptionPane.showMessageDialog(null, "任务完成，本次耗时：" + GetTimeConsuming.getTimeConsuming(instant1, instant2) + "秒");
-                        return null;
-                    }
-                };
-                worker.execute();
+        extractMainImageFromSourceFolderButton.addActionListener(e ->extractMainImageWithTasks(sourceFolderPath, targetFolderPath));
 
-            }
-        });
         //更换后缀名
-        changeSuffixButton.addActionListener(new ActionListener()
+        changeSuffixButton.addActionListener(e ->
         {
-            @Override
-            public void actionPerformed(ActionEvent e)
+            SwingWorker<Void, Void> worker = new SwingWorker<Void, Void>()
             {
-                SwingWorker<Void, Void> worker = new SwingWorker<Void, Void>()
+                @Override
+                protected Void doInBackground() throws Exception
                 {
-                    @Override
-                    protected Void doInBackground() throws Exception
+                    Instant instant1 = Instant.now();
+                    try
                     {
-                        Instant instant1 = Instant.now();
-                        try
-                        {
-                            changeAllSuffix(sourceFolderPath.getText(), targetFolderPath.getText(), 0);
-                        }
-                        catch (IOException ex)
-                        {
-                            throw new RuntimeException(ex);
-                        }
-                        Instant instant2 = Instant.now();
-                        JOptionPane.showMessageDialog(null, "任务完成，本次耗时：" + GetTimeConsuming.getTimeConsuming(instant1, instant2) + "秒");
-                        return null;
+                        changeAllSuffix(sourceFolderPath.getText(), targetFolderPath.getText(), 0);
                     }
-                };
-                worker.execute();
-            }
+                    catch (IOException ex)
+                    {
+                        throw new RuntimeException(ex);
+                    }
+                    Instant instant2 = Instant.now();
+                    JOptionPane.showMessageDialog(null, "任务完成，本次耗时：" + GetTimeConsuming.getTimeConsuming(instant1, instant2) + "秒");
+                    return null;
+                }
+            };
+            worker.execute();
         });
 
         //校对源文件夹中的文件与csv的区别
-        checkMainImageWithCsvButton.addActionListener(new ActionListener()
+        checkMainImageWithCsvButton.addActionListener(e ->
         {
-            @Override
-            public void actionPerformed(ActionEvent e)
+            SwingWorker<Void, Void> worker = new SwingWorker<Void, Void>()
             {
-                SwingWorker<Void, Void> worker = new SwingWorker<Void, Void>()
+                @Override
+                protected Void doInBackground() throws Exception
                 {
-                    @Override
-                    protected Void doInBackground() throws Exception
+                    Instant instant1 = Instant.now();
+                    try
                     {
-                        Instant instant1 = Instant.now();
-                        try
-                        {
-                            FolderCsvComparator.compareAndGenerateCsv(sourceFolderPath.getText(), checkCsvPath.getText(), targetFolderPath.getText());
-                        }
-                        catch (IOException ex)
-                        {
-                            ex.printStackTrace();
-                        }
-
-                        Instant instant2 = Instant.now();
-                        JOptionPane.showMessageDialog(null, "任务完成，本次耗时：" + GetTimeConsuming.getTimeConsuming(instant1, instant2) + "秒");
-                        return null;
+                        FolderCsvComparator.compareAndGenerateCsv(sourceFolderPath.getText(), checkCsvPath.getText(), targetFolderPath.getText());
                     }
-                };
-                worker.execute();
-            }
+                    catch (IOException ex)
+                    {
+                        ex.printStackTrace();
+                    }
+
+                    Instant instant2 = Instant.now();
+                    JOptionPane.showMessageDialog(null, "任务完成，本次耗时：" + GetTimeConsuming.getTimeConsuming(instant1, instant2) + "秒");
+                    return null;
+                }
+            };
+            worker.execute();
         });
 
         selectCheckCsvButton.addActionListener(e -> mainpageutil.selectPath(checkCsvPath,"checkCsvPath",1));
-        extractAllImageFromSourceFolderButton.addActionListener(new ActionListener()
+        extractAllImageFromSourceFolderButton.addActionListener(e ->
         {
-            @Override
-            public void actionPerformed(ActionEvent e)
+            SwingWorker<Void, Void> worker = new SwingWorker<Void, Void>()
             {
-                SwingWorker<Void, Void> worker = new SwingWorker<Void, Void>()
+                @Override
+                protected Void doInBackground() throws Exception
                 {
-                    @Override
-                    protected Void doInBackground() throws Exception
+                    Instant instant1 = Instant.now();
+                    List<String> readyToCopyNameList = Arrays.asList(ArrayExtractor.extractRow(ReadCsvFile.csvToArray(checkCsvPath.getText()), 0));
+                    try
                     {
-                        Instant instant1 = Instant.now();
-                        List<String> readyToCopyNameList = Arrays.asList(ArrayExtractor.extractRow(ReadCsvFile.csvToArray(checkCsvPath.getText()), 0));
-                        try
-                        {
-                            FolderCopy.copyFolderWithList(sourceFolderPath.getText(), CreateFolder.createFolderWithTime(targetFolderPath.getText()), readyToCopyNameList);
-                        }
-                        catch (IOException ex)
-                        {
-                            throw new RuntimeException(ex);
-                        }
-
-                        Instant instant2 = Instant.now();
-                        JOptionPane.showMessageDialog(null, "任务完成，本次耗时：" + GetTimeConsuming.getTimeConsuming(instant1, instant2) + "秒");
-                        return null;
+                        FolderCopy.copyFolderWithList(sourceFolderPath.getText(), CreateFolder.createFolderWithTime(targetFolderPath.getText()), readyToCopyNameList);
                     }
-                };
-                worker.execute();
-            }
+                    catch (IOException ex)
+                    {
+                        throw new RuntimeException(ex);
+                    }
+
+                    Instant instant2 = Instant.now();
+                    JOptionPane.showMessageDialog(null, "任务完成，本次耗时：" + GetTimeConsuming.getTimeConsuming(instant1, instant2) + "秒");
+                    return null;
+                }
+            };
+            worker.execute();
         });
-        compressButton.addActionListener(new ActionListener()
+        compressButton.addActionListener(e ->
         {
-            @Override
-            public void actionPerformed(ActionEvent e)
+            SwingWorker<Void, Void> worker = new SwingWorker<Void, Void>()
             {
-                SwingWorker<Void, Void> worker = new SwingWorker<Void, Void>()
+                @Override
+                protected Void doInBackground() throws Exception
                 {
-                    @Override
-                    protected Void doInBackground() throws Exception
-                    {
-                        Instant instant1 = Instant.now();
+                    Instant instant1 = Instant.now();
 
-                        int imgsize = ImgSize.getImgSize(onlyCompressSizeChooseComboBox.getSelectedItem().toString());
-                        onlyCompressFiles(sourceFolderPath.getText(), targetFolderPath.getText(), imgsize);
+                    int imgsize = ImgSize.getImgSize(onlyCompressSizeChooseComboBox.getSelectedItem().toString());
+                    onlyCompressFiles(sourceFolderPath.getText(), targetFolderPath.getText(), imgsize);
 
-                        Instant instant2 = Instant.now();
-                        JOptionPane.showMessageDialog(null, "任务完成，本次耗时：" + GetTimeConsuming.getTimeConsuming(instant1, instant2) + "秒");
-                        return null;
-                    }
-                };
-                worker.execute();
-            }
+                    Instant instant2 = Instant.now();
+                    JOptionPane.showMessageDialog(null, "任务完成，本次耗时：" + GetTimeConsuming.getTimeConsuming(instant1, instant2) + "秒");
+                    return null;
+                }
+            };
+            worker.execute();
         });
         /*================================第三页：仓库相关================================*/
 
@@ -593,23 +436,18 @@ public class Mainpage
         /*================================第五页：仓库配置================================*/
 
         //连接mysql数据库 TODO:具体功能还没做
-        connectToDatabaseButton.addActionListener(new ActionListener()
+        connectToDatabaseButton.addActionListener(e ->
         {
-            @Override
-            public void actionPerformed(ActionEvent e)
+            DatabaseConnectionForm databaseConnectionForm = new DatabaseConnectionForm(new DataCallback()
             {
-                DatabaseConnectionForm databaseConnectionForm = new DatabaseConnectionForm(new DataCallback()
+                public void onDataEntered(String address, String username, String password)
                 {
-                    public void onDataEntered(String address, String username, String password)
-                    {
-                        // 在这里处理从第二个窗口返回的数据
-                        databaseAddressText.setText(address);
-                        databaseUserNameText.setText(username);
-                    }
-                });
-                databaseConnectionForm.setVisible(true);
-            }
-
+                    // 在这里处理从第二个窗口返回的数据
+                    databaseAddressText.setText(address);
+                    databaseUserNameText.setText(username);
+                }
+            });
+            databaseConnectionForm.setVisible(true);
         });
 
         //连接相机图片数据库
@@ -617,24 +455,19 @@ public class Mainpage
 
         //连接手机图片数据库
         connectToPhoneWarehouseButton.addActionListener(e -> mainpageutil.connectToImgWarehouse(phoneWarehouseAddressText,"phoneWarehouseAddressText"));
-        sortByFolderButton.addActionListener(new ActionListener()
+        sortByFolderButton.addActionListener(e ->
         {
-            @Override
-            public void actionPerformed(ActionEvent e)
+            SwingWorker<Void, Void> worker = new SwingWorker<Void, Void>()
             {
-                SwingWorker<Void, Void> worker = new SwingWorker<Void, Void>()
+                @Override
+                protected Void doInBackground() throws Exception
                 {
-                    @Override
-                    protected Void doInBackground() throws Exception
-                    {
-                        FilePrefixMove.filePrefixMove(sourceFolderPath.getText(), "-");
-                        return null;
-                    }
-                };
+                    FilePrefixMove.filePrefixMove(sourceFolderPath.getText(), "-");
+                    return null;
+                }
+            };
 
-                worker.execute();
-
-            }
+            worker.execute();
 
         });
         selectPdfCsvButton.addActionListener(e -> mainpageutil.selectPath(pdfCsvPath,"pdfCsvPath",1));
@@ -693,12 +526,6 @@ public class Mainpage
             }
         });
     }
-
-    private void createUIComponents()
-    {
-        // TODO: place custom component creation code here
-    }
-
     public interface DataCallback
     {
         void onDataEntered(String address, String username, String password);

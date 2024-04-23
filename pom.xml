@@ -78,13 +78,6 @@
             <version>6.1.11</version>
         </dependency>
 
-        <!-- Tess4J：一个基于Tesseract OCR引擎的OCR库，用于文本识别 -->
-        <dependency>
-            <groupId>net.sourceforge.tess4j</groupId>
-            <artifactId>tess4j</artifactId>
-            <version>5.11.0</version>
-        </dependency>
-
         <!-- SLF4J API：简单日志门面，用于Java日志框架 -->
         <dependency>
             <groupId>org.slf4j</groupId>
