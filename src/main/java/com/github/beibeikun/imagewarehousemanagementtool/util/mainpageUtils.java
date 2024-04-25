@@ -81,11 +81,11 @@ public class mainpageUtils
             String pdfPath;
             if (Objects.equals(pdfComboBox.getSelectedItem(), "打印"))
             {
-                pdfPath = system.identifySystem_String() + "print.pdf";
+                pdfPath = "/print.pdf";
             }
             else
             {
-                pdfPath = system.identifySystem_String() + "out.pdf";
+                pdfPath = "/out.pdf";
             }
             batchFillPdfForms(pdfPath, destinationFolder, pdfStaffTextField.getText(), readCsvAndProcess(pdfCsvPath.getText()));
         }

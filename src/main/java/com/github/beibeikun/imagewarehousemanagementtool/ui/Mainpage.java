@@ -5,7 +5,10 @@ import com.formdev.flatlaf.util.SystemInfo;
 import com.github.beibeikun.imagewarehousemanagementtool.util.CheckOperations.FilePathChecker;
 import com.github.beibeikun.imagewarehousemanagementtool.util.CheckOperations.SystemChecker;
 import com.github.beibeikun.imagewarehousemanagementtool.util.DataOperations.*;
-import com.github.beibeikun.imagewarehousemanagementtool.util.FileOperations.*;
+import com.github.beibeikun.imagewarehousemanagementtool.util.FileOperations.CreateFolder;
+import com.github.beibeikun.imagewarehousemanagementtool.util.FileOperations.DeleteFileFromDatabase;
+import com.github.beibeikun.imagewarehousemanagementtool.util.FileOperations.FilePrefixMove;
+import com.github.beibeikun.imagewarehousemanagementtool.util.FileOperations.FolderCopy;
 import com.github.beibeikun.imagewarehousemanagementtool.util.Others.*;
 import com.github.beibeikun.imagewarehousemanagementtool.util.mainpageUtils;
 
@@ -20,10 +23,8 @@ import java.lang.reflect.Field;
 import java.net.URI;
 import java.nio.charset.StandardCharsets;
 import java.time.Instant;
-import java.util.Arrays;
 import java.util.List;
-import java.util.Locale;
-import java.util.Properties;
+import java.util.*;
 
 import static com.github.beibeikun.imagewarehousemanagementtool.util.CompleteProcess.ChangeAllSuffix.changeAllSuffix;
 import static com.github.beibeikun.imagewarehousemanagementtool.util.CompleteProcess.OnlyCompressFiles.onlyCompressFiles;
@@ -35,16 +36,16 @@ public class Mainpage
     private static MenuBar menuBar;
     SelectFilePath getfilepath = new SelectFilePath();
     mainpageUtils mainpageutil = new mainpageUtils();
-    private	JButton CheckButton,renameStartButton,selectLastPathButton,selectFirstPathButton,uploadToDatabaseButton,deleteButton,SearchButton,selectRenameCsvButton,connectToDatabaseButton,connectToCameraWarehouseButton,connectToPhoneWarehouseButton,consoleButton,extractMainImageFromSourceFolderButton,downloadMainImageFromDatabaseButton,checkMainImageWithCsvButton,changeSuffixButton,sortByFolderButton,changeTargetToSourceButton,selectCheckCsvButton,extractAllImageFromSourceFolderButton,exchangeFirstPathButton,compressButton,selectPdfCsvButton,toPdfButton,selectDeleteCsvButton;
-    private	JCheckBox digitCheckBox,prefixCheckBox,classificationCheckBox,addFromDatabaseCheckBox,uploadReplaceCheckBox,uploadDeleteCheckBox,suffixCheckBox;
-    private	JComboBox suffixComboBox,selectdatabase,imgsizecomboBox,uploadSizeComboBox,deleteTypeComboBox,onlyCompressSizeChooseComboBox,uploadDatabaseComboBox,pdfOutTypeComboBox;
-    private	JLabel versionLabel,sourceFolderPath,targetFolderPath,renameCsvPath,databaseAddressText,databaseUserNameText,cameraWarehouseAddressText,phoneWarehouseAddressText,githuburlLabel,testmode,mode,Suffix,checkCsvPath,pdfCsvPath,enterJBNum,suffixLabel,sizeLabel,addFromDatabaseLabel,tab2SizeLabel,uploadDatabaseLabel,uploadSizeLabel,pdfStaffLabel,pdfOutTypeLabel,deleteCsvPath,deleteJBLabel,deleteTypeLabel,databaseAddressLabel,databaseUserNameLabel,cameraWarehouseAddressLabel,phoneWarehouseAddressLabel;
-    private	JPanel panel1,Tab1,Tab2,Tab3,Tab4,Tab5,Tab6;
-    private	JScrollPane printOutScrollPane;
-    private	JTabbedPane tabbedPane;
-    private	JTextArea printOutTextArea,consoleTextArea;
-    private	JTextField searchJBNumTextField,deleteJBNumTextField,pdfStaffTextField;
-    private	JToolBar JT_firstpath,JT_renameCsvPath,JT_lastpath,JT_otherSettings,JT_checkCsvPath,JT_search,JT_upload,JT_pdfCsvPath,JT_namingFormat,JT_deleteCsvPath,JT_database,JT_cameraWarehouse,JT_phoneWarehouse;
+    private JButton CheckButton, renameStartButton, selectLastPathButton, selectFirstPathButton, uploadToDatabaseButton, deleteButton, SearchButton, selectRenameCsvButton, connectToDatabaseButton, connectToCameraWarehouseButton, connectToPhoneWarehouseButton, languageButton, extractMainImageFromSourceFolderButton, downloadMainImageFromDatabaseButton, checkMainImageWithCsvButton, changeSuffixButton, sortByFolderButton, changeTargetToSourceButton, selectCheckCsvButton, extractAllImageFromSourceFolderButton, exchangeFirstPathButton, compressButton, selectPdfCsvButton, toPdfButton, selectDeleteCsvButton;
+    private JCheckBox digitCheckBox, prefixCheckBox, classificationCheckBox, addFromDatabaseCheckBox, uploadReplaceCheckBox, uploadDeleteCheckBox, suffixCheckBox;
+    private JComboBox suffixComboBox, selectdatabase, imgsizecomboBox, uploadSizeComboBox, deleteTypeComboBox, onlyCompressSizeChooseComboBox, uploadDatabaseComboBox, pdfOutTypeComboBox;
+    private JLabel versionLabel, sourceFolderPath, targetFolderPath, renameCsvPath, databaseAddressText, databaseUserNameText, cameraWarehouseAddressText, phoneWarehouseAddressText, githuburlLabel, testmode, mode, Suffix, checkCsvPath, pdfCsvPath, enterJBNum, suffixLabel, sizeLabel, addFromDatabaseLabel, tab2SizeLabel, uploadDatabaseLabel, uploadSizeLabel, pdfStaffLabel, pdfOutTypeLabel, deleteCsvPath, deleteJBLabel, deleteTypeLabel, databaseAddressLabel, databaseUserNameLabel, cameraWarehouseAddressLabel, phoneWarehouseAddressLabel;
+    private JPanel panel1, Tab1, Tab2, Tab3, Tab4, Tab5, Tab6;
+    private JScrollPane printOutScrollPane;
+    private JTabbedPane tabbedPane;
+    private JTextArea printOutTextArea, consoleTextArea;
+    private JTextField searchJBNumTextField, deleteJBNumTextField, pdfStaffTextField;
+    private JToolBar JT_firstpath, JT_renameCsvPath, JT_lastpath, JT_otherSettings, JT_checkCsvPath, JT_search, JT_upload, JT_pdfCsvPath, JT_namingFormat, JT_deleteCsvPath, JT_database, JT_cameraWarehouse, JT_phoneWarehouse;
 
     public Mainpage()
     {
@@ -56,6 +57,9 @@ public class Mainpage
         loadSettings();
     }
 
+    /**
+     * 主程序执行入口
+     */
     public static void main(String[] args)
     {
         if (SystemInfo.isMacFullWindowContentSupported)
@@ -99,13 +103,13 @@ public class Mainpage
             int UIwidth = 0, UIheight = 0;
             if (systemtype.identifySystem_int() == 1) //MAC及linux系统下窗口大小
             {
-                UIwidth = 600;
-                UIheight = 450;
+                UIwidth = 1600;
+                UIheight = 550;
             }
             else //Windows系统下窗口大小
             {
-                UIwidth = 800;
-                UIheight = 600;
+                UIwidth = 1800;
+                UIheight = 700;
             }
             //设置大小
             frame.setSize(UIwidth, UIheight);
@@ -124,93 +128,8 @@ public class Mainpage
      */
     private void initUIComponents()
     {
-        // 设置组件属性，如可见性等
-        printOutScrollPane.setVisible(false);
-        //识别系统语言
-        Locale defaultLocale = Locale.getDefault();
-        String language = defaultLocale.getLanguage();
-        //根据系统语言加载资源文件，已支持中文/日语
-        language = language + ".properties";
-        Properties properties = new Properties();
-        SystemChecker system = new SystemChecker();//获取系统类型
-        try (InputStream inputStream = getClass().getResourceAsStream("/" + language);
-             InputStreamReader reader = new InputStreamReader(inputStream, StandardCharsets.UTF_8))
-        {
-            properties.load(reader);
-            Field[] fields = getClass().getDeclaredFields();
-            for (Field field : fields)
-            {
-                if (JTabbedPane.class.isAssignableFrom(field.getType()))
-                {
-                    field.setAccessible(true);  // 确保可以访问私有字段
-                    JTabbedPane tabPane = (JTabbedPane) field.get(this);
-                    // 做一些操作，比如设置标题
-                    for (int i = 0; i < tabPane.getTabCount(); i++)
-                    {
-                        // 假设 properties 文件中有类似 Tab0, Tab1 的键
-                        String tabTitle = properties.getProperty("Tab" + (i + 1));
-                        if (tabTitle != null)
-                        {
-                            tabPane.setTitleAt(i, tabTitle);
-                        }
-                    }
-                }
-                if (JComponent.class.isAssignableFrom(field.getType()))
-                {
-                    String value = properties.getProperty(field.getName());
-                    if (value != null)
-                    {
-                        SwingUtilities.invokeLater(() ->
-                        {
-                            try
-                            {
-                                JComponent component = (JComponent) field.get(this);
-                                if (component instanceof JButton)
-                                {
-                                    ((JButton) component).setText(value);
-                                }
-                                else if (component instanceof JToolBar)
-                                {
-                                    component.setBorder(BorderFactory.createTitledBorder(value));
-                                }
-                                else if (component instanceof JLabel)
-                                {
-                                    ((JLabel) component).setText(value);
-                                }
-                                else if (component instanceof JCheckBox)
-                                {
-                                    ((JCheckBox) component).setText(value);
-                                }
-                                for (int i = 0; i < tabbedPane.getTabCount(); i++)
-                                {
-                                    // 假设 properties 文件中有类似 Tab0, Tab1 的键
-                                    String tabTitle = properties.getProperty(field.getName() + "Tab" + (i + 1));
-                                    if (tabTitle != null)
-                                    {
-                                        tabbedPane.setTitleAt(i, tabTitle);
-                                    }
-                                }
-
-                                // 添加其他组件类型的处理逻辑
-                            }
-                            catch (IllegalAccessException e)
-                            {
-                                e.printStackTrace();
-                            }
-                        });
-                    }
-                }
-            }
-            // 读取属性值...
-        }
-        catch (IOException e)
-        {
-            e.printStackTrace();
-        }
-        catch (IllegalAccessException e)
-        {
-            throw new RuntimeException(e);
-        }
+        // 根据系统语言配置
+        setLanguage("", "");
 
         System.setOut(new PrintStream(new OutputStream()
         {
@@ -273,24 +192,28 @@ public class Mainpage
         /*--------------------------------按键监听--------------------------------*/
         /*================================顶部================================*/
 
-        //展开&收起信息面板
-        consoleButton.addActionListener(e -> mainpageutil.informationPanelControl(consoleButton, printOutScrollPane, frame));
+        //切换语言
+        languageButton.addActionListener(e ->
+        {
+            if (languageButton.getText().equals("日")) setLanguage("ja", "JP");
+            else setLanguage("zh", "CN");
+        });
 
         //选择源文件夹
-        selectFirstPathButton.addActionListener(e -> mainpageutil.selectPath(sourceFolderPath,"sourceFolderPath",2));
+        selectFirstPathButton.addActionListener(e -> mainpageutil.selectPath(sourceFolderPath, "sourceFolderPath", 2));
 
         //源文件夹路径临时储存
-        exchangeFirstPathButton.addActionListener(e -> exchangeFirstPath[0] =mainpageutil.exchangepath(exchangeFirstPath[0], sourceFolderPath, exchangeFirstPathButton));
+        exchangeFirstPathButton.addActionListener(e -> exchangeFirstPath[0] = mainpageutil.exchangepath(exchangeFirstPath[0], sourceFolderPath, exchangeFirstPathButton));
 
         //选择目标文件夹
-        selectLastPathButton.addActionListener(e -> mainpageutil.selectPath(targetFolderPath,"targetFolderPath",2));
+        selectLastPathButton.addActionListener(e -> mainpageutil.selectPath(targetFolderPath, "targetFolderPath", 2));
 
         //将目标文件夹路径复制到源文件夹路径
-        changeTargetToSourceButton.addActionListener(e -> mainpageutil.changeTargetToSourcePath(sourceFolderPath,targetFolderPath));
+        changeTargetToSourceButton.addActionListener(e -> mainpageutil.changeTargetToSourcePath(sourceFolderPath, targetFolderPath));
         /*================================第一页：批量重命名================================*/
 
         //选择csv文件
-        selectRenameCsvButton.addActionListener(e -> mainpageutil.selectPath(renameCsvPath,"renameCsvPath",1));
+        selectRenameCsvButton.addActionListener(e -> mainpageutil.selectPath(renameCsvPath, "renameCsvPath", 1));
 
         //检查源文件夹，目标文件夹以及csv文件正确性
         CheckButton.addActionListener(e ->
@@ -318,10 +241,10 @@ public class Mainpage
         sortByFolderButton.addActionListener(e -> filePrefixMoveWithTasks(sourceFolderPath));
 
         //执行从数据库中拉取csv列出的文件主图（缩略图）
-        downloadMainImageFromDatabaseButton.addActionListener(e ->takeMainFromDatabaseWithTasks(checkCsvPath, cameraWarehouseAddressText, targetFolderPath));
+        downloadMainImageFromDatabaseButton.addActionListener(e -> takeMainFromDatabaseWithTasks(checkCsvPath, cameraWarehouseAddressText, targetFolderPath));
 
         //执行从源文件夹中拉取文件主图
-        extractMainImageFromSourceFolderButton.addActionListener(e ->extractMainImageWithTasks(sourceFolderPath, targetFolderPath));
+        extractMainImageFromSourceFolderButton.addActionListener(e -> extractMainImageWithTasks(sourceFolderPath, targetFolderPath));
 
         //更换后缀名
         changeSuffixButton.addActionListener(e ->
@@ -374,7 +297,7 @@ public class Mainpage
             worker.execute();
         });
 
-        selectCheckCsvButton.addActionListener(e -> mainpageutil.selectPath(checkCsvPath,"checkCsvPath",1));
+        selectCheckCsvButton.addActionListener(e -> mainpageutil.selectPath(checkCsvPath, "checkCsvPath", 1));
         extractAllImageFromSourceFolderButton.addActionListener(e ->
         {
             SwingWorker<Void, Void> worker = new SwingWorker<Void, Void>()
@@ -422,7 +345,7 @@ public class Mainpage
         /*================================第三页：仓库相关================================*/
 
         //上传到相机图片数据库
-        uploadToDatabaseButton.addActionListener(e -> uploadToWarehouseWithTasks(sourceFolderPath, cameraWarehouseAddressText, phoneWarehouseAddressText,uploadDatabaseComboBox,uploadSizeComboBox,uploadReplaceCheckBox,uploadDeleteCheckBox));
+        uploadToDatabaseButton.addActionListener(e -> uploadToWarehouseWithTasks(sourceFolderPath, cameraWarehouseAddressText, phoneWarehouseAddressText, uploadDatabaseComboBox, uploadSizeComboBox, uploadReplaceCheckBox, uploadDeleteCheckBox));
         /*================================第三页：从仓库删除================================*/
         //TODO:还没做，这功能有点危险
         /*================================第四页：仓库查询================================*/
@@ -451,10 +374,10 @@ public class Mainpage
         });
 
         //连接相机图片数据库
-        connectToCameraWarehouseButton.addActionListener(e -> mainpageutil.connectToImgWarehouse(cameraWarehouseAddressText,"cameraWarehouseAddressText"));
+        connectToCameraWarehouseButton.addActionListener(e -> mainpageutil.connectToImgWarehouse(cameraWarehouseAddressText, "cameraWarehouseAddressText"));
 
         //连接手机图片数据库
-        connectToPhoneWarehouseButton.addActionListener(e -> mainpageutil.connectToImgWarehouse(phoneWarehouseAddressText,"phoneWarehouseAddressText"));
+        connectToPhoneWarehouseButton.addActionListener(e -> mainpageutil.connectToImgWarehouse(phoneWarehouseAddressText, "phoneWarehouseAddressText"));
         sortByFolderButton.addActionListener(e ->
         {
             SwingWorker<Void, Void> worker = new SwingWorker<Void, Void>()
@@ -470,7 +393,7 @@ public class Mainpage
             worker.execute();
 
         });
-        selectPdfCsvButton.addActionListener(e -> mainpageutil.selectPath(pdfCsvPath,"pdfCsvPath",1));
+        selectPdfCsvButton.addActionListener(e -> mainpageutil.selectPath(pdfCsvPath, "pdfCsvPath", 1));
         /*================================底部================================*/
 
 
@@ -490,6 +413,7 @@ public class Mainpage
         //生成pdf文件
         toPdfButton.addActionListener(e -> csvToPdfWithTasks(targetFolderPath, pdfOutTypeComboBox, pdfStaffTextField, pdfCsvPath));
     }
+
     /**
      * 加载设置和配置
      */
@@ -526,6 +450,97 @@ public class Mainpage
             }
         });
     }
+
+    public void setLanguage(String language, String local)
+    {
+        try
+        {
+            ResourceBundle bundle;
+            if (language.isEmpty())
+            {
+                bundle = ResourceBundle.getBundle("Mainpage");
+            }
+            else
+            {
+                bundle = ResourceBundle.getBundle("Mainpage", new Locale(language, local));
+            }
+
+            Field[] fields = Mainpage.class.getDeclaredFields();
+            for (Field field : fields)
+            {
+                if (JTabbedPane.class.isAssignableFrom(field.getType()))
+                {
+                    field.setAccessible(true);
+                    JTabbedPane tabPane = (JTabbedPane) field.get(this);
+                    for (int i = 0; i < tabPane.getTabCount(); i++)
+                    {
+                        String tabTitle = bundle.getString("Tab" + (i + 1));
+                        if (tabTitle != null)
+                        {
+                            tabPane.setTitleAt(i, tabTitle);
+                        }
+                    }
+                }
+                else if (JComponent.class.isAssignableFrom(field.getType()))
+                {
+
+                    String value;
+                    try
+                    {
+                        value = bundle.getString(field.getName());
+                    }
+                    catch (MissingResourceException e)
+                    {
+                        value = ""; // 指定一个默认值
+                    }
+                    if (! value.isEmpty())
+                    {
+                        field.setAccessible(true);
+
+                        String finalValue = value;
+                        SwingUtilities.invokeLater(() ->
+                        {
+                            try
+                            {
+                                JComponent component = (JComponent) field.get(this);
+                                if (component instanceof JButton)
+                                {
+                                    ((JButton) component).setText(finalValue);
+                                }
+                                else if (component instanceof JToolBar)
+                                {
+                                    component.setBorder(BorderFactory.createTitledBorder(finalValue));
+                                }
+                                else if (component instanceof JLabel)
+                                {
+                                    ((JLabel) component).setText(finalValue);
+                                }
+                                else if (component instanceof JCheckBox)
+                                {
+                                    ((JCheckBox) component).setText(finalValue);
+                                }
+
+                                // 添加其他组件类型的处理逻辑
+                            }
+                            catch (IllegalAccessException e)
+                            {
+                                e.printStackTrace();
+                            }
+                        });
+                    }
+                }
+            }
+        }
+        catch (MissingResourceException e)
+        {
+            e.printStackTrace();
+        }
+        catch (IllegalAccessException e)
+        {
+            throw new RuntimeException(e);
+        }
+    }
+
     public interface DataCallback
     {
         void onDataEntered(String address, String username, String password);
