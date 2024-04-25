@@ -26,8 +26,6 @@ import java.time.Instant;
 import java.util.List;
 import java.util.*;
 
-import static com.github.beibeikun.imagewarehousemanagementtool.util.CompleteProcess.ChangeAllSuffix.changeAllSuffix;
-import static com.github.beibeikun.imagewarehousemanagementtool.util.CompleteProcess.OnlyCompressFiles.onlyCompressFiles;
 import static com.github.beibeikun.imagewarehousemanagementtool.util.mainpageUtilsWithTasks.*;
 
 public class Mainpage
@@ -129,7 +127,7 @@ public class Mainpage
     private void initUIComponents()
     {
         // 根据系统语言配置
-        setLanguage("", "");
+        setLanguage(Locale.getDefault().getLanguage());
 
         System.setOut(new PrintStream(new OutputStream()
         {
@@ -195,8 +193,8 @@ public class Mainpage
         //切换语言
         languageButton.addActionListener(e ->
         {
-            if (languageButton.getText().equals("日")) setLanguage("ja", "JP");
-            else setLanguage("zh", "CN");
+            if (languageButton.getText().equals("日")) setLanguage("ja");
+            else setLanguage("zh");
         });
 
         //选择源文件夹
@@ -247,29 +245,7 @@ public class Mainpage
         extractMainImageFromSourceFolderButton.addActionListener(e -> extractMainImageWithTasks(sourceFolderPath, targetFolderPath));
 
         //更换后缀名
-        changeSuffixButton.addActionListener(e ->
-        {
-            SwingWorker<Void, Void> worker = new SwingWorker<Void, Void>()
-            {
-                @Override
-                protected Void doInBackground() throws Exception
-                {
-                    Instant instant1 = Instant.now();
-                    try
-                    {
-                        changeAllSuffix(sourceFolderPath.getText(), targetFolderPath.getText(), 0);
-                    }
-                    catch (IOException ex)
-                    {
-                        throw new RuntimeException(ex);
-                    }
-                    Instant instant2 = Instant.now();
-                    JOptionPane.showMessageDialog(null, "任务完成，本次耗时：" + GetTimeConsuming.getTimeConsuming(instant1, instant2) + "秒");
-                    return null;
-                }
-            };
-            worker.execute();
-        });
+        changeSuffixButton.addActionListener(e -> changeAllSuffixWithTasks(sourceFolderPath, targetFolderPath, 0));
 
         //校对源文件夹中的文件与csv的区别
         checkMainImageWithCsvButton.addActionListener(e ->
@@ -323,25 +299,8 @@ public class Mainpage
             };
             worker.execute();
         });
-        compressButton.addActionListener(e ->
-        {
-            SwingWorker<Void, Void> worker = new SwingWorker<Void, Void>()
-            {
-                @Override
-                protected Void doInBackground() throws Exception
-                {
-                    Instant instant1 = Instant.now();
-
-                    int imgsize = ImgSize.getImgSize(onlyCompressSizeChooseComboBox.getSelectedItem().toString());
-                    onlyCompressFiles(sourceFolderPath.getText(), targetFolderPath.getText(), imgsize);
-
-                    Instant instant2 = Instant.now();
-                    JOptionPane.showMessageDialog(null, "任务完成，本次耗时：" + GetTimeConsuming.getTimeConsuming(instant1, instant2) + "秒");
-                    return null;
-                }
-            };
-            worker.execute();
-        });
+        //仅压缩图片
+        compressButton.addActionListener(e -> onlyCompressFilesWithTasks(sourceFolderPath, targetFolderPath, ImgSize.getImgSize(onlyCompressSizeChooseComboBox.getSelectedItem().toString())));
         /*================================第三页：仓库相关================================*/
 
         //上传到相机图片数据库
@@ -451,19 +410,15 @@ public class Mainpage
         });
     }
 
-    public void setLanguage(String language, String local)
+    public void setLanguage(String language)
     {
         try
         {
+            String local;
             ResourceBundle bundle;
-            if (language.isEmpty())
-            {
-                bundle = ResourceBundle.getBundle("Mainpage");
-            }
-            else
-            {
-                bundle = ResourceBundle.getBundle("Mainpage", new Locale(language, local));
-            }
+            if (language.equals("zh")) local="CN";
+            else local="JP";
+            bundle = ResourceBundle.getBundle("Mainpage", new Locale(language,local));
 
             Field[] fields = Mainpage.class.getDeclaredFields();
             for (Field field : fields)

@@ -10,6 +10,8 @@ import javax.swing.*;
 import java.time.Instant;
 import java.util.concurrent.Callable;
 
+import static com.github.beibeikun.imagewarehousemanagementtool.util.CompleteProcess.ChangeAllSuffix.changeAllSuffix;
+import static com.github.beibeikun.imagewarehousemanagementtool.util.CompleteProcess.OnlyCompressFiles.onlyCompressFiles;
 import static com.github.beibeikun.imagewarehousemanagementtool.util.mainpageUtils.rename;
 import static com.github.beibeikun.imagewarehousemanagementtool.util.mainpageUtils.uploadToWarehouse;
 
@@ -90,6 +92,32 @@ public class mainpageUtilsWithTasks
         Callable<Void> task = () -> {
             Instant instant1 = Instant.now();
             ExtractMainImage.extractMainImage(sourceFolderPath.getText(), targetFolderPath.getText());
+            Instant instant2 = Instant.now();
+            JOptionPane.showMessageDialog(null, "任务完成，本次耗时：" + GetTimeConsuming.getTimeConsuming(instant1, instant2) + "秒");
+            return null;
+        };
+        AsyncTaskExecutor.executeInBackground(
+                task
+        );
+    }
+    public static void changeAllSuffixWithTasks(JLabel sourceFolderPath, JLabel targetFolderPath, int mode)
+    {
+        Callable<Void> task = () -> {
+            Instant instant1 = Instant.now();
+            changeAllSuffix(sourceFolderPath.getText(), targetFolderPath.getText(), mode);
+            Instant instant2 = Instant.now();
+            JOptionPane.showMessageDialog(null, "任务完成，本次耗时：" + GetTimeConsuming.getTimeConsuming(instant1, instant2) + "秒");
+            return null;
+        };
+        AsyncTaskExecutor.executeInBackground(
+                task
+        );
+    }
+    public static void onlyCompressFilesWithTasks(JLabel sourceFolderPath, JLabel targetFolderPath, int imgsize)
+    {
+        Callable<Void> task = () -> {
+            Instant instant1 = Instant.now();
+            onlyCompressFiles(sourceFolderPath.getText(), targetFolderPath.getText(), imgsize);
             Instant instant2 = Instant.now();
             JOptionPane.showMessageDialog(null, "任务完成，本次耗时：" + GetTimeConsuming.getTimeConsuming(instant1, instant2) + "秒");
             return null;
