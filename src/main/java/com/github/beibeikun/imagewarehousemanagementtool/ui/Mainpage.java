@@ -5,10 +5,6 @@ import com.formdev.flatlaf.util.SystemInfo;
 import com.github.beibeikun.imagewarehousemanagementtool.util.CheckOperations.FilePathChecker;
 import com.github.beibeikun.imagewarehousemanagementtool.util.CheckOperations.SystemChecker;
 import com.github.beibeikun.imagewarehousemanagementtool.util.DataOperations.*;
-import com.github.beibeikun.imagewarehousemanagementtool.util.FileOperations.CreateFolder;
-import com.github.beibeikun.imagewarehousemanagementtool.util.FileOperations.DeleteFileFromDatabase;
-import com.github.beibeikun.imagewarehousemanagementtool.util.FileOperations.FilePrefixMove;
-import com.github.beibeikun.imagewarehousemanagementtool.util.FileOperations.FolderCopy;
 import com.github.beibeikun.imagewarehousemanagementtool.util.Others.*;
 import com.github.beibeikun.imagewarehousemanagementtool.util.mainpageUtils;
 
@@ -22,17 +18,15 @@ import java.io.*;
 import java.lang.reflect.Field;
 import java.net.URI;
 import java.nio.charset.StandardCharsets;
-import java.time.Instant;
-import java.util.List;
 import java.util.*;
 
+import static com.github.beibeikun.imagewarehousemanagementtool.util.FileOperations.DeleteFileFromDatabase.deleteFileFromDatabase;
 import static com.github.beibeikun.imagewarehousemanagementtool.util.mainpageUtilsWithTasks.*;
 
 public class Mainpage
 {
     static JFrame frame = new JFrame("MainpageUI");
     private static MenuBar menuBar;
-    SelectFilePath getfilepath = new SelectFilePath();
     mainpageUtils mainpageutil = new mainpageUtils();
     private JButton CheckButton, renameStartButton, selectLastPathButton, selectFirstPathButton, uploadToDatabaseButton, deleteButton, SearchButton, selectRenameCsvButton, connectToDatabaseButton, connectToCameraWarehouseButton, connectToPhoneWarehouseButton, languageButton, extractMainImageFromSourceFolderButton, downloadMainImageFromDatabaseButton, checkMainImageWithCsvButton, changeSuffixButton, sortByFolderButton, changeTargetToSourceButton, selectCheckCsvButton, extractAllImageFromSourceFolderButton, exchangeFirstPathButton, compressButton, selectPdfCsvButton, toPdfButton, selectDeleteCsvButton;
     private JCheckBox digitCheckBox, prefixCheckBox, classificationCheckBox, addFromDatabaseCheckBox, uploadReplaceCheckBox, uploadDeleteCheckBox, suffixCheckBox;
@@ -97,20 +91,19 @@ public class Mainpage
             }
             frame.setContentPane(new Mainpage().panel1);
             frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-            SystemChecker systemtype = new SystemChecker();
-            int UIwidth = 0, UIheight = 0;
-            if (systemtype.identifySystem_int() == 1) //MAC及linux系统下窗口大小
+            int uiWidth, uiHeight;
+            if (system.identifySystem_int() == 1) //MAC及linux系统下窗口大小
             {
-                UIwidth = 1600;
-                UIheight = 550;
+                uiWidth = 1600;
+                uiHeight = 550;
             }
             else //Windows系统下窗口大小
             {
-                UIwidth = 1800;
-                UIheight = 700;
+                uiWidth = 1800;
+                uiHeight = 700;
             }
             //设置大小
-            frame.setSize(UIwidth, UIheight);
+            frame.setSize(uiWidth, uiHeight);
             frame.setLocationRelativeTo(null);
             //使窗体显示在屏幕中央
             frame.setVisible(true);
@@ -248,57 +241,11 @@ public class Mainpage
         changeSuffixButton.addActionListener(e -> changeAllSuffixWithTasks(sourceFolderPath, targetFolderPath, 0));
 
         //校对源文件夹中的文件与csv的区别
-        checkMainImageWithCsvButton.addActionListener(e ->
-        {
-            SwingWorker<Void, Void> worker = new SwingWorker<Void, Void>()
-            {
-                @Override
-                protected Void doInBackground() throws Exception
-                {
-                    Instant instant1 = Instant.now();
-                    try
-                    {
-                        FolderCsvComparator.compareAndGenerateCsv(sourceFolderPath.getText(), checkCsvPath.getText(), targetFolderPath.getText());
-                    }
-                    catch (IOException ex)
-                    {
-                        ex.printStackTrace();
-                    }
-
-                    Instant instant2 = Instant.now();
-                    JOptionPane.showMessageDialog(null, "任务完成，本次耗时：" + GetTimeConsuming.getTimeConsuming(instant1, instant2) + "秒");
-                    return null;
-                }
-            };
-            worker.execute();
-        });
+        checkMainImageWithCsvButton.addActionListener(e -> compareAndGenerateCsvWithTasks(sourceFolderPath, checkCsvPath, targetFolderPath));
 
         selectCheckCsvButton.addActionListener(e -> mainpageutil.selectPath(checkCsvPath, "checkCsvPath", 1));
-        extractAllImageFromSourceFolderButton.addActionListener(e ->
-        {
-            SwingWorker<Void, Void> worker = new SwingWorker<Void, Void>()
-            {
-                @Override
-                protected Void doInBackground() throws Exception
-                {
-                    Instant instant1 = Instant.now();
-                    List<String> readyToCopyNameList = Arrays.asList(ArrayExtractor.extractRow(ReadCsvFile.csvToArray(checkCsvPath.getText()), 0));
-                    try
-                    {
-                        FolderCopy.copyFolderWithList(sourceFolderPath.getText(), CreateFolder.createFolderWithTime(targetFolderPath.getText()), readyToCopyNameList);
-                    }
-                    catch (IOException ex)
-                    {
-                        throw new RuntimeException(ex);
-                    }
 
-                    Instant instant2 = Instant.now();
-                    JOptionPane.showMessageDialog(null, "任务完成，本次耗时：" + GetTimeConsuming.getTimeConsuming(instant1, instant2) + "秒");
-                    return null;
-                }
-            };
-            worker.execute();
-        });
+        extractAllImageFromSourceFolderButton.addActionListener(e -> copyFolderWithListWithTasks(sourceFolderPath, checkCsvPath, targetFolderPath));
         //仅压缩图片
         compressButton.addActionListener(e -> onlyCompressFilesWithTasks(sourceFolderPath, targetFolderPath, ImgSize.getImgSize(onlyCompressSizeChooseComboBox.getSelectedItem().toString())));
         /*================================第三页：仓库相关================================*/
@@ -306,7 +253,18 @@ public class Mainpage
         //上传到相机图片数据库
         uploadToDatabaseButton.addActionListener(e -> uploadToWarehouseWithTasks(sourceFolderPath, cameraWarehouseAddressText, phoneWarehouseAddressText, uploadDatabaseComboBox, uploadSizeComboBox, uploadReplaceCheckBox, uploadDeleteCheckBox));
         /*================================第三页：从仓库删除================================*/
-        //TODO:还没做，这功能有点危险
+        deleteButton.addActionListener(e ->
+        {
+            try
+            {
+                deleteFileFromDatabase(cameraWarehouseAddressText.getText(), deleteJBNumTextField.getText());
+            }
+            catch (IOException ex)
+            {
+                throw new RuntimeException(ex);
+            }
+
+        });
         /*================================第四页：仓库查询================================*/
 
         //从数据库中查询主图
@@ -337,38 +295,14 @@ public class Mainpage
 
         //连接手机图片数据库
         connectToPhoneWarehouseButton.addActionListener(e -> mainpageutil.connectToImgWarehouse(phoneWarehouseAddressText, "phoneWarehouseAddressText"));
-        sortByFolderButton.addActionListener(e ->
-        {
-            SwingWorker<Void, Void> worker = new SwingWorker<Void, Void>()
-            {
-                @Override
-                protected Void doInBackground() throws Exception
-                {
-                    FilePrefixMove.filePrefixMove(sourceFolderPath.getText(), "-");
-                    return null;
-                }
-            };
 
-            worker.execute();
+        sortByFolderButton.addActionListener(e -> filePrefixMoveWithTasks(sourceFolderPath));
 
-        });
         selectPdfCsvButton.addActionListener(e -> mainpageutil.selectPath(pdfCsvPath, "pdfCsvPath", 1));
         /*================================底部================================*/
 
 
         /*--------------------------------按键监听--------------------------------*/
-
-        deleteButton.addActionListener(e ->
-        {
-            try
-            {
-                DeleteFileFromDatabase.deleteFileFromDatabase(cameraWarehouseAddressText.getText(), deleteJBNumTextField.getText());
-            }
-            catch (IOException ex)
-            {
-                throw new RuntimeException(ex);
-            }
-        });
         //生成pdf文件
         toPdfButton.addActionListener(e -> csvToPdfWithTasks(targetFolderPath, pdfOutTypeComboBox, pdfStaffTextField, pdfCsvPath));
     }

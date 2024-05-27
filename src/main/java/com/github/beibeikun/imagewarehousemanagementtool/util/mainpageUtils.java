@@ -4,7 +4,6 @@ import com.drew.imaging.ImageProcessingException;
 import com.drew.metadata.MetadataException;
 import com.github.beibeikun.imagewarehousemanagementtool.ui.SelectFilePath;
 import com.github.beibeikun.imagewarehousemanagementtool.util.CheckOperations.FilePathChecker;
-import com.github.beibeikun.imagewarehousemanagementtool.util.CheckOperations.SystemChecker;
 import com.github.beibeikun.imagewarehousemanagementtool.util.CompleteProcess.CompleteNameChangeProcess;
 import com.github.beibeikun.imagewarehousemanagementtool.util.DataOperations.GetLatestSubfolderPath;
 import com.github.beibeikun.imagewarehousemanagementtool.util.DataOperations.ImgSize;
@@ -26,7 +25,6 @@ import static com.github.beibeikun.imagewarehousemanagementtool.util.Test.PdfFor
 public class mainpageUtils
 {
     SelectFilePath getfilepath = new SelectFilePath();
-    SystemChecker system = new SystemChecker();
     public String exchangepath(String exchangeFirstPath, JLabel sourceFolderPath, JButton exchangeFirstPathButton)
     {
         if (exchangeFirstPath == null)
@@ -72,7 +70,7 @@ public class mainpageUtils
             frame.setLocationRelativeTo(null);
         }
     }
-    public void csvToPdf(JLabel targetFolderPath, JComboBox pdfComboBox, JTextField pdfStaffTextField, JLabel pdfCsvPath)
+    public static void csvToPdf(JLabel targetFolderPath, JComboBox pdfComboBox, JTextField pdfStaffTextField, JLabel pdfCsvPath)
     {
         try
         {

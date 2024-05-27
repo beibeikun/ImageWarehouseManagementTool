@@ -21,7 +21,7 @@ public class MoveNumberForward
      * @param targetFolderPath 目标文件夹路径
      * @throws IOException 文件操作异常
      */
-    public static void moveNumberForward(String sourceFolderPath, String targetFolderPath) throws IOException
+    public static void moveNumberForwardt(String sourceFolderPath, String targetFolderPath) throws IOException
     {
         // 创建系统检查器
         SystemChecker system = new SystemChecker();
@@ -94,6 +94,6 @@ public class MoveNumberForward
         renameFileWithName("/Users/bbk/Downloads/未命名文件夹 2/JB6364-018 (1).jpg","JB6364-018");
 
          */
-        moveNumberForward("/Users/bbk/photographs/IWMT_OUT/240415_093846", "/Users/bbk/photographs/IWMT_OUT");
+        moveNumberForwardt("/Users/bbk/photographs/IWMT_OUT/240509_163521", "/Users/bbk/photographs/IWMT_OUT");
     }
 }

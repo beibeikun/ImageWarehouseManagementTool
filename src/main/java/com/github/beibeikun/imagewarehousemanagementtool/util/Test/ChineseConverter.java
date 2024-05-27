@@ -28,22 +28,4 @@ public class ChineseConverter {
 
         return traditionalArray;
     }
-
-    // 主方法，用于演示
-    public static void main(String[] args) {
-        String[][] simplifiedArray = {
-                {"中国", "发展"},
-                {"简体字", "转换成繁体字"}
-        };
-
-        String[][] traditionalArray = convertSimplifiedToTraditional(simplifiedArray);
-
-        // 打印转换结果
-        for (String[] row : traditionalArray) {
-            for (String word : row) {
-                System.out.print(word + " ");
-            }
-            System.out.println();  // 换行
-        }
-    }
 }
