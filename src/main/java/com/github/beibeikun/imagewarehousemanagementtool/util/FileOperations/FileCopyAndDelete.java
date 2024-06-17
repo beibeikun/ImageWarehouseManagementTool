@@ -33,26 +33,6 @@ public class FileCopyAndDelete
             Path targetPath = Paths.get(destFolderPath, Paths.get(sourceFilePath).getFileName().toString());
             Files.copy(Paths.get(sourceFilePath), targetPath, StandardCopyOption.REPLACE_EXISTING);
         }
-/*
-        SystemChecker systemIdentifier = new SystemChecker();
-
-        String newFileName = sourceFilePath.substring(sourceFilePath.lastIndexOf(systemIdentifier.identifySystem_String()) + 1); // 目标文件名
-        String destFilePath = destFolderPath + File.separator + newFileName; // 目标文件路径
-        if (!isSystemOrHiddenFile(new File(sourceFilePath))) {
-            try (InputStream inputStream = new FileInputStream(sourceFilePath); // 创建输入流对象
-                 OutputStream outputStream = new FileOutputStream(destFilePath)) { // 创建输出流对象
-                byte[] buffer = new byte[1024 * 8]; // 创建缓冲区
-
-                int bytesRead;
-                while ((bytesRead = inputStream.read(buffer)) != -1) { // 循环读取数据
-                    outputStream.write(buffer, 0, bytesRead);
-                }
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-
- */
     }
 
     /**
@@ -63,27 +43,28 @@ public class FileCopyAndDelete
      * @param prefixnumbers   前缀数
      * @throws IOException 复制文件时可能发生的IO异常
      */
-    public static void copyFiles(String firstfolderpath, String lastfolderpath, int prefixnumbers) throws IOException
+    public static void copyFilesAndOrganize(String firstfolderpath, String lastfolderpath, int prefixnumbers) throws IOException
     {
         SystemChecker systemIdentifier = new SystemChecker();
-        File imageFolder = new File(firstfolderpath);
-        File[] imageList = imageFolder.listFiles();
+        File filesFolder = new File(firstfolderpath);
+        File[] filesList = filesFolder.listFiles();
 
-        if (imageFolder.exists() && imageFolder.isDirectory())
+        if (filesFolder.exists() && filesFolder.isDirectory())
         {
             systemPrintOut("Start to copy", 3, 0);
 
-            for (File image : imageList)
+            for (File image : filesList)
             {
                 Path path = Paths.get(firstfolderpath + systemIdentifier.identifySystem_String() + image.getName());
                 // 将 Path 对象转换为 File 对象
                 File file = path.toFile();
                 if (! isSystemOrHiddenFile(file))
                 {
+                    int prefixNumbersTest = image.getName().indexOf("-");
                     // 在这里执行对非隐藏文件的操作
-                    if (prefixnumbers != 0)
+                    if (prefixNumbersTest != 0)
                     {
-                        String filepath = lastfolderpath + systemIdentifier.identifySystem_String() + image.getName().substring(0, prefixnumbers);
+                        String filepath = lastfolderpath + systemIdentifier.identifySystem_String() + image.getName().substring(0, prefixNumbersTest);
                         systemPrintOut("Upload:" + image.getName(), 1, 0);
                         int i = checkFilePath(filepath, false);
                         if (i == 4)

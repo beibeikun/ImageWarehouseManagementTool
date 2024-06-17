@@ -72,7 +72,7 @@ public class CompleteNameChangeProcess
         RenameFiles.renameFiles(CSVPath, targetFolderPath, 0, 0);
         SystemPrintOut.systemPrintOut(null, 0, 0);
         // 删除目标文件夹中包含关键词的文件
-        DeleteFilesWithKeyword.deleteFilesWithKeyword(targetFolderPath, "JB");
+        //DeleteFilesWithKeyword.deleteFilesWithKeyword(targetFolderPath, "-");
         //根据 imgsize 判断图片是否需要压缩，不为0即需要压缩
         if (imgsize != 0)
         {

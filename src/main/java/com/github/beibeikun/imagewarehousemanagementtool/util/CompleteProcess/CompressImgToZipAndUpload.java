@@ -68,7 +68,8 @@ public class CompressImgToZipAndUpload
             else
             {
                 //检测仓库中是否存在，如果存在则跳过
-                String databasePath = destinationFolder + system.identifySystem_String() + FileNames[i].substring(0, 6) + system.identifySystem_String() + FileNames[i] + ".zip";
+                int position = FileNames[i].indexOf("-");
+                String databasePath = destinationFolder + system.identifySystem_String() + FileNames[i].substring(0, position) + system.identifySystem_String() + FileNames[i] + ".zip";
                 if (! FileSearch.isFileExists(databasePath))
                 {
                     thumbnailAndCompress(mode, sourceFolder, FileNames, i, thumbnailFolder, imgsize, temporaryCompressedImgFolder, temporaryDestinationFolder);
@@ -81,7 +82,7 @@ public class CompressImgToZipAndUpload
             }
         }
         //把压缩包从临时文件夹移动到目标文件夹并按前缀分类
-        FileCopyAndDelete.copyFiles(temporaryDestinationFolder, destinationFolder, 6);
+        FileCopyAndDelete.copyFilesAndOrganize(temporaryDestinationFolder, destinationFolder, 6);
         //删除临时文件夹
         DeleteDirectory.deleteDirectory(new File(temporaryDestinationFolder));
         DeleteDirectory.deleteDirectory(new File(temporaryCompressedImgFolder));

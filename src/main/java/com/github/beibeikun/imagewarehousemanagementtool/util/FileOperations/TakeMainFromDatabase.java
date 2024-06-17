@@ -30,7 +30,6 @@ public class TakeMainFromDatabase
         SystemChecker system = new SystemChecker();
         folderpath = CreateFolder.createFolderWithTime(folderpath);
         String[] fileNameList = ArrayExtractor.extractRow(ReadCsvFile.csvToArray(csvpath), 0);
-        System.out.println(Arrays.toString(fileNameList));
         for (int x = 0; x < fileNameList.length; x++)
         {
             File fileCheck = new File(databasepath + system.identifySystem_String() + "thumbnail" + system.identifySystem_String() + fileNameList[x] + ".JPG");

@@ -30,7 +30,7 @@ public class RenameFiles
     {
         // 从Excel中获取映射关系
         //String[][] JB_LOTArray = csvToArray(excelPath);
-        String[] JBArray = ArrayExtractor.extractRow(ReadCsvFile.csvToArray(excelPath), 0);
+        String[] ContractNoArray = ArrayExtractor.extractRow(ReadCsvFile.csvToArray(excelPath), 0);
         String[] LOTArray = ArrayExtractor.extractRow(ReadCsvFile.csvToArray(excelPath), 1);
 
         // 获取图片文件夹下的文件列表
@@ -62,7 +62,7 @@ public class RenameFiles
                     }
 
                     // 执行文件重命名
-                    renameFile(image, name, JBArray, LOTArray, imagePath, digitCheck, prefixCheck);
+                    renameFile(image, name, ContractNoArray, LOTArray, imagePath, digitCheck, prefixCheck);
                 }
             }
         }
@@ -81,9 +81,14 @@ public class RenameFiles
      */
     private static void renameFile(File image, String name, String[] JBArray, String[] LOTArray, String imagePath, int digitCheck, int prefixCheck)
     {
+        int position = name.indexOf(" ");
+        if (position == -1)
+        {
+            position = name.lastIndexOf(".");
+        }
         // 文件名格式检查，确保索引不越界
-        String frontName = name.substring(0, 10);
-        String behindName = name.substring(10);
+        String frontName = name.substring(0, position);
+        String behindName = name.substring(position);
 
         // 根据映射关系进行重命名
         boolean renamed = false;

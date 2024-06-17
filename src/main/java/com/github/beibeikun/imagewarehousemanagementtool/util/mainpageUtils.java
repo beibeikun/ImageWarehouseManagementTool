@@ -118,18 +118,36 @@ public class mainpageUtils
         filenamelist[1][0] = path;
         WriteToProperties.writeToProperties("settings", filenamelist);
     }
+
+    /**
+     * 实现主程序执行重命名的功能
+     * @param CheckBox_addfromdatabase 数据库拉取判定
+     * @param selectdatabase 数据库类型
+     * @param cameradatabasepath 相机数据库
+     * @param phonedatabasepath 手机数据库
+     * @param CheckBox_classification
+     * @param suffixCheckBox
+     * @param comboBox1
+     * @param imgsizecomboBox
+     * @param sourceFolderPath
+     * @param targetFolderPath
+     * @param renameCsvPath
+     */
     public static void rename(JCheckBox CheckBox_addfromdatabase, JComboBox selectdatabase, JLabel cameradatabasepath, JLabel phonedatabasepath, JCheckBox CheckBox_classification, JCheckBox suffixCheckBox, JComboBox comboBox1, JComboBox imgsizecomboBox, JLabel sourceFolderPath, JLabel targetFolderPath, JLabel renameCsvPath)
     {
         int check_usedatabase = 0, check_whichdatabase = 0;
+        //判断是否从数据库拉取图片
         if (CheckBox_addfromdatabase.isSelected())
         {
             check_usedatabase = 1;
         }
+        //判断数据库类型
         if (selectdatabase.getSelectedItem().equals("phone"))
         {
             check_whichdatabase = 1;
         }
         String databasepath = null;
+        //根据数据库类型获取数据库路径
         if (check_whichdatabase == 0)
         {
             databasepath = cameradatabasepath.getText();
@@ -141,15 +159,18 @@ public class mainpageUtils
         boolean prefix = CheckBox_classification.isSelected();
         String suffix = "";
         int suffixtype = 0;
+        //判断是否需要更换后缀
         if (suffixCheckBox.isSelected())
         {
             suffix = (String) comboBox1.getSelectedItem();
         }
+        //判断更换后缀类型
         if (suffix.equals("_x"))
         {
             suffixtype = 1;
         }
         CompleteNameChangeProcess completeNameChangeProcess = new CompleteNameChangeProcess();
+        //获取压缩尺寸
         int imgsize = ImgSize.getImgSize(imgsizecomboBox.getSelectedItem().toString());
         try
         {
@@ -161,11 +182,24 @@ public class mainpageUtils
             throw new RuntimeException(ex);
         }
     }
+
+    /**
+     *
+     * @param sourceFolderPath 原文件夹路径
+     * @param cameradatabasepath 相机数据库路径
+     * @param phonedatabasepath 手机数据库路径
+     * @param uploadDatabaseComboBox 选择数据库
+     * @param uploadSizeComboBox 压缩尺寸
+     * @param uploadReplaceCheckBox 覆盖上传
+     * @param uploadDeleteCheckBox 完成后删除
+     */
     public static void uploadToWarehouse(JLabel sourceFolderPath, JLabel cameradatabasepath, JLabel phonedatabasepath, JComboBox uploadDatabaseComboBox, JComboBox uploadSizeComboBox, JCheckBox uploadReplaceCheckBox, JCheckBox uploadDeleteCheckBox)
     {
+        //路径检查
         int filepathcheck = FilePathChecker.checkFilePath(sourceFolderPath.getText(), false);
         String databaseAddress;
         int uploadMode = 0;
+        //选择数据库
         if (uploadDatabaseComboBox.getSelectedItem().toString().equals("相机库"))
         {
             databaseAddress = cameradatabasepath.getText();
@@ -175,6 +209,7 @@ public class mainpageUtils
         {
             databaseAddress = phonedatabasepath.getText();
         }
+        //获取压缩尺寸
         int imgsize = ImgSize.getImgSize(uploadSizeComboBox.getSelectedItem().toString());
         if (imgsize == 1)
         {
@@ -187,13 +222,16 @@ public class mainpageUtils
                 imgsize = 4000;
             }
         }
+        //路径检查通过，执行后续上传操作
         if (filepathcheck == 1)
         {
             Instant instant1 = Instant.now();
             boolean coverageDeterminer = false;
             boolean deleteQualifier = false;
+            //替换判定
             if (uploadReplaceCheckBox.isSelected())
                 coverageDeterminer = true;
+            //删除判定
             if (uploadDeleteCheckBox.isSelected())
                 deleteQualifier = true;
             try
