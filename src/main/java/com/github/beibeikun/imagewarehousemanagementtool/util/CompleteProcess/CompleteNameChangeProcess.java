@@ -56,6 +56,7 @@ public class CompleteNameChangeProcess
         // 根据 checkBoxAddFromDatabase 标志判断是否添加数据库中的文件
         if (checkBoxAddFromDatabase == 1)
         {
+
             // 提取压缩包并获取数据库中存在的文件名
             databaseNamelist = FileExtractor.extractFiles(nasFolderPath, targetFolderPath, fileNamesToExtract);
             SystemPrintOut.systemPrintOut(null, 0, 0);

@@ -31,8 +31,9 @@ public class FileExtractor
         List<String> nameList = new ArrayList<>();
         for (String fileName : fileNamesToExtract)
         {
+            int position = fileName.indexOf("-");
             // 构建源文件的路径
-            Path sourcePath = Paths.get(sourceFolderPath, system.identifySystem_String() + fileName.substring(0, 6) + system.identifySystem_String() + fileName + ".zip");
+            Path sourcePath = Paths.get(sourceFolderPath, system.identifySystem_String() + fileName.substring(0, position) + system.identifySystem_String() + fileName + ".zip");
             // 检查文件是否存在
             if (fileExists(sourcePath))
             {
