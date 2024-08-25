@@ -15,7 +15,7 @@ import static com.github.beibeikun.imagewarehousemanagementtool.util.Others.Syst
 public class RenameFiles
 {
 
-    private static final int MINIMUM_NAME_LENGTH = 10;
+    private static final int MINIMUM_NAME_LENGTH = 7;
     private static final String NAME_FORMAT_ERROR = "Failed to rename: Invalid name format - ";
 
     /**
@@ -56,8 +56,8 @@ public class RenameFiles
                     // 文件名检查
                     if (name.length() < MINIMUM_NAME_LENGTH)
                     {
+                        systemPrintOut(NAME_FORMAT_ERROR + name,2,0);
                         // 文件名太短，不符合预期格式
-                        System.out.println(NAME_FORMAT_ERROR + name);
                         continue;
                     }
 

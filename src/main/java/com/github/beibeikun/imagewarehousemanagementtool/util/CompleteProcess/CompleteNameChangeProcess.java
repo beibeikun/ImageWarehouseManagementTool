@@ -20,6 +20,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -53,6 +54,7 @@ public class CompleteNameChangeProcess
         SystemPrintOut.systemPrintOut("Start to rename", 3, 0);
         // 用于储存数据库中存在的文件名
         List<String> databaseNamelist = new ArrayList<>();
+        Collections.sort(databaseNamelist);
         // 根据 checkBoxAddFromDatabase 标志判断是否添加数据库中的文件
         if (checkBoxAddFromDatabase == 1)
         {
@@ -64,6 +66,7 @@ public class CompleteNameChangeProcess
             UnzipAllZipsWithDelete.unzipAllZipsInFolder(targetFolderPath);
             SystemPrintOut.systemPrintOut(null, 0, 0);
         }
+
         //从列表中去除已经在文件仓库中找到的文件
         readyToCopyNameList = ListExtractor.removeElementFromList(readyToCopyNameList, databaseNamelist);
         // 从源文件夹拷贝文件到目标文件夹

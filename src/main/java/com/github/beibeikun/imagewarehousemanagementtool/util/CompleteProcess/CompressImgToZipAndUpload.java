@@ -15,8 +15,13 @@ import com.github.beibeikun.imagewarehousemanagementtool.util.Others.SystemPrint
 
 import java.io.File;
 import java.io.IOException;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
+import java.util.concurrent.*;
+
+import static com.github.beibeikun.imagewarehousemanagementtool.util.FileOperations.DeleteDirectory.deleteDirectory;
+import static com.github.beibeikun.imagewarehousemanagementtool.util.FileOperations.FileCopyAndDelete.copyFilesWithList;
+import static com.github.beibeikun.imagewarehousemanagementtool.util.FileOperations.FileCopyAndDelete.moveFilesWithList;
+import static com.github.beibeikun.imagewarehousemanagementtool.util.Others.SystemPrintOut.systemPrintOut;
 
 
 /**
@@ -35,89 +40,240 @@ public class CompressImgToZipAndUpload
      */
     public static void compressImgToZipAndUpload(String sourceFolder, String destinationFolder, int mode, int imgsize, boolean coverageDeterminer, boolean deleteQualifier) throws IOException, ImageProcessingException, MetadataException
     {
+        // 打印系统消息，表明开始上传
         SystemPrintOut.systemPrintOut("Start to upload", 3, 0);
+
+        // 初始化系统检查器，获取系统信息
         SystemChecker system = new SystemChecker();
 
-        //创建一个临时文件夹来储存压缩包
-        String temporaryDestinationFolder = CreateTemporaryDestinationFolder.createTemporaryFolder(sourceFolder, "TemporaryCompression1");
-        //创建一个临时文件夹来储存压缩图
-        String temporaryCompressedImgFolder = CreateTemporaryDestinationFolder.createTemporaryFolder(sourceFolder, "TemporaryCompression2");
-        //缩略图路径
-        String thumbnailFolder = destinationFolder + system.identifySystem_String() + "thumbnail";
-        //mode为1，检查缩略图路径
-        if (mode == 1)
-        {
+        // 创建记录失败的文件和原因的集合
+        List<String> failedFiles = new ArrayList<>();
 
-            // 创建缩略图路径文件夹对象
+        // 创建一个临时文件夹用于存储压缩包
+        String temporaryDestinationFolder = CreateTemporaryDestinationFolder.createTemporaryFolder(sourceFolder, "TemporaryCompression1");
+
+        // 创建另一个临时文件夹用于存储压缩后的图像
+        String temporaryCompressedImgFolder = CreateTemporaryDestinationFolder.createTemporaryFolder(sourceFolder, "TemporaryCompression2");
+
+        // 创建一个文件夹用于转移已备份的图像内容
+        File backedUpImgDirectory = new File(sourceFolder + "backedUp");
+        String backedUpImgFolder = sourceFolder + "backedUp";
+
+        // 如果备份文件夹不存在，则创建一个新的备份文件夹
+        if (!backedUpImgDirectory.exists()) {
+            backedUpImgFolder = CreateTemporaryDestinationFolder.createTemporaryFolder(sourceFolder, "backedUp");
+        }
+
+        // 确定缩略图路径
+        String thumbnailFolder = destinationFolder + system.identifySystem_String() + "thumbnail";
+
+        // 如果 mode 为 1，表示需要创建缩略图路径
+        if (mode == 1) {
+            // 创建缩略图路径的文件夹对象
             File thumbFolder = new File(thumbnailFolder);
 
-            // 如果缩略图路径文件夹不存在，则创建
-            if (! thumbFolder.exists())
-            {
-                File directory = new File(thumbnailFolder);
-                directory.mkdirs();
+            // 如果缩略图路径文件夹不存在，则创建它
+            if (!thumbFolder.exists()) {
+                File thumbnailDirectory = new File(thumbnailFolder);
+                thumbnailDirectory.mkdirs();
             }
         }
-        //获取源文件夹内所有文件名,处理文件名数组，去除文件后缀名、去除 "(x)" 后缀并删除重复项，只保留一个
+
+        // 获取源文件夹中所有文件的文件名，并对其进行处理：
+        // 去除文件后缀名、删除不规范的后缀 "(x)"，以及删除重复的文件名
         String[] FileNames = FileNameProcessor.processFileNames(FileLister.getFileNames(sourceFolder));
+
+        // 筛选出符合规范的文件名（包含 "-" 符号的文件名）
+        FileNames = Arrays.stream(FileNames)
+                .filter(s -> s.contains("-"))
+                .toArray(String[]::new);
+
+        // 对文件名进行排序
         Arrays.sort(FileNames);
-        for (int i = 0; i < FileNames.length; i++)
-        {
-            if (coverageDeterminer)
-            {
-                thumbnailAndCompress(mode, sourceFolder, FileNames, i, thumbnailFolder, imgsize, temporaryCompressedImgFolder, temporaryDestinationFolder);
-            }
-            else
-            {
-                //检测仓库中是否存在，如果存在则跳过
-                int position = FileNames[i].indexOf("-");
-                String databasePath = destinationFolder + system.identifySystem_String() + FileNames[i].substring(0, position) + system.identifySystem_String() + FileNames[i] + ".zip";
-                if (! FileSearch.isFileExists(databasePath))
-                {
-                    thumbnailAndCompress(mode, sourceFolder, FileNames, i, thumbnailFolder, imgsize, temporaryCompressedImgFolder, temporaryDestinationFolder);
+
+        // 使用线程池来执行压缩任务
+        ExecutorService executor = Executors.newSingleThreadExecutor();
+
+        // 遍历文件名数组，处理每个文件
+        for (int i = 0; i < FileNames.length; i++) {
+            boolean fileCorrecDetermination = true;
+
+            // 检查文件是否已存在于目标文件夹中，如果已存在且不需要覆盖则跳过
+            int position = FileNames[i].indexOf("-");
+            String databasePath = destinationFolder + system.identifySystem_String() + FileNames[i].substring(0, position) + system.identifySystem_String() + FileNames[i] + ".zip";
+
+            // 如果文件不存在或需要覆盖，则执行以下操作
+            if (!FileSearch.isFileExists(databasePath) || coverageDeterminer) {
+                // 提交压缩和生成缩略图的任务，并设置最大执行时间为 2 分钟
+                String[] finalFileNames = FileNames;
+                int finalI = i;
+                Future<Boolean> future = executor.submit(() ->
+                        thumbnailAndCompress(mode, sourceFolder, finalFileNames, finalI, thumbnailFolder, imgsize, temporaryCompressedImgFolder, temporaryDestinationFolder, failedFiles)
+                );
+
+                try {
+                    // 获取任务结果，如果超过2分钟，则抛出 TimeoutException 异常
+                    fileCorrecDetermination = future.get(2, TimeUnit.MINUTES);
+                } catch (TimeoutException e) {
+                    // 如果任务执行超时，记录文件名和原因并跳过该文件
+                    String reason = "Skipping to next file due to timeout.";
+                    failedFiles.add("File: " + FileNames[i] + " - Reason: " + reason);
+                    SystemPrintOut.systemPrintOut(reason, 2, 0);
+                    future.cancel(true); // 取消执行中的任务
+                    fileCorrecDetermination = false; // 设置标志位以跳过备份步骤
+                } catch (Exception e) {
+                    // 如果任务执行过程中出现异常，记录文件名和原因并跳过该文件
+                    String reason = "Error: " + e.getMessage();
+                    failedFiles.add("File: " + FileNames[i] + " - Reason: " + reason);
+                    SystemPrintOut.systemPrintOut(reason, 2, 0);
+                    fileCorrecDetermination = false;
                 }
-                else
-                {
-                    int x = i + 1;
-                    SystemPrintOut.systemPrintOut("The file has been backed up:" + FileNames[i] + "    (" + x + "/" + FileNames.length + ")", 2, 0);
+
+                // 如果文件压缩和缩略图生成成功，则将文件从临时文件夹移动到目标文件夹
+                if (fileCorrecDetermination) {
+                    // 将压缩后的文件从临时文件夹移动到目标文件夹，并按前缀进行分类整理
+                    FileCopyAndDelete.copyFilesAndOrganize(temporaryDestinationFolder, destinationFolder);
+
+                    // 清空临时文件夹以便下一个文件使用
+                    boolean deleted = DeleteDirectory.deleteDirectory(new File(temporaryDestinationFolder));
+                    boolean created = new File(temporaryDestinationFolder).mkdirs();
                 }
+            } else {
+                // 如果文件已存在并且不需要覆盖，记录文件名和原因并跳过该文件
+                String reason = "The file has been backed up: " + FileNames[i];
+                int x = i+1;
+                SystemPrintOut.systemPrintOut(reason+ "    (" + x + "/" + FileNames.length + ")", 2, 0);
             }
+
+            // 如果文件压缩和缩略图生成成功，则进行备份转移
+            if (fileCorrecDetermination) {
+                List<File> compressedFiles = FileSearch.searchFiles(sourceFolder, FileNames[i]);
+
+                // 将成功压缩的文件转移到备份文件夹
+                moveFilesWithList(compressedFiles, backedUpImgFolder);
+
+                // 打印成功备份的日志信息
+                SystemPrintOut.systemPrintOut("Backup files transferred successfully: " + FileNames[i], 1, 0);
+            } else {
+                SystemPrintOut.systemPrintOut("No such file or directory: " + FileNames[i], 2, 0);
+            }
+
+            // 每处理完一个文件，打印系统状态信息
+            systemPrintOut(null, 0, 0);
         }
-        //把压缩包从临时文件夹移动到目标文件夹并按前缀分类
-        FileCopyAndDelete.copyFilesAndOrganize(temporaryDestinationFolder, destinationFolder, 6);
-        //删除临时文件夹
-        DeleteDirectory.deleteDirectory(new File(temporaryDestinationFolder));
-        DeleteDirectory.deleteDirectory(new File(temporaryCompressedImgFolder));
-        if (deleteQualifier)
-        {
-            DeleteDirectory.deleteDirectory(new File(sourceFolder));
+
+        // 关闭线程池，防止资源泄露
+        executor.shutdown();
+
+        // 删除临时文件夹，确保清理干净
+        deleteDirectory(new File(temporaryDestinationFolder));
+        deleteDirectory(new File(temporaryCompressedImgFolder));
+
+        // 如果 deleteQualifier 为 true，删除源文件夹和备份文件夹
+        if (deleteQualifier) {
+            deleteDirectory(new File(sourceFolder));
+            deleteDirectory(new File(backedUpImgFolder));
+        }
+
+        // 在处理完所有文件后，输出所有失败文件及其原因
+        SystemPrintOut.systemPrintOut("Failed files and reasons:", 3, 0);
+        for (String failure : failedFiles) {
+            SystemPrintOut.systemPrintOut(failure, 2, 0);
         }
     }
 
-    private static void thumbnailAndCompress(int mode, String sourceFolder, String[] FileNames, int i, String thumbnailFolder, int imgsize, String temporaryCompressedImgFolder, String temporaryDestinationFolder) throws IOException
+
+    private static boolean thumbnailAndCompress(int mode, String sourceFolder, String[] FileNames, int i, String thumbnailFolder, int imgsize, String temporaryCompressedImgFolder, String temporaryDestinationFolder, List<String> failedFiles) throws IOException
     {
         SystemChecker system = new SystemChecker();
-        if (mode == 1)
-        {
-            FileCopyAndDelete.copyFile(sourceFolder + system.identifySystem_String() + FileNames[i] + ".JPG", thumbnailFolder);
-            ImageCompression.imageCompression(thumbnailFolder + system.identifySystem_String() + FileNames[i] + ".JPG", 2500);
-            SystemPrintOut.systemPrintOut("Thumbnail upload:" + FileNames[i], 1, 0);
-        }
         //获取同一前缀的文件列表
         List<File> readytocompress = FileSearch.searchFiles(sourceFolder, FileNames[i]);
-        //根据 imgsize 判断图片是否需要压缩，不为0即需要压缩
-        if (imgsize != 0)
+        /*
+        if (mode == 1)
         {
-            //复制需要压缩尺寸的图像到临时文件夹，并更新list为移动后的路径
-            readytocompress = FileCopyAndDelete.moveFilesWithList(readytocompress, temporaryCompressedImgFolder);
-            //压缩图片
-            ImageCompression.compressImgWithFileListUseMultithreading(readytocompress, imgsize);
+            File file = new File(sourceFolder + system.identifySystem_String() + FileNames[i] + ".JPG"); //检查文件是否正确存在
+            if (file.exists())//存在
+            {
+                if (readytocompress.size() > 2)
+                {
+                    FileCopyAndDelete.copyFile(sourceFolder + system.identifySystem_String() + FileNames[i] + ".JPG", thumbnailFolder);
+                    ImageCompression.imageCompression(thumbnailFolder + system.identifySystem_String() + FileNames[i] + ".JPG", 2500);
+                    SystemPrintOut.systemPrintOut("Thumbnail upload:" + FileNames[i], 1, 0);
+                }
+                else
+                {
+                    // 如果图片数量不足，记录文件名和原因
+                    String reason = "Too less pictures: " + FileNames[i];
+                    failedFiles.add("File: " + FileNames[i] + " - Reason: " + reason);
+                    SystemPrintOut.systemPrintOut(reason, 2, 0);
+                    return false;
+                }
+            }
+            else//不存在
+            {
+                // 如果文件不存在，记录文件名和原因
+                String reason = "Non-existent file: " + FileNames[i];
+                failedFiles.add("File: " + FileNames[i] + " - Reason: " + reason);
+                SystemPrintOut.systemPrintOut(reason, 2, 0);
+                return false;
+            }
         }
+
+         */
+        File file;
+        if (mode == 1)//相机 包含主图
+        {
+            file = new File(sourceFolder + system.identifySystem_String() + FileNames[i] + ".JPG"); //检查文件是否正确存在
+        }
+        else//手机 没有主图
+        {
+            file = new File(sourceFolder + system.identifySystem_String() + FileNames[i] + " (1).JPG"); //检查文件是否正确存在
+        }
+        if (file.exists())//存在
+        {
+            if (readytocompress.size() > 2)//图片超过两张
+            {
+                //复制图像到临时文件夹，并更新list为移动后的路径
+                readytocompress = copyFilesWithList(readytocompress, temporaryCompressedImgFolder, true);
+                //根据 imgsize 判断图片是否需要压缩，不为0即需要压缩
+                if (imgsize != 0)
+                {
+                    ImageCompression.compressImgWithFileListUseMultithreading(readytocompress, imgsize);
+                }
+            }
+            else
+            {
+                //x为已完成的数量
+                int x = i + 1;
+                // 如果图片数量不足，记录文件名和原因
+                String reason = "Too less pictures: " + FileNames[i];
+                failedFiles.add("File: " + FileNames[i] + " - Reason: Too less pictures");
+                SystemPrintOut.systemPrintOut(reason+ "    (" + x + "/" + FileNames.length + ")", 2, 0);
+                return false;
+            }
+        }
+        else//不存在
+        {
+            //x为已完成的数量
+            int x = i + 1;
+            // 如果文件不存在，记录文件名和原因
+            String reason = "Non-existent file: " + FileNames[i];
+            failedFiles.add("File: " + FileNames[i] + " - Reason: Non-existent file");
+            SystemPrintOut.systemPrintOut(reason+ "    (" + x + "/" + FileNames.length + ")", 2, 0);
+            return false;
+        }
+
         //x为已完成的数量
         int x = i + 1;
         //压缩同一前缀的文件
         CompressFileList.compressFiles(readytocompress, temporaryDestinationFolder + system.identifySystem_String() + FileNames[i] + ".zip");
         SystemPrintOut.systemPrintOut("Compressed:" + FileNames[i] + ".zip" + "    (" + x + "/" + FileNames.length + ")", 1, 0);
-
+        if (mode == 1)
+        {
+            ImageCompression.imageCompression(sourceFolder + system.identifySystem_String() + FileNames[i] + ".JPG", 1000);
+            FileCopyAndDelete.copyFile(sourceFolder + system.identifySystem_String() + FileNames[i] + ".JPG", thumbnailFolder);
+            SystemPrintOut.systemPrintOut("Thumbnail upload:" + FileNames[i], 1, 0);
+        }
+        return true;
     }
 }

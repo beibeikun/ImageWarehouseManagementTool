@@ -38,6 +38,7 @@ public class Mainpage
     private JTextArea printOutTextArea, consoleTextArea;
     private JTextField searchJBNumTextField, deleteJBNumTextField, pdfStaffTextField;
     private JToolBar JT_firstpath, JT_renameCsvPath, JT_lastpath, JT_otherSettings, JT_checkCsvPath, JT_search, JT_upload, JT_pdfCsvPath, JT_namingFormat, JT_deleteCsvPath, JT_database, JT_cameraWarehouse, JT_phoneWarehouse;
+    private JButton organizeAndSortButton;
 
     public Mainpage()
     {
@@ -248,6 +249,8 @@ public class Mainpage
         extractAllImageFromSourceFolderButton.addActionListener(e -> copyFolderWithListWithTasks(sourceFolderPath, checkCsvPath, targetFolderPath));
         //仅压缩图片
         compressButton.addActionListener(e -> onlyCompressFilesWithTasks(sourceFolderPath, targetFolderPath, ImgSize.getImgSize(onlyCompressSizeChooseComboBox.getSelectedItem().toString())));
+
+        organizeAndSortButton.addActionListener(e -> organizeAndSortWithTasks(sourceFolderPath, targetFolderPath));
         /*================================第三页：仓库相关================================*/
 
         //上传到相机图片数据库

@@ -76,24 +76,4 @@ public class MoveNumberForward
             }
         }
     }
-
-
-    public static void main(String[] args) throws IOException
-    {
-        /*
-        boolean fileDetermination = isFileExists("/Users/bbk/Downloads/未命名文件夹 2/JB6364-018 (1).jpg");
-        if (fileDetermination)
-        {
-            System.out.println(1111);
-        }
-        else
-        {
-            System.out.println(2222);
-        }
-
-        renameFileWithName("/Users/bbk/Downloads/未命名文件夹 2/JB6364-018 (1).jpg","JB6364-018");
-
-         */
-        moveNumberForwardt("/Users/bbk/photographs/IWMT_OUT/240509_163521", "/Users/bbk/photographs/IWMT_OUT");
-    }
 }

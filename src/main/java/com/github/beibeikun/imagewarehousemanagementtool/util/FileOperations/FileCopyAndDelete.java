@@ -43,7 +43,7 @@ public class FileCopyAndDelete
      * @param prefixnumbers   前缀数
      * @throws IOException 复制文件时可能发生的IO异常
      */
-    public static void copyFilesAndOrganize(String firstfolderpath, String lastfolderpath, int prefixnumbers) throws IOException
+    public static void copyFilesAndOrganize(String firstfolderpath, String lastfolderpath) throws IOException
     {
         SystemChecker systemIdentifier = new SystemChecker();
         File filesFolder = new File(firstfolderpath);
@@ -51,8 +51,6 @@ public class FileCopyAndDelete
 
         if (filesFolder.exists() && filesFolder.isDirectory())
         {
-            systemPrintOut("Start to copy", 3, 0);
-
             for (File image : filesList)
             {
                 Path path = Paths.get(firstfolderpath + systemIdentifier.identifySystem_String() + image.getName());
@@ -81,7 +79,6 @@ public class FileCopyAndDelete
                     }
                 }
             }
-            systemPrintOut(null, 0, 0);
         }
     }
 
@@ -90,13 +87,17 @@ public class FileCopyAndDelete
      *
      * @param filelist      源文件列表
      * @param targetDirPath 目标文件夹路径
+     * @param resetDeterminer 清空文件夹判定
      * @throws IOException 复制文件时可能发生的IO异常
      */
-    public static List<File> moveFilesWithList(List<File> filelist, String targetDirPath) throws IOException
+    public static List<File> copyFilesWithList(List<File> filelist, String targetDirPath, boolean resetDeterminer) throws IOException
     {
         File directory = new File(targetDirPath);
-        boolean deleted = DeleteDirectory.deleteDirectory(directory);
-        boolean created = directory.mkdirs();
+        if (resetDeterminer)
+        {
+            DeleteDirectory.deleteDirectory(directory);
+            directory.mkdirs();
+        }
         // 复制文件到目标文件夹
         for (File file : filelist)
         {
@@ -107,5 +108,24 @@ public class FileCopyAndDelete
             org.apache.commons.io.FileUtils.copyFile(file, targetFile);
         }
         return getFileNamesInList(targetDirPath);
+    }
+    public static void moveFilesWithList(List<File> fileList, String targetDirectoryPath) {
+        Path targetDirectory = Paths.get(targetDirectoryPath);
+        try {
+            // 确保目标目录存在
+            Files.createDirectories(targetDirectory);
+        } catch (IOException e) {
+            return;
+        }
+
+        for (File file : fileList) {
+            Path sourcePath = file.toPath();
+            Path targetPath = targetDirectory.resolve(file.getName());
+            try {
+                // 移动文件到目标目录，如果目标文件存在则替换它
+                Files.move(sourcePath, targetPath, StandardCopyOption.REPLACE_EXISTING);
+            } catch (IOException ignored) {
+            }
+        }
     }
 }

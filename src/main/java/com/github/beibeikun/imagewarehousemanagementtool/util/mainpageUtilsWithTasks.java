@@ -6,6 +6,7 @@ import com.github.beibeikun.imagewarehousemanagementtool.util.Others.GetTimeCons
 import com.github.beibeikun.imagewarehousemanagementtool.util.Test.AsyncTaskExecutor;
 
 import javax.swing.*;
+import java.io.File;
 import java.time.Instant;
 import java.util.Arrays;
 import java.util.List;
@@ -15,9 +16,12 @@ import static com.github.beibeikun.imagewarehousemanagementtool.util.CompletePro
 import static com.github.beibeikun.imagewarehousemanagementtool.util.CompleteProcess.OnlyCompressFiles.onlyCompressFiles;
 import static com.github.beibeikun.imagewarehousemanagementtool.util.DataOperations.ArrayExtractor.extractRow;
 import static com.github.beibeikun.imagewarehousemanagementtool.util.DataOperations.FolderCsvComparator.compareAndGenerateCsv;
+import static com.github.beibeikun.imagewarehousemanagementtool.util.FileOperations.DeleteDirectory.deleteDirectory;
 import static com.github.beibeikun.imagewarehousemanagementtool.util.FileOperations.ExtractMainImage.extractMainImage;
 import static com.github.beibeikun.imagewarehousemanagementtool.util.FileOperations.FilePrefixMove.filePrefixMove;
 import static com.github.beibeikun.imagewarehousemanagementtool.util.FileOperations.FolderCopy.copyFolderWithList;
+import static com.github.beibeikun.imagewarehousemanagementtool.util.FileOperations.OrganizeFiles.moveNumberForward;
+import static com.github.beibeikun.imagewarehousemanagementtool.util.FileOperations.OrganizeFiles.organizeFileNumbers;
 import static com.github.beibeikun.imagewarehousemanagementtool.util.FileOperations.TakeMainFromDatabase.takeMainFromDatabase;
 import static com.github.beibeikun.imagewarehousemanagementtool.util.mainpageUtils.*;
 
@@ -104,6 +108,19 @@ public class mainpageUtilsWithTasks
             return null;
         };
         executeTaskWithTiming(task, "csv校对任务",true);
+    }
+
+    public static void organizeAndSortWithTasks(JLabel sourceFolderPath, JLabel targetFolderPath)
+    {
+        Callable<Void> task = () ->
+        {
+            String middleFolderPath = targetFolderPath.getText()+"middleFolderPath";
+            organizeFileNumbers(sourceFolderPath.getText(), middleFolderPath);
+            moveNumberForward(middleFolderPath,targetFolderPath.getText());
+            deleteDirectory(new File(middleFolderPath));
+            return null;
+        };
+        executeTaskWithTiming(task, "整理排序文件任务", true);
     }
     public static void copyFolderWithListWithTasks(JLabel sourceFolderPath, JLabel checkCsvPath, JLabel targetFolderPath)
     {
