@@ -4,9 +4,9 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>org.example</groupId>
-    <artifactId>TEST</artifactId>
-    <version>1.0-SNAPSHOT</version>
+    <groupId>com.github.beibeikun</groupId>
+    <artifactId>ImageWarehouseManagementTool</artifactId>
+    <version>1.3.240422-SNAPSHOT</version>
 
     <properties>
         <maven.compiler.source>8</maven.compiler.source>
@@ -14,91 +14,98 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
     <dependencies>
+        <!-- iText7 Core：用于生成、编辑和处理PDF文件的库 -->
         <dependency>
             <groupId>com.itextpdf</groupId>
             <artifactId>itext7-core</artifactId>
-            <version>7.1.9</version>
+            <version>8.0.2</version>
             <type>pom</type>
         </dependency>
 
-        <!-- https://mvnrepository.com/artifact/org.apache.commons/commons-csv -->
+        <!-- Apache Commons CSV：提供CSV格式解析功能 -->
         <dependency>
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-csv</artifactId>
             <version>1.10.0</version>
         </dependency>
-        <!-- https://mvnrepository.com/artifact/commons-io/commons-io -->
+
+        <!-- Commons IO：提供帮助开发IO功能的实用工具库 -->
         <dependency>
             <groupId>commons-io</groupId>
             <artifactId>commons-io</artifactId>
             <version>2.15.0</version>
         </dependency>
-        <!-- https://mvnrepository.com/artifact/com.formdev/flatlaf -->
+
+        <!-- FlatLaf：一个现代的开源跨平台Java Swing应用程序外观和感觉库 -->
         <dependency>
             <groupId>com.formdev</groupId>
             <artifactId>flatlaf</artifactId>
             <version>3.4.1</version>
         </dependency>
-        <!-- https://mvnrepository.com/artifact/com.google.code.gson/gson -->
+
+        <!-- Gson：谷歌的JSON序列化和反序列化库 -->
         <dependency>
             <groupId>com.google.code.gson</groupId>
             <artifactId>gson</artifactId>
             <version>2.10.1</version>
         </dependency>
-        <!-- https://mvnrepository.com/artifact/com.drewnoakes/metadata-extractor -->
+
+        <!-- Metadata Extractor：用于从图像文件读取元数据的库 -->
         <dependency>
             <groupId>com.drewnoakes</groupId>
             <artifactId>metadata-extractor</artifactId>
             <version>2.19.0</version>
         </dependency>
-        <!-- https://mvnrepository.com/artifact/com.mysql/mysql-connector-j -->
+
+        <!-- MySQL Connector/J：MySQL数据库的JDBC驱动 -->
         <dependency>
             <groupId>com.mysql</groupId>
             <artifactId>mysql-connector-j</artifactId>
             <version>8.2.0</version>
         </dependency>
-        <!-- https://mvnrepository.com/artifact/net.coobird/thumbnailator -->
+
+        <!-- Thumbnailator：一个用于生成缩略图的库 -->
         <dependency>
             <groupId>net.coobird</groupId>
             <artifactId>thumbnailator</artifactId>
             <version>0.4.20</version>
         </dependency>
-        <!-- https://mvnrepository.com/artifact/com.adobe.xmp/xmpcore -->
+
+        <!-- XMP Core from Adobe：用于处理Adobe XMP元数据的库 -->
         <dependency>
             <groupId>com.adobe.xmp</groupId>
             <artifactId>xmpcore</artifactId>
             <version>6.1.11</version>
         </dependency>
-        <!-- ocr -->
-        <!-- https://mvnrepository.com/artifact/net.sourceforge.tess4j/tess4j -->
-        <dependency>
-            <groupId>net.sourceforge.tess4j</groupId>
-            <artifactId>tess4j</artifactId>
-            <version>5.11.0</version>
-        </dependency>
+
+        <!-- SLF4J API：简单日志门面，用于Java日志框架 -->
         <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-api</artifactId>
             <version>1.8.0-beta4</version>
         </dependency>
+
+        <!-- SLF4J Simple：SLF4J的一个简单实现，用于日志输出 -->
         <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-simple</artifactId>
             <version>1.8.0-beta4</version>
         </dependency>
 
-        <dependency>
-            <groupId>org.apache.poi</groupId>
-            <artifactId>poi-ooxml</artifactId>
-            <version>5.2.2</version>
-        </dependency>
-        <!-- OpenCSV -->
+        <!-- OpenCSV：一个用于读写CSV文件的库 -->
         <dependency>
             <groupId>com.opencsv</groupId>
             <artifactId>opencsv</artifactId>
-            <version>5.6</version>
+            <version>5.7.1</version>
         </dependency>
 
+        <!-- OpenCC4j：用于简体中文与繁体中文互转的库 -->
+        <dependency>
+            <groupId>com.github.houbb</groupId>
+            <artifactId>opencc4j</artifactId>
+            <version>1.8.0</version>
+        </dependency>
     </dependencies>
+
 
 </project>

@@ -1,0 +1,1079 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<form xmlns="http://www.intellij.com/uidesigner/form/" version="1" bind-to-class="com.github.beibeikun.imagewarehousemanagementtool.ui.Mainpage">
+  <grid id="27dc6" binding="panel1" default-binding="true" layout-manager="GridLayoutManager" row-count="7" column-count="7" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+    <margin top="0" left="0" bottom="0" right="0"/>
+    <constraints>
+      <xy x="20" y="20" width="1242" height="557"/>
+    </constraints>
+    <properties/>
+    <border type="none"/>
+    <children>
+      <tabbedpane id="17f32" binding="tabbedPane">
+        <constraints>
+          <grid row="4" column="1" row-span="1" col-span="4" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false">
+            <preferred-size width="200" height="200"/>
+          </grid>
+        </constraints>
+        <properties>
+          <enabled value="true"/>
+          <tabLayoutPolicy value="0"/>
+          <tabPlacement value="2"/>
+        </properties>
+        <border type="none"/>
+        <children>
+          <grid id="f1e6f" binding="Tab1" layout-manager="GridLayoutManager" row-count="5" column-count="6" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+            <margin top="0" left="0" bottom="0" right="0"/>
+            <constraints>
+              <tabbedpane title=""/>
+            </constraints>
+            <properties/>
+            <border type="none"/>
+            <children>
+              <component id="d9f65" class="javax.swing.JButton" binding="CheckButton">
+                <constraints>
+                  <grid row="3" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+                </constraints>
+                <properties>
+                  <text value=""/>
+                </properties>
+              </component>
+              <toolbar id="e9ddc" binding="JT_renameCsvPath">
+                <constraints>
+                  <grid row="0" column="1" row-span="1" col-span="5" vsize-policy="0" hsize-policy="6" anchor="0" fill="1" indent="0" use-parent-layout="false">
+                    <preferred-size width="-1" height="20"/>
+                  </grid>
+                </constraints>
+                <properties/>
+                <border type="none" title=""/>
+                <children>
+                  <component id="25614" class="javax.swing.JButton" binding="selectRenameCsvButton">
+                    <constraints/>
+                    <properties>
+                      <text value=""/>
+                    </properties>
+                  </component>
+                  <hspacer id="ea169">
+                    <constraints/>
+                  </hspacer>
+                  <component id="d300a" class="javax.swing.JLabel" binding="renameCsvPath">
+                    <constraints/>
+                    <properties>
+                      <text value="          "/>
+                    </properties>
+                  </component>
+                  <hspacer id="8c3dd">
+                    <constraints/>
+                  </hspacer>
+                </children>
+              </toolbar>
+              <toolbar id="94a02" binding="JT_namingFormat">
+                <constraints>
+                  <grid row="1" column="1" row-span="1" col-span="5" vsize-policy="0" hsize-policy="6" anchor="0" fill="1" indent="0" use-parent-layout="false">
+                    <preferred-size width="-1" height="20"/>
+                  </grid>
+                </constraints>
+                <properties/>
+                <border type="none" title=""/>
+                <children>
+                  <component id="21cb6" class="javax.swing.JCheckBox" binding="digitCheckBox">
+                    <constraints/>
+                    <properties>
+                      <enabled value="true"/>
+                      <text value=""/>
+                    </properties>
+                  </component>
+                  <component id="26371" class="javax.swing.JCheckBox" binding="prefixCheckBox">
+                    <constraints/>
+                    <properties>
+                      <enabled value="true"/>
+                      <text value=""/>
+                    </properties>
+                  </component>
+                  <hspacer id="1af37">
+                    <constraints/>
+                  </hspacer>
+                  <component id="2a00b" class="javax.swing.JCheckBox" binding="suffixCheckBox">
+                    <constraints/>
+                    <properties>
+                      <text value=""/>
+                    </properties>
+                  </component>
+                  <component id="376bf" class="javax.swing.JLabel" binding="suffixLabel">
+                    <constraints/>
+                    <properties>
+                      <labelFor value="ef713"/>
+                      <text value=""/>
+                    </properties>
+                  </component>
+                  <component id="ef713" class="javax.swing.JComboBox" binding="suffixComboBox">
+                    <constraints/>
+                    <properties>
+                      <enabled value="true"/>
+                      <maximumSize width="60" height="25"/>
+                      <minimumSize width="60" height="25"/>
+                      <model>
+                        <item value="_x"/>
+                      </model>
+                      <preferredSize width="60" height="25"/>
+                    </properties>
+                  </component>
+                </children>
+              </toolbar>
+              <toolbar id="9a5e6" binding="JT_otherSettings">
+                <constraints>
+                  <grid row="2" column="1" row-span="1" col-span="5" vsize-policy="0" hsize-policy="6" anchor="0" fill="1" indent="0" use-parent-layout="false">
+                    <preferred-size width="-1" height="20"/>
+                  </grid>
+                </constraints>
+                <properties/>
+                <border type="none" title=""/>
+                <children>
+                  <component id="f9c12" class="javax.swing.JCheckBox" binding="classificationCheckBox">
+                    <constraints/>
+                    <properties>
+                      <enabled value="true"/>
+                      <text value=""/>
+                    </properties>
+                  </component>
+                  <hspacer id="c3b42">
+                    <constraints/>
+                  </hspacer>
+                  <component id="9aa6c" class="javax.swing.JCheckBox" binding="addFromDatabaseCheckBox">
+                    <constraints/>
+                    <properties>
+                      <enabled value="true"/>
+                      <selected value="true"/>
+                      <text value=""/>
+                      <visible value="true"/>
+                    </properties>
+                  </component>
+                  <component id="b57fd" class="javax.swing.JLabel" binding="addFromDatabaseLabel">
+                    <constraints/>
+                    <properties>
+                      <labelFor value="9b171"/>
+                      <text value=""/>
+                    </properties>
+                  </component>
+                  <component id="9b171" class="javax.swing.JComboBox" binding="selectdatabase">
+                    <constraints/>
+                    <properties>
+                      <model>
+                        <item value="camera"/>
+                        <item value="phone"/>
+                      </model>
+                    </properties>
+                  </component>
+                  <hspacer id="31837">
+                    <constraints/>
+                  </hspacer>
+                  <component id="80a3e" class="javax.swing.JLabel" binding="sizeLabel">
+                    <constraints/>
+                    <properties>
+                      <labelFor value="27117"/>
+                      <text value=""/>
+                    </properties>
+                  </component>
+                  <component id="27117" class="javax.swing.JComboBox" binding="imgsizecomboBox">
+                    <constraints/>
+                    <properties>
+                      <model>
+                        <item value="fullsize"/>
+                        <item value="1000px"/>
+                        <item value="2500px"/>
+                        <item value="4000px"/>
+                      </model>
+                    </properties>
+                  </component>
+                </children>
+              </toolbar>
+              <grid id="c9691" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+                <margin top="0" left="0" bottom="0" right="0"/>
+                <constraints>
+                  <grid row="0" column="0" row-span="5" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+                </constraints>
+                <properties/>
+                <border type="none"/>
+                <children/>
+              </grid>
+              <hspacer id="b8461">
+                <constraints>
+                  <grid row="3" column="3" row-span="1" col-span="1" vsize-policy="1" hsize-policy="6" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+                </constraints>
+              </hspacer>
+              <vspacer id="3681d">
+                <constraints>
+                  <grid row="4" column="1" row-span="1" col-span="1" vsize-policy="6" hsize-policy="1" anchor="0" fill="2" indent="0" use-parent-layout="false"/>
+                </constraints>
+              </vspacer>
+              <component id="d6a14" class="javax.swing.JButton" binding="renameStartButton">
+                <constraints>
+                  <grid row="3" column="4" row-span="2" col-span="2" vsize-policy="0" hsize-policy="7" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+                </constraints>
+                <properties>
+                  <enabled value="true"/>
+                  <text value=""/>
+                </properties>
+              </component>
+            </children>
+          </grid>
+          <grid id="cd629" binding="Tab2" layout-manager="GridLayoutManager" row-count="7" column-count="5" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+            <margin top="0" left="0" bottom="0" right="0"/>
+            <constraints>
+              <tabbedpane title=""/>
+            </constraints>
+            <properties/>
+            <border type="none"/>
+            <children>
+              <grid id="56295" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+                <margin top="0" left="0" bottom="0" right="0"/>
+                <constraints>
+                  <grid row="0" column="0" row-span="7" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+                </constraints>
+                <properties/>
+                <border type="none"/>
+                <children/>
+              </grid>
+              <toolbar id="feba8" binding="JT_checkCsvPath">
+                <constraints>
+                  <grid row="0" column="1" row-span="1" col-span="4" vsize-policy="0" hsize-policy="6" anchor="0" fill="1" indent="0" use-parent-layout="false">
+                    <preferred-size width="-1" height="20"/>
+                  </grid>
+                </constraints>
+                <properties/>
+                <border type="none" title=""/>
+                <children>
+                  <component id="91ae8" class="javax.swing.JButton" binding="selectCheckCsvButton">
+                    <constraints/>
+                    <properties>
+                      <text value=""/>
+                    </properties>
+                  </component>
+                  <hspacer id="f3ed0">
+                    <constraints/>
+                  </hspacer>
+                  <component id="15bf8" class="javax.swing.JLabel" binding="checkCsvPath">
+                    <constraints/>
+                    <properties>
+                      <text value="          "/>
+                    </properties>
+                  </component>
+                  <hspacer id="bfbb3">
+                    <constraints/>
+                  </hspacer>
+                </children>
+              </toolbar>
+              <component id="39e1c" class="javax.swing.JButton" binding="sortByFolderButton">
+                <constraints>
+                  <grid row="1" column="1" row-span="1" col-span="2" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+                </constraints>
+                <properties>
+                  <text value=""/>
+                </properties>
+              </component>
+              <component id="a20e2" class="javax.swing.JButton" binding="downloadMainImageFromDatabaseButton">
+                <constraints>
+                  <grid row="1" column="4" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+                </constraints>
+                <properties>
+                  <enabled value="true"/>
+                  <text value=""/>
+                </properties>
+              </component>
+              <hspacer id="d9b0d">
+                <constraints>
+                  <grid row="1" column="3" row-span="1" col-span="1" vsize-policy="1" hsize-policy="6" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+                </constraints>
+              </hspacer>
+              <component id="c3d55" class="javax.swing.JButton" binding="extractAllImageFromSourceFolderButton">
+                <constraints>
+                  <grid row="2" column="4" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+                </constraints>
+                <properties>
+                  <text value=""/>
+                </properties>
+              </component>
+              <component id="f834d" class="javax.swing.JButton" binding="checkMainImageWithCsvButton">
+                <constraints>
+                  <grid row="3" column="4" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+                </constraints>
+                <properties>
+                  <enabled value="true"/>
+                  <text value=""/>
+                </properties>
+              </component>
+              <component id="620dc" class="javax.swing.JButton" binding="extractMainImageFromSourceFolderButton">
+                <constraints>
+                  <grid row="2" column="1" row-span="1" col-span="2" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+                </constraints>
+                <properties>
+                  <enabled value="true"/>
+                  <text value=""/>
+                </properties>
+              </component>
+              <component id="b04e1" class="javax.swing.JButton" binding="changeSuffixButton">
+                <constraints>
+                  <grid row="3" column="1" row-span="1" col-span="2" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+                </constraints>
+                <properties>
+                  <enabled value="true"/>
+                  <text value=""/>
+                </properties>
+              </component>
+              <component id="3e9fc" class="javax.swing.JButton" binding="compressButton">
+                <constraints>
+                  <grid row="4" column="4" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+                </constraints>
+                <properties>
+                  <text value=""/>
+                </properties>
+              </component>
+              <component id="9cfa2" class="javax.swing.JComboBox" binding="onlyCompressSizeChooseComboBox">
+                <constraints>
+                  <grid row="4" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="2" anchor="8" fill="1" indent="0" use-parent-layout="false"/>
+                </constraints>
+                <properties>
+                  <model>
+                    <item value="2500px"/>
+                    <item value="1000px"/>
+                    <item value="2000px"/>
+                    <item value="3000px"/>
+                    <item value="4000px"/>
+                    <item value="5000px"/>
+                  </model>
+                </properties>
+              </component>
+              <component id="8d267" class="javax.swing.JLabel" binding="tab2SizeLabel">
+                <constraints>
+                  <grid row="4" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                </constraints>
+                <properties>
+                  <labelFor value="9cfa2"/>
+                  <text value=""/>
+                </properties>
+              </component>
+              <vspacer id="f200c">
+                <constraints>
+                  <grid row="6" column="1" row-span="1" col-span="1" vsize-policy="6" hsize-policy="1" anchor="0" fill="2" indent="0" use-parent-layout="false"/>
+                </constraints>
+              </vspacer>
+              <component id="e8c0f" class="javax.swing.JButton" binding="organizeAndSortButton">
+                <constraints>
+                  <grid row="5" column="4" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+                </constraints>
+                <properties>
+                  <text value=""/>
+                </properties>
+              </component>
+            </children>
+          </grid>
+          <grid id="c5279" binding="Tab3" layout-manager="GridLayoutManager" row-count="5" column-count="4" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+            <margin top="0" left="0" bottom="0" right="0"/>
+            <constraints>
+              <tabbedpane title=""/>
+            </constraints>
+            <properties/>
+            <border type="none"/>
+            <children>
+              <grid id="1ac91" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+                <margin top="0" left="0" bottom="0" right="0"/>
+                <constraints>
+                  <grid row="0" column="0" row-span="5" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+                </constraints>
+                <properties/>
+                <border type="none"/>
+                <children/>
+              </grid>
+              <hspacer id="c4abb">
+                <constraints>
+                  <grid row="1" column="2" row-span="1" col-span="2" vsize-policy="1" hsize-policy="6" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+                </constraints>
+              </hspacer>
+              <vspacer id="cb8ad">
+                <constraints>
+                  <grid row="4" column="1" row-span="1" col-span="1" vsize-policy="6" hsize-policy="1" anchor="0" fill="2" indent="0" use-parent-layout="false"/>
+                </constraints>
+              </vspacer>
+              <toolbar id="27f77" binding="JT_search">
+                <constraints>
+                  <grid row="2" column="1" row-span="1" col-span="3" vsize-policy="0" hsize-policy="6" anchor="0" fill="1" indent="0" use-parent-layout="false">
+                    <preferred-size width="-1" height="20"/>
+                  </grid>
+                </constraints>
+                <properties/>
+                <border type="none" title=""/>
+                <children>
+                  <component id="1dc18" class="javax.swing.JLabel" binding="enterJBNum">
+                    <constraints/>
+                    <properties>
+                      <labelFor value="275e9"/>
+                      <text value=""/>
+                    </properties>
+                  </component>
+                  <component id="275e9" class="javax.swing.JTextField" binding="searchJBNumTextField">
+                    <constraints/>
+                    <properties/>
+                  </component>
+                  <hspacer id="3b349">
+                    <constraints/>
+                  </hspacer>
+                </children>
+              </toolbar>
+              <hspacer id="6b842">
+                <constraints>
+                  <grid row="3" column="3" row-span="1" col-span="1" vsize-policy="1" hsize-policy="6" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+                </constraints>
+              </hspacer>
+              <component id="8ff52" class="javax.swing.JButton" binding="uploadToDatabaseButton">
+                <constraints>
+                  <grid row="1" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+                </constraints>
+                <properties>
+                  <text value=""/>
+                </properties>
+              </component>
+              <component id="a9ce7" class="javax.swing.JButton" binding="SearchButton">
+                <constraints>
+                  <grid row="3" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+                </constraints>
+                <properties>
+                  <text value=""/>
+                </properties>
+              </component>
+              <toolbar id="8ecf6" binding="JT_upload">
+                <constraints>
+                  <grid row="0" column="1" row-span="1" col-span="3" vsize-policy="0" hsize-policy="6" anchor="0" fill="1" indent="0" use-parent-layout="false">
+                    <preferred-size width="-1" height="20"/>
+                  </grid>
+                </constraints>
+                <properties/>
+                <border type="none" title=""/>
+                <children>
+                  <component id="e3675" class="javax.swing.JLabel" binding="uploadDatabaseLabel">
+                    <constraints/>
+                    <properties>
+                      <labelFor value="cbcfa"/>
+                      <text value=""/>
+                    </properties>
+                  </component>
+                  <component id="cbcfa" class="javax.swing.JComboBox" binding="uploadDatabaseComboBox">
+                    <constraints/>
+                    <properties>
+                      <model>
+                        <item value="相机库"/>
+                        <item value="手机库"/>
+                      </model>
+                    </properties>
+                  </component>
+                  <hspacer id="33e65">
+                    <constraints/>
+                  </hspacer>
+                  <component id="5231f" class="javax.swing.JLabel" binding="uploadSizeLabel">
+                    <constraints/>
+                    <properties>
+                      <labelFor value="716ff"/>
+                      <text value=""/>
+                    </properties>
+                  </component>
+                  <component id="716ff" class="javax.swing.JComboBox" binding="uploadSizeComboBox">
+                    <constraints/>
+                    <properties>
+                      <model>
+                        <item value="auto"/>
+                        <item value="5000px"/>
+                        <item value="4000px"/>
+                        <item value="2500px"/>
+                        <item value="1000px"/>
+                        <item value="fullsize"/>
+                      </model>
+                    </properties>
+                  </component>
+                  <hspacer id="7bc8b">
+                    <constraints/>
+                  </hspacer>
+                  <component id="f3a02" class="javax.swing.JCheckBox" binding="uploadReplaceCheckBox">
+                    <constraints/>
+                    <properties>
+                      <enabled value="true"/>
+                      <selected value="false"/>
+                      <text value=""/>
+                    </properties>
+                  </component>
+                  <component id="da5ee" class="javax.swing.JCheckBox" binding="uploadDeleteCheckBox">
+                    <constraints/>
+                    <properties>
+                      <enabled value="true"/>
+                      <text value=""/>
+                    </properties>
+                  </component>
+                </children>
+              </toolbar>
+              <component id="2b7ec" class="javax.swing.JButton" binding="downloadFromDatabaseButton">
+                <constraints>
+                  <grid row="3" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+                </constraints>
+                <properties>
+                  <text value=""/>
+                </properties>
+              </component>
+            </children>
+          </grid>
+          <grid id="87eb" binding="Tab4" layout-manager="GridLayoutManager" row-count="4" column-count="6" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+            <margin top="0" left="0" bottom="0" right="0"/>
+            <constraints>
+              <tabbedpane title=""/>
+            </constraints>
+            <properties/>
+            <border type="none"/>
+            <children>
+              <vspacer id="6dacd">
+                <constraints>
+                  <grid row="3" column="1" row-span="1" col-span="2" vsize-policy="6" hsize-policy="1" anchor="0" fill="2" indent="0" use-parent-layout="false"/>
+                </constraints>
+              </vspacer>
+              <grid id="ecadf" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+                <margin top="0" left="0" bottom="0" right="0"/>
+                <constraints>
+                  <grid row="0" column="0" row-span="4" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+                </constraints>
+                <properties/>
+                <border type="none"/>
+                <children/>
+              </grid>
+              <toolbar id="23b3c" binding="JT_pdfCsvPath">
+                <constraints>
+                  <grid row="0" column="1" row-span="1" col-span="5" vsize-policy="0" hsize-policy="6" anchor="0" fill="1" indent="0" use-parent-layout="false">
+                    <preferred-size width="-1" height="20"/>
+                  </grid>
+                </constraints>
+                <properties/>
+                <border type="none" title=""/>
+                <children>
+                  <component id="7d502" class="javax.swing.JButton" binding="selectPdfCsvButton">
+                    <constraints/>
+                    <properties>
+                      <text value=""/>
+                    </properties>
+                  </component>
+                  <hspacer id="2d74">
+                    <constraints/>
+                  </hspacer>
+                  <component id="f91ed" class="javax.swing.JLabel" binding="pdfCsvPath">
+                    <constraints/>
+                    <properties>
+                      <text value="          "/>
+                    </properties>
+                  </component>
+                  <hspacer id="fe5ea">
+                    <constraints/>
+                  </hspacer>
+                </children>
+              </toolbar>
+              <component id="5f9d8" class="javax.swing.JLabel" binding="pdfStaffLabel">
+                <constraints>
+                  <grid row="1" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                </constraints>
+                <properties>
+                  <labelFor value="80246"/>
+                  <text value=""/>
+                </properties>
+              </component>
+              <component id="80246" class="javax.swing.JTextField" binding="pdfStaffTextField">
+                <constraints>
+                  <grid row="1" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
+                    <preferred-size width="150" height="-1"/>
+                  </grid>
+                </constraints>
+                <properties/>
+              </component>
+              <component id="ee53a" class="javax.swing.JComboBox" binding="pdfOutTypeComboBox">
+                <constraints>
+                  <grid row="1" column="5" row-span="1" col-span="1" vsize-policy="0" hsize-policy="2" anchor="8" fill="1" indent="0" use-parent-layout="false"/>
+                </constraints>
+                <properties>
+                  <model>
+                    <item value="打印"/>
+                    <item value="输出"/>
+                  </model>
+                </properties>
+              </component>
+              <hspacer id="42ebd">
+                <constraints>
+                  <grid row="1" column="3" row-span="1" col-span="1" vsize-policy="1" hsize-policy="6" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+                </constraints>
+              </hspacer>
+              <component id="1cf55" class="javax.swing.JButton" binding="toPdfButton">
+                <constraints>
+                  <grid row="2" column="5" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+                </constraints>
+                <properties>
+                  <text value=""/>
+                </properties>
+              </component>
+              <component id="79f77" class="javax.swing.JLabel" binding="pdfOutTypeLabel">
+                <constraints>
+                  <grid row="1" column="4" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                </constraints>
+                <properties>
+                  <labelFor value="ee53a"/>
+                  <text value=""/>
+                </properties>
+              </component>
+            </children>
+          </grid>
+          <grid id="2097f" binding="Tab5" layout-manager="GridLayoutManager" row-count="5" column-count="4" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+            <margin top="0" left="0" bottom="0" right="0"/>
+            <constraints>
+              <tabbedpane title=""/>
+            </constraints>
+            <properties>
+              <enabled value="true"/>
+              <focusable value="true"/>
+              <visible value="false"/>
+            </properties>
+            <border type="none"/>
+            <children>
+              <toolbar id="b89e4" binding="JT_deleteCsvPath">
+                <constraints>
+                  <grid row="0" column="1" row-span="1" col-span="3" vsize-policy="0" hsize-policy="6" anchor="0" fill="1" indent="0" use-parent-layout="false">
+                    <preferred-size width="-1" height="20"/>
+                  </grid>
+                </constraints>
+                <properties/>
+                <border type="none" title=""/>
+                <children>
+                  <component id="a82bd" class="javax.swing.JButton" binding="selectDeleteCsvButton">
+                    <constraints/>
+                    <properties>
+                      <text value=""/>
+                    </properties>
+                  </component>
+                  <hspacer id="e1c81">
+                    <constraints/>
+                  </hspacer>
+                  <component id="ff271" class="javax.swing.JLabel" binding="deleteCsvPath">
+                    <constraints/>
+                    <properties>
+                      <text value=""/>
+                    </properties>
+                  </component>
+                  <hspacer id="79bb">
+                    <constraints/>
+                  </hspacer>
+                </children>
+              </toolbar>
+              <vspacer id="f8a9e">
+                <constraints>
+                  <grid row="4" column="2" row-span="1" col-span="1" vsize-policy="6" hsize-policy="1" anchor="0" fill="2" indent="0" use-parent-layout="false"/>
+                </constraints>
+              </vspacer>
+              <grid id="bb6dd" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+                <margin top="0" left="0" bottom="0" right="0"/>
+                <constraints>
+                  <grid row="0" column="0" row-span="5" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+                </constraints>
+                <properties/>
+                <border type="none"/>
+                <children/>
+              </grid>
+              <component id="c2b99" class="javax.swing.JTextField" binding="deleteJBNumTextField">
+                <constraints>
+                  <grid row="1" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
+                    <preferred-size width="150" height="-1"/>
+                  </grid>
+                </constraints>
+                <properties/>
+              </component>
+              <component id="1d381" class="javax.swing.JComboBox" binding="deleteTypeComboBox">
+                <constraints>
+                  <grid row="2" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="2" anchor="8" fill="1" indent="0" use-parent-layout="false"/>
+                </constraints>
+                <properties>
+                  <model>
+                    <item value="单个"/>
+                    <item value="多个"/>
+                  </model>
+                </properties>
+              </component>
+              <component id="f1fff" class="javax.swing.JLabel" binding="deleteJBLabel">
+                <constraints>
+                  <grid row="1" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                </constraints>
+                <properties>
+                  <labelFor value="c2b99"/>
+                  <text value=""/>
+                </properties>
+              </component>
+              <component id="3a05a" class="javax.swing.JLabel" binding="deleteTypeLabel">
+                <constraints>
+                  <grid row="2" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                </constraints>
+                <properties>
+                  <labelFor value="1d381"/>
+                  <text value=""/>
+                </properties>
+              </component>
+              <hspacer id="2f5cc">
+                <constraints>
+                  <grid row="1" column="3" row-span="1" col-span="1" vsize-policy="1" hsize-policy="6" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+                </constraints>
+              </hspacer>
+              <component id="c18f2" class="javax.swing.JButton" binding="deleteButton">
+                <constraints>
+                  <grid row="3" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+                </constraints>
+                <properties>
+                  <text value=""/>
+                </properties>
+              </component>
+            </children>
+          </grid>
+          <grid id="db407" binding="Tab6" layout-manager="GridLayoutManager" row-count="7" column-count="3" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+            <margin top="0" left="0" bottom="0" right="0"/>
+            <constraints>
+              <tabbedpane title=""/>
+            </constraints>
+            <properties/>
+            <border type="none"/>
+            <children>
+              <vspacer id="271e8">
+                <constraints>
+                  <grid row="6" column="1" row-span="1" col-span="1" vsize-policy="6" hsize-policy="1" anchor="0" fill="2" indent="0" use-parent-layout="false"/>
+                </constraints>
+              </vspacer>
+              <component id="e623d" class="javax.swing.JButton" binding="connectToDatabaseButton">
+                <constraints>
+                  <grid row="1" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+                </constraints>
+                <properties>
+                  <text value=""/>
+                </properties>
+              </component>
+              <component id="928b1" class="javax.swing.JButton" binding="connectToCameraWarehouseButton">
+                <constraints>
+                  <grid row="3" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+                </constraints>
+                <properties>
+                  <text value=""/>
+                </properties>
+              </component>
+              <grid id="44344" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+                <margin top="0" left="0" bottom="0" right="0"/>
+                <constraints>
+                  <grid row="0" column="0" row-span="7" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+                </constraints>
+                <properties/>
+                <border type="none"/>
+                <children/>
+              </grid>
+              <hspacer id="f5af7">
+                <constraints>
+                  <grid row="1" column="2" row-span="1" col-span="1" vsize-policy="1" hsize-policy="6" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+                </constraints>
+              </hspacer>
+              <component id="f67b2" class="javax.swing.JButton" binding="connectToPhoneWarehouseButton">
+                <constraints>
+                  <grid row="5" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+                </constraints>
+                <properties>
+                  <text value=""/>
+                </properties>
+              </component>
+              <toolbar id="f5a88" binding="JT_database">
+                <constraints>
+                  <grid row="0" column="1" row-span="1" col-span="2" vsize-policy="0" hsize-policy="6" anchor="0" fill="1" indent="0" use-parent-layout="false">
+                    <preferred-size width="-1" height="20"/>
+                  </grid>
+                </constraints>
+                <properties/>
+                <border type="none" title=""/>
+                <children>
+                  <component id="febe1" class="javax.swing.JLabel" binding="databaseAddressLabel">
+                    <constraints/>
+                    <properties>
+                      <text value=""/>
+                    </properties>
+                  </component>
+                  <component id="36dcf" class="javax.swing.JLabel" binding="databaseAddressText">
+                    <constraints/>
+                    <properties>
+                      <text value=""/>
+                    </properties>
+                  </component>
+                  <hspacer id="e35c3">
+                    <constraints/>
+                  </hspacer>
+                  <component id="bf193" class="javax.swing.JLabel" binding="databaseUserNameLabel">
+                    <constraints/>
+                    <properties>
+                      <text value=""/>
+                    </properties>
+                  </component>
+                  <component id="bf5d4" class="javax.swing.JLabel" binding="databaseUserNameText">
+                    <constraints/>
+                    <properties>
+                      <text value=""/>
+                    </properties>
+                  </component>
+                  <hspacer id="420c0">
+                    <constraints/>
+                  </hspacer>
+                </children>
+              </toolbar>
+              <toolbar id="ab6b1" binding="JT_cameraWarehouse">
+                <constraints>
+                  <grid row="2" column="1" row-span="1" col-span="2" vsize-policy="0" hsize-policy="6" anchor="0" fill="1" indent="0" use-parent-layout="false">
+                    <preferred-size width="-1" height="20"/>
+                  </grid>
+                </constraints>
+                <properties/>
+                <border type="none" title=""/>
+                <children>
+                  <component id="e22cc" class="javax.swing.JLabel" binding="cameraWarehouseAddressLabel">
+                    <constraints/>
+                    <properties>
+                      <text value=""/>
+                    </properties>
+                  </component>
+                  <component id="555d4" class="javax.swing.JLabel" binding="cameraWarehouseAddressText">
+                    <constraints/>
+                    <properties>
+                      <text value=""/>
+                    </properties>
+                  </component>
+                  <hspacer id="a6cbe">
+                    <constraints/>
+                  </hspacer>
+                </children>
+              </toolbar>
+              <toolbar id="8d0df" binding="JT_phoneWarehouse">
+                <constraints>
+                  <grid row="4" column="1" row-span="1" col-span="2" vsize-policy="0" hsize-policy="6" anchor="0" fill="1" indent="0" use-parent-layout="false">
+                    <preferred-size width="-1" height="20"/>
+                  </grid>
+                </constraints>
+                <properties/>
+                <border type="none" title=""/>
+                <children>
+                  <component id="e47be" class="javax.swing.JLabel" binding="phoneWarehouseAddressLabel">
+                    <constraints/>
+                    <properties>
+                      <text value=""/>
+                    </properties>
+                  </component>
+                  <component id="39697" class="javax.swing.JLabel" binding="phoneWarehouseAddressText">
+                    <constraints/>
+                    <properties>
+                      <text value=""/>
+                    </properties>
+                  </component>
+                  <hspacer id="9d1d5">
+                    <constraints/>
+                  </hspacer>
+                </children>
+              </toolbar>
+            </children>
+          </grid>
+        </children>
+      </tabbedpane>
+      <hspacer id="7f4d7">
+        <constraints>
+          <grid row="4" column="6" row-span="1" col-span="1" vsize-policy="1" hsize-policy="6" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+        </constraints>
+      </hspacer>
+      <toolbar id="78cea" binding="JT_firstpath">
+        <constraints>
+          <grid row="1" column="2" row-span="1" col-span="2" vsize-policy="0" hsize-policy="6" anchor="0" fill="1" indent="0" use-parent-layout="false">
+            <preferred-size width="-1" height="20"/>
+          </grid>
+        </constraints>
+        <properties/>
+        <border type="none" title=""/>
+        <children>
+          <hspacer id="b6436">
+            <constraints/>
+          </hspacer>
+          <component id="10061" class="javax.swing.JLabel" binding="sourceFolderPath">
+            <constraints/>
+            <properties>
+              <text value="          "/>
+            </properties>
+          </component>
+          <hspacer id="77806">
+            <constraints/>
+          </hspacer>
+        </children>
+      </toolbar>
+      <hspacer id="9cf55">
+        <constraints>
+          <grid row="4" column="0" row-span="1" col-span="1" vsize-policy="1" hsize-policy="6" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+        </constraints>
+      </hspacer>
+      <vspacer id="bfe26">
+        <constraints>
+          <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="6" hsize-policy="1" anchor="0" fill="2" indent="0" use-parent-layout="false"/>
+        </constraints>
+      </vspacer>
+      <vspacer id="da8e">
+        <constraints>
+          <grid row="5" column="0" row-span="1" col-span="7" vsize-policy="6" hsize-policy="1" anchor="0" fill="2" indent="0" use-parent-layout="false"/>
+        </constraints>
+      </vspacer>
+      <component id="94a71" class="javax.swing.JButton" binding="selectFirstPathButton">
+        <constraints>
+          <grid row="1" column="1" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
+        </constraints>
+        <properties>
+          <text value=""/>
+        </properties>
+      </component>
+      <grid id="3bdd1" layout-manager="GridLayoutManager" row-count="3" column-count="2" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+        <margin top="0" left="0" bottom="0" right="0"/>
+        <constraints>
+          <grid row="6" column="1" row-span="1" col-span="5" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+        </constraints>
+        <properties/>
+        <border type="none"/>
+        <children>
+          <component id="92d2c" class="javax.swing.JLabel" binding="versionLabel">
+            <constraints>
+              <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+            </constraints>
+            <properties>
+              <text value=""/>
+            </properties>
+          </component>
+          <component id="13f9e" class="javax.swing.JSeparator">
+            <constraints>
+              <grid row="0" column="0" row-span="1" col-span="2" vsize-policy="6" hsize-policy="6" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+            </constraints>
+            <properties/>
+          </component>
+          <grid id="c9eba" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+            <margin top="0" left="0" bottom="0" right="0"/>
+            <constraints>
+              <grid row="2" column="0" row-span="1" col-span="2" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+            </constraints>
+            <properties/>
+            <border type="none"/>
+            <children/>
+          </grid>
+          <component id="9bef0" class="javax.swing.JLabel" binding="githuburlLabel">
+            <constraints>
+              <grid row="1" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="4" fill="0" indent="0" use-parent-layout="false"/>
+            </constraints>
+            <properties>
+              <text value=""/>
+            </properties>
+          </component>
+        </children>
+      </grid>
+      <component id="309f7" class="javax.swing.JLabel" binding="testmode">
+        <constraints>
+          <grid row="6" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+        </constraints>
+        <properties>
+          <text value="   "/>
+        </properties>
+      </component>
+      <component id="2fc61" class="javax.swing.JLabel" binding="mode">
+        <constraints>
+          <grid row="0" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+        </constraints>
+        <properties>
+          <text value="               "/>
+        </properties>
+      </component>
+      <scrollpane id="e61c2" binding="printOutScrollPane">
+        <constraints>
+          <grid row="1" column="5" row-span="4" col-span="1" vsize-policy="7" hsize-policy="7" anchor="0" fill="3" indent="0" use-parent-layout="false">
+            <minimum-size width="500" height="-1"/>
+            <preferred-size width="500" height="-1"/>
+            <maximum-size width="500" height="-1"/>
+          </grid>
+        </constraints>
+        <properties>
+          <enabled value="true"/>
+        </properties>
+        <border type="none"/>
+        <children>
+          <component id="2f1bc" class="javax.swing.JTextArea" binding="printOutTextArea">
+            <constraints/>
+            <properties>
+              <editable value="false"/>
+              <enabled value="true"/>
+            </properties>
+          </component>
+        </children>
+      </scrollpane>
+      <component id="d2047" class="javax.swing.JButton" binding="languageButton">
+        <constraints>
+          <grid row="0" column="4" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false">
+            <minimum-size width="30" height="-1"/>
+            <preferred-size width="30" height="-1"/>
+            <maximum-size width="30" height="-1"/>
+          </grid>
+        </constraints>
+        <properties>
+          <text value=""/>
+        </properties>
+      </component>
+      <hspacer id="18473">
+        <constraints>
+          <grid row="0" column="3" row-span="1" col-span="1" vsize-policy="1" hsize-policy="6" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+        </constraints>
+      </hspacer>
+      <toolbar id="69352" binding="JT_lastpath">
+        <constraints>
+          <grid row="2" column="2" row-span="1" col-span="2" vsize-policy="0" hsize-policy="6" anchor="0" fill="1" indent="0" use-parent-layout="false">
+            <preferred-size width="-1" height="20"/>
+          </grid>
+        </constraints>
+        <properties/>
+        <border type="none" title=""/>
+        <children>
+          <hspacer id="9abe8">
+            <constraints/>
+          </hspacer>
+          <component id="c2aff" class="javax.swing.JLabel" binding="targetFolderPath">
+            <constraints/>
+            <properties>
+              <text value="          "/>
+            </properties>
+          </component>
+          <hspacer id="67ff8">
+            <constraints/>
+          </hspacer>
+        </children>
+      </toolbar>
+      <vspacer id="354e8">
+        <constraints>
+          <grid row="3" column="1" row-span="1" col-span="1" vsize-policy="6" hsize-policy="1" anchor="0" fill="2" indent="0" use-parent-layout="false"/>
+        </constraints>
+      </vspacer>
+      <component id="76558" class="javax.swing.JButton" binding="selectLastPathButton">
+        <constraints>
+          <grid row="2" column="1" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
+        </constraints>
+        <properties>
+          <text value=""/>
+        </properties>
+      </component>
+      <component id="647e8" class="javax.swing.JButton" binding="changeTargetToSourceButton">
+        <constraints>
+          <grid row="2" column="4" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+        </constraints>
+        <properties>
+          <text value=""/>
+        </properties>
+      </component>
+      <component id="55a09" class="javax.swing.JButton" binding="exchangeFirstPathButton">
+        <constraints>
+          <grid row="1" column="4" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+        </constraints>
+        <properties>
+          <text value=""/>
+        </properties>
+      </component>
+    </children>
+  </grid>
+</form>
