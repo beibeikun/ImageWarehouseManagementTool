@@ -23,6 +23,7 @@ import static com.github.beibeikun.imagewarehousemanagementtool.util.FileOperati
 import static com.github.beibeikun.imagewarehousemanagementtool.util.FileOperations.OrganizeFiles.moveNumberForward;
 import static com.github.beibeikun.imagewarehousemanagementtool.util.FileOperations.OrganizeFiles.organizeFileNumbers;
 import static com.github.beibeikun.imagewarehousemanagementtool.util.FileOperations.TakeMainFromDatabase.takeMainFromDatabase;
+import static com.github.beibeikun.imagewarehousemanagementtool.util.Test.DownloadFromDatabase.downloadFromDatabase;
 import static com.github.beibeikun.imagewarehousemanagementtool.util.mainpageUtils.*;
 
 public class mainpageUtilsWithTasks
@@ -138,5 +139,13 @@ public class mainpageUtilsWithTasks
             return null;
         };
         executeTaskWithTiming(task, "按文件夹分类任务",true);
+    }
+    public static void downloadFromDatabaseWithTasks(JLabel cameraWarehouseAddressText, String fileName, JLabel targetFolderPath)
+    {
+        Callable<Void> task = () -> {
+            downloadFromDatabase(cameraWarehouseAddressText.getText(), fileName, targetFolderPath.getText());
+            return null;
+        };
+        executeTaskWithTiming(task, "从数据库提取任务",true);
     }
 }

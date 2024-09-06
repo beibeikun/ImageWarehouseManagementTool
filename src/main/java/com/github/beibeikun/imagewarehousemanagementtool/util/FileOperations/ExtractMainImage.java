@@ -36,8 +36,29 @@ public class ExtractMainImage
         Arrays.sort(FileNames);
         for (String fileName : FileNames)
         {
-            FileCopyAndDelete.copyFile(sourceFolder + system.identifySystem_String() + fileName + ".JPG", destinationFolder);
-            systemPrintOut("Copy:" + fileName, 1, 0);
+            File file = new File(sourceFolder + system.identifySystem_String() + fileName + ".JPG");
+            if (file.exists()) {
+                FileCopyAndDelete.copyFile(sourceFolder + system.identifySystem_String() + fileName + ".JPG", destinationFolder);
+                systemPrintOut("Copy:" + fileName, 1, 0);
+            }
+            else
+            {
+                int counter = 1;
+                while (true)
+                {
+                    File fileInCount = new File(sourceFolder + system.identifySystem_String() + fileName + " (" + counter + ").jpg");
+                    if (fileInCount.exists())
+                    {
+                        FileCopyAndDelete.copyFile(sourceFolder + system.identifySystem_String() + fileName + " (" + counter + ").jpg", destinationFolder);
+                        systemPrintOut("Copy:" + fileName + " (" + counter + ")", 1, 0);
+                        break;
+                    }
+                    else
+                    {
+                        counter++;
+                    }
+                }
+            }
         }
         systemPrintOut(null, 0, 0);
     }

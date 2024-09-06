@@ -4,7 +4,6 @@ import com.github.beibeikun.imagewarehousemanagementtool.util.CheckOperations.Sy
 import com.github.beibeikun.imagewarehousemanagementtool.util.CompressOperations.UnzipAllZipsWithDelete;
 import com.github.beibeikun.imagewarehousemanagementtool.util.DataOperations.ArrayExtractor;
 import com.github.beibeikun.imagewarehousemanagementtool.util.DataOperations.ReadCsvFile;
-import com.github.beibeikun.imagewarehousemanagementtool.util.FileOperations.DeleteFilesWithKeyword;
 import com.github.beibeikun.imagewarehousemanagementtool.util.FileOperations.FileExtractor;
 import com.github.beibeikun.imagewarehousemanagementtool.util.FileOperations.FolderCopy;
 import com.github.beibeikun.imagewarehousemanagementtool.util.FileOperations.RenameFiles;
@@ -14,7 +13,6 @@ import com.github.beibeikun.imagewarehousemanagementtool.util.CompressOperations
 import com.github.beibeikun.imagewarehousemanagementtool.util.DataOperations.FileLister;
 import com.github.beibeikun.imagewarehousemanagementtool.util.DataOperations.ListExtractor;
 import com.github.beibeikun.imagewarehousemanagementtool.util.FileOperations.*;
-import com.github.beibeikun.imagewarehousemanagementtool.util.Others.SystemPrintOut;
 
 import java.io.File;
 import java.io.IOException;
@@ -22,6 +20,9 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+
+import static com.github.beibeikun.imagewarehousemanagementtool.util.Others.SystemPrintOut.systemPrintOut;
+import static com.github.beibeikun.imagewarehousemanagementtool.util.CheckOperations.FolderChecker.checkFolder;
 
 /**
  * 文件名更改处理类，封装了完整的文件名更改过程。
@@ -43,6 +44,12 @@ public class CompleteNameChangeProcess
      */
     public void completeNameChangeProcess(String nasFolderPath, String sourceFolderPath, String targetFolderPath, String CSVPath, int checkBoxAddFromDatabase, int imgsize, boolean terminal, boolean prefixmove, int suffix) throws IOException, ImageProcessingException, MetadataException
     {
+        if (!checkFolder(sourceFolderPath,targetFolderPath,true,CSVPath,true,"csv",true))
+        {
+            systemPrintOut("Invalid path detected, terminating the task",2,0);
+            systemPrintOut("",0,0);
+            return;
+        }
         SystemChecker system = new SystemChecker();
         // 从 CSV 中提取要提取的文件名数组
         String[] fileNamesToExtract = ArrayExtractor.extractRow(ReadCsvFile.csvToArray(CSVPath), 0);
@@ -51,7 +58,7 @@ public class CompleteNameChangeProcess
         // 用当前时间新建一个文件夹来存储
         targetFolderPath = CreateFolder.createFolderWithTime(targetFolderPath);
         // 输出“开始重命名”
-        SystemPrintOut.systemPrintOut("Start to rename", 3, 0);
+        systemPrintOut("Start to rename", 3, 0);
         // 用于储存数据库中存在的文件名
         List<String> databaseNamelist = new ArrayList<>();
         Collections.sort(databaseNamelist);
@@ -61,44 +68,44 @@ public class CompleteNameChangeProcess
 
             // 提取压缩包并获取数据库中存在的文件名
             databaseNamelist = FileExtractor.extractFiles(nasFolderPath, targetFolderPath, fileNamesToExtract);
-            SystemPrintOut.systemPrintOut(null, 0, 0);
+            systemPrintOut(null, 0, 0);
             // 解压压缩包并删除
             UnzipAllZipsWithDelete.unzipAllZipsInFolder(targetFolderPath);
-            SystemPrintOut.systemPrintOut(null, 0, 0);
+            systemPrintOut(null, 0, 0);
         }
 
         //从列表中去除已经在文件仓库中找到的文件
         readyToCopyNameList = ListExtractor.removeElementFromList(readyToCopyNameList, databaseNamelist);
         // 从源文件夹拷贝文件到目标文件夹
         FolderCopy.copyFolderWithList(sourceFolderPath, targetFolderPath, readyToCopyNameList);
-        SystemPrintOut.systemPrintOut(null, 0, 0);
+        systemPrintOut(null, 0, 0);
         // 重命名文件
         RenameFiles.renameFiles(CSVPath, targetFolderPath, 0, 0);
-        SystemPrintOut.systemPrintOut(null, 0, 0);
+        systemPrintOut(null, 0, 0);
         // 删除目标文件夹中包含关键词的文件
         //DeleteFilesWithKeyword.deleteFilesWithKeyword(targetFolderPath, "-");
         //根据 imgsize 判断图片是否需要压缩，不为0即需要压缩
         if (imgsize != 0)
         {
-            SystemPrintOut.systemPrintOut(null, 0, 0);
+            systemPrintOut(null, 0, 0);
             //获取需要要压缩尺寸的图像列表
             List<File> files = FileLister.getFileNamesInList(targetFolderPath);
             //压缩图片
             ImageCompression.compressImgWithFileListUseMultithreading(files, imgsize);
             //CompressImagesInBatches.compressImagesInBatches(targetFolderPath, imgsize, terminal);
         }
-        SystemPrintOut.systemPrintOut(null, 0, 0);
+        systemPrintOut(null, 0, 0);
         //根据 suffix 判断是否需要生成其他后缀
         if (suffix != 0)
         {
             ChangeAllSuffix.changeAllSuffix(targetFolderPath, "", 1);
         }
-        SystemPrintOut.systemPrintOut(null, 0, 0);
+        systemPrintOut(null, 0, 0);
         //根据prefixmove判断是否需要分类
         if (prefixmove)
         {
             FilePrefixMove.filePrefixMove(targetFolderPath, " (");
-            SystemPrintOut.systemPrintOut(null, 0, 0);
+            systemPrintOut(null, 0, 0);
         }
     }
 }

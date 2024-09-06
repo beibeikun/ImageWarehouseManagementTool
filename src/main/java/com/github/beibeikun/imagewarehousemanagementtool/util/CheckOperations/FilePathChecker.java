@@ -7,6 +7,12 @@ import java.io.File;
 
 import static com.github.beibeikun.imagewarehousemanagementtool.util.Others.SystemPrintOut.systemPrintOut;
 
+
+//--------------------------------------正在重构--------------------------------------//
+
+
+
+
 /**
  * 用于检查指定路径的合法性和正确性。
  */

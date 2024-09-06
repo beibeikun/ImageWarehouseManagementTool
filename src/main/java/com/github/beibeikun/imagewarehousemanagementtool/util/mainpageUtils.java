@@ -195,8 +195,6 @@ public class mainpageUtils
      */
     public static void uploadToWarehouse(JLabel sourceFolderPath, JLabel cameradatabasepath, JLabel phonedatabasepath, JComboBox uploadDatabaseComboBox, JComboBox uploadSizeComboBox, JCheckBox uploadReplaceCheckBox, JCheckBox uploadDeleteCheckBox)
     {
-        //路径检查
-        int filepathcheck = FilePathChecker.checkFilePath(sourceFolderPath.getText(), false);
         String databaseAddress;
         int uploadMode = 0;
         //选择数据库
@@ -222,43 +220,25 @@ public class mainpageUtils
                 imgsize = 4000;
             }
         }
-        //路径检查通过，执行后续上传操作
-        if (filepathcheck == 1)
+        Instant instant1 = Instant.now();
+        boolean coverageDeterminer = false;
+        boolean deleteQualifier = false;
+        //替换判定
+        if (uploadReplaceCheckBox.isSelected())
+            coverageDeterminer = true;
+        //删除判定
+        if (uploadDeleteCheckBox.isSelected())
+            deleteQualifier = true;
+        try
         {
-            Instant instant1 = Instant.now();
-            boolean coverageDeterminer = false;
-            boolean deleteQualifier = false;
-            //替换判定
-            if (uploadReplaceCheckBox.isSelected())
-                coverageDeterminer = true;
-            //删除判定
-            if (uploadDeleteCheckBox.isSelected())
-                deleteQualifier = true;
-            try
-            {
-                compressImgToZipAndUpload(sourceFolderPath.getText(), databaseAddress, uploadMode, imgsize, coverageDeterminer, deleteQualifier);
-
-            }
-            catch (IOException | ImageProcessingException | MetadataException ex)
-            {
-                throw new RuntimeException(ex);
-            }
-            Instant instant2 = Instant.now();
-            JOptionPane.showMessageDialog(null, "任务完成，本次耗时：" + GetTimeConsuming.getTimeConsuming(instant1, instant2) + "秒");
-
+            compressImgToZipAndUpload(sourceFolderPath.getText(), databaseAddress, uploadMode, imgsize, coverageDeterminer, deleteQualifier);
 
         }
-        else if (filepathcheck == 2)
+        catch (IOException | ImageProcessingException | MetadataException ex)
         {
-            JOptionPane.showMessageDialog(null, "未选取路径", "路径错误", JOptionPane.WARNING_MESSAGE);
+            throw new RuntimeException(ex);
         }
-        else if (filepathcheck == 3)
-        {
-            JOptionPane.showMessageDialog(null, "路径名存在中文字符", "路径错误", JOptionPane.WARNING_MESSAGE);
-        }
-        else if (filepathcheck == 4)
-        {
-            JOptionPane.showMessageDialog(null, "源文件夹路径不存在", "路径错误", JOptionPane.WARNING_MESSAGE);
-        }
+        Instant instant2 = Instant.now();
+        JOptionPane.showMessageDialog(null, "任务完成，本次耗时：" + GetTimeConsuming.getTimeConsuming(instant1, instant2) + "秒");
     }
 }

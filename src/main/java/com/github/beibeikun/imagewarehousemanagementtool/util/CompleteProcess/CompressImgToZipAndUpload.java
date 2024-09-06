@@ -18,6 +18,7 @@ import java.io.IOException;
 import java.util.*;
 import java.util.concurrent.*;
 
+import static com.github.beibeikun.imagewarehousemanagementtool.util.CheckOperations.FolderChecker.checkFolder;
 import static com.github.beibeikun.imagewarehousemanagementtool.util.FileOperations.DeleteDirectory.deleteDirectory;
 import static com.github.beibeikun.imagewarehousemanagementtool.util.FileOperations.FileCopyAndDelete.copyFilesWithList;
 import static com.github.beibeikun.imagewarehousemanagementtool.util.FileOperations.FileCopyAndDelete.moveFilesWithList;
@@ -40,6 +41,12 @@ public class CompressImgToZipAndUpload
      */
     public static void compressImgToZipAndUpload(String sourceFolder, String destinationFolder, int mode, int imgsize, boolean coverageDeterminer, boolean deleteQualifier) throws IOException, ImageProcessingException, MetadataException
     {
+        if (!checkFolder(sourceFolder,destinationFolder,false,"",false,"",true))
+        {
+            systemPrintOut("Invalid path detected, terminating the task",2,0);
+            systemPrintOut("",0,0);
+            return;
+        }
         // 打印系统消息，表明开始上传
         SystemPrintOut.systemPrintOut("Start to upload", 3, 0);
 
@@ -188,38 +195,6 @@ public class CompressImgToZipAndUpload
         SystemChecker system = new SystemChecker();
         //获取同一前缀的文件列表
         List<File> readytocompress = FileSearch.searchFiles(sourceFolder, FileNames[i]);
-        /*
-        if (mode == 1)
-        {
-            File file = new File(sourceFolder + system.identifySystem_String() + FileNames[i] + ".JPG"); //检查文件是否正确存在
-            if (file.exists())//存在
-            {
-                if (readytocompress.size() > 2)
-                {
-                    FileCopyAndDelete.copyFile(sourceFolder + system.identifySystem_String() + FileNames[i] + ".JPG", thumbnailFolder);
-                    ImageCompression.imageCompression(thumbnailFolder + system.identifySystem_String() + FileNames[i] + ".JPG", 2500);
-                    SystemPrintOut.systemPrintOut("Thumbnail upload:" + FileNames[i], 1, 0);
-                }
-                else
-                {
-                    // 如果图片数量不足，记录文件名和原因
-                    String reason = "Too less pictures: " + FileNames[i];
-                    failedFiles.add("File: " + FileNames[i] + " - Reason: " + reason);
-                    SystemPrintOut.systemPrintOut(reason, 2, 0);
-                    return false;
-                }
-            }
-            else//不存在
-            {
-                // 如果文件不存在，记录文件名和原因
-                String reason = "Non-existent file: " + FileNames[i];
-                failedFiles.add("File: " + FileNames[i] + " - Reason: " + reason);
-                SystemPrintOut.systemPrintOut(reason, 2, 0);
-                return false;
-            }
-        }
-
-         */
         File file;
         if (mode == 1)//相机 包含主图
         {

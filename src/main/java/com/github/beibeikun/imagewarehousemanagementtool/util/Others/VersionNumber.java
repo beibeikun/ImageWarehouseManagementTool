@@ -26,7 +26,7 @@ public class VersionNumber
 
     public static String betaVersionNumber()
     {
-        return "1.3.240422";
+        return "1.3.240906";
     }
 
 

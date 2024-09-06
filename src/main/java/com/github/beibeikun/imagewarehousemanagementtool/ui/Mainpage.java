@@ -2,7 +2,6 @@ package com.github.beibeikun.imagewarehousemanagementtool.ui;
 
 import com.formdev.flatlaf.FlatDarkLaf;
 import com.formdev.flatlaf.util.SystemInfo;
-import com.github.beibeikun.imagewarehousemanagementtool.util.CheckOperations.FilePathChecker;
 import com.github.beibeikun.imagewarehousemanagementtool.util.CheckOperations.SystemChecker;
 import com.github.beibeikun.imagewarehousemanagementtool.util.DataOperations.*;
 import com.github.beibeikun.imagewarehousemanagementtool.util.Others.*;
@@ -39,6 +38,7 @@ public class Mainpage
     private JTextField searchJBNumTextField, deleteJBNumTextField, pdfStaffTextField;
     private JToolBar JT_firstpath, JT_renameCsvPath, JT_lastpath, JT_otherSettings, JT_checkCsvPath, JT_search, JT_upload, JT_pdfCsvPath, JT_namingFormat, JT_deleteCsvPath, JT_database, JT_cameraWarehouse, JT_phoneWarehouse;
     private JButton organizeAndSortButton;
+    private JButton downloadFromDatabaseButton;
 
     public Mainpage()
     {
@@ -207,25 +207,10 @@ public class Mainpage
         //选择csv文件
         selectRenameCsvButton.addActionListener(e -> mainpageutil.selectPath(renameCsvPath, "renameCsvPath", 1));
 
-        //检查源文件夹，目标文件夹以及csv文件正确性
-        CheckButton.addActionListener(e ->
-        {
-            int renamecsvpathcheck = FilePathChecker.checkFilePath(renameCsvPath.getText(), false);
-            int firstpathcheck = FilePathChecker.checkFilePath(sourceFolderPath.getText(), false);
-            int lastpathcheck = FilePathChecker.checkFilePath(targetFolderPath.getText(), false);
-            if (FilePathChecker.checkback(renamecsvpathcheck, firstpathcheck, lastpathcheck, targetFolderPath.getText()))
-            {
-                renameStartButton.setEnabled(true);
-                changeSuffixButton.setEnabled(true);
-            }
-        });
-
         //执行文件重命名
         renameStartButton.addActionListener(e ->
         {
             renameWithTasks(addFromDatabaseCheckBox, selectdatabase, cameraWarehouseAddressText, phoneWarehouseAddressText, classificationCheckBox, suffixCheckBox, suffixComboBox, imgsizecomboBox, sourceFolderPath, targetFolderPath, renameCsvPath);
-            renameStartButton.setEnabled(false);
-            changeSuffixButton.setEnabled(false);
         });
         /*================================第二页：文件操作================================*/
 
@@ -253,7 +238,7 @@ public class Mainpage
         organizeAndSortButton.addActionListener(e -> organizeAndSortWithTasks(sourceFolderPath, targetFolderPath));
         /*================================第三页：仓库相关================================*/
 
-        //上传到相机图片数据库
+        //上传到图片数据库
         uploadToDatabaseButton.addActionListener(e -> uploadToWarehouseWithTasks(sourceFolderPath, cameraWarehouseAddressText, phoneWarehouseAddressText, uploadDatabaseComboBox, uploadSizeComboBox, uploadReplaceCheckBox, uploadDeleteCheckBox));
         /*================================第三页：从仓库删除================================*/
         deleteButton.addActionListener(e ->
@@ -276,6 +261,7 @@ public class Mainpage
             String path = cameraWarehouseAddressText.getText() + system.identifySystem_String() + "thumbnail" + system.identifySystem_String() + "JB" + searchJBNumTextField.getText() + ".JPG";
             ImageUtils.openImage(path);
         });
+        downloadFromDatabaseButton.addActionListener(e -> downloadFromDatabaseWithTasks(cameraWarehouseAddressText,"JB" + searchJBNumTextField.getText(),targetFolderPath));
         /*================================第五页：仓库配置================================*/
 
         //连接mysql数据库 TODO:具体功能还没做

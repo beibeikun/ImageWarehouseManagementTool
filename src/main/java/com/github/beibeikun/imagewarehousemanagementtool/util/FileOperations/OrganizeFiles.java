@@ -14,6 +14,8 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import static com.github.beibeikun.imagewarehousemanagementtool.util.Others.SystemPrintOut.systemPrintOut;
+
 public class OrganizeFiles
 {
     /**
@@ -30,28 +32,28 @@ public class OrganizeFiles
 
         //targetFolderPath = CreateFolder.createFolderWithTime(targetFolderPath);
         FolderCopy.copyFolder(sourceFolderPath, targetFolderPath);
-        SystemPrintOut.systemPrintOut(null, 0, 0);
+        systemPrintOut(null, 0, 0);
 
         // 获取文件夹中的所有文件名
         String[] fileNameList = FileNameProcessor.processFileNames(FileLister.getFileNames(targetFolderPath));
 
         // 对文件名列表进行排序
         Arrays.sort(fileNameList);
-        System.out.println(Arrays.toString(fileNameList));
 
         // 遍历每个文件名
         for (String s : fileNameList)
         {
-            System.out.println(s);
             int[] getMatchingNumbers = getMatchingNumbers(targetFolderPath, s);
             Arrays.sort(getMatchingNumbers);
             int num = 1;
             for (int x : getMatchingNumbers)
             {
+                systemPrintOut(s + " (" + x + ").jpg  ->  " + s + " (" + num + ").jpg",1,0);
                 RenameFiles.renameFileWithName(targetFolderPath + system.identifySystem_String() + s + " (" + x + ").jpg", s + " (" + num + ")");
                 num++;
             }
         }
+        systemPrintOut(null, 0, 0);
     }
     /**
      * 将指定文件夹中的文件编号前移
@@ -67,7 +69,7 @@ public class OrganizeFiles
 
         targetFolderPath = CreateFolder.createFolderWithTime(targetFolderPath);
         FolderCopy.copyFolder(sourceFolderPath, targetFolderPath);
-        SystemPrintOut.systemPrintOut(null, 0, 0);
+        systemPrintOut(null, 0, 0);
 
         // 获取文件夹中的所有文件名
         String[] fileNameList = FileNameProcessor.processFileNames(FileLister.getFileNames(targetFolderPath));
@@ -95,12 +97,14 @@ public class OrganizeFiles
                     // 如果是第一个文件，则重命名为原文件名
                     if (number == 1)
                     {
+                        systemPrintOut(s + " (" + number + ").jpg  ->  " + s + ".jpg",1,0);
                         RenameFiles.renameFileWithName(filePath, s);
                     }
                     else
                     {
                         // 否则将文件重命名为原文件名 + (number - 1)
                         int newNum = number - 1;
+                        systemPrintOut(s + " (" + number + ").jpg  ->  " + s + " (" + newNum + ").jpg",1,0);
                         RenameFiles.renameFileWithName(filePath, s + " (" + newNum + ")");
                     }
                 }
@@ -114,6 +118,7 @@ public class OrganizeFiles
                 number++;
             }
         }
+        systemPrintOut(null, 0, 0);
     }
     public static int[] getMatchingNumbers(String folderPath, String prefix)
     {
@@ -123,7 +128,7 @@ public class OrganizeFiles
 
         if (files != null)
         {
-            Pattern pattern = Pattern.compile("^" + Pattern.quote(prefix) + " \\((\\d+)\\)\\.[jJ][pP][gG]$");
+            Pattern pattern = Pattern.compile("^" + Pattern.quote(prefix) + " \\((\\d+)\\)\\.[^\\\\.]+$");
             for (File file : files)
             {
                 if (file.isFile())
