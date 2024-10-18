@@ -173,7 +173,7 @@ public class START_WITH_TERMINAL
                     menu();
                     break;
                 case 23:
-                    ExtractMainImage.extractMainImage(firstpath, lastpath);
+
                     menu();
                     break;
                 case 31:

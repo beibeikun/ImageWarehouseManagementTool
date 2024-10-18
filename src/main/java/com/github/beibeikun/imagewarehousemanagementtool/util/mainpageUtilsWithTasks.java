@@ -78,10 +78,15 @@ public class mainpageUtilsWithTasks
         };
         executeTaskWithTiming(task, "从数据库提取主图任务",true);
     }
-    public static void extractMainImageWithTasks(JLabel sourceFolderPath, JLabel targetFolderPath)
+    public static void extractMainImageWithTasks(JLabel sourceFolderPath, JLabel targetFolderPath, JCheckBox useCsvCheck, JLabel checkCsvPath)
     {
         Callable<Void> task = () -> {
-            extractMainImage(sourceFolderPath.getText(), targetFolderPath.getText());
+            boolean x = false;
+            if (useCsvCheck.isSelected())
+            {
+                x = true;
+            }
+            extractMainImage(sourceFolderPath.getText(), targetFolderPath.getText(), x, checkCsvPath.getText());
             return null;
         };
         executeTaskWithTiming(task, "提取主图任务",true);
@@ -111,14 +116,20 @@ public class mainpageUtilsWithTasks
         executeTaskWithTiming(task, "csv校对任务",true);
     }
 
-    public static void organizeAndSortWithTasks(JLabel sourceFolderPath, JLabel targetFolderPath)
+    public static void organizeAndSortWithTasks(JLabel sourceFolderPath, JLabel targetFolderPath, JCheckBox organizeAndSortCheckBox)
     {
         Callable<Void> task = () ->
         {
-            String middleFolderPath = targetFolderPath.getText()+"middleFolderPath";
-            organizeFileNumbers(sourceFolderPath.getText(), middleFolderPath);
-            moveNumberForward(middleFolderPath,targetFolderPath.getText());
-            deleteDirectory(new File(middleFolderPath));
+            if (organizeAndSortCheckBox.isSelected()) {
+                String middleFolderPath = targetFolderPath.getText()+"middleFolderPath";
+                organizeFileNumbers(sourceFolderPath.getText(), middleFolderPath);
+                moveNumberForward(middleFolderPath,targetFolderPath.getText());
+                deleteDirectory(new File(middleFolderPath));
+            }
+            else {
+                String targetFolderPathInSort = CreateFolder.createFolderWithTime(targetFolderPath.getText());
+                organizeFileNumbers(sourceFolderPath.getText(), targetFolderPathInSort);
+            }
             return null;
         };
         executeTaskWithTiming(task, "整理排序文件任务", true);
@@ -140,10 +151,10 @@ public class mainpageUtilsWithTasks
         };
         executeTaskWithTiming(task, "按文件夹分类任务",true);
     }
-    public static void downloadFromDatabaseWithTasks(JLabel cameraWarehouseAddressText, String fileName, JLabel targetFolderPath)
+    public static void downloadFromDatabaseWithTasks(String warehouseAddressText, String fileName, JLabel targetFolderPath)
     {
         Callable<Void> task = () -> {
-            downloadFromDatabase(cameraWarehouseAddressText.getText(), fileName, targetFolderPath.getText());
+            downloadFromDatabase(warehouseAddressText, fileName, targetFolderPath.getText());
             return null;
         };
         executeTaskWithTiming(task, "从数据库提取任务",true);

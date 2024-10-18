@@ -29,7 +29,6 @@ public class OrganizeFiles
     {
         // 创建系统检查器
         SystemChecker system = new SystemChecker();
-
         //targetFolderPath = CreateFolder.createFolderWithTime(targetFolderPath);
         FolderCopy.copyFolder(sourceFolderPath, targetFolderPath);
         systemPrintOut(null, 0, 0);

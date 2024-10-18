@@ -27,7 +27,7 @@ public class Mainpage
     static JFrame frame = new JFrame("MainpageUI");
     private static MenuBar menuBar;
     mainpageUtils mainpageutil = new mainpageUtils();
-    private JButton CheckButton, renameStartButton, selectLastPathButton, selectFirstPathButton, uploadToDatabaseButton, deleteButton, SearchButton, selectRenameCsvButton, connectToDatabaseButton, connectToCameraWarehouseButton, connectToPhoneWarehouseButton, languageButton, extractMainImageFromSourceFolderButton, downloadMainImageFromDatabaseButton, checkMainImageWithCsvButton, changeSuffixButton, sortByFolderButton, changeTargetToSourceButton, selectCheckCsvButton, extractAllImageFromSourceFolderButton, exchangeFirstPathButton, compressButton, selectPdfCsvButton, toPdfButton, selectDeleteCsvButton;
+    private JButton renameStartButton, selectLastPathButton, selectFirstPathButton, uploadToDatabaseButton, deleteButton, SearchButton, selectRenameCsvButton, connectToDatabaseButton, connectToCameraWarehouseButton, connectToPhoneWarehouseButton, languageButton, extractMainImageFromSourceFolderButton, downloadMainImageFromDatabaseButton, checkMainImageWithCsvButton, changeSuffixButton, sortByFolderButton, changeTargetToSourceButton, selectCheckCsvButton, extractAllImageFromSourceFolderButton, exchangeFirstPathButton, compressButton, selectPdfCsvButton, toPdfButton, selectDeleteCsvButton;
     private JCheckBox digitCheckBox, prefixCheckBox, classificationCheckBox, addFromDatabaseCheckBox, uploadReplaceCheckBox, uploadDeleteCheckBox, suffixCheckBox;
     private JComboBox suffixComboBox, selectdatabase, imgsizecomboBox, uploadSizeComboBox, deleteTypeComboBox, onlyCompressSizeChooseComboBox, uploadDatabaseComboBox, pdfOutTypeComboBox;
     private JLabel versionLabel, sourceFolderPath, targetFolderPath, renameCsvPath, databaseAddressText, databaseUserNameText, cameraWarehouseAddressText, phoneWarehouseAddressText, githuburlLabel, testmode, mode, Suffix, checkCsvPath, pdfCsvPath, enterJBNum, suffixLabel, sizeLabel, addFromDatabaseLabel, tab2SizeLabel, uploadDatabaseLabel, uploadSizeLabel, pdfStaffLabel, pdfOutTypeLabel, deleteCsvPath, deleteJBLabel, deleteTypeLabel, databaseAddressLabel, databaseUserNameLabel, cameraWarehouseAddressLabel, phoneWarehouseAddressLabel;
@@ -39,6 +39,9 @@ public class Mainpage
     private JToolBar JT_firstpath, JT_renameCsvPath, JT_lastpath, JT_otherSettings, JT_checkCsvPath, JT_search, JT_upload, JT_pdfCsvPath, JT_namingFormat, JT_deleteCsvPath, JT_database, JT_cameraWarehouse, JT_phoneWarehouse;
     private JButton organizeAndSortButton;
     private JButton downloadFromDatabaseButton;
+    private JComboBox chooseDownloadDatabaseComboBox;
+    private JCheckBox useCsvCheckBox;
+    private JCheckBox organizeAndSortCheckBox;
 
     public Mainpage()
     {
@@ -221,7 +224,7 @@ public class Mainpage
         downloadMainImageFromDatabaseButton.addActionListener(e -> takeMainFromDatabaseWithTasks(checkCsvPath, cameraWarehouseAddressText, targetFolderPath));
 
         //执行从源文件夹中拉取文件主图
-        extractMainImageFromSourceFolderButton.addActionListener(e -> extractMainImageWithTasks(sourceFolderPath, targetFolderPath));
+        extractMainImageFromSourceFolderButton.addActionListener(e -> extractMainImageWithTasks(sourceFolderPath, targetFolderPath, useCsvCheckBox, checkCsvPath));
 
         //更换后缀名
         changeSuffixButton.addActionListener(e -> changeAllSuffixWithTasks(sourceFolderPath, targetFolderPath, 0));
@@ -235,11 +238,30 @@ public class Mainpage
         //仅压缩图片
         compressButton.addActionListener(e -> onlyCompressFilesWithTasks(sourceFolderPath, targetFolderPath, ImgSize.getImgSize(onlyCompressSizeChooseComboBox.getSelectedItem().toString())));
 
-        organizeAndSortButton.addActionListener(e -> organizeAndSortWithTasks(sourceFolderPath, targetFolderPath));
+        organizeAndSortButton.addActionListener(e -> organizeAndSortWithTasks(sourceFolderPath, targetFolderPath, organizeAndSortCheckBox));
         /*================================第三页：仓库相关================================*/
 
         //上传到图片数据库
         uploadToDatabaseButton.addActionListener(e -> uploadToWarehouseWithTasks(sourceFolderPath, cameraWarehouseAddressText, phoneWarehouseAddressText, uploadDatabaseComboBox, uploadSizeComboBox, uploadReplaceCheckBox, uploadDeleteCheckBox));
+        //从数据库中查询主图
+        SearchButton.addActionListener(e ->
+        {
+            String path = cameraWarehouseAddressText.getText() + system.identifySystem_String() + "thumbnail" + system.identifySystem_String() + "JB" + searchJBNumTextField.getText() + ".JPG";
+            ImageUtils.openImage(path);
+        });
+        downloadFromDatabaseButton.addActionListener(e ->
+        {
+            String warehouseAddressText = "";
+            if (chooseDownloadDatabaseComboBox.getSelectedItem().toString().equals("相机库"))
+            {
+                warehouseAddressText = cameraWarehouseAddressText.getText();
+            }
+            else
+            {
+                warehouseAddressText = phoneWarehouseAddressText.getText();
+            }
+            downloadFromDatabaseWithTasks(warehouseAddressText,"JB" + searchJBNumTextField.getText(),targetFolderPath);
+        });
         /*================================第三页：从仓库删除================================*/
         deleteButton.addActionListener(e ->
         {
@@ -253,15 +275,6 @@ public class Mainpage
             }
 
         });
-        /*================================第四页：仓库查询================================*/
-
-        //从数据库中查询主图
-        SearchButton.addActionListener(e ->
-        {
-            String path = cameraWarehouseAddressText.getText() + system.identifySystem_String() + "thumbnail" + system.identifySystem_String() + "JB" + searchJBNumTextField.getText() + ".JPG";
-            ImageUtils.openImage(path);
-        });
-        downloadFromDatabaseButton.addActionListener(e -> downloadFromDatabaseWithTasks(cameraWarehouseAddressText,"JB" + searchJBNumTextField.getText(),targetFolderPath));
         /*================================第五页：仓库配置================================*/
 
         //连接mysql数据库 TODO:具体功能还没做

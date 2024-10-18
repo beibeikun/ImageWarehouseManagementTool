@@ -174,7 +174,6 @@ public class mainpageUtils
         int imgsize = ImgSize.getImgSize(imgsizecomboBox.getSelectedItem().toString());
         try
         {
-            SystemPrintOut.systemPrintOut("Start to rename", 1, 0);
             completeNameChangeProcess.completeNameChangeProcess(databasepath, sourceFolderPath.getText(), targetFolderPath.getText(), renameCsvPath.getText(), check_usedatabase, imgsize, false, prefix, suffixtype);
         }
         catch (IOException | ImageProcessingException | MetadataException ex)
