@@ -1,6 +1,7 @@
 package com.github.beibeikun.imagewarehousemanagementtool.util.CompleteProcess;
 
-import com.github.beibeikun.imagewarehousemanagementtool.util.CheckOperations.SystemChecker;
+import com.github.beibeikun.imagewarehousemanagementtool.constant.printOutMessage;
+import com.github.beibeikun.imagewarehousemanagementtool.filter.SystemChecker;
 import com.drew.imaging.ImageProcessingException;
 import com.drew.metadata.MetadataException;
 import com.github.beibeikun.imagewarehousemanagementtool.util.CompressOperations.CompressFileList;
@@ -18,7 +19,7 @@ import java.io.IOException;
 import java.util.*;
 import java.util.concurrent.*;
 
-import static com.github.beibeikun.imagewarehousemanagementtool.util.CheckOperations.FolderChecker.checkFolder;
+import static com.github.beibeikun.imagewarehousemanagementtool.filter.FolderChecker.checkFolder;
 import static com.github.beibeikun.imagewarehousemanagementtool.util.FileOperations.DeleteDirectory.deleteDirectory;
 import static com.github.beibeikun.imagewarehousemanagementtool.util.FileOperations.FileCopyAndDelete.copyFilesWithList;
 import static com.github.beibeikun.imagewarehousemanagementtool.util.FileOperations.FileCopyAndDelete.moveFilesWithList;
@@ -43,8 +44,8 @@ public class CompressImgToZipAndUpload
     {
         if (!checkFolder(sourceFolder,destinationFolder,false,"",false,"",true))
         {
-            systemPrintOut("Invalid path detected, terminating the task",2,0);
-            systemPrintOut("",0,0);
+            systemPrintOut(printOutMessage.INVALID_PATH_STOP_TASK,2,0);
+            systemPrintOut(printOutMessage.NULL,0,0);
             return;
         }
         // 打印系统消息，表明开始上传
@@ -149,7 +150,7 @@ public class CompressImgToZipAndUpload
                 // 如果文件已存在并且不需要覆盖，记录文件名和原因并跳过该文件
                 String reason = "The file has been backed up: " + FileNames[i];
                 int x = i+1;
-                SystemPrintOut.systemPrintOut(reason+ "    (" + x + "/" + FileNames.length + ")", 2, 0);
+                SystemPrintOut.systemPrintOut(reason+ flattenStatisticsString(x,FileNames.length), 2, 0);
             }
 
             // 如果文件压缩和缩略图生成成功，则进行备份转移
@@ -223,7 +224,7 @@ public class CompressImgToZipAndUpload
                 // 如果图片数量不足，记录文件名和原因
                 String reason = "Too less pictures: " + FileNames[i];
                 failedFiles.add("File: " + FileNames[i] + " - Reason: Too less pictures");
-                SystemPrintOut.systemPrintOut(reason+ "    (" + x + "/" + FileNames.length + ")", 2, 0);
+                SystemPrintOut.systemPrintOut(reason+ flattenStatisticsString(x,FileNames.length), 2, 0);
                 return false;
             }
         }
@@ -234,7 +235,7 @@ public class CompressImgToZipAndUpload
             // 如果文件不存在，记录文件名和原因
             String reason = "Non-existent file: " + FileNames[i];
             failedFiles.add("File: " + FileNames[i] + " - Reason: Non-existent file");
-            SystemPrintOut.systemPrintOut(reason+ "    (" + x + "/" + FileNames.length + ")", 2, 0);
+            SystemPrintOut.systemPrintOut(reason+ flattenStatisticsString(x,FileNames.length), 2, 0);
             return false;
         }
 
@@ -242,7 +243,7 @@ public class CompressImgToZipAndUpload
         int x = i + 1;
         //压缩同一前缀的文件
         CompressFileList.compressFiles(readytocompress, temporaryDestinationFolder + system.identifySystem_String() + FileNames[i] + ".zip");
-        SystemPrintOut.systemPrintOut("Compressed:" + FileNames[i] + ".zip" + "    (" + x + "/" + FileNames.length + ")", 1, 0);
+        SystemPrintOut.systemPrintOut("Compressed:" + FileNames[i] + ".zip" + flattenStatisticsString(x,FileNames.length), 1, 0);
         if (mode == 1)
         {
             ImageCompression.imageCompression(sourceFolder + system.identifySystem_String() + FileNames[i] + ".JPG", 1000);
@@ -250,5 +251,8 @@ public class CompressImgToZipAndUpload
             SystemPrintOut.systemPrintOut("Thumbnail upload:" + FileNames[i], 1, 0);
         }
         return true;
+    }
+    private static String flattenStatisticsString(int x, int length) {
+        return "    (" + x + "/" + length + ")";
     }
 }

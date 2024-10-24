@@ -1,4 +1,4 @@
-package com.github.beibeikun.imagewarehousemanagementtool.util.CheckOperations;
+package com.github.beibeikun.imagewarehousemanagementtool.filter;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -9,7 +9,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Stream;
 
-import static com.github.beibeikun.imagewarehousemanagementtool.util.CheckOperations.HiddenFilesChecker.isSystemOrHiddenFile;
+import static com.github.beibeikun.imagewarehousemanagementtool.filter.HiddenFilesChecker.isSystemOrHiddenFile;
 import static com.github.beibeikun.imagewarehousemanagementtool.util.Others.SystemPrintOut.systemPrintOut;
 
 public class FolderChecker
@@ -159,13 +159,5 @@ public class FolderChecker
             }
         }
         return null; // 返回null表示没有找到扩展名
-    }
-
-    public static void main(String[] args)
-    {
-        // 调用 checkFolderName 方法，传入源文件夹和目标文件夹路径
-        //boolean result = checkFolder("/Users/bbk/Downloads/test", "/Users/bbk/Downloads/test2",true);
-        // 输出结果，表示是否所有文件都符合要求
-        System.out.println("All files valid: ");
     }
 }

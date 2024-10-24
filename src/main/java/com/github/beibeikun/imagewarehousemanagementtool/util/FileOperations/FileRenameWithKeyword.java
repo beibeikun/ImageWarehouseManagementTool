@@ -1,5 +1,7 @@
 package com.github.beibeikun.imagewarehousemanagementtool.util.FileOperations;
 
+import com.github.beibeikun.imagewarehousemanagementtool.constant.printOutMessage;
+
 import java.io.File;
 
 /**
@@ -48,7 +50,7 @@ public class FileRenameWithKeyword
         else
         {
             // 如果文件不存在，返回空字符串
-            return "";
+            return printOutMessage.NULL;
         }
     }
 }

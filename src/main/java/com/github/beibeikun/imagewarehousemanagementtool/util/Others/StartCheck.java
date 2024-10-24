@@ -1,6 +1,6 @@
 package com.github.beibeikun.imagewarehousemanagementtool.util.Others;
 
-import com.github.beibeikun.imagewarehousemanagementtool.util.CheckOperations.SystemChecker;
+import com.github.beibeikun.imagewarehousemanagementtool.filter.SystemChecker;
 
 import javax.swing.*;
 import java.awt.*;

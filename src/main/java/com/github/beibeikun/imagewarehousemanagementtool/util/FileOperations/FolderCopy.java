@@ -1,13 +1,14 @@
 package com.github.beibeikun.imagewarehousemanagementtool.util.FileOperations;
 
-import com.github.beibeikun.imagewarehousemanagementtool.util.CheckOperations.SystemChecker;
+import com.github.beibeikun.imagewarehousemanagementtool.filter.SystemChecker;
 
 import java.io.IOException;
 import java.nio.file.*;
 import java.nio.file.attribute.BasicFileAttributes;
+import java.util.Arrays;
 import java.util.List;
 
-import static com.github.beibeikun.imagewarehousemanagementtool.util.CheckOperations.HiddenFilesChecker.isSystemOrHiddenFile;
+import static com.github.beibeikun.imagewarehousemanagementtool.filter.HiddenFilesChecker.isSystemOrHiddenFile;
 import static com.github.beibeikun.imagewarehousemanagementtool.util.DataOperations.FileLister.getFileNames;
 import static com.github.beibeikun.imagewarehousemanagementtool.util.DataOperations.GetPrefix.getPrefix;
 import static com.github.beibeikun.imagewarehousemanagementtool.util.FileOperations.FileCopyAndDelete.copyFile;
@@ -81,6 +82,7 @@ public class FolderCopy
     public static void copyFolderWithList(String sourceFolderPath, String targetFolderPath, List<String> nameList) throws IOException
     {
         String[] sourceFiles = getFileNames(sourceFolderPath);
+        Arrays.sort(sourceFiles);
         SystemChecker system = new SystemChecker();
 
         for (String sourceFile : sourceFiles)

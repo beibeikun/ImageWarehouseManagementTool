@@ -3,14 +3,13 @@ package com.github.beibeikun.imagewarehousemanagementtool.util;
 import com.drew.imaging.ImageProcessingException;
 import com.drew.metadata.MetadataException;
 import com.github.beibeikun.imagewarehousemanagementtool.ui.SelectFilePath;
-import com.github.beibeikun.imagewarehousemanagementtool.util.CheckOperations.FilePathChecker;
 import com.github.beibeikun.imagewarehousemanagementtool.util.CompleteProcess.CompleteNameChangeProcess;
 import com.github.beibeikun.imagewarehousemanagementtool.util.DataOperations.GetLatestSubfolderPath;
 import com.github.beibeikun.imagewarehousemanagementtool.util.DataOperations.ImgSize;
 import com.github.beibeikun.imagewarehousemanagementtool.util.DataOperations.WriteToProperties;
 import com.github.beibeikun.imagewarehousemanagementtool.util.FileOperations.CreateFolder;
 import com.github.beibeikun.imagewarehousemanagementtool.util.Others.GetTimeConsuming;
-import com.github.beibeikun.imagewarehousemanagementtool.util.Others.SystemPrintOut;
+import com.github.beibeikun.imagewarehousemanagementtool.util.Test.Path;
 
 import javax.swing.*;
 import java.awt.*;
@@ -53,23 +52,7 @@ public class mainpageUtils
         }
         return exchangeFirstPath;
     }
-    public void informationPanelControl(JButton consoleButton, JScrollPane ScrollPane, JFrame frame)
-    {
-        if (consoleButton.getText().equals(">"))
-        {
-            ScrollPane.setVisible(true);
-            frame.setSize(frame.getWidth() + 600, frame.getHeight());
-            consoleButton.setText("<");
-            frame.setLocationRelativeTo(null);
-        }
-        else
-        {
-            ScrollPane.setVisible(false);
-            frame.setSize(frame.getWidth() - 600, frame.getHeight());
-            consoleButton.setText(">");
-            frame.setLocationRelativeTo(null);
-        }
-    }
+
     public static void csvToPdf(JLabel targetFolderPath, JComboBox pdfComboBox, JTextField pdfStaffTextField, JLabel pdfCsvPath)
     {
         try
@@ -95,19 +78,20 @@ public class mainpageUtils
     public void selectPath(JLabel FolderPath, String name, int type)
     {
         String path = getfilepath.selectFilePath(type, FolderPath.getText());
-        FolderPath.setText(path);
-        String[][] filenamelist = new String[2][10];
-        filenamelist[0][0] = name;
-        filenamelist[1][0] = FolderPath.getText();
-        WriteToProperties.writeToProperties("settings", filenamelist);
+        if (name.equals("sourceFolderPath")) {
+            Path.setSourcePath(path);
+            FolderPath.setText(Path.getSourcePath());
+        }
+        else
+        {
+            Path.setTargetPath(path);
+            FolderPath.setText(Path.getTargetPath());
+        }
     }
     public void changeTargetToSourcePath(JLabel sourceFolderPath, JLabel targetFolderPath)
     {
-        sourceFolderPath.setText(GetLatestSubfolderPath.getLatestSubfolder(targetFolderPath.getText()));
-        String[][] filenamelist = new String[2][10];
-        filenamelist[0][0] = "sourceFolderPath";
-        filenamelist[1][0] = sourceFolderPath.getText();
-        WriteToProperties.writeToProperties("settings", filenamelist);
+        Path.setSourcePath(GetLatestSubfolderPath.getLatestSubfolder(targetFolderPath.getText()));
+        sourceFolderPath.setText(Path.getSourcePath());
     }
     public void connectToImgWarehouse(JLabel cameradatabasepath,String warehouse)
     {
@@ -133,9 +117,9 @@ public class mainpageUtils
      * @param targetFolderPath
      * @param renameCsvPath
      */
-    public static void rename(JCheckBox CheckBox_addfromdatabase, JComboBox selectdatabase, JLabel cameradatabasepath, JLabel phonedatabasepath, JCheckBox CheckBox_classification, JCheckBox suffixCheckBox, JComboBox comboBox1, JComboBox imgsizecomboBox, JLabel sourceFolderPath, JLabel targetFolderPath, JLabel renameCsvPath)
+    public static void rename(JCheckBox CheckBox_addfromdatabase, JComboBox selectdatabase, JLabel cameradatabasepath, JLabel phonedatabasepath, JCheckBox CheckBox_classification, JCheckBox suffixCheckBox, JComboBox comboBox1, JCheckBox mainpageOrganizeAndSortCheckBox, JComboBox imgsizecomboBox, JLabel targetFolderPath, JLabel renameCsvPath)
     {
-        int check_usedatabase = 0, check_whichdatabase = 0;
+        int check_usedatabase = 0, check_whichdatabase = 0, check_sort = 0;
         //判断是否从数据库拉取图片
         if (CheckBox_addfromdatabase.isSelected())
         {
@@ -145,6 +129,10 @@ public class mainpageUtils
         if (selectdatabase.getSelectedItem().equals("phone"))
         {
             check_whichdatabase = 1;
+        }
+        if (mainpageOrganizeAndSortCheckBox.isSelected())
+        {
+            check_sort = 1;
         }
         String databasepath = null;
         //根据数据库类型获取数据库路径
@@ -172,9 +160,18 @@ public class mainpageUtils
         CompleteNameChangeProcess completeNameChangeProcess = new CompleteNameChangeProcess();
         //获取压缩尺寸
         int imgsize = ImgSize.getImgSize(imgsizecomboBox.getSelectedItem().toString());
+        if (imgsize == 1)
+        {
+            if (selectdatabase.getSelectedItem().equals("phone")) {
+                imgsize = 4000;
+            }
+            else {
+                imgsize = 2500;
+            }
+        }
         try
         {
-            completeNameChangeProcess.completeNameChangeProcess(databasepath, sourceFolderPath.getText(), targetFolderPath.getText(), renameCsvPath.getText(), check_usedatabase, imgsize, false, prefix, suffixtype);
+            completeNameChangeProcess.completeNameChangeProcess(databasepath, targetFolderPath.getText(), renameCsvPath.getText(), check_usedatabase, check_sort, check_whichdatabase, imgsize, false, prefix, suffixtype);
         }
         catch (IOException | ImageProcessingException | MetadataException ex)
         {

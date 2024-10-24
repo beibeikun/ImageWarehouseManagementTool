@@ -1,6 +1,6 @@
 package com.github.beibeikun.imagewarehousemanagementtool.util.FileOperations;
 
-import com.github.beibeikun.imagewarehousemanagementtool.util.CheckOperations.SystemChecker;
+import com.github.beibeikun.imagewarehousemanagementtool.filter.SystemChecker;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -45,25 +45,6 @@ public class FileExtractor
         }
         return nameList;
     }
-    /**
-     * 复制文件到目标文件夹的方法。
-     *
-     * @param sourcePath       源文件路径
-     * @param targetFolderPath 目标文件夹路径
-     * @throws IOException 如果文件复制失败
-     */
-    /*
-    private static void copyFileToFolder(Path sourcePath, String targetFolderPath) throws IOException {
-        // 构建目标文件的路径
-        Path targetPath = Paths.get(targetFolderPath, sourcePath.getFileName().toString());
-
-        // 使用Files.copy方法复制文件
-        Files.copy(sourcePath, targetPath, StandardCopyOption.REPLACE_EXISTING);
-        systemPrintOut("Get:" + targetPath, 1, 0);
-    }
-
-     */
-
     /**
      * 检查文件是否存在的方法。
      *

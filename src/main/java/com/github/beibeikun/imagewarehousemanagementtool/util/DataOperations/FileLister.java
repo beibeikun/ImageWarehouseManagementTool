@@ -1,6 +1,6 @@
 package com.github.beibeikun.imagewarehousemanagementtool.util.DataOperations;
 
-import com.github.beibeikun.imagewarehousemanagementtool.util.CheckOperations.HiddenFilesChecker;
+import com.github.beibeikun.imagewarehousemanagementtool.filter.HiddenFilesChecker;
 
 import java.io.File;
 import java.util.ArrayList;

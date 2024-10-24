@@ -1,11 +1,11 @@
 package com.github.beibeikun.imagewarehousemanagementtool.util.Test;
 
-import com.github.beibeikun.imagewarehousemanagementtool.util.CheckOperations.SystemChecker;
+import com.github.beibeikun.imagewarehousemanagementtool.filter.SystemChecker;
 import com.github.beibeikun.imagewarehousemanagementtool.util.FileOperations.CreateFolder;
 
 import java.io.IOException;
 
-import static com.github.beibeikun.imagewarehousemanagementtool.util.CheckOperations.FolderChecker.checkFolder;
+import static com.github.beibeikun.imagewarehousemanagementtool.filter.FolderChecker.checkFolder;
 import static com.github.beibeikun.imagewarehousemanagementtool.util.FileOperations.FileCopyAndDelete.copyFile;
 import static com.github.beibeikun.imagewarehousemanagementtool.util.Others.SystemPrintOut.systemPrintOut;
 

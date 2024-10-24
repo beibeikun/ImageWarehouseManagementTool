@@ -1,5 +1,6 @@
 package com.github.beibeikun.imagewarehousemanagementtool.util.CompressOperations;
 
+import com.github.beibeikun.imagewarehousemanagementtool.constant.files;
 import com.github.beibeikun.imagewarehousemanagementtool.util.Others.SystemPrintOut;
 
 import java.io.FileInputStream;
@@ -18,8 +19,6 @@ import java.util.zip.ZipInputStream;
 public class UnzipAllZipsWithDelete
 {
 
-    private static final String ZIP_FILE_EXTENSION = "*.zip";
-
     /**
      * 解压指定文件夹中的所有 ZIP 文件并删除原始 ZIP 文件。
      *
@@ -30,7 +29,7 @@ public class UnzipAllZipsWithDelete
     {
         Path sourceFolderPath = Paths.get(folderPath);
 
-        try (DirectoryStream<Path> stream = Files.newDirectoryStream(sourceFolderPath, ZIP_FILE_EXTENSION))
+        try (DirectoryStream<Path> stream = Files.newDirectoryStream(sourceFolderPath, files.ZIP_FILE_EXTENSION))
         {
             for (Path zipFilePath : stream)
             {

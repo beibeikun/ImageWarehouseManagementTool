@@ -7,7 +7,7 @@ import com.github.beibeikun.imagewarehousemanagementtool.util.FileOperations.Fol
 
 import java.io.IOException;
 
-import static com.github.beibeikun.imagewarehousemanagementtool.util.CheckOperations.FolderChecker.checkFolder;
+import static com.github.beibeikun.imagewarehousemanagementtool.filter.FolderChecker.checkFolder;
 import static com.github.beibeikun.imagewarehousemanagementtool.util.Others.SystemPrintOut.systemPrintOut;
 
 public class OnlyCompressFiles

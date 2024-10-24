@@ -3,7 +3,7 @@ package com.github.beibeikun.imagewarehousemanagementtool.util;
 import com.github.beibeikun.imagewarehousemanagementtool.util.DataOperations.ReadCsvFile;
 import com.github.beibeikun.imagewarehousemanagementtool.util.FileOperations.CreateFolder;
 import com.github.beibeikun.imagewarehousemanagementtool.util.Others.GetTimeConsuming;
-import com.github.beibeikun.imagewarehousemanagementtool.util.Test.AsyncTaskExecutor;
+import com.github.beibeikun.imagewarehousemanagementtool.util.Others.AsyncTaskExecutor;
 
 import javax.swing.*;
 import java.io.File;
@@ -45,10 +45,10 @@ public class mainpageUtilsWithTasks
         });
     }
 
-    public static void renameWithTasks(JCheckBox CheckBox_addfromdatabase, JComboBox selectdatabase, JLabel cameradatabasepath, JLabel phonedatabasepath, JCheckBox CheckBox_classification, JCheckBox suffixCheckBox, JComboBox comboBox1, JComboBox imgsizecomboBox, JLabel sourceFolderPath, JLabel targetFolderPath, JLabel renameCsvPath)
+    public static void renameWithTasks(JCheckBox CheckBox_addfromdatabase, JComboBox selectdatabase, JLabel cameradatabasepath, JLabel phonedatabasepath, JCheckBox CheckBox_classification, JCheckBox suffixCheckBox, JComboBox comboBox1, JCheckBox mainpageOrganizeAndSortCheckBox, JComboBox imgsizecomboBox, JLabel targetFolderPath, JLabel renameCsvPath)
     {
         Callable<Void> task = () -> {
-            rename(CheckBox_addfromdatabase, selectdatabase, cameradatabasepath, phonedatabasepath, CheckBox_classification, suffixCheckBox, comboBox1, imgsizecomboBox, sourceFolderPath, targetFolderPath, renameCsvPath);
+            rename(CheckBox_addfromdatabase, selectdatabase, cameradatabasepath, phonedatabasepath, CheckBox_classification, suffixCheckBox, comboBox1, mainpageOrganizeAndSortCheckBox, imgsizecomboBox, targetFolderPath, renameCsvPath);
             return null;
         };
         executeTaskWithTiming(task, "重命名任务",true);
@@ -122,13 +122,13 @@ public class mainpageUtilsWithTasks
         {
             if (organizeAndSortCheckBox.isSelected()) {
                 String middleFolderPath = targetFolderPath.getText()+"middleFolderPath";
-                organizeFileNumbers(sourceFolderPath.getText(), middleFolderPath);
-                moveNumberForward(middleFolderPath,targetFolderPath.getText());
+                organizeFileNumbers(sourceFolderPath.getText(), middleFolderPath, true);
+                moveNumberForward(middleFolderPath,targetFolderPath.getText(),true);
                 deleteDirectory(new File(middleFolderPath));
             }
             else {
                 String targetFolderPathInSort = CreateFolder.createFolderWithTime(targetFolderPath.getText());
-                organizeFileNumbers(sourceFolderPath.getText(), targetFolderPathInSort);
+                organizeFileNumbers(sourceFolderPath.getText(), targetFolderPathInSort, true);
             }
             return null;
         };

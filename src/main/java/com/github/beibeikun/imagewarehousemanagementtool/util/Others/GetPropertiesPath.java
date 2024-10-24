@@ -1,6 +1,6 @@
 package com.github.beibeikun.imagewarehousemanagementtool.util.Others;
 
-import com.github.beibeikun.imagewarehousemanagementtool.util.CheckOperations.SystemChecker;
+import com.github.beibeikun.imagewarehousemanagementtool.filter.SystemChecker;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -36,9 +36,4 @@ public class GetPropertiesPath
 
     }
 
-    public static String propertiespath()
-    {
-        SystemChecker system = new SystemChecker();//获取系统类型
-        return System.getProperty("user.home") + system.identifySystem_String() + "Documents" + system.identifySystem_String() + "IWMT" + system.identifySystem_String();
-    }
 }

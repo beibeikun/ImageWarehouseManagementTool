@@ -80,14 +80,4 @@ public class ReadCsvFile
         }
         return results.toArray(new String[0]); // 转换列表为数组并返回
     }
-    public static void main(String[] args) {
-        try {
-            String[] data = readColumn("/Users/bbk/photographs/各种模版/test.csv", 1); // 调用函数，读取第一列
-            for (String element : data) {
-                System.out.println(element);
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
 }

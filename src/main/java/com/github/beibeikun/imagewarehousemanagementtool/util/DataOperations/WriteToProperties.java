@@ -1,6 +1,6 @@
 package com.github.beibeikun.imagewarehousemanagementtool.util.DataOperations;
 
-import com.github.beibeikun.imagewarehousemanagementtool.util.CheckOperations.SystemChecker;
+import com.github.beibeikun.imagewarehousemanagementtool.filter.SystemChecker;
 import com.github.beibeikun.imagewarehousemanagementtool.util.Others.GetPropertiesPath;
 import com.github.beibeikun.imagewarehousemanagementtool.util.Others.SystemPrintOut;
 
@@ -16,6 +16,13 @@ import java.util.Properties;
  */
 public class WriteToProperties
 {
+    public static void writeToPropertiesSingle(String filename, String name, String path)
+    {
+        String[][] filenamelist = new String[2][10];
+        filenamelist[0][0] = name;
+        filenamelist[1][0] = path;
+        writeToProperties(filename, filenamelist);
+    }
     /**
      * 将属性写入指定的Properties文件中。
      *

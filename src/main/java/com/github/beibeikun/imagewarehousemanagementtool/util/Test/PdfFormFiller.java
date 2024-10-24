@@ -1,6 +1,6 @@
 package com.github.beibeikun.imagewarehousemanagementtool.util.Test;
 
-import com.github.beibeikun.imagewarehousemanagementtool.util.CheckOperations.SystemChecker;
+import com.github.beibeikun.imagewarehousemanagementtool.filter.SystemChecker;
 import com.itextpdf.forms.PdfAcroForm;
 import com.itextpdf.forms.fields.PdfFormField;
 import com.itextpdf.kernel.pdf.PdfDocument;
@@ -14,19 +14,10 @@ import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
 import java.util.List;
 
+import static com.github.beibeikun.imagewarehousemanagementtool.filter.SystemChecker.identifySystem_String;
+
 public class PdfFormFiller
 {
-    public static void main(String[] args) throws IOException
-    {
-        String src = "/Users/bbk/photographs/各种模版/test1.pdf";  // 源PDF文件路径
-        String destPath = "/Users/bbk/photographs/各种模版";  // 填写完表单后的PDF文件路径
-        String csv = "/Users/bbk/photographs/各种模版/test.csv";
-        String staff = "陳";
-
-        batchFillPdfForms(src,destPath,staff,CsvReaderToList.readCsvAndProcess(csv));
-
-
-    }
     /**
      * 批量处理CSV数据，填充多个PDF表单。
      *
@@ -37,8 +28,7 @@ public class PdfFormFiller
      * @throws IOException 如果读写文件发生错误。
      */
     public static void batchFillPdfForms(String pdfTemplatePath, String outputDirectory, String operator, List<List<String[][]>> dataGroups) throws IOException {
-        SystemChecker system = new SystemChecker();//获取系统类型
-        outputDirectory = outputDirectory + system.identifySystem_String();
+        outputDirectory = outputDirectory + identifySystem_String();
         for (int i = 0; i < dataGroups.size(); i++) {
             fillPdfForm(pdfTemplatePath, outputDirectory, operator, dataGroups.get(i));
         }

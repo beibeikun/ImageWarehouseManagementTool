@@ -1,6 +1,6 @@
 package com.github.beibeikun.imagewarehousemanagementtool.util.CompleteProcess;
 
-import com.github.beibeikun.imagewarehousemanagementtool.util.CheckOperations.SystemChecker;
+import com.github.beibeikun.imagewarehousemanagementtool.constant.printOutMessage;
 import com.github.beibeikun.imagewarehousemanagementtool.util.CompressOperations.UnzipAllZipsWithDelete;
 import com.github.beibeikun.imagewarehousemanagementtool.util.DataOperations.ArrayExtractor;
 import com.github.beibeikun.imagewarehousemanagementtool.util.DataOperations.ReadCsvFile;
@@ -13,6 +13,7 @@ import com.github.beibeikun.imagewarehousemanagementtool.util.CompressOperations
 import com.github.beibeikun.imagewarehousemanagementtool.util.DataOperations.FileLister;
 import com.github.beibeikun.imagewarehousemanagementtool.util.DataOperations.ListExtractor;
 import com.github.beibeikun.imagewarehousemanagementtool.util.FileOperations.*;
+import com.github.beibeikun.imagewarehousemanagementtool.util.Test.Path;
 
 import java.io.File;
 import java.io.IOException;
@@ -21,8 +22,10 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
+import static com.github.beibeikun.imagewarehousemanagementtool.util.FileOperations.OrganizeFiles.moveNumberForward;
+import static com.github.beibeikun.imagewarehousemanagementtool.util.FileOperations.OrganizeFiles.organizeFileNumbers;
 import static com.github.beibeikun.imagewarehousemanagementtool.util.Others.SystemPrintOut.systemPrintOut;
-import static com.github.beibeikun.imagewarehousemanagementtool.util.CheckOperations.FolderChecker.checkFolder;
+import static com.github.beibeikun.imagewarehousemanagementtool.filter.FolderChecker.checkFolder;
 
 /**
  * 文件名更改处理类，封装了完整的文件名更改过程。
@@ -42,15 +45,15 @@ public class CompleteNameChangeProcess
      * @param suffix                  后缀判定
      * @throws IOException 如果文件操作失败
      */
-    public void completeNameChangeProcess(String nasFolderPath, String sourceFolderPath, String targetFolderPath, String CSVPath, int checkBoxAddFromDatabase, int imgsize, boolean terminal, boolean prefixmove, int suffix) throws IOException, ImageProcessingException, MetadataException
+    public void completeNameChangeProcess(String nasFolderPath, String targetFolderPath, String CSVPath, int checkBoxAddFromDatabase, int checkSort,int checkWhichDatabase, int imgsize, boolean terminal, boolean prefixmove, int suffix) throws IOException, ImageProcessingException, MetadataException
     {
+        String sourceFolderPath = Path.getSourcePath();
         if (!checkFolder(sourceFolderPath,targetFolderPath,true,CSVPath,true,"csv",true))
         {
-            systemPrintOut("Invalid path detected, terminating the task",2,0);
-            systemPrintOut("",0,0);
+            systemPrintOut(printOutMessage.INVALID_PATH_STOP_TASK,2,0);
+            systemPrintOut(printOutMessage.NULL,0,0);
             return;
         }
-        SystemChecker system = new SystemChecker();
         // 从 CSV 中提取要提取的文件名数组
         String[] fileNamesToExtract = ArrayExtractor.extractRow(ReadCsvFile.csvToArray(CSVPath), 0);
         // 将文件名数组转化为列表
@@ -58,7 +61,7 @@ public class CompleteNameChangeProcess
         // 用当前时间新建一个文件夹来存储
         targetFolderPath = CreateFolder.createFolderWithTime(targetFolderPath);
         // 输出“开始重命名”
-        systemPrintOut("Start to rename", 3, 0);
+        systemPrintOut(printOutMessage.START_TO_RENAME, 3, 0);
         // 用于储存数据库中存在的文件名
         List<String> databaseNamelist = new ArrayList<>();
         Collections.sort(databaseNamelist);
@@ -79,6 +82,15 @@ public class CompleteNameChangeProcess
         // 从源文件夹拷贝文件到目标文件夹
         FolderCopy.copyFolderWithList(sourceFolderPath, targetFolderPath, readyToCopyNameList);
         systemPrintOut(null, 0, 0);
+        //根据 checkSort 判断图片是否需要排序，为1即需要排序
+        if (checkSort == 1)
+        {
+            organizeFileNumbers(printOutMessage.NULL,targetFolderPath,false);
+            if (checkWhichDatabase == 0)
+            {
+                moveNumberForward(printOutMessage.NULL,targetFolderPath,false);
+            }
+        }
         // 重命名文件
         RenameFiles.renameFiles(CSVPath, targetFolderPath, 0, 0);
         systemPrintOut(null, 0, 0);
@@ -92,13 +104,12 @@ public class CompleteNameChangeProcess
             List<File> files = FileLister.getFileNamesInList(targetFolderPath);
             //压缩图片
             ImageCompression.compressImgWithFileListUseMultithreading(files, imgsize);
-            //CompressImagesInBatches.compressImagesInBatches(targetFolderPath, imgsize, terminal);
         }
         systemPrintOut(null, 0, 0);
         //根据 suffix 判断是否需要生成其他后缀
         if (suffix != 0)
         {
-            ChangeAllSuffix.changeAllSuffix(targetFolderPath, "", 1);
+            ChangeAllSuffix.changeAllSuffix(targetFolderPath, printOutMessage.NULL, 1);
         }
         systemPrintOut(null, 0, 0);
         //根据prefixmove判断是否需要分类

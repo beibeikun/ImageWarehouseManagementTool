@@ -1,14 +1,16 @@
 package com.github.beibeikun.imagewarehousemanagementtool.util.DataOperations;
 
+import com.github.beibeikun.imagewarehousemanagementtool.constant.others;
+
 public class ImgSize
 {
     public static int getImgSize(String size)
     {
-        if (size.equals("fullsize"))
+        if (size.equals(others.FULL_SIZE))
         {
             return 0;
         }
-        else if (size.equals("auto"))
+        else if (size.equals(others.AUTO))
         {
             return 1;
         }

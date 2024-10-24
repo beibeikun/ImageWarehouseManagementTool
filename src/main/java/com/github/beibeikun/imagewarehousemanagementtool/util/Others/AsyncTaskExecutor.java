@@ -1,4 +1,4 @@
-package com.github.beibeikun.imagewarehousemanagementtool.util.Test;
+package com.github.beibeikun.imagewarehousemanagementtool.util.Others;
 import javax.swing.*;
 import java.util.concurrent.*;
 

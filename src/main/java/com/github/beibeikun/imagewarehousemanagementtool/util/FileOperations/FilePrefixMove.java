@@ -1,9 +1,10 @@
 package com.github.beibeikun.imagewarehousemanagementtool.util.FileOperations;
 
-import com.github.beibeikun.imagewarehousemanagementtool.util.CheckOperations.SystemChecker;
+import com.github.beibeikun.imagewarehousemanagementtool.filter.SystemChecker;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.Objects;
 
 import static com.github.beibeikun.imagewarehousemanagementtool.util.Others.SystemPrintOut.systemPrintOut;
@@ -23,6 +24,7 @@ public class FilePrefixMove
     {
         File file = new File(lastpath);
         File[] imglist = file.listFiles();
+        Arrays.sort(imglist);
         SystemChecker system = new SystemChecker();
         if (file.exists() && file.isDirectory())
         {

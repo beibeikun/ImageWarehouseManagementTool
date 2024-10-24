@@ -1,5 +1,7 @@
 package com.github.beibeikun.imagewarehousemanagementtool.util.Others;
 
+import com.github.beibeikun.imagewarehousemanagementtool.constant.printOutMessage;
+
 import static com.github.beibeikun.imagewarehousemanagementtool.util.Others.GetCorrectTime.getCorrectTime;
 
 public class SystemPrintOut
@@ -12,7 +14,7 @@ public class SystemPrintOut
         switch (type)
         {
             case 0:
-                System.out.println("---------------------------------------------------------------------------------");
+                System.out.println(printOutMessage.DIVIDER);
                 break;
             case 1:
                 System.out.println(info + success + printoutmessage);
@@ -21,9 +23,9 @@ public class SystemPrintOut
                 System.out.println(info + error + printoutmessage);
                 break;
             case 3:
-                System.out.println("---------------------------------------------------------------------------------");
+                System.out.println(printOutMessage.DIVIDER);
                 System.out.println("                 " + printoutmessage);
-                System.out.println("---------------------------------------------------------------------------------");
+                System.out.println(printOutMessage.DIVIDER);
                 break;
             default:
                 break;

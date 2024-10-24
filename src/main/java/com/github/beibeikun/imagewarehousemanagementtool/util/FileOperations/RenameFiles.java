@@ -1,11 +1,13 @@
 package com.github.beibeikun.imagewarehousemanagementtool.util.FileOperations;
 
+import com.github.beibeikun.imagewarehousemanagementtool.constant.printOutMessage;
 import com.github.beibeikun.imagewarehousemanagementtool.util.DataOperations.ArrayExtractor;
 import com.github.beibeikun.imagewarehousemanagementtool.util.DataOperations.ReadCsvFile;
-import com.github.beibeikun.imagewarehousemanagementtool.util.CheckOperations.HiddenFilesChecker;
+import com.github.beibeikun.imagewarehousemanagementtool.filter.HiddenFilesChecker;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Arrays;
 
 import static com.github.beibeikun.imagewarehousemanagementtool.util.Others.SystemPrintOut.systemPrintOut;
 
@@ -14,9 +16,6 @@ import static com.github.beibeikun.imagewarehousemanagementtool.util.Others.Syst
  */
 public class RenameFiles
 {
-
-    private static final int MINIMUM_NAME_LENGTH = 7;
-    private static final String NAME_FORMAT_ERROR = "Failed to rename: Invalid name format - ";
 
     /**
      * 根据映射关系从文件夹中的文件重命名。
@@ -36,6 +35,7 @@ public class RenameFiles
         // 获取图片文件夹下的文件列表
         File imageFolder = new File(imagePath);
         File[] imageList = imageFolder.listFiles();
+        Arrays.sort(imageList);
 
         // 检查文件夹是否存在且为目录
         if (imageFolder.exists() && imageFolder.isDirectory())
@@ -52,14 +52,6 @@ public class RenameFiles
                 {
                     // 获取文件名
                     String name = image.getName();
-
-                    // 文件名检查
-                    if (name.length() < MINIMUM_NAME_LENGTH)
-                    {
-                        systemPrintOut(NAME_FORMAT_ERROR + name,2,0);
-                        // 文件名太短，不符合预期格式
-                        continue;
-                    }
 
                     // 执行文件重命名
                     renameFile(image, name, ContractNoArray, LOTArray, imagePath, digitCheck, prefixCheck);

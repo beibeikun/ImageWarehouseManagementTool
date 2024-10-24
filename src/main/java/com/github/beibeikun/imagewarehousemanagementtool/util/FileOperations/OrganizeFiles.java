@@ -1,19 +1,23 @@
 package com.github.beibeikun.imagewarehousemanagementtool.util.FileOperations;
 
-import com.github.beibeikun.imagewarehousemanagementtool.util.CheckOperations.SystemChecker;
+import com.github.beibeikun.imagewarehousemanagementtool.constant.printOutMessage;
+import com.github.beibeikun.imagewarehousemanagementtool.filter.SystemChecker;
 import com.github.beibeikun.imagewarehousemanagementtool.util.DataOperations.FileLister;
 import com.github.beibeikun.imagewarehousemanagementtool.util.DataOperations.FileNameProcessor;
 import com.github.beibeikun.imagewarehousemanagementtool.util.DataOperations.FileSearch;
-import com.github.beibeikun.imagewarehousemanagementtool.util.Others.SystemPrintOut;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import static com.github.beibeikun.imagewarehousemanagementtool.filter.FolderChecker.checkFolder;
+import static com.github.beibeikun.imagewarehousemanagementtool.filter.SystemChecker.identifySystem_String;
 import static com.github.beibeikun.imagewarehousemanagementtool.util.Others.SystemPrintOut.systemPrintOut;
 
 public class OrganizeFiles
@@ -25,12 +29,20 @@ public class OrganizeFiles
      * @param targetFolderPath 目标文件夹路径
      * @throws IOException 文件操作异常
      */
-    public static void organizeFileNumbers(String sourceFolderPath, String targetFolderPath) throws IOException
+    public static void organizeFileNumbers(String sourceFolderPath, String targetFolderPath, boolean moveFilesChecker) throws IOException
     {
-        // 创建系统检查器
-        SystemChecker system = new SystemChecker();
+        Files.createDirectories(Paths.get(targetFolderPath));
+        if (!checkFolder(sourceFolderPath,targetFolderPath,false,"",false,"",true))
+        {
+            systemPrintOut(printOutMessage.INVALID_PATH_STOP_TASK,2,0);
+            systemPrintOut("",0,0);
+            return;
+        }
         //targetFolderPath = CreateFolder.createFolderWithTime(targetFolderPath);
-        FolderCopy.copyFolder(sourceFolderPath, targetFolderPath);
+        if (moveFilesChecker)
+        {
+            FolderCopy.copyFolder(sourceFolderPath, targetFolderPath);
+        }
         systemPrintOut(null, 0, 0);
 
         // 获取文件夹中的所有文件名
@@ -47,11 +59,19 @@ public class OrganizeFiles
             int num = 1;
             for (int x : getMatchingNumbers)
             {
-                systemPrintOut(s + " (" + x + ").jpg  ->  " + s + " (" + num + ").jpg",1,0);
-                RenameFiles.renameFileWithName(targetFolderPath + system.identifySystem_String() + s + " (" + x + ").jpg", s + " (" + num + ")");
+                if (x==0)
+                {
+                    systemPrintOut(s + ".jpg  ->  " + s + " (" + num + ").jpg",1,0);
+                    RenameFiles.renameFileWithName(targetFolderPath + identifySystem_String() + s + ".jpg", s + " (" + num + ").");
+                }
+                else {
+                    systemPrintOut(s + " (" + x + ").jpg  ->  " + s + " (" + num + ").jpg",1,0);
+                    RenameFiles.renameFileWithName(targetFolderPath + identifySystem_String() + s + " (" + x + ").jpg", s + " (" + num + ").");
+                }
                 num++;
             }
         }
+        replaceDoubleDots(targetFolderPath);
         systemPrintOut(null, 0, 0);
     }
     /**
@@ -61,13 +81,17 @@ public class OrganizeFiles
      * @param targetFolderPath 目标文件夹路径
      * @throws IOException 文件操作异常
      */
-    public static void moveNumberForward(String sourceFolderPath, String targetFolderPath) throws IOException
+    public static void moveNumberForward(String sourceFolderPath, String targetFolderPath, boolean moveFilesChecker) throws IOException
     {
         // 创建系统检查器
         SystemChecker system = new SystemChecker();
 
-        targetFolderPath = CreateFolder.createFolderWithTime(targetFolderPath);
-        FolderCopy.copyFolder(sourceFolderPath, targetFolderPath);
+
+        if (moveFilesChecker == true)
+        {
+            targetFolderPath = CreateFolder.createFolderWithTime(targetFolderPath);
+            FolderCopy.copyFolder(sourceFolderPath, targetFolderPath);
+        }
         systemPrintOut(null, 0, 0);
 
         // 获取文件夹中的所有文件名
@@ -85,7 +109,7 @@ public class OrganizeFiles
             while (true)
             {
                 // 构造文件路径
-                String filePath = targetFolderPath + system.identifySystem_String() + s + " (" + number + ").jpg";
+                String filePath = targetFolderPath + identifySystem_String() + s + " (" + number + ").jpg";
 
                 // 判断文件是否存在
                 boolean fileExists = FileSearch.isFileExists(filePath);
@@ -119,7 +143,7 @@ public class OrganizeFiles
         }
         systemPrintOut(null, 0, 0);
     }
-    public static int[] getMatchingNumbers(String folderPath, String prefix)
+    private static int[] getMatchingNumbers(String folderPath, String prefix)
     {
         List<Integer> numberList = new ArrayList<>();
         File folder = new File(folderPath);
@@ -127,7 +151,8 @@ public class OrganizeFiles
 
         if (files != null)
         {
-            Pattern pattern = Pattern.compile("^" + Pattern.quote(prefix) + " \\((\\d+)\\)\\.[^\\\\.]+$");
+            // 修改正则表达式，允许文件名没有数字部分
+            Pattern pattern = Pattern.compile("^" + Pattern.quote(prefix) + "(?: \\((\\d+)\\))?\\.[^\\\\.]+$");
             for (File file : files)
             {
                 if (file.isFile())
@@ -136,15 +161,20 @@ public class OrganizeFiles
                     Matcher matcher = pattern.matcher(fileName);
                     if (matcher.matches())
                     {
-                        int number = Integer.parseInt(matcher.group(1));
-                        numberList.add(number);
+                        // 如果匹配到了括号中的数字，则提取该数字
+                        if (matcher.group(1) != null)
+                        {
+                            int number = Integer.parseInt(matcher.group(1));
+                            numberList.add(number);
+                        }
+                        else
+                        {
+                            // 如果没有括号中的数字，默认添加 0
+                            numberList.add(0);
+                        }
                     }
                 }
             }
-        }
-        else
-        {
-            System.out.println("Folder is empty or does not exist.");
         }
 
         // Convert list to array
@@ -154,5 +184,31 @@ public class OrganizeFiles
             numbers[i] = numberList.get(i);
         }
         return numbers;
+    }
+    private static void replaceDoubleDots(String folderPath) {
+        File folder = new File(folderPath);
+        File[] files = folder.listFiles();
+
+        if (files != null) {
+            for (File file : files) {
+                if (file.isFile()) {
+                    String fileName = file.getName();
+
+                    // 检查文件名是否包含 ".."
+                    if (fileName.contains("..")) {
+                        // 替换文件名中的 ".." 为 "."
+                        String newFileName = fileName.replace("..", ".");
+
+                        // 获取文件的父目录路径，用于重命名
+                        File newFile = new File(file.getParent(), newFileName);
+
+                        // 重命名文件
+                        file.renameTo(newFile);
+                    }
+                }
+            }
+        } else {
+            System.out.println(printOutMessage.EMPTY_FOLDER_PATH);
+        }
     }
 }

@@ -1,6 +1,6 @@
 package com.github.beibeikun.imagewarehousemanagementtool.util.FileOperations;
 
-import com.github.beibeikun.imagewarehousemanagementtool.util.CheckOperations.SystemChecker;
+import com.github.beibeikun.imagewarehousemanagementtool.filter.SystemChecker;
 
 import java.io.File;
 import java.io.IOException;
@@ -10,8 +10,7 @@ import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.util.List;
 
-import static com.github.beibeikun.imagewarehousemanagementtool.util.CheckOperations.FilePathChecker.checkFilePath;
-import static com.github.beibeikun.imagewarehousemanagementtool.util.CheckOperations.HiddenFilesChecker.isSystemOrHiddenFile;
+import static com.github.beibeikun.imagewarehousemanagementtool.filter.HiddenFilesChecker.isSystemOrHiddenFile;
 import static com.github.beibeikun.imagewarehousemanagementtool.util.DataOperations.FileLister.getFileNamesInList;
 import static com.github.beibeikun.imagewarehousemanagementtool.util.Others.SystemPrintOut.systemPrintOut;
 
@@ -64,8 +63,7 @@ public class FileCopyAndDelete
                     {
                         String filepath = lastfolderpath + systemIdentifier.identifySystem_String() + image.getName().substring(0, prefixNumbersTest);
                         systemPrintOut("Upload:" + image.getName(), 1, 0);
-                        int i = checkFilePath(filepath, false);
-                        if (i == 4)
+                        if (!Files.exists(Paths.get(filepath)))
                         {
                             File directory = new File(filepath);
                             boolean created = directory.mkdirs();

@@ -45,18 +45,4 @@ public class GetLatestSubfolderPath
 
         return Optional.ofNullable(latestFolder).map(File::getAbsolutePath).orElse(null);
     }
-
-    public static void main(String[] args)
-    {
-        String folderPath = "/Users/bbk/photographs/test2"; // 替换为实际的文件夹路径
-        String latestSubfolder = getLatestSubfolder(folderPath);
-        if (latestSubfolder != null)
-        {
-            System.out.println("创建时间最晚的子文件夹是: " + latestSubfolder);
-        }
-        else
-        {
-            System.out.println("该文件夹内没有子文件夹");
-        }
-    }
 }

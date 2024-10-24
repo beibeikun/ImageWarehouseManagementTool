@@ -13,6 +13,7 @@ import java.util.Set;
 
 import static com.github.beibeikun.imagewarehousemanagementtool.util.DataOperations.FileLister.getFileNames;
 import static com.github.beibeikun.imagewarehousemanagementtool.util.DataOperations.FileNameProcessor.processFileNames;
+import static com.github.beibeikun.imagewarehousemanagementtool.util.DataOperations.ListExtractor.removeElementFromList;
 
 public class FolderCsvComparator
 {
@@ -36,33 +37,12 @@ public class FolderCsvComparator
         SystemPrintOut.systemPrintOut("Get filenames in path", 1, 0);
         String[] csvnames = ArrayExtractor.extractRow(ReadCsvFile.csvToArray(csvFilePath), 0);
         SystemPrintOut.systemPrintOut("Get filenames in csv", 1, 0);
-        Set<String> diffAtoB = getArrayDifference(filenames, csvnames);
-        Set<String> diffBtoA = getArrayDifference(csvnames, filenames);
+        Set<String> diffAtoB = removeElementFromList(filenames, csvnames);
+        Set<String> diffBtoA = removeElementFromList(csvnames, filenames);
         SystemPrintOut.systemPrintOut("Compare finish", 1, 0);
         writeCsv(outputCsvPath, diffAtoB, diffBtoA);
         SystemPrintOut.systemPrintOut("Write to csv finish", 1, 0);
         SystemPrintOut.systemPrintOut("", 0, 0);
-    }
-
-    /**
-     * 获取在数组A中但不在数组B中的元素的差集。
-     *
-     * @param arrayA 第一个字符串数组
-     * @param arrayB 第二个字符串数组
-     * @return 包含在数组A中但不在数组B中的元素的Set
-     */
-    public static Set<String> getArrayDifference(String[] arrayA, String[] arrayB)
-    {
-        // 将数组A转换为Set
-        Set<String> setA = new HashSet<>(Arrays.asList(arrayA));
-
-        // 将数组B转换为Set
-        Set<String> setB = new HashSet<>(Arrays.asList(arrayB));
-
-        // 使用Set的差集操作
-        setA.removeAll(setB);
-
-        return setA;
     }
 
     /**

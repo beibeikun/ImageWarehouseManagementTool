@@ -1,6 +1,6 @@
 package com.github.beibeikun.imagewarehousemanagementtool.util.CompleteProcess;
 
-import com.github.beibeikun.imagewarehousemanagementtool.util.CheckOperations.HiddenFilesChecker;
+import com.github.beibeikun.imagewarehousemanagementtool.filter.HiddenFilesChecker;
 import com.github.beibeikun.imagewarehousemanagementtool.util.FileOperations.ChangeSuffix;
 import com.github.beibeikun.imagewarehousemanagementtool.util.FileOperations.CreateFolder;
 import com.github.beibeikun.imagewarehousemanagementtool.util.FileOperations.CreateTemporaryDestinationFolder;

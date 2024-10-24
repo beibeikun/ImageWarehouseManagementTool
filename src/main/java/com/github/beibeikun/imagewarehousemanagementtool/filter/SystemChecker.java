@@ -1,4 +1,4 @@
-package com.github.beibeikun.imagewarehousemanagementtool.util.CheckOperations;
+package com.github.beibeikun.imagewarehousemanagementtool.filter;
 
 /**
  * 系统识别工具类，用于识别当前操作系统类型。
@@ -10,7 +10,7 @@ public class SystemChecker
      *
      * @return 操作系统类型的整数值
      */
-    public int identifySystem_int()
+    public static int identifySystem_int()
     {
         String OSname = System.getProperty("os.name");
         if (OSname.startsWith("Mac OS"))
@@ -32,7 +32,7 @@ public class SystemChecker
      *
      * @return 路径分隔符字符串
      */
-    public String identifySystem_String()
+    public static String identifySystem_String()
     {
         String OSname = System.getProperty("os.name");
         if (OSname.startsWith("Mac OS"))

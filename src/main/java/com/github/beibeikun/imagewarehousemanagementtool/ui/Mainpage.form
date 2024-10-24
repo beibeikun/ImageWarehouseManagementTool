@@ -127,9 +127,32 @@
                       <text value=""/>
                     </properties>
                   </component>
-                  <hspacer id="c3b42">
+                  <component id="93858" class="javax.swing.JCheckBox" binding="mainpageOrganizeAndSortCheckBox">
+                    <constraints/>
+                    <properties>
+                      <selected value="true"/>
+                      <text value=""/>
+                    </properties>
+                  </component>
+                  <hspacer id="f3fa2">
                     <constraints/>
                   </hspacer>
+                  <component id="b57fd" class="javax.swing.JLabel" binding="mainpageFileTypeLabel">
+                    <constraints/>
+                    <properties>
+                      <labelFor value="9b171"/>
+                      <text value=""/>
+                    </properties>
+                  </component>
+                  <component id="9b171" class="javax.swing.JComboBox" binding="mainpageFileType">
+                    <constraints/>
+                    <properties>
+                      <model>
+                        <item value="camera"/>
+                        <item value="phone"/>
+                      </model>
+                    </properties>
+                  </component>
                   <component id="9aa6c" class="javax.swing.JCheckBox" binding="addFromDatabaseCheckBox">
                     <constraints/>
                     <properties>
@@ -137,22 +160,6 @@
                       <selected value="true"/>
                       <text value=""/>
                       <visible value="true"/>
-                    </properties>
-                  </component>
-                  <component id="b57fd" class="javax.swing.JLabel" binding="addFromDatabaseLabel">
-                    <constraints/>
-                    <properties>
-                      <labelFor value="9b171"/>
-                      <text value=""/>
-                    </properties>
-                  </component>
-                  <component id="9b171" class="javax.swing.JComboBox" binding="selectdatabase">
-                    <constraints/>
-                    <properties>
-                      <model>
-                        <item value="camera"/>
-                        <item value="phone"/>
-                      </model>
                     </properties>
                   </component>
                   <hspacer id="31837">
@@ -169,6 +176,7 @@
                     <constraints/>
                     <properties>
                       <model>
+                        <item value="auto"/>
                         <item value="fullsize"/>
                         <item value="1000px"/>
                         <item value="2500px"/>
@@ -199,7 +207,7 @@
               </vspacer>
               <component id="d6a14" class="javax.swing.JButton" binding="renameStartButton">
                 <constraints>
-                  <grid row="3" column="4" row-span="2" col-span="2" vsize-policy="0" hsize-policy="7" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+                  <grid row="4" column="4" row-span="1" col-span="1" vsize-policy="0" hsize-policy="7" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
                 </constraints>
                 <properties>
                   <enabled value="true"/>

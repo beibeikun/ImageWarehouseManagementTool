@@ -1,9 +1,6 @@
 package com.github.beibeikun.imagewarehousemanagementtool.util.DataOperations;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 /**
  * 列表操作类
@@ -25,5 +22,25 @@ public class ListExtractor
         setA.removeAll(setB);
         // 将 setA 转换为 List<String>
         return new ArrayList<>(setA);
+    }
+    /**
+     * 获取在数组A中但不在数组B中的元素的差集。
+     *
+     * @param arrayA 第一个字符串数组
+     * @param arrayB 第二个字符串数组
+     * @return 包含在数组A中但不在数组B中的元素的Set
+     */
+    public static Set<String> removeElementFromList(String[] arrayA, String[] arrayB)
+    {
+        // 将数组A转换为Set
+        Set<String> setA = new HashSet<>(Arrays.asList(arrayA));
+
+        // 将数组B转换为Set
+        Set<String> setB = new HashSet<>(Arrays.asList(arrayB));
+
+        // 使用Set的差集操作
+        setA.removeAll(setB);
+
+        return setA;
     }
 }

@@ -2,9 +2,13 @@ package com.github.beibeikun.imagewarehousemanagementtool.ui;
 
 import com.formdev.flatlaf.FlatDarkLaf;
 import com.formdev.flatlaf.util.SystemInfo;
-import com.github.beibeikun.imagewarehousemanagementtool.util.CheckOperations.SystemChecker;
+import com.github.beibeikun.imagewarehousemanagementtool.constant.files;
+import com.github.beibeikun.imagewarehousemanagementtool.constant.others;
+import com.github.beibeikun.imagewarehousemanagementtool.constant.versionNumber;
+import com.github.beibeikun.imagewarehousemanagementtool.filter.SystemChecker;
 import com.github.beibeikun.imagewarehousemanagementtool.util.DataOperations.*;
 import com.github.beibeikun.imagewarehousemanagementtool.util.Others.*;
+import com.github.beibeikun.imagewarehousemanagementtool.util.Test.Path;
 import com.github.beibeikun.imagewarehousemanagementtool.util.mainpageUtils;
 
 import javax.imageio.ImageIO;
@@ -16,10 +20,12 @@ import java.awt.image.BufferedImage;
 import java.io.*;
 import java.lang.reflect.Field;
 import java.net.URI;
-import java.nio.charset.StandardCharsets;
 import java.util.*;
 
+import static com.github.beibeikun.imagewarehousemanagementtool.filter.SystemChecker.identifySystem_int;
+import static com.github.beibeikun.imagewarehousemanagementtool.util.DataOperations.WriteToProperties.writeToPropertiesSingle;
 import static com.github.beibeikun.imagewarehousemanagementtool.util.FileOperations.DeleteFileFromDatabase.deleteFileFromDatabase;
+import static com.github.beibeikun.imagewarehousemanagementtool.util.Test.GetProperties.getPropertiesAsMap;
 import static com.github.beibeikun.imagewarehousemanagementtool.util.mainpageUtilsWithTasks.*;
 
 public class Mainpage
@@ -29,8 +35,8 @@ public class Mainpage
     mainpageUtils mainpageutil = new mainpageUtils();
     private JButton renameStartButton, selectLastPathButton, selectFirstPathButton, uploadToDatabaseButton, deleteButton, SearchButton, selectRenameCsvButton, connectToDatabaseButton, connectToCameraWarehouseButton, connectToPhoneWarehouseButton, languageButton, extractMainImageFromSourceFolderButton, downloadMainImageFromDatabaseButton, checkMainImageWithCsvButton, changeSuffixButton, sortByFolderButton, changeTargetToSourceButton, selectCheckCsvButton, extractAllImageFromSourceFolderButton, exchangeFirstPathButton, compressButton, selectPdfCsvButton, toPdfButton, selectDeleteCsvButton;
     private JCheckBox digitCheckBox, prefixCheckBox, classificationCheckBox, addFromDatabaseCheckBox, uploadReplaceCheckBox, uploadDeleteCheckBox, suffixCheckBox;
-    private JComboBox suffixComboBox, selectdatabase, imgsizecomboBox, uploadSizeComboBox, deleteTypeComboBox, onlyCompressSizeChooseComboBox, uploadDatabaseComboBox, pdfOutTypeComboBox;
-    private JLabel versionLabel, sourceFolderPath, targetFolderPath, renameCsvPath, databaseAddressText, databaseUserNameText, cameraWarehouseAddressText, phoneWarehouseAddressText, githuburlLabel, testmode, mode, Suffix, checkCsvPath, pdfCsvPath, enterJBNum, suffixLabel, sizeLabel, addFromDatabaseLabel, tab2SizeLabel, uploadDatabaseLabel, uploadSizeLabel, pdfStaffLabel, pdfOutTypeLabel, deleteCsvPath, deleteJBLabel, deleteTypeLabel, databaseAddressLabel, databaseUserNameLabel, cameraWarehouseAddressLabel, phoneWarehouseAddressLabel;
+    private JComboBox suffixComboBox, mainpageFileType, imgsizecomboBox, uploadSizeComboBox, deleteTypeComboBox, onlyCompressSizeChooseComboBox, uploadDatabaseComboBox, pdfOutTypeComboBox;
+    private JLabel versionLabel, sourceFolderPath, targetFolderPath, renameCsvPath, databaseAddressText, databaseUserNameText, cameraWarehouseAddressText, phoneWarehouseAddressText, githuburlLabel, testmode, mode, Suffix, checkCsvPath, pdfCsvPath, enterJBNum, suffixLabel, sizeLabel, mainpageFileTypeLabel, tab2SizeLabel, uploadDatabaseLabel, uploadSizeLabel, pdfStaffLabel, pdfOutTypeLabel, deleteCsvPath, deleteJBLabel, deleteTypeLabel, databaseAddressLabel, databaseUserNameLabel, cameraWarehouseAddressLabel, phoneWarehouseAddressLabel;
     private JPanel panel1, Tab1, Tab2, Tab3, Tab4, Tab5, Tab6;
     private JScrollPane printOutScrollPane;
     private JTabbedPane tabbedPane;
@@ -42,8 +48,9 @@ public class Mainpage
     private JComboBox chooseDownloadDatabaseComboBox;
     private JCheckBox useCsvCheckBox;
     private JCheckBox organizeAndSortCheckBox;
+    private JCheckBox mainpageOrganizeAndSortCheckBox;
 
-    public Mainpage()
+    public Mainpage() throws IOException
     {
         //加载界面
         initUIComponents();
@@ -83,7 +90,7 @@ public class Mainpage
             try
             {
                 // 创建File对象
-                File imageFile = new File(System.getProperty("user.home") + system.identifySystem_String() + "Documents" + system.identifySystem_String() + "IWMT" + system.identifySystem_String() + "logo.png");
+                File imageFile = new File(System.getProperty("user.home") + system.identifySystem_String() + "Documents" + system.identifySystem_String() + others.APP_NAME_ABBREVIATION + system.identifySystem_String() + "logo.png");
 
                 // 使用ImageIO读取文件并转换为BufferedImage
                 BufferedImage image = ImageIO.read(imageFile);
@@ -93,10 +100,17 @@ public class Mainpage
             {
                 e.printStackTrace();
             }
-            frame.setContentPane(new Mainpage().panel1);
+            try
+            {
+                frame.setContentPane(new Mainpage().panel1);
+            }
+            catch (IOException e)
+            {
+                throw new RuntimeException(e);
+            }
             frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
             int uiWidth, uiHeight;
-            if (system.identifySystem_int() == 1) //MAC及linux系统下窗口大小
+            if (identifySystem_int() == 1) //MAC及linux系统下窗口大小
             {
                 uiWidth = 1600;
                 uiHeight = 550;
@@ -113,7 +127,7 @@ public class Mainpage
             frame.setVisible(true);
             if (! SystemInfo.isMacFullWindowContentSupported)
             {
-                frame.setTitle("Image Warehouse Management Tool");
+                frame.setTitle(others.APP_NAME);
             }
         });
     }
@@ -121,7 +135,7 @@ public class Mainpage
     /**
      * 初始化界面组件设置
      */
-    private void initUIComponents()
+    private void initUIComponents() throws IOException
     {
         // 根据系统语言配置
         setLanguage(Locale.getDefault().getLanguage());
@@ -136,45 +150,32 @@ public class Mainpage
             }
         }));
 
-        Properties settingsproperties = new Properties();
-        try (FileInputStream fis = new FileInputStream(GetPropertiesPath.settingspath());
-             InputStreamReader reader = new InputStreamReader(fis, StandardCharsets.UTF_8))
-        {
-            settingsproperties.load(reader);
-            databaseAddressText.setText(settingsproperties.getProperty("databaseAddressText"));
-            databaseUserNameText.setText(settingsproperties.getProperty("databaseUserNameText"));
-            sourceFolderPath.setText(settingsproperties.getProperty("sourceFolderPath"));
-            targetFolderPath.setText(settingsproperties.getProperty("targetFolderPath"));
-            renameCsvPath.setText(settingsproperties.getProperty("renameCsvPath"));
-            checkCsvPath.setText(settingsproperties.getProperty("checkCsvPath"));
-            pdfCsvPath.setText(settingsproperties.getProperty("pdfCsvPath"));
-            cameraWarehouseAddressText.setText(settingsproperties.getProperty("cameraWarehouseAddressText"));
-            phoneWarehouseAddressText.setText(settingsproperties.getProperty("phoneWarehouseAddressText"));
+        Map<String, String> propertiesMap = getPropertiesAsMap(GetPropertiesPath.settingspath());
+        databaseAddressText.setText(propertiesMap.get("databaseAddressText"));
+        databaseUserNameText.setText(propertiesMap.get("databaseUserNameText"));
+        sourceFolderPath.setText(propertiesMap.get("sourceFolderPath"));
+        Path.setSourcePathWithoutWrite(propertiesMap.get("sourceFolderPath"));
+        targetFolderPath.setText(propertiesMap.get("targetFolderPath"));
+        Path.setTargetPathWithoutWrite(propertiesMap.get("targetFolderPath"));
+        renameCsvPath.setText(propertiesMap.get("renameCsvPath"));
+        checkCsvPath.setText(propertiesMap.get("checkCsvPath"));
+        pdfCsvPath.setText(propertiesMap.get("pdfCsvPath"));
+        cameraWarehouseAddressText.setText(propertiesMap.get("cameraWarehouseAddressText"));
+        phoneWarehouseAddressText.setText(propertiesMap.get("phoneWarehouseAddressText"));
 
-            // 读取属性值...
-        }
-        catch (IOException e)
-        {
-            SystemPrintOut.systemPrintOut("No settings file", 2, 0);
-            e.printStackTrace();
-        }
 
-        String[][] filenamelist = new String[2][10];
-        filenamelist[0][0] = "versionNumber";
         if (VersionNumber.getReleaseType())
         {
-            versionLabel.setText("Build: V" + VersionNumber.officialVersionNumber() + " by beibeikun");//正式版
-            filenamelist[1][0] = VersionNumber.officialVersionNumber();
+            versionLabel.setText(versionNumber.OFFICIAL_TITLE + VersionNumber.officialVersionNumber() + versionNumber.SIGNATURE);//正式版
+            writeToPropertiesSingle(files.SETTINGS,versionNumber.VERSION_NUMBER,VersionNumber.officialVersionNumber());
         }
         else
         {
-            versionLabel.setText("Build: Beta V" + VersionNumber.betaVersionNumber() + " by beibeikun");//测试版
-            filenamelist[1][0] = VersionNumber.betaVersionNumber();
+            versionLabel.setText(versionNumber.BETA_TITLE + VersionNumber.betaVersionNumber() + versionNumber.SIGNATURE);//测试版
+            writeToPropertiesSingle(files.SETTINGS,versionNumber.VERSION_NUMBER,VersionNumber.betaVersionNumber());
         }
         //versionLabel.setText(getVersionNumber());//显示为当前版本号
         githuburlLabel.setText("<html><u>GitHub Homepage</u></html>");//显示github地址
-
-        WriteToProperties.writeToProperties("settings", filenamelist);
     }
 
     /**
@@ -213,8 +214,10 @@ public class Mainpage
         //执行文件重命名
         renameStartButton.addActionListener(e ->
         {
-            renameWithTasks(addFromDatabaseCheckBox, selectdatabase, cameraWarehouseAddressText, phoneWarehouseAddressText, classificationCheckBox, suffixCheckBox, suffixComboBox, imgsizecomboBox, sourceFolderPath, targetFolderPath, renameCsvPath);
+            renameWithTasks(addFromDatabaseCheckBox, mainpageFileType, cameraWarehouseAddressText, phoneWarehouseAddressText, classificationCheckBox, suffixCheckBox, suffixComboBox, mainpageOrganizeAndSortCheckBox, imgsizecomboBox, targetFolderPath, renameCsvPath);
         });
+        renameStartButton.setBackground(Color.lightGray);
+        renameStartButton.setForeground(Color.DARK_GRAY);
         /*================================第二页：文件操作================================*/
 
         //将源文件夹内容按前缀进行分类
@@ -225,7 +228,7 @@ public class Mainpage
 
         //执行从源文件夹中拉取文件主图
         extractMainImageFromSourceFolderButton.addActionListener(e -> extractMainImageWithTasks(sourceFolderPath, targetFolderPath, useCsvCheckBox, checkCsvPath));
-
+        
         //更换后缀名
         changeSuffixButton.addActionListener(e -> changeAllSuffixWithTasks(sourceFolderPath, targetFolderPath, 0));
 
