@@ -18,7 +18,7 @@ public class VersionNumber
          * true-正式版
          * false-测试版
          * */
-        return false;
+        return true;
     }
 
     public static String officialVersionNumber()
