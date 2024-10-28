@@ -1,6 +1,6 @@
 package com.github.beibeikun.imagewarehousemanagementtool.ui;
 
-import com.github.beibeikun.imagewarehousemanagementtool.util.Others.SystemPrintOut;
+import com.github.beibeikun.imagewarehousemanagementtool.util.common.SystemPrintOut;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;

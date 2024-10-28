@@ -10,7 +10,7 @@ import java.util.regex.Pattern;
 import java.util.stream.Stream;
 
 import static com.github.beibeikun.imagewarehousemanagementtool.filter.HiddenFilesChecker.isSystemOrHiddenFile;
-import static com.github.beibeikun.imagewarehousemanagementtool.util.Others.SystemPrintOut.systemPrintOut;
+import static com.github.beibeikun.imagewarehousemanagementtool.util.common.SystemPrintOut.systemPrintOut;
 
 public class FolderChecker
 {

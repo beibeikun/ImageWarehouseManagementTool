@@ -1,6 +1,6 @@
 package com.github.beibeikun.imagewarehousemanagementtool.ui;
 
-import com.github.beibeikun.imagewarehousemanagementtool.util.Others.SystemPrintOut;
+import com.github.beibeikun.imagewarehousemanagementtool.util.common.SystemPrintOut;
 
 import javax.swing.*;
 import javax.swing.filechooser.FileNameExtensionFilter;

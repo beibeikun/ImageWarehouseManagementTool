@@ -11,8 +11,8 @@ import java.nio.file.StandardCopyOption;
 import java.util.List;
 
 import static com.github.beibeikun.imagewarehousemanagementtool.filter.HiddenFilesChecker.isSystemOrHiddenFile;
-import static com.github.beibeikun.imagewarehousemanagementtool.util.DataOperations.FileLister.getFileNamesInList;
-import static com.github.beibeikun.imagewarehousemanagementtool.util.Others.SystemPrintOut.systemPrintOut;
+import static com.github.beibeikun.imagewarehousemanagementtool.util.file.FileLister.getFileNamesInList;
+import static com.github.beibeikun.imagewarehousemanagementtool.util.common.SystemPrintOut.systemPrintOut;
 
 /**
  * 文件拷贝和删除操作类。
@@ -39,7 +39,6 @@ public class FileCopyAndDelete
      *
      * @param firstfolderpath 源文件夹路径
      * @param lastfolderpath  目标文件夹路径
-     * @param prefixnumbers   前缀数
      * @throws IOException 复制文件时可能发生的IO异常
      */
     public static void copyFilesAndOrganize(String firstfolderpath, String lastfolderpath) throws IOException

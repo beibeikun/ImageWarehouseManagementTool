@@ -14,7 +14,7 @@ public class ListExtractor
      * @param listB 包含移除元素内容的list
      * @return 移除与listB重复元素的listA
      */
-    public static List<String> removeElementFromList(List<String> listA, List<String> listB)
+    public static List<String> removeElementFromListInList(List<String> listA, List<String> listB)
     {
         Set<String> setA = new HashSet<>(listA);
         Set<String> setB = new HashSet<>(listB);
@@ -32,15 +32,8 @@ public class ListExtractor
      */
     public static Set<String> removeElementFromList(String[] arrayA, String[] arrayB)
     {
-        // 将数组A转换为Set
-        Set<String> setA = new HashSet<>(Arrays.asList(arrayA));
+        List<String> list = removeElementFromListInList(Arrays.asList(arrayA),Arrays.asList(arrayB));
 
-        // 将数组B转换为Set
-        Set<String> setB = new HashSet<>(Arrays.asList(arrayB));
-
-        // 使用Set的差集操作
-        setA.removeAll(setB);
-
-        return setA;
+        return new HashSet<>(list);
     }
 }

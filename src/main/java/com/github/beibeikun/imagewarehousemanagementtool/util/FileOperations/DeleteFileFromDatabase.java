@@ -1,10 +1,9 @@
 package com.github.beibeikun.imagewarehousemanagementtool.util.FileOperations;
 
-import com.github.beibeikun.imagewarehousemanagementtool.filter.SystemChecker;
-
 import java.io.File;
 import java.io.IOException;
 
+import static com.github.beibeikun.imagewarehousemanagementtool.filter.SystemChecker.identifySystem_String;
 import static com.github.beibeikun.imagewarehousemanagementtool.util.DataOperations.DeleteTypeCheck.deleteTypeCheck;
 import static com.github.beibeikun.imagewarehousemanagementtool.util.DataOperations.FileSearch.isDirectoryEmpty;
 import static com.github.beibeikun.imagewarehousemanagementtool.util.DataOperations.FileSearch.isFileExists;
@@ -13,7 +12,6 @@ public class DeleteFileFromDatabase
 {
     public static void deleteFileFromDatabase(String destinationFolder, String deleteNum) throws IOException
     {
-        SystemChecker system = new SystemChecker();
         //TODO
         if (deleteTypeCheck(deleteNum)) // 完整
         {
@@ -21,9 +19,9 @@ public class DeleteFileFromDatabase
         }
         else //单个
         {
-            String deletePath = destinationFolder + system.identifySystem_String() + deleteNum.substring(0, 6) + system.identifySystem_String() + deleteNum + ".zip";
-            String folderPath = destinationFolder + system.identifySystem_String() + deleteNum.substring(0, 6);
-            String thumbnailPath = destinationFolder + system.identifySystem_String() + "thumbnail" + system.identifySystem_String() + deleteNum + ".JPG";
+            String deletePath = destinationFolder + identifySystem_String() + deleteNum.substring(0, 6) + identifySystem_String() + deleteNum + ".zip";
+            String folderPath = destinationFolder + identifySystem_String() + deleteNum.substring(0, 6);
+            String thumbnailPath = destinationFolder + identifySystem_String() + "thumbnail" + identifySystem_String() + deleteNum + ".JPG";
             if (isFileExists(deletePath)) //文件存在，执行删除
             {
                 DeleteDirectory.deleteFile(deletePath);//删除压缩包

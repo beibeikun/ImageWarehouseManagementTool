@@ -1,12 +1,12 @@
 package com.github.beibeikun.imagewarehousemanagementtool.util.DataOperations;
 
+import com.github.beibeikun.imagewarehousemanagementtool.constant.printOutMessage;
 import org.apache.commons.io.input.BOMInputStream;
 
 import java.io.BufferedReader;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -54,30 +54,11 @@ public class ReadCsvFile
                 }
                 else
                 {
-                    dataArray[j][i] = ""; // 对于不满列数的行，用空字符串填充
+                    dataArray[j][i] = printOutMessage.NULL; // 对于不满列数的行，用空字符串填充
                 }
             }
         }
 
         return dataArray;
-    }
-    public static String[] readColumn(String filePath, int columnIndex) throws IOException {
-        List<String> results = new ArrayList<>();
-        try (FileInputStream fis = new FileInputStream(filePath);
-             BOMInputStream bomIn = new BOMInputStream(fis);
-             BufferedReader reader = new BufferedReader(new InputStreamReader(bomIn, StandardCharsets.UTF_8))) { // 使用UTF-8编码
-            String line;
-            while ((line = reader.readLine()) != null) {
-                String[] values = line.split(",", -1); // 假设逗号为分隔符, 传入-1以保留空白结果
-                if (values.length > columnIndex) {
-                    String value = values[columnIndex].isEmpty() ? "" : values[columnIndex]; // 如果空，替换为一个空格
-                    results.add(value);
-                } else {
-                    // 如果该行数据少于columnIndex指定的列数，添加一个空格作为默认值
-                    results.add(" ");
-                }
-            }
-        }
-        return results.toArray(new String[0]); // 转换列表为数组并返回
     }
 }

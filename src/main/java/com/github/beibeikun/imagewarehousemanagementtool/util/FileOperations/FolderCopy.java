@@ -1,7 +1,5 @@
 package com.github.beibeikun.imagewarehousemanagementtool.util.FileOperations;
 
-import com.github.beibeikun.imagewarehousemanagementtool.filter.SystemChecker;
-
 import java.io.IOException;
 import java.nio.file.*;
 import java.nio.file.attribute.BasicFileAttributes;
@@ -9,10 +7,11 @@ import java.util.Arrays;
 import java.util.List;
 
 import static com.github.beibeikun.imagewarehousemanagementtool.filter.HiddenFilesChecker.isSystemOrHiddenFile;
-import static com.github.beibeikun.imagewarehousemanagementtool.util.DataOperations.FileLister.getFileNames;
-import static com.github.beibeikun.imagewarehousemanagementtool.util.DataOperations.GetPrefix.getPrefix;
+import static com.github.beibeikun.imagewarehousemanagementtool.filter.SystemChecker.identifySystem_String;
+import static com.github.beibeikun.imagewarehousemanagementtool.util.file.FileLister.getFileNamesInString;
+import static com.github.beibeikun.imagewarehousemanagementtool.util.data.GetPrefix.getPrefix;
 import static com.github.beibeikun.imagewarehousemanagementtool.util.FileOperations.FileCopyAndDelete.copyFile;
-import static com.github.beibeikun.imagewarehousemanagementtool.util.Others.SystemPrintOut.systemPrintOut;
+import static com.github.beibeikun.imagewarehousemanagementtool.util.common.SystemPrintOut.systemPrintOut;
 
 public class FolderCopy
 {
@@ -81,16 +80,15 @@ public class FolderCopy
      */
     public static void copyFolderWithList(String sourceFolderPath, String targetFolderPath, List<String> nameList) throws IOException
     {
-        String[] sourceFiles = getFileNames(sourceFolderPath);
+        String[] sourceFiles = getFileNamesInString(sourceFolderPath);
         Arrays.sort(sourceFiles);
-        SystemChecker system = new SystemChecker();
 
         for (String sourceFile : sourceFiles)
         {
             String filecheck = getPrefix(sourceFile);
             if (nameList.contains(filecheck))
             {
-                copyFile(sourceFolderPath + system.identifySystem_String() + sourceFile, targetFolderPath);
+                copyFile(sourceFolderPath + identifySystem_String() + sourceFile, targetFolderPath);
                 systemPrintOut("Copy:" + sourceFile + "-->" + targetFolderPath, 1, 0);
             }
         }

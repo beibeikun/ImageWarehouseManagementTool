@@ -36,6 +36,13 @@
             <version>2.15.0</version>
         </dependency>
 
+        <!-- FlatLaf更多主题 -->
+        <dependency>
+            <groupId>com.formdev</groupId>
+            <artifactId>flatlaf-intellij-themes</artifactId>
+            <version>3.5.2</version>
+        </dependency>
+
         <!-- FlatLaf：一个现代的开源跨平台Java Swing应用程序外观和感觉库 -->
         <dependency>
             <groupId>com.formdev</groupId>

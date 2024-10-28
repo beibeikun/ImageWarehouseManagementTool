@@ -2,7 +2,7 @@ package com.github.beibeikun.imagewarehousemanagementtool.util.FileOperations;
 
 import java.io.File;
 
-import static com.github.beibeikun.imagewarehousemanagementtool.util.Others.SystemPrintOut.systemPrintOut;
+import static com.github.beibeikun.imagewarehousemanagementtool.util.common.SystemPrintOut.systemPrintOut;
 
 /**
  * 更改文件后缀的类

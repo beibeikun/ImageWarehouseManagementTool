@@ -2,7 +2,7 @@ package com.github.beibeikun.imagewarehousemanagementtool.util.FileOperations;
 
 import com.github.beibeikun.imagewarehousemanagementtool.constant.printOutMessage;
 import com.github.beibeikun.imagewarehousemanagementtool.filter.SystemChecker;
-import com.github.beibeikun.imagewarehousemanagementtool.util.DataOperations.FileLister;
+import com.github.beibeikun.imagewarehousemanagementtool.util.file.FileLister;
 import com.github.beibeikun.imagewarehousemanagementtool.util.DataOperations.FileNameProcessor;
 import com.github.beibeikun.imagewarehousemanagementtool.util.DataOperations.FileSearch;
 
@@ -18,7 +18,7 @@ import java.util.regex.Pattern;
 
 import static com.github.beibeikun.imagewarehousemanagementtool.filter.FolderChecker.checkFolder;
 import static com.github.beibeikun.imagewarehousemanagementtool.filter.SystemChecker.identifySystem_String;
-import static com.github.beibeikun.imagewarehousemanagementtool.util.Others.SystemPrintOut.systemPrintOut;
+import static com.github.beibeikun.imagewarehousemanagementtool.util.common.SystemPrintOut.systemPrintOut;
 
 public class OrganizeFiles
 {
@@ -32,10 +32,10 @@ public class OrganizeFiles
     public static void organizeFileNumbers(String sourceFolderPath, String targetFolderPath, boolean moveFilesChecker) throws IOException
     {
         Files.createDirectories(Paths.get(targetFolderPath));
-        if (!checkFolder(sourceFolderPath,targetFolderPath,false,"",false,"",true))
+        if (!checkFolder(sourceFolderPath,targetFolderPath,false,printOutMessage.NULL,false,printOutMessage.NULL,true))
         {
             systemPrintOut(printOutMessage.INVALID_PATH_STOP_TASK,2,0);
-            systemPrintOut("",0,0);
+            systemPrintOut(printOutMessage.NULL,0,0);
             return;
         }
         //targetFolderPath = CreateFolder.createFolderWithTime(targetFolderPath);
@@ -46,7 +46,7 @@ public class OrganizeFiles
         systemPrintOut(null, 0, 0);
 
         // 获取文件夹中的所有文件名
-        String[] fileNameList = FileNameProcessor.processFileNames(FileLister.getFileNames(targetFolderPath));
+        String[] fileNameList = FileNameProcessor.processFileNames(FileLister.getFileNamesInString(targetFolderPath));
 
         // 对文件名列表进行排序
         Arrays.sort(fileNameList);
@@ -95,7 +95,7 @@ public class OrganizeFiles
         systemPrintOut(null, 0, 0);
 
         // 获取文件夹中的所有文件名
-        String[] fileNameList = FileNameProcessor.processFileNames(FileLister.getFileNames(targetFolderPath));
+        String[] fileNameList = FileNameProcessor.processFileNames(FileLister.getFileNamesInString(targetFolderPath));
 
         // 对文件名列表进行排序
         Arrays.sort(fileNameList);

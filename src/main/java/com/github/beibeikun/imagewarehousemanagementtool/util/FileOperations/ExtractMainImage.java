@@ -1,6 +1,5 @@
 package com.github.beibeikun.imagewarehousemanagementtool.util.FileOperations;
 
-import com.github.beibeikun.imagewarehousemanagementtool.filter.SystemChecker;
 import com.github.beibeikun.imagewarehousemanagementtool.util.DataOperations.ReadCsvFile;
 
 import java.io.File;
@@ -9,10 +8,11 @@ import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 
-import static com.github.beibeikun.imagewarehousemanagementtool.util.DataOperations.ArrayExtractor.extractRow;
-import static com.github.beibeikun.imagewarehousemanagementtool.util.DataOperations.FileLister.getFileNames;
+import static com.github.beibeikun.imagewarehousemanagementtool.filter.SystemChecker.identifySystem_String;
+import static com.github.beibeikun.imagewarehousemanagementtool.util.data.ArrayExtractor.extractRow;
+import static com.github.beibeikun.imagewarehousemanagementtool.util.file.FileLister.getFileNamesInString;
 import static com.github.beibeikun.imagewarehousemanagementtool.util.DataOperations.FileNameProcessor.processFileNames;
-import static com.github.beibeikun.imagewarehousemanagementtool.util.Others.SystemPrintOut.systemPrintOut;
+import static com.github.beibeikun.imagewarehousemanagementtool.util.common.SystemPrintOut.systemPrintOut;
 
 public class ExtractMainImage
 {
@@ -26,7 +26,6 @@ public class ExtractMainImage
     public static void extractMainImage(String sourceFolder, String destinationFolder, boolean useCsvCheck, String csvPath) throws IOException
     {
         systemPrintOut("Start to take main img from source path", 3, 0);
-        SystemChecker system = new SystemChecker();
         destinationFolder = CreateFolder.createFolderWithTime(destinationFolder);
         File folder = new File(sourceFolder);
 
@@ -36,7 +35,7 @@ public class ExtractMainImage
             return;
         }
         //获取源文件夹内所有文件名,处理文件名数组，去除文件后缀名、去除 "(x)" 后缀并删除重复项，只保留一个
-        String[] FileNames = processFileNames(getFileNames(sourceFolder));
+        String[] FileNames = processFileNames(getFileNamesInString(sourceFolder));
 
         if (useCsvCheck)
         {
@@ -47,9 +46,9 @@ public class ExtractMainImage
         Arrays.sort(FileNames);
         for (String fileName : FileNames)
         {
-            File file = new File(sourceFolder + system.identifySystem_String() + fileName + ".JPG");
+            File file = new File(sourceFolder + identifySystem_String() + fileName + ".JPG");
             if (file.exists()) {
-                FileCopyAndDelete.copyFile(sourceFolder + system.identifySystem_String() + fileName + ".JPG", destinationFolder);
+                FileCopyAndDelete.copyFile(sourceFolder + identifySystem_String() + fileName + ".JPG", destinationFolder);
                 systemPrintOut("Copy:" + fileName, 1, 0);
             }
             else
@@ -57,11 +56,11 @@ public class ExtractMainImage
                 int counter = 1;
                 while (true)
                 {
-                    File fileInCount = new File(sourceFolder + system.identifySystem_String() + fileName + " (" + counter + ").jpg");
+                    File fileInCount = new File(sourceFolder + identifySystem_String() + concatenateFilenameStrings(fileName, counter));
                     if (fileInCount.exists())
                     {
-                        FileCopyAndDelete.copyFile(sourceFolder + system.identifySystem_String() + fileName + " (" + counter + ").jpg", destinationFolder);
-                        systemPrintOut("Copy:" + fileName + " (" + counter + ")", 1, 0);
+                        FileCopyAndDelete.copyFile(sourceFolder + identifySystem_String() + concatenateFilenameStrings(fileName, counter), destinationFolder);
+                        systemPrintOut("Copy:" + concatenateFilenameStrings(fileName, counter), 1, 0);
                         break;
                     }
                     else
@@ -91,6 +90,9 @@ public class ExtractMainImage
 
         // 将Set转为String[]
         return duplicates.toArray(new String[0]);
+    }
+    private static String concatenateFilenameStrings(String fileName, int counter) {
+        return fileName + " (" + counter + ").jpg";
     }
 
 }

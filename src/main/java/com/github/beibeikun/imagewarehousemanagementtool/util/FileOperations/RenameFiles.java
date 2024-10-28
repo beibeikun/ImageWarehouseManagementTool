@@ -1,15 +1,14 @@
 package com.github.beibeikun.imagewarehousemanagementtool.util.FileOperations;
 
-import com.github.beibeikun.imagewarehousemanagementtool.constant.printOutMessage;
-import com.github.beibeikun.imagewarehousemanagementtool.util.DataOperations.ArrayExtractor;
-import com.github.beibeikun.imagewarehousemanagementtool.util.DataOperations.ReadCsvFile;
 import com.github.beibeikun.imagewarehousemanagementtool.filter.HiddenFilesChecker;
+import com.github.beibeikun.imagewarehousemanagementtool.util.data.ArrayExtractor;
+import com.github.beibeikun.imagewarehousemanagementtool.util.DataOperations.ReadCsvFile;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.Arrays;
 
-import static com.github.beibeikun.imagewarehousemanagementtool.util.Others.SystemPrintOut.systemPrintOut;
+import static com.github.beibeikun.imagewarehousemanagementtool.util.common.SystemPrintOut.systemPrintOut;
 
 /**
  * 文件重命名工具类。

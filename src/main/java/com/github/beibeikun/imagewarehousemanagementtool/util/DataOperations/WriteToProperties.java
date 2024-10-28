@@ -1,8 +1,8 @@
 package com.github.beibeikun.imagewarehousemanagementtool.util.DataOperations;
 
 import com.github.beibeikun.imagewarehousemanagementtool.filter.SystemChecker;
-import com.github.beibeikun.imagewarehousemanagementtool.util.Others.GetPropertiesPath;
-import com.github.beibeikun.imagewarehousemanagementtool.util.Others.SystemPrintOut;
+import com.github.beibeikun.imagewarehousemanagementtool.util.common.GetPropertiesPath;
+import com.github.beibeikun.imagewarehousemanagementtool.util.common.SystemPrintOut;
 
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -31,7 +31,6 @@ public class WriteToProperties
      */
     public static void writeToProperties(String filename, String[][] writeinlist)
     {
-        SystemChecker system = new SystemChecker();
         Properties properties = new Properties();
         try (FileInputStream fis = new FileInputStream(GetPropertiesPath.settingspath());
              InputStreamReader reader = new InputStreamReader(fis, StandardCharsets.UTF_8))

@@ -1,17 +1,16 @@
 package com.github.beibeikun.imagewarehousemanagementtool.util.DataOperations;
 
 import com.github.beibeikun.imagewarehousemanagementtool.util.FileOperations.CreateFolder;
-import com.github.beibeikun.imagewarehousemanagementtool.util.Others.SystemPrintOut;
+import com.github.beibeikun.imagewarehousemanagementtool.util.common.SystemPrintOut;
+import com.github.beibeikun.imagewarehousemanagementtool.util.data.ArrayExtractor;
 
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.Arrays;
-import java.util.HashSet;
 import java.util.Set;
 
-import static com.github.beibeikun.imagewarehousemanagementtool.util.DataOperations.FileLister.getFileNames;
+import static com.github.beibeikun.imagewarehousemanagementtool.util.file.FileLister.getFileNamesInString;
 import static com.github.beibeikun.imagewarehousemanagementtool.util.DataOperations.FileNameProcessor.processFileNames;
 import static com.github.beibeikun.imagewarehousemanagementtool.util.DataOperations.ListExtractor.removeElementFromList;
 
@@ -33,7 +32,7 @@ public class FolderCsvComparator
         SystemPrintOut.systemPrintOut("Start to compare", 3, 0);
         String outputCsvPath = outpath + File.separator + "COMPARISON_RESULT.csv";
         SystemPrintOut.systemPrintOut("Create csv", 1, 0);
-        String[] filenames = processFileNames(getFileNames(folderPath));
+        String[] filenames = processFileNames(getFileNamesInString(folderPath));
         SystemPrintOut.systemPrintOut("Get filenames in path", 1, 0);
         String[] csvnames = ArrayExtractor.extractRow(ReadCsvFile.csvToArray(csvFilePath), 0);
         SystemPrintOut.systemPrintOut("Get filenames in csv", 1, 0);

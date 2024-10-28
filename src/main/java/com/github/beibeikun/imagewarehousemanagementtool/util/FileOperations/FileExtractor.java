@@ -1,7 +1,5 @@
 package com.github.beibeikun.imagewarehousemanagementtool.util.FileOperations;
 
-import com.github.beibeikun.imagewarehousemanagementtool.filter.SystemChecker;
-
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -9,8 +7,9 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.github.beibeikun.imagewarehousemanagementtool.filter.SystemChecker.identifySystem_String;
 import static com.github.beibeikun.imagewarehousemanagementtool.util.FileOperations.FileCopyAndDelete.copyFile;
-import static com.github.beibeikun.imagewarehousemanagementtool.util.Others.SystemPrintOut.systemPrintOut;
+import static com.github.beibeikun.imagewarehousemanagementtool.util.common.SystemPrintOut.systemPrintOut;
 
 /**
  * 文件提取工具类，用于从源文件夹中提取特定文件名的文件并复制到目标文件夹中。
@@ -27,19 +26,18 @@ public class FileExtractor
      */
     public static List<String> extractFiles(String sourceFolderPath, String targetFolderPath, String[] fileNamesToExtract) throws IOException
     {
-        SystemChecker system = new SystemChecker();
         List<String> nameList = new ArrayList<>();
         for (String fileName : fileNamesToExtract)
         {
             int position = fileName.indexOf("-");
             // 构建源文件的路径
-            Path sourcePath = Paths.get(sourceFolderPath, system.identifySystem_String() + fileName.substring(0, position) + system.identifySystem_String() + fileName + ".zip");
+            Path sourcePath = Paths.get(sourceFolderPath, identifySystem_String() + fileName.substring(0, position) + identifySystem_String() + fileName + ".zip");
             // 检查文件是否存在
             if (fileExists(sourcePath))
             {
                 // 复制文件到目标文件夹
                 copyFile(sourcePath.toString(), targetFolderPath);
-                systemPrintOut("Get:" + targetFolderPath + system.identifySystem_String() + sourcePath.getFileName().toString(), 1, 0);
+                systemPrintOut("Get:" + targetFolderPath + identifySystem_String() + sourcePath.getFileName().toString(), 1, 0);
                 nameList.add(fileName);
             }
         }

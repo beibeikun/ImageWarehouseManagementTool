@@ -1,15 +1,17 @@
 package com.github.beibeikun.imagewarehousemanagementtool.ui;
 
-import com.formdev.flatlaf.FlatDarkLaf;
+import com.formdev.flatlaf.intellijthemes.FlatXcodeDarkIJTheme;
 import com.formdev.flatlaf.util.SystemInfo;
 import com.github.beibeikun.imagewarehousemanagementtool.constant.files;
 import com.github.beibeikun.imagewarehousemanagementtool.constant.others;
 import com.github.beibeikun.imagewarehousemanagementtool.constant.versionNumber;
 import com.github.beibeikun.imagewarehousemanagementtool.filter.SystemChecker;
-import com.github.beibeikun.imagewarehousemanagementtool.util.DataOperations.*;
-import com.github.beibeikun.imagewarehousemanagementtool.util.Others.*;
-import com.github.beibeikun.imagewarehousemanagementtool.util.Test.Path;
-import com.github.beibeikun.imagewarehousemanagementtool.util.mainpageUtils;
+import com.github.beibeikun.imagewarehousemanagementtool.util.data.ImgSize;
+import com.github.beibeikun.imagewarehousemanagementtool.util.common.GetPropertiesPath;
+import com.github.beibeikun.imagewarehousemanagementtool.util.common.StartCheck;
+import com.github.beibeikun.imagewarehousemanagementtool.util.common.VersionNumber;
+import com.github.beibeikun.imagewarehousemanagementtool.util.path.DirectoryPathManager;
+import com.github.beibeikun.imagewarehousemanagementtool.util.common.mainpageUtils;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -17,16 +19,22 @@ import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
-import java.io.*;
+import java.io.File;
+import java.io.IOException;
+import java.io.OutputStream;
+import java.io.PrintStream;
 import java.lang.reflect.Field;
 import java.net.URI;
-import java.util.*;
+import java.util.Locale;
+import java.util.Map;
+import java.util.MissingResourceException;
+import java.util.ResourceBundle;
 
 import static com.github.beibeikun.imagewarehousemanagementtool.filter.SystemChecker.identifySystem_int;
 import static com.github.beibeikun.imagewarehousemanagementtool.util.DataOperations.WriteToProperties.writeToPropertiesSingle;
 import static com.github.beibeikun.imagewarehousemanagementtool.util.FileOperations.DeleteFileFromDatabase.deleteFileFromDatabase;
-import static com.github.beibeikun.imagewarehousemanagementtool.util.Test.GetProperties.getPropertiesAsMap;
-import static com.github.beibeikun.imagewarehousemanagementtool.util.mainpageUtilsWithTasks.*;
+import static com.github.beibeikun.imagewarehousemanagementtool.util.config.GetProperties.getPropertiesAsMap;
+import static com.github.beibeikun.imagewarehousemanagementtool.util.task.mainpageUtilsWithTasks.*;
 
 public class Mainpage
 {
@@ -77,7 +85,7 @@ public class Mainpage
         SwingUtilities.invokeLater(() ->
         {
 
-            FlatDarkLaf.setup();
+            FlatXcodeDarkIJTheme.setup();
 
             try
             {
@@ -154,9 +162,9 @@ public class Mainpage
         databaseAddressText.setText(propertiesMap.get("databaseAddressText"));
         databaseUserNameText.setText(propertiesMap.get("databaseUserNameText"));
         sourceFolderPath.setText(propertiesMap.get("sourceFolderPath"));
-        Path.setSourcePathWithoutWrite(propertiesMap.get("sourceFolderPath"));
+        DirectoryPathManager.setSourcePathWithoutWrite(propertiesMap.get("sourceFolderPath"));
         targetFolderPath.setText(propertiesMap.get("targetFolderPath"));
-        Path.setTargetPathWithoutWrite(propertiesMap.get("targetFolderPath"));
+        DirectoryPathManager.setTargetPathWithoutWrite(propertiesMap.get("targetFolderPath"));
         renameCsvPath.setText(propertiesMap.get("renameCsvPath"));
         checkCsvPath.setText(propertiesMap.get("checkCsvPath"));
         pdfCsvPath.setText(propertiesMap.get("pdfCsvPath"));

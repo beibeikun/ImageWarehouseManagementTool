@@ -1,14 +1,14 @@
 package com.github.beibeikun.imagewarehousemanagementtool.util.FileOperations;
 
-import com.github.beibeikun.imagewarehousemanagementtool.filter.SystemChecker;
-import com.github.beibeikun.imagewarehousemanagementtool.util.DataOperations.ArrayExtractor;
+import com.github.beibeikun.imagewarehousemanagementtool.util.data.ArrayExtractor;
 import com.github.beibeikun.imagewarehousemanagementtool.util.DataOperations.ReadCsvFile;
 
 import java.io.File;
 import java.io.IOException;
 
+import static com.github.beibeikun.imagewarehousemanagementtool.filter.SystemChecker.identifySystem_String;
 import static com.github.beibeikun.imagewarehousemanagementtool.util.FileOperations.FileCopyAndDelete.copyFile;
-import static com.github.beibeikun.imagewarehousemanagementtool.util.Others.SystemPrintOut.systemPrintOut;
+import static com.github.beibeikun.imagewarehousemanagementtool.util.common.SystemPrintOut.systemPrintOut;
 
 /**
  * 从数据库中获取文件的类
@@ -26,15 +26,14 @@ public class TakeMainFromDatabase
     public static void takeMainFromDatabase(String csvpath, String databasepath, String folderpath) throws IOException
     {
         systemPrintOut("Start to take main img from database", 3, 0);
-        SystemChecker system = new SystemChecker();
         folderpath = CreateFolder.createFolderWithTime(folderpath);
         String[] fileNameList = ArrayExtractor.extractRow(ReadCsvFile.csvToArray(csvpath), 0);
         for (int x = 0; x < fileNameList.length; x++)
         {
-            File fileCheck = new File(databasepath + system.identifySystem_String() + "thumbnail" + system.identifySystem_String() + fileNameList[x] + ".JPG");
+            File fileCheck = new File(databasepath + identifySystem_String() + "thumbnail" + identifySystem_String() + fileNameList[x] + ".JPG");
             if (fileCheck.exists())
             {
-                copyFile(databasepath + system.identifySystem_String() + "thumbnail" + system.identifySystem_String() + fileNameList[x] + ".JPG", folderpath);
+                copyFile(databasepath + identifySystem_String() + "thumbnail" + identifySystem_String() + fileNameList[x] + ".JPG", folderpath);
                 systemPrintOut("Copy:" + fileNameList[x], 1, 0);
             }
         }
