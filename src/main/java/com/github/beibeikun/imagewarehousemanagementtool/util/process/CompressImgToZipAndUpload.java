@@ -3,7 +3,6 @@ package com.github.beibeikun.imagewarehousemanagementtool.util.process;
 import com.drew.imaging.ImageProcessingException;
 import com.drew.metadata.MetadataException;
 import com.github.beibeikun.imagewarehousemanagementtool.constant.printOutMessage;
-import com.github.beibeikun.imagewarehousemanagementtool.filter.SystemChecker;
 import com.github.beibeikun.imagewarehousemanagementtool.util.wordflow.CompressFileList;
 import com.github.beibeikun.imagewarehousemanagementtool.util.wordflow.ImageCompression;
 import com.github.beibeikun.imagewarehousemanagementtool.util.file.FileLister;
@@ -43,7 +42,7 @@ public class CompressImgToZipAndUpload
      * @param coverageDeterminer 判断是否覆盖 true为覆盖，false不覆盖
      * @throws IOException 如果文件操作失败
      */
-    public static void compressImgToZipAndUpload(String sourceFolder, String destinationFolder, int mode, int imgsize, boolean coverageDeterminer, boolean deleteQualifier) throws IOException, ImageProcessingException, MetadataException
+    public static void compressImgToZipAndUpload(String sourceFolder, String destinationFolder, int mode, int imgSize, boolean coverageDeterminer, boolean deleteQualifier) throws IOException
     {
         if (!checkFolder(sourceFolder,destinationFolder,false,printOutMessage.NULL,false,printOutMessage.NULL,true))
         {
@@ -104,7 +103,7 @@ public class CompressImgToZipAndUpload
 
         // 遍历文件名数组，处理每个文件
         for (int i = 0; i < FileNames.length; i++) {
-            boolean fileCorrecDetermination = true;
+            boolean fileCorrectDetermination = true;
 
             // 检查文件是否已存在于目标文件夹中，如果已存在且不需要覆盖则跳过
             int position = FileNames[i].indexOf("-");
@@ -116,35 +115,35 @@ public class CompressImgToZipAndUpload
                 String[] finalFileNames = FileNames;
                 int finalI = i;
                 Future<Boolean> future = executor.submit(() ->
-                        thumbnailAndCompress(mode, sourceFolder, finalFileNames, finalI, thumbnailFolder, imgsize, temporaryCompressedImgFolder, temporaryDestinationFolder, failedFiles)
+                        thumbnailAndCompress(mode, sourceFolder, finalFileNames, finalI, thumbnailFolder, imgSize, temporaryCompressedImgFolder, temporaryDestinationFolder, failedFiles)
                 );
 
                 try {
                     // 获取任务结果，如果超过2分钟，则抛出 TimeoutException 异常
-                    fileCorrecDetermination = future.get(2, TimeUnit.MINUTES);
+                    fileCorrectDetermination = future.get(2, TimeUnit.MINUTES);
                 } catch (TimeoutException e) {
                     // 如果任务执行超时，记录文件名和原因并跳过该文件
                     String reason = "Skipping to next file due to timeout.";
                     failedFiles.add("File: " + FileNames[i] + " - Reason: " + reason);
                     SystemPrintOut.systemPrintOut(reason, 2, 0);
                     future.cancel(true); // 取消执行中的任务
-                    fileCorrecDetermination = false; // 设置标志位以跳过备份步骤
+                    fileCorrectDetermination = false; // 设置标志位以跳过备份步骤
                 } catch (Exception e) {
                     // 如果任务执行过程中出现异常，记录文件名和原因并跳过该文件
                     String reason = "Error: " + e.getMessage();
                     failedFiles.add("File: " + FileNames[i] + " - Reason: " + reason);
                     SystemPrintOut.systemPrintOut(reason, 2, 0);
-                    fileCorrecDetermination = false;
+                    fileCorrectDetermination = false;
                 }
 
                 // 如果文件压缩和缩略图生成成功，则将文件从临时文件夹移动到目标文件夹
-                if (fileCorrecDetermination) {
+                if (fileCorrectDetermination) {
                     // 将压缩后的文件从临时文件夹移动到目标文件夹，并按前缀进行分类整理
                     FileCopyAndDelete.copyFilesAndOrganize(temporaryDestinationFolder, destinationFolder);
 
                     // 清空临时文件夹以便下一个文件使用
-                    boolean deleted = DeleteDirectory.deleteDirectory(new File(temporaryDestinationFolder));
-                    boolean created = new File(temporaryDestinationFolder).mkdirs();
+                    DeleteDirectory.deleteDirectory(new File(temporaryDestinationFolder));
+                    new File(temporaryDestinationFolder).mkdirs();
                 }
             } else {
                 // 如果文件已存在并且不需要覆盖，记录文件名和原因并跳过该文件
@@ -154,7 +153,7 @@ public class CompressImgToZipAndUpload
             }
 
             // 如果文件压缩和缩略图生成成功，则进行备份转移
-            if (fileCorrecDetermination) {
+            if (fileCorrectDetermination) {
                 List<File> compressedFiles = FileSearch.searchFiles(sourceFolder, FileNames[i]);
 
                 // 将成功压缩的文件转移到备份文件夹
@@ -191,11 +190,10 @@ public class CompressImgToZipAndUpload
     }
 
 
-    private static boolean thumbnailAndCompress(int mode, String sourceFolder, String[] FileNames, int i, String thumbnailFolder, int imgsize, String temporaryCompressedImgFolder, String temporaryDestinationFolder, List<String> failedFiles) throws IOException
+    private static boolean thumbnailAndCompress(int mode, String sourceFolder, String[] FileNames, int i, String thumbnailFolder, int imgSize, String temporaryCompressedImgFolder, String temporaryDestinationFolder, List<String> failedFiles) throws IOException
     {
-        SystemChecker system = new SystemChecker();
         //获取同一前缀的文件列表
-        List<File> readytocompress = FileSearch.searchFiles(sourceFolder, FileNames[i]);
+        List<File> readyToCompress = FileSearch.searchFiles(sourceFolder, FileNames[i]);
         File file;
         if (mode == 1)//相机 包含主图
         {
@@ -207,14 +205,14 @@ public class CompressImgToZipAndUpload
         }
         if (file.exists())//存在
         {
-            if (readytocompress.size() > 2)//图片超过两张
+            if (readyToCompress.size() > 2)//图片超过两张
             {
                 //复制图像到临时文件夹，并更新list为移动后的路径
-                readytocompress = copyFilesWithList(readytocompress, temporaryCompressedImgFolder, true);
-                //根据 imgsize 判断图片是否需要压缩，不为0即需要压缩
-                if (imgsize != 0)
+                readyToCompress = copyFilesWithList(readyToCompress, temporaryCompressedImgFolder, true);
+                //根据 imgSize 判断图片是否需要压缩，不为0即需要压缩
+                if (imgSize != 0)
                 {
-                    ImageCompression.compressImgWithFileListUseMultithreading(readytocompress, imgsize);
+                    ImageCompression.compressImgWithFileListUseMultithreading(readyToCompress, imgSize);
                 }
             }
             else
@@ -242,7 +240,7 @@ public class CompressImgToZipAndUpload
         //x为已完成的数量
         int x = i + 1;
         //压缩同一前缀的文件
-        CompressFileList.compressFiles(readytocompress, temporaryDestinationFolder + identifySystem_String() + FileNames[i] + ".zip");
+        CompressFileList.compressFiles(readyToCompress, temporaryDestinationFolder + identifySystem_String() + FileNames[i] + ".zip");
         SystemPrintOut.systemPrintOut("Compressed:" + FileNames[i] + ".zip" + flattenStatisticsString(x,FileNames.length), 1, 0);
         if (mode == 1)
         {

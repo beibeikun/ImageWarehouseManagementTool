@@ -1,5 +1,9 @@
 package com.github.beibeikun.imagewarehousemanagementtool.util.common;
+/*
 
+考虑重构
+
+ */
 import com.drew.imaging.ImageProcessingException;
 import com.drew.metadata.MetadataException;
 import com.github.beibeikun.imagewarehousemanagementtool.constant.files;
@@ -167,7 +171,7 @@ public class mainpageUtils
         {
             completeNameChangeProcess.completeNameChangeProcess(databasepath, targetFolderPath.getText(), renameCsvPath.getText(), check_usedatabase, check_sort, check_whichdatabase, imgsize, false, prefix, suffixtype);
         }
-        catch (IOException | ImageProcessingException | MetadataException ex)
+        catch (IOException ex)
         {
             throw new RuntimeException(ex);
         }
@@ -224,7 +228,7 @@ public class mainpageUtils
             compressImgToZipAndUpload(sourceFolderPath.getText(), databaseAddress, uploadMode, imgsize, coverageDeterminer, deleteQualifier);
 
         }
-        catch (IOException | ImageProcessingException | MetadataException ex)
+        catch (IOException ex)
         {
             throw new RuntimeException(ex);
         }

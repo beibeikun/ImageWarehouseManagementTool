@@ -158,7 +158,7 @@ public class Mainpage
             }
         }));
 
-        Map<String, String> propertiesMap = getPropertiesAsMap(GetPropertiesPath.settingspath());
+        Map<String, String> propertiesMap = getPropertiesAsMap(GetPropertiesPath.settingsPath());
         databaseAddressText.setText(propertiesMap.get("databaseAddressText"));
         databaseUserNameText.setText(propertiesMap.get("databaseUserNameText"));
         sourceFolderPath.setText(propertiesMap.get("sourceFolderPath"));
@@ -276,14 +276,7 @@ public class Mainpage
         /*================================第三页：从仓库删除================================*/
         deleteButton.addActionListener(e ->
         {
-            try
-            {
-                deleteFileFromDatabase(cameraWarehouseAddressText.getText(), deleteJBNumTextField.getText());
-            }
-            catch (IOException ex)
-            {
-                throw new RuntimeException(ex);
-            }
+            deleteFileFromDatabase(cameraWarehouseAddressText.getText(), deleteJBNumTextField.getText());
 
         });
         /*================================第五页：仓库配置================================*/

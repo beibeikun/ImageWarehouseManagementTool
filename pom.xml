@@ -99,6 +99,13 @@
             <version>1.8.0-beta4</version>
         </dependency>
 
+        <!-- Logback Classic - Logback 实现 -->
+        <dependency>
+            <groupId>ch.qos.logback</groupId>
+            <artifactId>logback-classic</artifactId>
+            <version>1.2.11</version>
+        </dependency>
+
         <!-- OpenCSV：一个用于读写CSV文件的库 -->
         <dependency>
             <groupId>com.opencsv</groupId>

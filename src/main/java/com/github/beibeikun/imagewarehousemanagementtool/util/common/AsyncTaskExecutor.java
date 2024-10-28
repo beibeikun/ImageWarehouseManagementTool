@@ -20,7 +20,7 @@ public class AsyncTaskExecutor {
             @Override
             protected void done() {
                 try {
-                    T result = get();  // 尝试获取背景任务的结果
+                    get();// 尝试获取背景任务的结果
                 } catch (InterruptedException | ExecutionException ignored) {
                 }
             }

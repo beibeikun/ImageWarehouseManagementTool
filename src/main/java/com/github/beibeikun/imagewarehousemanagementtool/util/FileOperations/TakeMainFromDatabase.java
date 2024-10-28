@@ -28,13 +28,13 @@ public class TakeMainFromDatabase
         systemPrintOut("Start to take main img from database", 3, 0);
         folderpath = CreateFolder.createFolderWithTime(folderpath);
         String[] fileNameList = ArrayExtractor.extractRow(ReadCsvFile.csvToArray(csvpath), 0);
-        for (int x = 0; x < fileNameList.length; x++)
+        for (String s : fileNameList)
         {
-            File fileCheck = new File(databasepath + identifySystem_String() + "thumbnail" + identifySystem_String() + fileNameList[x] + ".JPG");
+            File fileCheck = new File(databasepath + identifySystem_String() + "thumbnail" + identifySystem_String() + s + ".JPG");
             if (fileCheck.exists())
             {
-                copyFile(databasepath + identifySystem_String() + "thumbnail" + identifySystem_String() + fileNameList[x] + ".JPG", folderpath);
-                systemPrintOut("Copy:" + fileNameList[x], 1, 0);
+                copyFile(databasepath + identifySystem_String() + "thumbnail" + identifySystem_String() + s + ".JPG", folderpath);
+                systemPrintOut("Copy:" + s, 1, 0);
             }
         }
         systemPrintOut(null, 0, 0);

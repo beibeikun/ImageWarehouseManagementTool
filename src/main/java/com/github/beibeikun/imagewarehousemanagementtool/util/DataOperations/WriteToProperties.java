@@ -1,6 +1,5 @@
 package com.github.beibeikun.imagewarehousemanagementtool.util.DataOperations;
 
-import com.github.beibeikun.imagewarehousemanagementtool.filter.SystemChecker;
 import com.github.beibeikun.imagewarehousemanagementtool.util.common.GetPropertiesPath;
 import com.github.beibeikun.imagewarehousemanagementtool.util.common.SystemPrintOut;
 
@@ -32,7 +31,7 @@ public class WriteToProperties
     public static void writeToProperties(String filename, String[][] writeinlist)
     {
         Properties properties = new Properties();
-        try (FileInputStream fis = new FileInputStream(GetPropertiesPath.settingspath());
+        try (FileInputStream fis = new FileInputStream(GetPropertiesPath.settingsPath());
              InputStreamReader reader = new InputStreamReader(fis, StandardCharsets.UTF_8))
         {
             properties.load(fis);
@@ -50,7 +49,7 @@ public class WriteToProperties
             i++;
         }
 
-        try (FileOutputStream fos = new FileOutputStream(GetPropertiesPath.settingspath()))
+        try (FileOutputStream fos = new FileOutputStream(GetPropertiesPath.settingsPath()))
         {
             // 将属性写入文件
             properties.store(fos, null);

@@ -26,18 +26,18 @@ public class FolderCsvComparator
      * @param csvFilePath CSV文件路径
      * @throws IOException 如果发生文件读写错误
      */
-    public static void compareAndGenerateCsv(String folderPath, String csvFilePath, String outpath) throws IOException
+    public static void compareAndGenerateCsv(String folderPath, String csvFilePath, String outPath) throws IOException
     {
-        outpath = CreateFolder.createFolderWithTime(outpath);
+        outPath = CreateFolder.createFolderWithTime(outPath);
         SystemPrintOut.systemPrintOut("Start to compare", 3, 0);
-        String outputCsvPath = outpath + File.separator + "COMPARISON_RESULT.csv";
+        String outputCsvPath = outPath + File.separator + "COMPARISON_RESULT.csv";
         SystemPrintOut.systemPrintOut("Create csv", 1, 0);
         String[] filenames = processFileNames(getFileNamesInString(folderPath));
         SystemPrintOut.systemPrintOut("Get filenames in path", 1, 0);
-        String[] csvnames = ArrayExtractor.extractRow(ReadCsvFile.csvToArray(csvFilePath), 0);
+        String[] csvNames = ArrayExtractor.extractRow(ReadCsvFile.csvToArray(csvFilePath), 0);
         SystemPrintOut.systemPrintOut("Get filenames in csv", 1, 0);
-        Set<String> diffAtoB = removeElementFromList(filenames, csvnames);
-        Set<String> diffBtoA = removeElementFromList(csvnames, filenames);
+        Set<String> diffAtoB = removeElementFromList(filenames, csvNames);
+        Set<String> diffBtoA = removeElementFromList(csvNames, filenames);
         SystemPrintOut.systemPrintOut("Compare finish", 1, 0);
         writeCsv(outputCsvPath, diffAtoB, diffBtoA);
         SystemPrintOut.systemPrintOut("Write to csv finish", 1, 0);

@@ -51,7 +51,7 @@ public class FolderCopy
             }
 
             @Override
-            public FileVisitResult visitFileFailed(Path file, IOException exc) throws IOException
+            public FileVisitResult visitFileFailed(Path file, IOException exc)
             {
                 System.err.println("无法访问文件: " + file);
                 return FileVisitResult.CONTINUE;

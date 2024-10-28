@@ -134,9 +134,8 @@ public class RenameFiles
      *
      * @param filePath 文件路径
      * @param newName  新名称
-     * @throws IOException 如果文件不存在或目标文件已存在
      */
-    public static void renameFileWithName(String filePath, String newName) throws IOException
+    public static void renameFileWithName(String filePath, String newName)
     {
         // 获取文件后缀
         String suffix = "";
