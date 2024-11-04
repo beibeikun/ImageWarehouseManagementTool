@@ -40,7 +40,7 @@ public class CompleteNameChangeProcess
      * @param suffix                  后缀判定
      * @throws IOException 如果文件操作失败
      */
-    public void completeNameChangeProcess(String nasFolderPath, String targetFolderPath, String CSVPath, int checkBoxAddFromDatabase, int checkSort,int checkWhichDatabase, int imgsize, boolean terminal, boolean prefixmove, int suffix) throws IOException, ImageProcessingException, MetadataException
+    public void completeNameChangeProcess(String nasFolderPath, String targetFolderPath, String CSVPath, int checkBoxAddFromDatabase, int checkSort,int checkWhichDatabase, int imgsize, boolean terminal, boolean prefixmove, int suffix) throws IOException
     {
         String sourceFolderPath = DirectoryPathManager.getSourcePath();
         if (!checkFolder(sourceFolderPath,targetFolderPath,true,CSVPath,true,"csv",true))

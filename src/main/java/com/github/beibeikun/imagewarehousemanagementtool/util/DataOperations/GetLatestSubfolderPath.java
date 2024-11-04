@@ -1,5 +1,7 @@
 package com.github.beibeikun.imagewarehousemanagementtool.util.DataOperations;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -9,7 +11,7 @@ import java.util.Optional;
 
 public class GetLatestSubfolderPath
 {
-
+    private static final Logger logger = LoggerFactory.getLogger(GetLatestSubfolderPath.class);
     public static String getLatestSubfolder(String folderPath)
     {
         File folder = new File(folderPath);
@@ -38,8 +40,7 @@ public class GetLatestSubfolderPath
             }
             catch (IOException e)
             {
-                e.printStackTrace();
-                // 出现异常时，可能是读取文件属性失败，这里简单处理，实际使用时可以根据需要进行更复杂的异常处理
+                logger.error("An error occurred: ", e);
             }
         }
 

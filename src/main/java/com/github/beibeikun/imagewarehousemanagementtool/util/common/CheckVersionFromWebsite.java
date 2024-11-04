@@ -44,7 +44,7 @@ public class CheckVersionFromWebsite
         return release.getName();
     }
 
-    public static boolean cheackLatestVersion() throws IOException
+    public static boolean checkLatestVersion() throws IOException
     {
         String latestReleaseName = getLatestReleaseName(getGithubVersionNumberApi());
         String versionNumber = "V" + officialVersionNumber();

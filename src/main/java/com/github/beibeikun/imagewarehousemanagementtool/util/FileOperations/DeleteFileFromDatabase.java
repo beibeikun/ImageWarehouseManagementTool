@@ -10,7 +10,7 @@ import static com.github.beibeikun.imagewarehousemanagementtool.util.DataOperati
 
 public class DeleteFileFromDatabase
 {
-    public static void deleteFileFromDatabase(String destinationFolder, String deleteNum) throws IOException
+    public static void deleteFileFromDatabase(String destinationFolder, String deleteNum)
     {
         //TODO
         if (deleteTypeCheck(deleteNum)) // 完整

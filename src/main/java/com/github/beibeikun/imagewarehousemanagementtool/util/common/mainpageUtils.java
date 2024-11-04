@@ -1,5 +1,9 @@
 package com.github.beibeikun.imagewarehousemanagementtool.util.common;
+/*
 
+考虑重构
+
+ */
 import com.drew.imaging.ImageProcessingException;
 import com.drew.metadata.MetadataException;
 import com.github.beibeikun.imagewarehousemanagementtool.constant.files;
@@ -73,14 +77,27 @@ public class mainpageUtils
     public void selectPath(JLabel FolderPath, String name, int type)
     {
         String path = getfilepath.selectFilePath(type, FolderPath.getText());
-        if (name.equals(files.SOURCE_FOLDER_PATH)) {
-            DirectoryPathManager.setSourcePath(path);
-            FolderPath.setText(DirectoryPathManager.getSourcePath());
-        }
-        else
-        {
-            DirectoryPathManager.setTargetPath(path);
-            FolderPath.setText(DirectoryPathManager.getTargetPath());
+        switch (name) {
+            case files.SOURCE_FOLDER_PATH:
+                DirectoryPathManager.setSourcePath(path);
+                FolderPath.setText(DirectoryPathManager.getSourcePath());
+                break;
+            case files.TARGET_FOLDER_PATH:
+                DirectoryPathManager.setTargetPath(path);
+                FolderPath.setText(DirectoryPathManager.getTargetPath());
+                break;
+            case files.RENAME_CSV_PATH:
+                DirectoryPathManager.setRenameCsvPath(path);
+                FolderPath.setText(DirectoryPathManager.getRenameCsvPath());
+                break;
+            case files.CHECK_CSV_PATH:
+                DirectoryPathManager.setCheckCsvPath(path);
+                FolderPath.setText(DirectoryPathManager.getCheckCsvPath());
+                break;
+            case files.PDF_CSV_PATH:
+                DirectoryPathManager.setPdfCsvPath(path);
+                FolderPath.setText(DirectoryPathManager.getPdfCsvPath());
+                break;
         }
     }
     public void changeTargetToSourcePath(JLabel sourceFolderPath, JLabel targetFolderPath)
@@ -167,7 +184,7 @@ public class mainpageUtils
         {
             completeNameChangeProcess.completeNameChangeProcess(databasepath, targetFolderPath.getText(), renameCsvPath.getText(), check_usedatabase, check_sort, check_whichdatabase, imgsize, false, prefix, suffixtype);
         }
-        catch (IOException | ImageProcessingException | MetadataException ex)
+        catch (IOException ex)
         {
             throw new RuntimeException(ex);
         }
@@ -224,7 +241,7 @@ public class mainpageUtils
             compressImgToZipAndUpload(sourceFolderPath.getText(), databaseAddress, uploadMode, imgsize, coverageDeterminer, deleteQualifier);
 
         }
-        catch (IOException | ImageProcessingException | MetadataException ex)
+        catch (IOException ex)
         {
             throw new RuntimeException(ex);
         }

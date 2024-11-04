@@ -12,12 +12,12 @@ public class SystemChecker
      */
     public static int identifySystem_int()
     {
-        String OSname = System.getProperty("os.name");
-        if (OSname.startsWith("Mac OS"))
+        String osName = System.getProperty("os.name");
+        if (osName.startsWith("Mac OS"))
         {
             return 1; // Mac OS
         }
-        else if (OSname.startsWith("Windows"))
+        else if (osName.startsWith("Windows"))
         {
             return 2; // Windows
         }
@@ -34,12 +34,12 @@ public class SystemChecker
      */
     public static String identifySystem_String()
     {
-        String OSname = System.getProperty("os.name");
-        if (OSname.startsWith("Mac OS"))
+        String osName = System.getProperty("os.name");
+        if (osName.startsWith("Mac OS"))
         {
             return "/"; // Mac OS
         }
-        else if (OSname.startsWith("Windows"))
+        else if (osName.startsWith("Windows"))
         {
             return "\\"; // Windows
         }

@@ -1,0 +1,16 @@
+<configuration>
+
+    <!-- 文件输出的日志配置 -->
+    <appender name="FILE" class="ch.qos.logback.core.FileAppender">
+        <file>logs/error.log</file>
+        <encoder>
+            <pattern>%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n</pattern>
+        </encoder>
+    </appender>
+
+    <!-- 设置 logger 的级别和输出，仅输出到文件 -->
+    <root level="debug">
+        <appender-ref ref="FILE"/>
+    </root>
+
+</configuration>

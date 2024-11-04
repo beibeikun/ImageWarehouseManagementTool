@@ -6,7 +6,7 @@ import static com.github.beibeikun.imagewarehousemanagementtool.util.common.GetC
 
 public class SystemPrintOut
 {
-    public static void systemPrintOut(String printoutmessage, int type, int type2)
+    public static void systemPrintOut(String thisPrintOutMessage, int type, int type2)
     {
         String info = "[" + getCorrectTime() + "]";
         String success = "   Succeeded: ";
@@ -17,14 +17,14 @@ public class SystemPrintOut
                 System.out.println(printOutMessage.DIVIDER);
                 break;
             case 1:
-                System.out.println(info + success + printoutmessage);
+                System.out.println(info + success + thisPrintOutMessage);
                 break;
             case 2:
-                System.out.println(info + error + printoutmessage);
+                System.out.println(info + error + thisPrintOutMessage);
                 break;
             case 3:
                 System.out.println(printOutMessage.DIVIDER);
-                System.out.println("                 " + printoutmessage);
+                System.out.println("                 " + thisPrintOutMessage);
                 System.out.println(printOutMessage.DIVIDER);
                 break;
             default:

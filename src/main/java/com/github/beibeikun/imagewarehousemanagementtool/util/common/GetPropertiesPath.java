@@ -1,19 +1,18 @@
 package com.github.beibeikun.imagewarehousemanagementtool.util.common;
 
-import com.github.beibeikun.imagewarehousemanagementtool.filter.SystemChecker;
-
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
+import static com.github.beibeikun.imagewarehousemanagementtool.filter.SystemChecker.identifySystem_String;
+
 public class GetPropertiesPath
 {
-    public static String settingspath()
+    public static String settingsPath()
     {
-        SystemChecker system = new SystemChecker();//获取系统类型
 
-        String folderPath = System.getProperty("user.home") + system.identifySystem_String() + "Documents" + system.identifySystem_String() + "IWMT";
+        String folderPath = System.getProperty("user.home") + identifySystem_String() + "Documents" + identifySystem_String() + "IWMT";
 
         // 使用 Paths.get() 创建 Path 对象
         Path folder = Paths.get(folderPath);
@@ -32,7 +31,7 @@ public class GetPropertiesPath
             }
         }
 
-        return System.getProperty("user.home") + system.identifySystem_String() + "Documents" + system.identifySystem_String() + "IWMT" + system.identifySystem_String() + "settings.properties";
+        return System.getProperty("user.home") + identifySystem_String() + "Documents" + identifySystem_String() + "IWMT" + identifySystem_String() + "settings.properties";
 
     }
 

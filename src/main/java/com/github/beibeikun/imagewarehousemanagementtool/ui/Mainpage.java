@@ -158,7 +158,7 @@ public class Mainpage
             }
         }));
 
-        Map<String, String> propertiesMap = getPropertiesAsMap(GetPropertiesPath.settingspath());
+        Map<String, String> propertiesMap = getPropertiesAsMap(GetPropertiesPath.settingsPath());
         databaseAddressText.setText(propertiesMap.get("databaseAddressText"));
         databaseUserNameText.setText(propertiesMap.get("databaseUserNameText"));
         sourceFolderPath.setText(propertiesMap.get("sourceFolderPath"));
@@ -166,8 +166,11 @@ public class Mainpage
         targetFolderPath.setText(propertiesMap.get("targetFolderPath"));
         DirectoryPathManager.setTargetPathWithoutWrite(propertiesMap.get("targetFolderPath"));
         renameCsvPath.setText(propertiesMap.get("renameCsvPath"));
+        DirectoryPathManager.setTargetPathWithoutWrite(propertiesMap.get("renameCsvPath"));
         checkCsvPath.setText(propertiesMap.get("checkCsvPath"));
+        DirectoryPathManager.setTargetPathWithoutWrite(propertiesMap.get("checkCsvPath"));
         pdfCsvPath.setText(propertiesMap.get("pdfCsvPath"));
+        DirectoryPathManager.setTargetPathWithoutWrite(propertiesMap.get("pdfCsvPath"));
         cameraWarehouseAddressText.setText(propertiesMap.get("cameraWarehouseAddressText"));
         phoneWarehouseAddressText.setText(propertiesMap.get("phoneWarehouseAddressText"));
 
@@ -276,14 +279,7 @@ public class Mainpage
         /*================================第三页：从仓库删除================================*/
         deleteButton.addActionListener(e ->
         {
-            try
-            {
-                deleteFileFromDatabase(cameraWarehouseAddressText.getText(), deleteJBNumTextField.getText());
-            }
-            catch (IOException ex)
-            {
-                throw new RuntimeException(ex);
-            }
+            deleteFileFromDatabase(cameraWarehouseAddressText.getText(), deleteJBNumTextField.getText());
 
         });
         /*================================第五页：仓库配置================================*/

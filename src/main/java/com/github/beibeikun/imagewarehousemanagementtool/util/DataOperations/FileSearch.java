@@ -1,7 +1,6 @@
 package com.github.beibeikun.imagewarehousemanagementtool.util.DataOperations;
 
 import java.io.File;
-import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -60,9 +59,8 @@ public class FileSearch
      *
      * @param filePath 需要查找的文件路径名
      * @return 存在返回true，不存在返回false
-     * @throws IOException
      */
-    public static boolean isFileExists(String filePath) throws IOException
+    public static boolean isFileExists(String filePath)
     {
         Path path = Paths.get(filePath);
         return Files.exists(path);

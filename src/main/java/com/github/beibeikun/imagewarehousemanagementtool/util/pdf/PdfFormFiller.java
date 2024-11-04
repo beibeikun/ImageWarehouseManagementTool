@@ -29,8 +29,9 @@ public class PdfFormFiller
      */
     public static void batchFillPdfForms(String pdfTemplatePath, String outputDirectory, String operator, List<List<String[][]>> dataGroups) throws IOException {
         outputDirectory = outputDirectory + identifySystem_String();
-        for (int i = 0; i < dataGroups.size(); i++) {
-            fillPdfForm(pdfTemplatePath, outputDirectory, operator, dataGroups.get(i));
+        for (List<String[][]> dataGroup : dataGroups)
+        {
+            fillPdfForm(pdfTemplatePath, outputDirectory, operator, dataGroup);
         }
     }
 
