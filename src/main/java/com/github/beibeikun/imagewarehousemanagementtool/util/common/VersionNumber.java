@@ -24,7 +24,7 @@ public class VersionNumber
     public static String officialVersionNumber()
     {
         return versionNumber.OFFICIAL;
-    } //2024.03.01 //
+    }
 
     public static String betaVersionNumber()
     {

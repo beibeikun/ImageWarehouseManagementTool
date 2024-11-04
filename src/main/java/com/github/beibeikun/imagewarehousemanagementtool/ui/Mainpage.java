@@ -166,8 +166,11 @@ public class Mainpage
         targetFolderPath.setText(propertiesMap.get("targetFolderPath"));
         DirectoryPathManager.setTargetPathWithoutWrite(propertiesMap.get("targetFolderPath"));
         renameCsvPath.setText(propertiesMap.get("renameCsvPath"));
+        DirectoryPathManager.setTargetPathWithoutWrite(propertiesMap.get("renameCsvPath"));
         checkCsvPath.setText(propertiesMap.get("checkCsvPath"));
+        DirectoryPathManager.setTargetPathWithoutWrite(propertiesMap.get("checkCsvPath"));
         pdfCsvPath.setText(propertiesMap.get("pdfCsvPath"));
+        DirectoryPathManager.setTargetPathWithoutWrite(propertiesMap.get("pdfCsvPath"));
         cameraWarehouseAddressText.setText(propertiesMap.get("cameraWarehouseAddressText"));
         phoneWarehouseAddressText.setText(propertiesMap.get("phoneWarehouseAddressText"));
 

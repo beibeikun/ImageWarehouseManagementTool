@@ -77,18 +77,27 @@ public class mainpageUtils
     public void selectPath(JLabel FolderPath, String name, int type)
     {
         String path = getfilepath.selectFilePath(type, FolderPath.getText());
-        if (name.equals(files.SOURCE_FOLDER_PATH)) {
-            DirectoryPathManager.setSourcePath(path);
-            FolderPath.setText(DirectoryPathManager.getSourcePath());
-        }
-        else if (name.equals(files.TARGET_FOLDER_PATH))
-        {
-            DirectoryPathManager.setTargetPath(path);
-            FolderPath.setText(DirectoryPathManager.getTargetPath());
-        }
-        else
-        {
-            System.out.println("nononononononononono");
+        switch (name) {
+            case files.SOURCE_FOLDER_PATH:
+                DirectoryPathManager.setSourcePath(path);
+                FolderPath.setText(DirectoryPathManager.getSourcePath());
+                break;
+            case files.TARGET_FOLDER_PATH:
+                DirectoryPathManager.setTargetPath(path);
+                FolderPath.setText(DirectoryPathManager.getTargetPath());
+                break;
+            case files.RENAME_CSV_PATH:
+                DirectoryPathManager.setRenameCsvPath(path);
+                FolderPath.setText(DirectoryPathManager.getRenameCsvPath());
+                break;
+            case files.CHECK_CSV_PATH:
+                DirectoryPathManager.setCheckCsvPath(path);
+                FolderPath.setText(DirectoryPathManager.getCheckCsvPath());
+                break;
+            case files.PDF_CSV_PATH:
+                DirectoryPathManager.setPdfCsvPath(path);
+                FolderPath.setText(DirectoryPathManager.getPdfCsvPath());
+                break;
         }
     }
     public void changeTargetToSourcePath(JLabel sourceFolderPath, JLabel targetFolderPath)

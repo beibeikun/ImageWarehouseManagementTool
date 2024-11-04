@@ -14,6 +14,9 @@ public class DirectoryPathManager
     private static String sourcePath = printOutMessage.NULL;
     // 定义目标目录路径。
     private static String targetPath = printOutMessage.NULL;
+    private static String renameCsvPath = printOutMessage.NULL;
+    private static String checkCsvPath= printOutMessage.NULL;
+    private static String pdfCsvPath= printOutMessage.NULL;
 
     /**
      * 获取源目录路径。
@@ -68,5 +71,89 @@ public class DirectoryPathManager
     public static void setTargetPathWithoutWrite(String targetPath)
     {
         DirectoryPathManager.targetPath = targetPath;
+    }
+
+    /**
+     * 获取重命名用csv文件路径。
+     * @return 重命名用csv文件路径
+     */
+    public static String getRenameCsvPath()
+    {
+        return renameCsvPath;
+    }
+
+    /**
+     * 设置重命名用csv文件路径并将其写入到配置文件中。
+     * @param renameCsvPath 新的重命名用csv文件路径
+     */
+    public static void setRenameCsvPath(String renameCsvPath)
+    {
+        writeToPropertiesSingle(files.SETTINGS, files.RENAME_CSV_PATH, renameCsvPath);
+        DirectoryPathManager.renameCsvPath = renameCsvPath;
+    }
+
+    /**
+     * 不写入配置文件的情况下设置重命名用csv文件路径。
+     * @param renameCsvPath 新的重命名用csv文件路径
+     */
+    public static void setRenameCsvPathWithoutWrite(String renameCsvPath)
+    {
+        DirectoryPathManager.renameCsvPath = renameCsvPath;
+    }
+
+    /**
+     * 获取检查用csv文件路径。
+     * @return 检查用csv文件路径
+     */
+    public static String getCheckCsvPath()
+    {
+        return checkCsvPath;
+    }
+
+    /**
+     * 设置检查用csv文件路径并将其写入到配置文件中。
+     * @param checkCsvPath 新的检查用csv文件路径
+     */
+    public static void setCheckCsvPath(String checkCsvPath)
+    {
+        writeToPropertiesSingle(files.SETTINGS, files.CHECK_CSV_PATH, checkCsvPath);
+        DirectoryPathManager.checkCsvPath = checkCsvPath;
+    }
+
+    /**
+     * 不写入配置文件的情况下设置重检查csv文件路径。
+     * @param checkCsvPath 新的检查用csv文件路径
+     */
+    public static void setCheckCsvPathWithoutWrite(String checkCsvPath)
+    {
+        DirectoryPathManager.checkCsvPath = checkCsvPath;
+    }
+
+    /**
+     * 获取PDF用csv文件路径。
+     * @return PDF用csv文件路径
+     */
+    public static String getPdfCsvPath()
+    {
+        return pdfCsvPath;
+    }
+
+    /**
+     * 设置PDF用csv文件路径并将其写入到配置文件中。
+     * @param pdfCsvPath 新的PDF用csv文件路径
+     */
+    public static void setPdfCsvPath(String pdfCsvPath)
+    {
+        writeToPropertiesSingle(files.SETTINGS, files.PDF_CSV_PATH, pdfCsvPath);
+        DirectoryPathManager.pdfCsvPath = pdfCsvPath;
+    }
+
+    /**
+     * 不写入配置文件的情况下设置PDF用csv文件路径。
+     * @param pdfCsvPath 新的PDF用csv文件路径
+     */
+    public static void setPdfCsvPathWithoutWrite(String pdfCsvPath)
+    {
+        DirectoryPathManager.pdfCsvPath = pdfCsvPath;
     }
 }
