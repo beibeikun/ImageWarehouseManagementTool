@@ -81,10 +81,14 @@ public class mainpageUtils
             DirectoryPathManager.setSourcePath(path);
             FolderPath.setText(DirectoryPathManager.getSourcePath());
         }
-        else
+        else if (name.equals(files.TARGET_FOLDER_PATH))
         {
             DirectoryPathManager.setTargetPath(path);
             FolderPath.setText(DirectoryPathManager.getTargetPath());
+        }
+        else
+        {
+            System.out.println("nononononononononono");
         }
     }
     public void changeTargetToSourcePath(JLabel sourceFolderPath, JLabel targetFolderPath)
