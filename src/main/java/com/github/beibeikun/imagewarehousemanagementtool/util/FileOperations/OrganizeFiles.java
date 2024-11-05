@@ -1,6 +1,7 @@
 package com.github.beibeikun.imagewarehousemanagementtool.util.FileOperations;
 
 import com.github.beibeikun.imagewarehousemanagementtool.constant.printOutMessage;
+import com.github.beibeikun.imagewarehousemanagementtool.constant.regex;
 import com.github.beibeikun.imagewarehousemanagementtool.filter.SystemChecker;
 import com.github.beibeikun.imagewarehousemanagementtool.util.file.FileLister;
 import com.github.beibeikun.imagewarehousemanagementtool.util.DataOperations.FileNameProcessor;
@@ -18,6 +19,7 @@ import java.util.regex.Pattern;
 
 import static com.github.beibeikun.imagewarehousemanagementtool.filter.FolderChecker.checkFolder;
 import static com.github.beibeikun.imagewarehousemanagementtool.filter.SystemChecker.identifySystem_String;
+import static com.github.beibeikun.imagewarehousemanagementtool.util.FileOperations.DeleteDirectory.deleteFile;
 import static com.github.beibeikun.imagewarehousemanagementtool.util.common.SystemPrintOut.systemPrintOut;
 
 public class OrganizeFiles
@@ -32,10 +34,11 @@ public class OrganizeFiles
     public static void organizeFileNumbers(String sourceFolderPath, String targetFolderPath, boolean moveFilesChecker) throws IOException
     {
         Files.createDirectories(Paths.get(targetFolderPath));
-        if (!checkFolder(sourceFolderPath,targetFolderPath,false,printOutMessage.NULL,false,printOutMessage.NULL,true))
+        if (!checkFolder(sourceFolderPath,true, regex.REGEX_STANDARD_FILE_NAME,targetFolderPath,false,printOutMessage.NULL,false,printOutMessage.NULL))
         {
             systemPrintOut(printOutMessage.INVALID_PATH_STOP_TASK,2,0);
             systemPrintOut(printOutMessage.NULL,0,0);
+            deleteFile(targetFolderPath);
             return;
         }
         //targetFolderPath = CreateFolder.createFolderWithTime(targetFolderPath);

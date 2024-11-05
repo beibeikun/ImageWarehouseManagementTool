@@ -25,6 +25,7 @@ import java.io.OutputStream;
 import java.io.PrintStream;
 import java.lang.reflect.Field;
 import java.net.URI;
+import java.nio.charset.StandardCharsets;
 import java.util.Locale;
 import java.util.Map;
 import java.util.MissingResourceException;
@@ -148,7 +149,7 @@ public class Mainpage
         // 根据系统语言配置
         setLanguage(Locale.getDefault().getLanguage());
 
-        System.setOut(new PrintStream(new OutputStream()
+        /*System.setOut(new PrintStream(new OutputStream()
         {
             @Override
             public void write(int b)
@@ -156,8 +157,28 @@ public class Mainpage
                 printOutTextArea.append(String.valueOf((char) b));
                 printOutTextArea.setCaretPosition(printOutTextArea.getDocument().getLength());
             }
-        }));
+        }));*/
 
+        // 重定向 System.out 到 JTextArea
+        OutputStream outputStream = new OutputStream() {
+            @Override
+            public void write(int b) {
+                // 将单个字节写入缓冲区，防止中文字符被拆分
+                printOutTextArea.append(new String(new byte[]{(byte) b}, StandardCharsets.UTF_8));
+                printOutTextArea.setCaretPosition(printOutTextArea.getDocument().getLength());
+            }
+
+            @Override
+            public void write(byte[] b, int off, int len) {
+                // 将字节数组转换为字符串，并添加到 JTextArea 中
+                printOutTextArea.append(new String(b, off, len, StandardCharsets.UTF_8));
+                printOutTextArea.setCaretPosition(printOutTextArea.getDocument().getLength());
+            }
+        };
+        PrintStream printStream = new PrintStream(outputStream, true, "UTF-8");
+        System.setOut(printStream);
+        System.setErr(printStream);
+        System.out.println("测试12345abcde");
         Map<String, String> propertiesMap = getPropertiesAsMap(GetPropertiesPath.settingsPath());
         databaseAddressText.setText(propertiesMap.get("databaseAddressText"));
         databaseUserNameText.setText(propertiesMap.get("databaseUserNameText"));

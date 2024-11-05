@@ -1,5 +1,7 @@
-package com.github.beibeikun.imagewarehousemanagementtool.util.DataOperations;
+package com.github.beibeikun.imagewarehousemanagementtool.util.process;
 
+import com.github.beibeikun.imagewarehousemanagementtool.constant.printOutMessage;
+import com.github.beibeikun.imagewarehousemanagementtool.util.DataOperations.ReadCsvFile;
 import com.github.beibeikun.imagewarehousemanagementtool.util.FileOperations.CreateFolder;
 import com.github.beibeikun.imagewarehousemanagementtool.util.common.SystemPrintOut;
 import com.github.beibeikun.imagewarehousemanagementtool.util.data.ArrayExtractor;
@@ -10,6 +12,8 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.Set;
 
+import static com.github.beibeikun.imagewarehousemanagementtool.filter.FolderChecker.checkFolder;
+import static com.github.beibeikun.imagewarehousemanagementtool.util.common.SystemPrintOut.systemPrintOut;
 import static com.github.beibeikun.imagewarehousemanagementtool.util.file.FileLister.getFileNamesInString;
 import static com.github.beibeikun.imagewarehousemanagementtool.util.DataOperations.FileNameProcessor.processFileNames;
 import static com.github.beibeikun.imagewarehousemanagementtool.util.DataOperations.ListExtractor.removeElementFromList;
@@ -28,6 +32,12 @@ public class FolderCsvComparator
      */
     public static void compareAndGenerateCsv(String folderPath, String csvFilePath, String outPath) throws IOException
     {
+        if (!checkFolder(folderPath,false,"",outPath,true,csvFilePath,true,"csv"))
+        {
+            systemPrintOut(printOutMessage.INVALID_PATH_STOP_TASK,2,0);
+            systemPrintOut(printOutMessage.NULL,0,0);
+            return;
+        }
         outPath = CreateFolder.createFolderWithTime(outPath);
         SystemPrintOut.systemPrintOut("Start to compare", 3, 0);
         String outputCsvPath = outPath + File.separator + "COMPARISON_RESULT.csv";

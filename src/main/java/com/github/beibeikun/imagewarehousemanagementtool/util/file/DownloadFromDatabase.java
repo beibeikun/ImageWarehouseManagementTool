@@ -31,7 +31,7 @@ public class DownloadFromDatabase
         String filePath = databasePath + identifySystem_String() + fileNamePrefix + identifySystem_String() + fileName + ".zip";
 
         // 检查目标文件夹是否存在并执行相应操作
-        if (checkFolder(filePath, outPath, false, "", false, "", false))
+        if (checkFolder(filePath,false,"", outPath, false, "", false, ""))
         {
             // 创建包含时间标记的目录
             outPath = CreateFolder.createFolderWithTime(outPath);

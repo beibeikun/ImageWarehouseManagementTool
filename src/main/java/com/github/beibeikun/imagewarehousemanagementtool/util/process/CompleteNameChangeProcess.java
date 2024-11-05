@@ -3,6 +3,7 @@ package com.github.beibeikun.imagewarehousemanagementtool.util.process;
 import com.drew.imaging.ImageProcessingException;
 import com.drew.metadata.MetadataException;
 import com.github.beibeikun.imagewarehousemanagementtool.constant.printOutMessage;
+import com.github.beibeikun.imagewarehousemanagementtool.constant.regex;
 import com.github.beibeikun.imagewarehousemanagementtool.util.wordflow.ImageCompression;
 import com.github.beibeikun.imagewarehousemanagementtool.util.wordflow.UnzipAllZipsWithDelete;
 import com.github.beibeikun.imagewarehousemanagementtool.util.data.ArrayExtractor;
@@ -43,7 +44,7 @@ public class CompleteNameChangeProcess
     public void completeNameChangeProcess(String nasFolderPath, String targetFolderPath, String CSVPath, int checkBoxAddFromDatabase, int checkSort,int checkWhichDatabase, int imgsize, boolean terminal, boolean prefixmove, int suffix) throws IOException
     {
         String sourceFolderPath = DirectoryPathManager.getSourcePath();
-        if (!checkFolder(sourceFolderPath,targetFolderPath,true,CSVPath,true,"csv",true))
+        if (!checkFolder(sourceFolderPath,true, regex.REGEX_STANDARD_FILE_NAME,targetFolderPath,true,CSVPath,true,"csv"))
         {
             systemPrintOut(printOutMessage.INVALID_PATH_STOP_TASK,2,0);
             systemPrintOut(printOutMessage.NULL,0,0);
