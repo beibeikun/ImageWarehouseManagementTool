@@ -32,7 +32,7 @@ public class StartCheck
     public static void startCheck() throws IOException
     {
 
-        if (! VersionNumber.getReleaseType()) // 如果为正式版，则检查版本更新
+        if (VersionNumber.getReleaseType()) // 如果为正式版，则检查版本更新
         {
             if (! CheckVersionFromWebsite.checkLatestVersion())
             {
