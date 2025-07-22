@@ -141,6 +141,7 @@ public class mainpageUtils
         {
             check_whichdatabase = 1;
         }
+        //判断是否进行排序
         if (mainpageOrganizeAndSortCheckBox.isSelected())
         {
             check_sort = 1;

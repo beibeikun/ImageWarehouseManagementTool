@@ -80,11 +80,14 @@ public class CompleteNameChangeProcess
         //根据 checkSort 判断图片是否需要排序，为1即需要排序
         if (checkSort == 1)
         {
+
             organizeFileNumbers(printOutMessage.NULL,targetFolderPath,false);
+
             if (checkWhichDatabase == 0)
             {
                 moveNumberForward(printOutMessage.NULL,targetFolderPath,false);
             }
+
         }
         // 重命名文件
         RenameFiles.renameFiles(CSVPath, targetFolderPath, 0, 0);
