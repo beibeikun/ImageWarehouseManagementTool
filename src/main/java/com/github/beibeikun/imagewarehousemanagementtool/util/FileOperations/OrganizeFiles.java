@@ -1,7 +1,6 @@
 package com.github.beibeikun.imagewarehousemanagementtool.util.FileOperations;
 
 import com.github.beibeikun.imagewarehousemanagementtool.constant.printOutMessage;
-import com.github.beibeikun.imagewarehousemanagementtool.constant.regex;
 import com.github.beibeikun.imagewarehousemanagementtool.filter.SystemChecker;
 import com.github.beibeikun.imagewarehousemanagementtool.util.file.FileLister;
 import com.github.beibeikun.imagewarehousemanagementtool.util.DataOperations.FileNameProcessor;
@@ -17,9 +16,7 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import static com.github.beibeikun.imagewarehousemanagementtool.filter.FolderChecker.checkFolder;
 import static com.github.beibeikun.imagewarehousemanagementtool.filter.SystemChecker.identifySystem_String;
-import static com.github.beibeikun.imagewarehousemanagementtool.util.FileOperations.DeleteDirectory.deleteFile;
 import static com.github.beibeikun.imagewarehousemanagementtool.util.common.SystemPrintOut.systemPrintOut;
 
 public class OrganizeFiles
@@ -34,13 +31,6 @@ public class OrganizeFiles
     public static void organizeFileNumbers(String sourceFolderPath, String targetFolderPath, boolean moveFilesChecker) throws IOException
     {
         Files.createDirectories(Paths.get(targetFolderPath));
-        if (!checkFolder(sourceFolderPath,true, regex.REGEX_STANDARD_FILE_NAME,targetFolderPath,false,printOutMessage.NULL,false,printOutMessage.NULL))
-        {
-            systemPrintOut(printOutMessage.INVALID_PATH_STOP_TASK,2,0);
-            systemPrintOut(printOutMessage.NULL,0,0);
-            deleteFile(targetFolderPath);
-            return;
-        }
         //targetFolderPath = CreateFolder.createFolderWithTime(targetFolderPath);
         if (moveFilesChecker)
         {
@@ -65,16 +55,16 @@ public class OrganizeFiles
                 if (x==0)
                 {
                     systemPrintOut(s + ".jpg  ->  " + s + " (" + num + ").jpg",1,0);
-                    RenameFiles.renameFileWithName(targetFolderPath + identifySystem_String() + s + ".jpg", s + " (" + num + ").");
+                    RenameFiles.renameFileWithName(targetFolderPath + identifySystem_String() + s + ".jpg", s + " (" + num + ")FINISHED");
                 }
                 else {
                     systemPrintOut(s + " (" + x + ").jpg  ->  " + s + " (" + num + ").jpg",1,0);
-                    RenameFiles.renameFileWithName(targetFolderPath + identifySystem_String() + s + " (" + x + ").jpg", s + " (" + num + ").");
+                    RenameFiles.renameFileWithName(targetFolderPath + identifySystem_String() + s + " (" + x + ").jpg", s + " (" + num + ")FINISHED");
                 }
                 num++;
             }
         }
-        replaceDoubleDots(targetFolderPath);
+        replaceFinishedFileName(targetFolderPath);
         systemPrintOut(null, 0, 0);
     }
     /**
@@ -188,7 +178,7 @@ public class OrganizeFiles
         }
         return numbers;
     }
-    private static void replaceDoubleDots(String folderPath) {
+    private static void replaceFinishedFileName(String folderPath) {
         File folder = new File(folderPath);
         File[] files = folder.listFiles();
 
@@ -197,10 +187,10 @@ public class OrganizeFiles
                 if (file.isFile()) {
                     String fileName = file.getName();
 
-                    // 检查文件名是否包含 ".."
-                    if (fileName.contains("..")) {
-                        // 替换文件名中的 ".." 为 "."
-                        String newFileName = fileName.replace("..", ".");
+                    // 检查文件名是否包含 "FINISHED"
+                    if (fileName.contains("FINISHED")) {
+                        // 去除文件名中的 "FINISHED"
+                        String newFileName = fileName.replace("FINISHED", "");
 
                         // 获取文件的父目录路径，用于重命名
                         File newFile = new File(file.getParent(), newFileName);
