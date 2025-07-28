@@ -15,7 +15,7 @@ import java.util.concurrent.Callable;
 import static com.github.beibeikun.imagewarehousemanagementtool.util.DataOperations.SearchInfoFromDatabase.searchInfoFromDatabase;
 import static com.github.beibeikun.imagewarehousemanagementtool.util.process.ChangeAllSuffix.changeAllSuffix;
 import static com.github.beibeikun.imagewarehousemanagementtool.util.process.OnlyCompressFiles.onlyCompressFiles;
-import static com.github.beibeikun.imagewarehousemanagementtool.util.data.ArrayExtractor.extractRow;
+import static com.github.beibeikun.imagewarehousemanagementtool.util.data.ArrayUtils.extractRow;
 import static com.github.beibeikun.imagewarehousemanagementtool.util.process.FolderCsvComparator.compareAndGenerateCsv;
 import static com.github.beibeikun.imagewarehousemanagementtool.util.FileOperations.DeleteDirectory.deleteDirectory;
 import static com.github.beibeikun.imagewarehousemanagementtool.util.FileOperations.ExtractMainImage.extractMainImage;

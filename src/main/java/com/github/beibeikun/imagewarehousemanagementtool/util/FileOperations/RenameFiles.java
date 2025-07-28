@@ -1,11 +1,10 @@
 package com.github.beibeikun.imagewarehousemanagementtool.util.FileOperations;
 
 import com.github.beibeikun.imagewarehousemanagementtool.filter.HiddenFilesChecker;
-import com.github.beibeikun.imagewarehousemanagementtool.util.data.ArrayExtractor;
+import com.github.beibeikun.imagewarehousemanagementtool.util.data.ArrayUtils;
 import com.github.beibeikun.imagewarehousemanagementtool.util.DataOperations.ReadCsvFile;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.Arrays;
 
 import static com.github.beibeikun.imagewarehousemanagementtool.util.common.SystemPrintOut.systemPrintOut;
@@ -28,8 +27,8 @@ public class RenameFiles
     {
         // 从Excel中获取映射关系
         //String[][] JB_LOTArray = csvToArray(excelPath);
-        String[] ContractNoArray = ArrayExtractor.extractRow(ReadCsvFile.csvToArray(excelPath), 0);
-        String[] LOTArray = ArrayExtractor.extractRow(ReadCsvFile.csvToArray(excelPath), 1);
+        String[] ContractNoArray = ArrayUtils.extractRow(ReadCsvFile.csvToArray(excelPath), 0);
+        String[] LOTArray = ArrayUtils.extractRow(ReadCsvFile.csvToArray(excelPath), 1);
 
         // 获取图片文件夹下的文件列表
         File imageFolder = new File(imagePath);

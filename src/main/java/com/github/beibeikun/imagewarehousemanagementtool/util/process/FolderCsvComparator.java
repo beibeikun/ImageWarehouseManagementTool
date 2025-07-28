@@ -4,7 +4,7 @@ import com.github.beibeikun.imagewarehousemanagementtool.constant.printOutMessag
 import com.github.beibeikun.imagewarehousemanagementtool.util.DataOperations.ReadCsvFile;
 import com.github.beibeikun.imagewarehousemanagementtool.util.FileOperations.CreateFolder;
 import com.github.beibeikun.imagewarehousemanagementtool.util.common.SystemPrintOut;
-import com.github.beibeikun.imagewarehousemanagementtool.util.data.ArrayExtractor;
+import com.github.beibeikun.imagewarehousemanagementtool.util.data.ArrayUtils;
 
 import java.io.File;
 import java.io.FileWriter;
@@ -44,7 +44,7 @@ public class FolderCsvComparator
         SystemPrintOut.systemPrintOut("创建csv", 1, 0);
         String[] filenames = processFileNames(getFileNamesInString(folderPath));
         SystemPrintOut.systemPrintOut("获取路径中的文件名", 1, 0);
-        String[] csvNames = ArrayExtractor.extractRow(ReadCsvFile.csvToArray(csvFilePath), 0);
+        String[] csvNames = ArrayUtils.extractRow(ReadCsvFile.csvToArray(csvFilePath), 0);
         SystemPrintOut.systemPrintOut("获取csv中的文件名", 1, 0);
         Set<String> diffAtoB = removeElementFromList(filenames, csvNames);
         Set<String> diffBtoA = removeElementFromList(csvNames, filenames);

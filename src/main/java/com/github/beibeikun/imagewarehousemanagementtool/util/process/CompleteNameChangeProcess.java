@@ -1,12 +1,10 @@
 package com.github.beibeikun.imagewarehousemanagementtool.util.process;
 
-import com.drew.imaging.ImageProcessingException;
-import com.drew.metadata.MetadataException;
 import com.github.beibeikun.imagewarehousemanagementtool.constant.printOutMessage;
 import com.github.beibeikun.imagewarehousemanagementtool.constant.regex;
 import com.github.beibeikun.imagewarehousemanagementtool.util.wordflow.ImageCompression;
 import com.github.beibeikun.imagewarehousemanagementtool.util.wordflow.UnzipAllZipsWithDelete;
-import com.github.beibeikun.imagewarehousemanagementtool.util.data.ArrayExtractor;
+import com.github.beibeikun.imagewarehousemanagementtool.util.data.ArrayUtils;
 import com.github.beibeikun.imagewarehousemanagementtool.util.file.FileLister;
 import com.github.beibeikun.imagewarehousemanagementtool.util.DataOperations.ListExtractor;
 import com.github.beibeikun.imagewarehousemanagementtool.util.DataOperations.ReadCsvFile;
@@ -51,7 +49,7 @@ public class CompleteNameChangeProcess
             return;
         }
         // 从 CSV 中提取要提取的文件名数组
-        String[] fileNamesToExtract = ArrayExtractor.extractRow(ReadCsvFile.csvToArray(CSVPath), 0);
+        String[] fileNamesToExtract = ArrayUtils.extractRow(ReadCsvFile.csvToArray(CSVPath), 0);
         // 将文件名数组转化为列表
         List<String> readyToCopyNameList = Arrays.asList(fileNamesToExtract);
         // 用当前时间新建一个文件夹来存储

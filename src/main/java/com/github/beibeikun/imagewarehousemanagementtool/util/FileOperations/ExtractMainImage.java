@@ -9,7 +9,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 import static com.github.beibeikun.imagewarehousemanagementtool.filter.SystemChecker.identifySystem_String;
-import static com.github.beibeikun.imagewarehousemanagementtool.util.data.ArrayExtractor.extractRow;
+import static com.github.beibeikun.imagewarehousemanagementtool.util.data.ArrayUtils.extractRow;
 import static com.github.beibeikun.imagewarehousemanagementtool.util.file.FileLister.getFileNamesInString;
 import static com.github.beibeikun.imagewarehousemanagementtool.util.DataOperations.FileNameProcessor.processFileNames;
 import static com.github.beibeikun.imagewarehousemanagementtool.util.common.SystemPrintOut.systemPrintOut;

@@ -7,6 +7,9 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.github.beibeikun.imagewarehousemanagementtool.util.data.ArrayUtils.removeElementFromArrays;
+import static com.github.beibeikun.imagewarehousemanagementtool.util.data.ArrayUtils.removeHiddenFileNamesFromArrays;
+
 /**
  * 文件搜索类
  */
@@ -76,6 +79,7 @@ public class FileSearch
         }
 
         String[] files = dir.list();
+        files = removeHiddenFileNamesFromArrays(files);
         return files == null || files.length == 0;
     }
 

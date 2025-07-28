@@ -1,17 +1,13 @@
 package com.github.beibeikun.imagewarehousemanagementtool.util.DataOperations;
 
-import com.github.beibeikun.imagewarehousemanagementtool.constant.printOutMessage;
 import com.github.beibeikun.imagewarehousemanagementtool.constant.regex;
 
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.Arrays;
 
 import static com.github.beibeikun.imagewarehousemanagementtool.filter.FolderChecker.checkFolder;
 import static com.github.beibeikun.imagewarehousemanagementtool.filter.SystemChecker.identifySystem_String;
 import static com.github.beibeikun.imagewarehousemanagementtool.util.DataOperations.FileSearch.isFileExists;
-import static com.github.beibeikun.imagewarehousemanagementtool.util.common.SystemPrintOut.systemPrintOut;
+import static com.github.beibeikun.imagewarehousemanagementtool.util.data.ArrayUtils.removeElementFromArrays;
 import static com.github.beibeikun.imagewarehousemanagementtool.util.file.FileLister.getFileNamesInString;
 
 public class DatabaseStatistics {
@@ -19,8 +15,8 @@ public class DatabaseStatistics {
     {
         String[] files = getFileNamesInString(databaseAddress);
         Arrays.sort(files);
-        files = removeElement(files, "#recycle");
-        files = removeElement(files, "thumbnail");
+        files = removeElementFromArrays(files, "#recycle");
+        files = removeElementFromArrays(files, "thumbnail");
         System.out.println(Arrays.toString(files));
         System.out.println(files.length);
         int i1 = 0;
@@ -56,12 +52,6 @@ public class DatabaseStatistics {
                 System.out.println(i2);
             }
         }
-    }
-
-    public static String[] removeElement(String[] input, String target) {
-        return Arrays.stream(input)
-                .filter(s -> !s.equals(target))
-                .toArray(String[]::new);
     }
 
     public static void main(String[] args) {

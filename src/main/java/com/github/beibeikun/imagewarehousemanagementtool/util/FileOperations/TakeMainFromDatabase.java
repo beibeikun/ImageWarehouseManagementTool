@@ -1,6 +1,6 @@
 package com.github.beibeikun.imagewarehousemanagementtool.util.FileOperations;
 
-import com.github.beibeikun.imagewarehousemanagementtool.util.data.ArrayExtractor;
+import com.github.beibeikun.imagewarehousemanagementtool.util.data.ArrayUtils;
 import com.github.beibeikun.imagewarehousemanagementtool.util.DataOperations.ReadCsvFile;
 
 import java.io.File;
@@ -27,7 +27,7 @@ public class TakeMainFromDatabase
     {
         systemPrintOut("开始从数据库提取主图像", 3, 0);
         folderpath = CreateFolder.createFolderWithTime(folderpath);
-        String[] fileNameList = ArrayExtractor.extractRow(ReadCsvFile.csvToArray(csvpath), 0);
+        String[] fileNameList = ArrayUtils.extractRow(ReadCsvFile.csvToArray(csvpath), 0);
         for (String s : fileNameList)
         {
             File fileCheck = new File(databasepath + identifySystem_String() + "thumbnail" + identifySystem_String() + s + ".JPG");
