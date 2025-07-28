@@ -32,7 +32,7 @@ public class FolderCsvComparator
      */
     public static void compareAndGenerateCsv(String folderPath, String csvFilePath, String outPath) throws IOException
     {
-        if (!checkFolder(folderPath,false,"",outPath,true,csvFilePath,true,"csv"))
+        if (!checkFolder(true,folderPath,false,"",true,outPath,true,csvFilePath,true,"csv"))
         {
             systemPrintOut(printOutMessage.INVALID_PATH_STOP_TASK,2,0);
             systemPrintOut(printOutMessage.NULL,0,0);

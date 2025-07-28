@@ -18,19 +18,24 @@ public class FolderChecker
     /**
      * 检查源文件夹中的文件名是否符合规定的格式，并将不符合格式的文件名和原因输出。
      *
+     * @param printOutQualifier               判定是否输出文字，为true时输出
      * @param sourceFolder                    源文件夹路径，会检测路径是否为空
      * @param fileNameCheckQualifier          判定是否检查源文件夹中的文件名
      * @param fileNameRegex                   检查源文件夹中的文件名用的正则表达式，只有当fileNameCheckQualifier为true时生效
+     * @param targetFolderCheckQualifier      判定是否检查目标文件夹路径
      * @param targetFolder                    目标文件夹路径，会检测路径是否为空
      * @param fileCheckQualifier              判定是否检查后面的文件路径是否合法
      * @param filePath                        文件路径，只有当fileCheckQualifier为true时生效
-     * @param fileExtensionCheckQualifier 判定是否检查文件后缀名，只有当fileCheckQualifier为true时生效
-     * @param fileExtension               用于检测的指定文件后缀名，只有当fileCheckQualifier与fileExtensionCheckQualifier为true时生效
+     * @param fileExtensionCheckQualifier     判定是否检查文件后缀名，只有当fileCheckQualifier为true时生效
+     * @param fileExtension                   用于检测的指定文件后缀名，只有当fileCheckQualifier与fileExtensionCheckQualifier为true时生效
      * @return 如果所有文件都符合要求，则返回 true；如果有不符合要求的文件，则返回 false
      */
-    public static boolean checkFolder(String sourceFolder, boolean fileNameCheckQualifier, String fileNameRegex, String targetFolder, boolean fileCheckQualifier, String filePath, boolean fileExtensionCheckQualifier, String fileExtension)
+    public static boolean checkFolder(boolean printOutQualifier, String sourceFolder, boolean fileNameCheckQualifier, String fileNameRegex, boolean targetFolderCheckQualifier, String targetFolder, boolean fileCheckQualifier, String filePath, boolean fileExtensionCheckQualifier, String fileExtension)
     {
-        systemPrintOut("开始检查路径的有效性",3,0);
+        if(printOutQualifier)
+        {
+            systemPrintOut("开始检查路径的有效性",3,0);
+        }
         // 用于存储返回值，true 表示所有文件符合格式，false 表示有文件不符合格式
         boolean[] returnValue = {true};
         // 用于存储不符合格式的文件名及其原因
@@ -38,18 +43,26 @@ public class FolderChecker
 
         // 创建 File 对象，表示源文件夹
         File sourceDirectoryCheck = new File(sourceFolder);
-        File targetDirectoryCheck = new File(targetFolder);
         //不存在源文件夹
         if (!sourceDirectoryCheck.exists())
         {
-            systemPrintOut("源文件夹路径不存在",2,0);
+            if(printOutQualifier)
+            {
+                systemPrintOut("源文件夹路径不存在", 2, 0);
+            }
             return false;
         }
-        //不存在目标文件夹
-        else if (!targetDirectoryCheck.exists())
-        {
-            systemPrintOut("目标文件夹路径不存在",2,0);
-            return false;
+
+        if (targetFolderCheckQualifier){
+            File targetDirectoryCheck = new File(targetFolder);
+            if (!targetDirectoryCheck.exists())
+            {
+                if(printOutQualifier)
+                {
+                    systemPrintOut("目标文件夹路径不存在", 2, 0);
+                }
+                return false;
+            }
         }
         //源文件夹于目标文件夹存在，下一步
         else
@@ -61,13 +74,19 @@ public class FolderChecker
                 //如果文件不存在
                 if (!fileCheck.exists())
                 {
-                    systemPrintOut("文件路径不存在: "+filePath,2,0);
+                    if(printOutQualifier)
+                    {
+                        systemPrintOut("文件路径不存在: "+filePath,2,0);
+                    }
                     return false;
                 }
                 //如果为文件夹
                 if (fileCheck.isDirectory())
                 {
-                    systemPrintOut("指定的文件路径不是一个有效文件: "+filePath,2,0);
+                    if(printOutQualifier)
+                    {
+                        systemPrintOut("指定的文件路径不是一个有效文件: "+filePath,2,0);
+                    }
                     return false;
                 }
                 //检查文件后缀名
@@ -76,7 +95,10 @@ public class FolderChecker
                     //文件扩展名不匹配
                     if (!getFileExtension(filePath).equals(fileExtension))
                     {
-                        systemPrintOut("非法的文件扩展名: " + getFileExtension(filePath) +" 应为: "+ fileExtension,2,0);
+                        if(printOutQualifier)
+                        {
+                            systemPrintOut("非法的文件扩展名: " + getFileExtension(filePath) +" 应为: "+ fileExtension,2,0);
+                        }
                         return false;
                     }
                 }
@@ -129,14 +151,18 @@ public class FolderChecker
             }
         }
 
-        // 如果存在不符合格式的文件或文件夹，则将其信息输出
-        if (!invalidFilesList.isEmpty())
+        if(printOutQualifier)
         {
-            systemPrintOut("无效文件列表",3,0);
-            // 输出List<String>的内容
-            invalidFilesList.forEach(entry -> System.out.println(entry[0] + " 原因: " + entry[1]));
+            // 如果存在不符合格式的文件或文件夹，则将其信息输出
+            if (!invalidFilesList.isEmpty())
+            {
+                systemPrintOut("无效文件列表",3,0);
+                // 输出List<String>的内容
+                invalidFilesList.forEach(entry -> System.out.println(entry[0] + " 原因: " + entry[1]));
+            }
+            systemPrintOut("",0,0);
         }
-        systemPrintOut("",0,0);
+
         // 返回是否所有文件都符合格式要求
         return returnValue[0];
     }

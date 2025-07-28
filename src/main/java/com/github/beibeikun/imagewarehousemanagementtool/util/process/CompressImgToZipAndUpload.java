@@ -45,7 +45,7 @@ public class CompressImgToZipAndUpload
      */
     public static void compressImgToZipAndUpload(String sourceFolder, String destinationFolder, int mode, int imgSize, boolean coverageDeterminer, boolean deleteQualifier) throws IOException
     {
-        if (!checkFolder(sourceFolder,true, regex.REGEX_STANDARD_FILE_NAME,destinationFolder,false,printOutMessage.NULL,false,printOutMessage.NULL))
+        if (!checkFolder(true,sourceFolder,true, regex.REGEX_STANDARD_FILE_NAME,true,destinationFolder,false,printOutMessage.NULL,false,printOutMessage.NULL))
         {
             systemPrintOut(printOutMessage.INVALID_PATH_STOP_TASK,2,0);
             systemPrintOut(printOutMessage.NULL,0,0);

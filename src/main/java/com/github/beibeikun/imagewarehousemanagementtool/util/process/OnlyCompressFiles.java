@@ -15,7 +15,7 @@ public class OnlyCompressFiles
 {
     public static void onlyCompressFiles(String sourceFolderPath, String targetFolderPath, int imgSize) throws IOException
     {
-        if (!checkFolder(sourceFolderPath,false,"",targetFolderPath,false, printOutMessage.NULL,false,printOutMessage.NULL))
+        if (!checkFolder(true,sourceFolderPath,false,"",true,targetFolderPath,false, printOutMessage.NULL,false,printOutMessage.NULL))
         {
             systemPrintOut(printOutMessage.INVALID_PATH_STOP_TASK,2,0);
             systemPrintOut(printOutMessage.NULL,0,0);
