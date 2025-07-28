@@ -1,12 +1,14 @@
 package com.github.beibeikun.imagewarehousemanagementtool.util.file;
 
 import com.github.beibeikun.imagewarehousemanagementtool.util.FileOperations.CreateFolder;
+import com.github.beibeikun.imagewarehousemanagementtool.util.common.SystemPrintOut;
 
 import java.io.IOException;
 
 import static com.github.beibeikun.imagewarehousemanagementtool.filter.FolderChecker.checkFolder;
 import static com.github.beibeikun.imagewarehousemanagementtool.filter.SystemChecker.identifySystem_String;
 import static com.github.beibeikun.imagewarehousemanagementtool.util.FileOperations.FileCopyAndDelete.copyFile;
+import static com.github.beibeikun.imagewarehousemanagementtool.util.FileOperations.FolderCopy.copyFolder;
 import static com.github.beibeikun.imagewarehousemanagementtool.util.common.SystemPrintOut.systemPrintOut;
 
 /**
@@ -26,19 +28,41 @@ public class DownloadFromDatabase
     {
         // 获取文件名前缀
         int position = fileName.indexOf("-");
-        String fileNamePrefix = fileName.substring(0, position);
-        // 建立文件路径
-        String filePath = databasePath + identifySystem_String() + fileNamePrefix + identifySystem_String() + fileName + ".zip";
-
-        // 检查目标文件夹是否存在并执行相应操作
-        if (checkFolder(filePath,false,"", outPath, false, "", false, ""))
+        //提取单个文件
+        if (position != -1)
         {
-            // 创建包含时间标记的目录
-            outPath = CreateFolder.createFolderWithTime(outPath);
-            // 复制文件到目标目录
-            copyFile(filePath, outPath);
-            // 打印操作日志
-            systemPrintOut("下载: " + fileName, 1, 0);
+            String fileNamePrefix = fileName.substring(0, position);
+            // 建立文件路径
+            String filePath = databasePath + identifySystem_String() + fileNamePrefix + identifySystem_String() + fileName + ".zip";
+
+            // 检查目标文件夹是否存在并执行相应操作
+            if (checkFolder(filePath,false,"", outPath, false, "", false, ""))
+            {
+                // 创建包含时间标记的目录
+                //outPath = CreateFolder.createFolderWithTime(outPath);
+                // 复制文件到目标目录
+                copyFile(filePath, outPath);
+                // 打印操作日志
+                systemPrintOut("下载: " + fileName, 1, 0);
+            }
         }
+        //提取完整合同
+        else
+        {
+            // 建立文件路径
+            String filePath = databasePath + identifySystem_String() + fileName;
+
+            // 检查目标文件夹是否存在并执行相应操作
+            if (checkFolder(filePath,false,"", outPath, false, "", false, ""))
+            {
+                // 创建包含时间标记的目录
+                outPath = CreateFolder.createFolderWithTime(outPath);
+                // 复制文件到目标目录
+                copyFolder(filePath, outPath);
+                // 打印操作日志
+                systemPrintOut("下载: " + fileName, 1, 0);
+            }
+        }
+        systemPrintOut(null, 0, 0);
     }
 }

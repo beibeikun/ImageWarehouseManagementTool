@@ -210,6 +210,7 @@ public class CompressImgToZipAndUpload
             {
                 //复制图像到临时文件夹，并更新list为移动后的路径
                 readyToCompress = copyFilesWithList(readyToCompress, temporaryCompressedImgFolder, true);
+                //TODO:整理排序
                 //根据 imgSize 判断图片是否需要压缩，不为0即需要压缩
                 if (imgSize != 0)
                 {

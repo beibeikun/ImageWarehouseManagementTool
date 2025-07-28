@@ -12,6 +12,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.Callable;
 
+import static com.github.beibeikun.imagewarehousemanagementtool.util.DataOperations.SearchInfoFromDatabase.searchInfoFromDatabase;
 import static com.github.beibeikun.imagewarehousemanagementtool.util.process.ChangeAllSuffix.changeAllSuffix;
 import static com.github.beibeikun.imagewarehousemanagementtool.util.process.OnlyCompressFiles.onlyCompressFiles;
 import static com.github.beibeikun.imagewarehousemanagementtool.util.data.ArrayExtractor.extractRow;
@@ -158,5 +159,13 @@ public class mainpageUtilsWithTasks
             return null;
         };
         executeTaskWithTiming(task, "从数据库提取任务",true);
+    }
+    public static void searchInfoFromDatabaseWithTasks(String warehouseAddressText, String fileName)
+    {
+        Callable<Void> task = () -> {
+            searchInfoFromDatabase(warehouseAddressText, fileName);
+            return null;
+        };
+        executeTaskWithTiming(task, "查询仓库信息任务",true);
     }
 }

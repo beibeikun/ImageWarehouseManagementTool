@@ -42,7 +42,7 @@ public class Mainpage
     static JFrame frame = new JFrame("MainpageUI");
     private static MenuBar menuBar;
     mainpageUtils mainpageutil = new mainpageUtils();
-    private JButton renameStartButton, selectLastPathButton, selectFirstPathButton, uploadToDatabaseButton, deleteButton, SearchButton, selectRenameCsvButton, connectToDatabaseButton, connectToCameraWarehouseButton, connectToPhoneWarehouseButton, languageButton, extractMainImageFromSourceFolderButton, downloadMainImageFromDatabaseButton, checkMainImageWithCsvButton, changeSuffixButton, sortByFolderButton, changeTargetToSourceButton, selectCheckCsvButton, extractAllImageFromSourceFolderButton, exchangeFirstPathButton, compressButton, selectPdfCsvButton, toPdfButton, selectDeleteCsvButton;
+    private JButton renameStartButton, selectLastPathButton, selectFirstPathButton, uploadToDatabaseButton, deleteButton, SearchImageButton, selectRenameCsvButton, connectToDatabaseButton, connectToCameraWarehouseButton, connectToPhoneWarehouseButton, languageButton, extractMainImageFromSourceFolderButton, downloadMainImageFromDatabaseButton, checkMainImageWithCsvButton, changeSuffixButton, sortByFolderButton, changeTargetToSourceButton, selectCheckCsvButton, extractAllImageFromSourceFolderButton, exchangeFirstPathButton, compressButton, selectPdfCsvButton, toPdfButton, selectDeleteCsvButton;
     private JCheckBox digitCheckBox, prefixCheckBox, classificationCheckBox, addFromDatabaseCheckBox, uploadReplaceCheckBox, uploadDeleteCheckBox, suffixCheckBox;
     private JComboBox suffixComboBox, mainpageFileType, imgsizecomboBox, uploadSizeComboBox, deleteTypeComboBox, onlyCompressSizeChooseComboBox, uploadDatabaseComboBox, pdfOutTypeComboBox;
     private JLabel versionLabel, sourceFolderPath, targetFolderPath, renameCsvPath, databaseAddressText, databaseUserNameText, cameraWarehouseAddressText, phoneWarehouseAddressText, githuburlLabel, testmode, mode, Suffix, checkCsvPath, pdfCsvPath, enterJBNum, suffixLabel, sizeLabel, mainpageFileTypeLabel, tab2SizeLabel, uploadDatabaseLabel, uploadSizeLabel, pdfStaffLabel, pdfOutTypeLabel, deleteCsvPath, deleteJBLabel, deleteTypeLabel, databaseAddressLabel, databaseUserNameLabel, cameraWarehouseAddressLabel, phoneWarehouseAddressLabel;
@@ -58,6 +58,7 @@ public class Mainpage
     private JCheckBox useCsvCheckBox;
     private JCheckBox organizeAndSortCheckBox;
     private JCheckBox mainpageOrganizeAndSortCheckBox;
+    private JButton SearchInfoButton;
 
     public Mainpage() throws IOException
     {
@@ -278,11 +279,17 @@ public class Mainpage
         //上传到图片数据库
         uploadToDatabaseButton.addActionListener(e -> uploadToWarehouseWithTasks(sourceFolderPath, cameraWarehouseAddressText, phoneWarehouseAddressText, uploadDatabaseComboBox, uploadSizeComboBox, uploadReplaceCheckBox, uploadDeleteCheckBox));
         //从数据库中查询主图
-        SearchButton.addActionListener(e ->
+        SearchImageButton.addActionListener(e ->
         {
-            String path = cameraWarehouseAddressText.getText() + system.identifySystem_String() + "thumbnail" + system.identifySystem_String() + "JB" + searchJBNumTextField.getText() + ".JPG";
+            String path = cameraWarehouseAddressText.getText() + system.identifySystem_String() + "thumbnail" + system.identifySystem_String() + searchJBNumTextField.getText() + ".JPG";
             ImageUtils.openImage(path);
         });
+        //从数据库中查询信息
+        SearchInfoButton.addActionListener(e ->
+        {
+            searchInfoFromDatabaseWithTasks(cameraWarehouseAddressText.getText(),searchJBNumTextField.getText());
+        });
+        //从数据库中下载
         downloadFromDatabaseButton.addActionListener(e ->
         {
             String warehouseAddressText = "";
@@ -294,7 +301,7 @@ public class Mainpage
             {
                 warehouseAddressText = phoneWarehouseAddressText.getText();
             }
-            downloadFromDatabaseWithTasks(warehouseAddressText,"JB" + searchJBNumTextField.getText(),targetFolderPath);
+            downloadFromDatabaseWithTasks(warehouseAddressText,searchJBNumTextField.getText(),targetFolderPath);
         });
         /*================================第三页：从仓库删除================================*/
         deleteButton.addActionListener(e ->
