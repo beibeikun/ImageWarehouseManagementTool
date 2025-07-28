@@ -53,7 +53,7 @@ public class WriteToProperties
         {
             // 将属性写入文件
             properties.store(fos, null);
-            SystemPrintOut.systemPrintOut("Properties written to file", 1, 1);
+            SystemPrintOut.systemPrintOut("属性已写入文件", 1, 1);
         }
         catch (IOException e)
         {

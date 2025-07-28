@@ -25,7 +25,7 @@ public class TakeMainFromDatabase
      */
     public static void takeMainFromDatabase(String csvpath, String databasepath, String folderpath) throws IOException
     {
-        systemPrintOut("Start to take main img from database", 3, 0);
+        systemPrintOut("开始从数据库提取主图像", 3, 0);
         folderpath = CreateFolder.createFolderWithTime(folderpath);
         String[] fileNameList = ArrayExtractor.extractRow(ReadCsvFile.csvToArray(csvpath), 0);
         for (String s : fileNameList)
@@ -34,7 +34,7 @@ public class TakeMainFromDatabase
             if (fileCheck.exists())
             {
                 copyFile(databasepath + identifySystem_String() + "thumbnail" + identifySystem_String() + s + ".JPG", folderpath);
-                systemPrintOut("Copy:" + s, 1, 0);
+                systemPrintOut("复制: " + s, 1, 0);
             }
         }
         systemPrintOut(null, 0, 0);

@@ -24,7 +24,7 @@ public class ImageUtils
             if (! imageFile.exists())
             {
                 JOptionPane.showMessageDialog(null, "文件不存在", "错误", JOptionPane.ERROR_MESSAGE);
-                SystemPrintOut.systemPrintOut("Image file does not exist", 2, 0);
+                SystemPrintOut.systemPrintOut("图像文件不存在", 2, 0);
                 return;
             }
             Image image = ImageIO.read(imageFile);
@@ -73,7 +73,7 @@ public class ImageUtils
             frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
             frame.getContentPane().add(splitPane);
             frame.setVisible(true);
-            SystemPrintOut.systemPrintOut("Open:" + imagePath, 1, 0);
+            SystemPrintOut.systemPrintOut("打开: " + imagePath, 1, 0);
         }
         catch (IOException e)
         {

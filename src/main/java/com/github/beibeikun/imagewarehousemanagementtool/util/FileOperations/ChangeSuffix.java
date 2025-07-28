@@ -35,7 +35,7 @@ public class ChangeSuffix
 
             // 移除文件名中的右括号
             filepath = FileRenameWithKeyword.renameFileWithKeyword(filepath, ")", "");
-            systemPrintOut("Change suffix:" + filepath, 1, 0);
+            systemPrintOut("更改后缀: " + filepath, 1, 0);
         }
     }
 

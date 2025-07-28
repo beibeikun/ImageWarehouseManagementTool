@@ -37,7 +37,7 @@ public class FileExtractor
             {
                 // 复制文件到目标文件夹
                 copyFile(sourcePath.toString(), targetFolderPath);
-                systemPrintOut("Get:" + targetFolderPath + identifySystem_String() + sourcePath.getFileName().toString(), 1, 0);
+                systemPrintOut("获取: " + targetFolderPath + identifySystem_String() + sourcePath.getFileName().toString(), 1, 0);
                 nameList.add(fileName);
             }
         }

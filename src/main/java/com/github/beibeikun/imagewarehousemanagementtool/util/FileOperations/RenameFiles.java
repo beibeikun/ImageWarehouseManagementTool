@@ -105,7 +105,7 @@ public class RenameFiles
                     catch (NumberFormatException e)
                     {
                         // 处理数字解析异常
-                        systemPrintOut("Failed:" + name, 2, 0);
+                        systemPrintOut("失败: " + name, 2, 0);
                         return;
                     }
                 }
@@ -117,7 +117,7 @@ public class RenameFiles
                 File dest = new File(imagePath + File.separator + newName);
                 if (image.renameTo(dest))
                 {
-                    systemPrintOut("Renamed:" + name + " --> " + newName, 1, 0);
+                    systemPrintOut("重命名: " + name + " --> " + newName, 1, 0);
                     renamed = true;
                     break;
                 }
@@ -125,7 +125,7 @@ public class RenameFiles
         }
         if (! renamed)
         {
-            systemPrintOut("Failed:" + name, 2, 0);
+            systemPrintOut("失败: " + name, 2, 0);
         }
     }
 

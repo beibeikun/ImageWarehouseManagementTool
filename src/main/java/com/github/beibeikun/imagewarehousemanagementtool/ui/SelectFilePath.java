@@ -33,7 +33,7 @@ public class SelectFilePath
         if (returnVal == JFileChooser.APPROVE_OPTION)
         {
             filePath = chooser.getSelectedFile().getAbsolutePath();
-            SystemPrintOut.systemPrintOut("Directory selected: " + filePath, 1, 1);
+            SystemPrintOut.systemPrintOut("所选目录: " + filePath, 1, 1);
         }
         return filePath;
     }

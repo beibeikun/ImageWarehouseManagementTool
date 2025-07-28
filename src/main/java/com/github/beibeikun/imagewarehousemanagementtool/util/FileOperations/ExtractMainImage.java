@@ -25,13 +25,13 @@ public class ExtractMainImage
      */
     public static void extractMainImage(String sourceFolder, String destinationFolder, boolean useCsvCheck, String csvPath) throws IOException
     {
-        systemPrintOut("Start to take main img from source path", 3, 0);
+        systemPrintOut("开始从源路径提取主图像", 3, 0);
         destinationFolder = CreateFolder.createFolderWithTime(destinationFolder);
         File folder = new File(sourceFolder);
 
         if (! folder.exists() || ! folder.isDirectory())
         {
-            systemPrintOut("Source folder does not exist or is not a directory.", 2, 0);
+            systemPrintOut("源文件夹不存在或不是一个目录", 2, 0);
             return;
         }
         //获取源文件夹内所有文件名,处理文件名数组，去除文件后缀名、去除 "(x)" 后缀并删除重复项，只保留一个
@@ -49,7 +49,7 @@ public class ExtractMainImage
             File file = new File(sourceFolder + identifySystem_String() + fileName + ".JPG");
             if (file.exists()) {
                 FileCopyAndDelete.copyFile(sourceFolder + identifySystem_String() + fileName + ".JPG", destinationFolder);
-                systemPrintOut("Copy:" + fileName, 1, 0);
+                systemPrintOut("复制: " + fileName, 1, 0);
             }
             else
             {
@@ -60,7 +60,7 @@ public class ExtractMainImage
                     if (fileInCount.exists())
                     {
                         FileCopyAndDelete.copyFile(sourceFolder + identifySystem_String() + concatenateFilenameStrings(fileName, counter), destinationFolder);
-                        systemPrintOut("Copy:" + concatenateFilenameStrings(fileName, counter), 1, 0);
+                        systemPrintOut("复制: " + concatenateFilenameStrings(fileName, counter), 1, 0);
                         break;
                     }
                     else

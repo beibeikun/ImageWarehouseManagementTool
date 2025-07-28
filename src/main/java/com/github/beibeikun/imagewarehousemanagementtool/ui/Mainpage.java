@@ -178,7 +178,6 @@ public class Mainpage
         PrintStream printStream = new PrintStream(outputStream, true, "UTF-8");
         System.setOut(printStream);
         System.setErr(printStream);
-        System.out.println("测试12345abcde");
         Map<String, String> propertiesMap = getPropertiesAsMap(GetPropertiesPath.settingsPath());
         databaseAddressText.setText(propertiesMap.get("databaseAddressText"));
         databaseUserNameText.setText(propertiesMap.get("databaseUserNameText"));

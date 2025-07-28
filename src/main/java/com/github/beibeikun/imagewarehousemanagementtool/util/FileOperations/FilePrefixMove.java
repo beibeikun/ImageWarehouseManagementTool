@@ -43,7 +43,7 @@ public class FilePrefixMove
                 File file1 = new File(lastpath + identifySystem_String() + name);
                 if (! file1.exists())
                 {
-                    systemPrintOut("Create file\"" + name + "\"", 1, 0);
+                    systemPrintOut("创建路径\"" + name + "\"", 1, 0);
                     file1.mkdirs();
                 }
                 FileCopyAndDelete.copyFile(lastpath + identifySystem_String() + value.getName(), lastpath + identifySystem_String() + name);

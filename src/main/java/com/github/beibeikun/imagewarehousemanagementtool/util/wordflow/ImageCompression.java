@@ -54,7 +54,7 @@ public class ImageCompression
                     try
                     {
                         imageCompression(file.toString(), imgsize);
-                        SystemPrintOut.systemPrintOut("Compressed: " + file, 1, 0);
+                        SystemPrintOut.systemPrintOut("压缩: " + file, 1, 0);
                     }
                     catch (IOException e)
                     {

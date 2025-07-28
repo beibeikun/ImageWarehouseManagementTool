@@ -61,7 +61,7 @@ public class FileCopyAndDelete
                     if (prefixNumbersTest != 0)
                     {
                         String filepath = lastfolderpath + systemIdentifier.identifySystem_String() + image.getName().substring(0, prefixNumbersTest);
-                        systemPrintOut("Upload:" + image.getName(), 1, 0);
+                        systemPrintOut("上传: " + image.getName(), 1, 0);
                         if (!Files.exists(Paths.get(filepath)))
                         {
                             File directory = new File(filepath);
@@ -72,7 +72,7 @@ public class FileCopyAndDelete
                     else
                     {
                         copyFile(firstfolderpath + systemIdentifier.identifySystem_String() + image.getName(), lastfolderpath);
-                        systemPrintOut("Upload:" + image.getName(), 1, 0);
+                        systemPrintOut("上传: " + image.getName(), 1, 0);
                     }
                 }
             }

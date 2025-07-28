@@ -41,7 +41,7 @@ public class FolderCopy
 
                 if (! isSystemOrHiddenFile(file.toFile()))
                 {
-                    systemPrintOut("Copy:" + file + "-->" + targetFile, 1, 0);
+                    systemPrintOut("复制: " + file + "-->" + targetFile, 1, 0);
                     Files.copy(file, targetFile, StandardCopyOption.REPLACE_EXISTING);
                 }
                 // 复制文件
@@ -89,7 +89,7 @@ public class FolderCopy
             if (nameList.contains(filecheck))
             {
                 copyFile(sourceFolderPath + identifySystem_String() + sourceFile, targetFolderPath);
-                systemPrintOut("Copy:" + sourceFile + "-->" + targetFolderPath, 1, 0);
+                systemPrintOut("复制: " + sourceFile + "-->" + targetFolderPath, 1, 0);
             }
         }
     }

@@ -70,7 +70,7 @@ public class StartCheck
         }
         catch (IOException e)
         {
-            SystemPrintOut.systemPrintOut("No settings file", 2, 0);
+            SystemPrintOut.systemPrintOut("没有设置文件", 2, 0);
             logger.error("An error occurred: ", e);
         }
 

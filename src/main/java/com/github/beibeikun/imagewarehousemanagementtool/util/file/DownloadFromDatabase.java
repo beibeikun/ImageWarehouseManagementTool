@@ -38,7 +38,7 @@ public class DownloadFromDatabase
             // 复制文件到目标目录
             copyFile(filePath, outPath);
             // 打印操作日志
-            systemPrintOut("Download:" + fileName, 1, 0);
+            systemPrintOut("下载: " + fileName, 1, 0);
         }
     }
 }

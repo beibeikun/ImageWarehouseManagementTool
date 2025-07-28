@@ -39,18 +39,18 @@ public class FolderCsvComparator
             return;
         }
         outPath = CreateFolder.createFolderWithTime(outPath);
-        SystemPrintOut.systemPrintOut("Start to compare", 3, 0);
+        SystemPrintOut.systemPrintOut("开始比对", 3, 0);
         String outputCsvPath = outPath + File.separator + "COMPARISON_RESULT.csv";
-        SystemPrintOut.systemPrintOut("Create csv", 1, 0);
+        SystemPrintOut.systemPrintOut("创建csv", 1, 0);
         String[] filenames = processFileNames(getFileNamesInString(folderPath));
-        SystemPrintOut.systemPrintOut("Get filenames in path", 1, 0);
+        SystemPrintOut.systemPrintOut("获取路径中的文件名", 1, 0);
         String[] csvNames = ArrayExtractor.extractRow(ReadCsvFile.csvToArray(csvFilePath), 0);
-        SystemPrintOut.systemPrintOut("Get filenames in csv", 1, 0);
+        SystemPrintOut.systemPrintOut("获取csv中的文件名", 1, 0);
         Set<String> diffAtoB = removeElementFromList(filenames, csvNames);
         Set<String> diffBtoA = removeElementFromList(csvNames, filenames);
-        SystemPrintOut.systemPrintOut("Compare finish", 1, 0);
+        SystemPrintOut.systemPrintOut("比对完成", 1, 0);
         writeCsv(outputCsvPath, diffAtoB, diffBtoA);
-        SystemPrintOut.systemPrintOut("Write to csv finish", 1, 0);
+        SystemPrintOut.systemPrintOut("写入csv完成", 1, 0);
         SystemPrintOut.systemPrintOut("", 0, 0);
     }
 

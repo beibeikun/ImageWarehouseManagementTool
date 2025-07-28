@@ -22,7 +22,7 @@ public class ChangeAllSuffix
      */
     public static void changeAllSuffix(String filepath, String targetpath, int mode) throws IOException
     {
-        SystemPrintOut.systemPrintOut("Start to change suffix", 3, 0);
+        SystemPrintOut.systemPrintOut("开始更改文件后缀", 3, 0);
         String suffixfolder;
         if (mode == 1)
         {

@@ -39,7 +39,7 @@ public class UnzipAllZipsWithDelete
                 {
                     Files.delete(zipFilePath);
                 }
-                SystemPrintOut.systemPrintOut("Unzip:" + zipFilePath, 1, 0);
+                SystemPrintOut.systemPrintOut("解压: " + zipFilePath, 1, 0);
             }
         }
     }

@@ -52,7 +52,7 @@ public class CompressImgToZipAndUpload
             return;
         }
         // 打印系统消息，表明开始上传
-        SystemPrintOut.systemPrintOut("Start to upload", 3, 0);
+        SystemPrintOut.systemPrintOut("开始上传", 3, 0);
 
         // 创建记录失败的文件和原因的集合
         List<String> failedFiles = new ArrayList<>();
@@ -124,15 +124,15 @@ public class CompressImgToZipAndUpload
                     fileCorrectDetermination = future.get(2, TimeUnit.MINUTES);
                 } catch (TimeoutException e) {
                     // 如果任务执行超时，记录文件名和原因并跳过该文件
-                    String reason = "Skipping to next file due to timeout.";
-                    failedFiles.add("File: " + FileNames[i] + " - Reason: " + reason);
+                    String reason = "由于超时，跳过当前文件，处理下一个文件";
+                    failedFiles.add("文件: " + FileNames[i] + " - 原因: " + reason);
                     SystemPrintOut.systemPrintOut(reason, 2, 0);
                     future.cancel(true); // 取消执行中的任务
                     fileCorrectDetermination = false; // 设置标志位以跳过备份步骤
                 } catch (Exception e) {
                     // 如果任务执行过程中出现异常，记录文件名和原因并跳过该文件
-                    String reason = "Error: " + e.getMessage();
-                    failedFiles.add("File: " + FileNames[i] + " - Reason: " + reason);
+                    String reason = "错误: " + e.getMessage();
+                    failedFiles.add("文件: " + FileNames[i] + " - 原因: " + reason);
                     SystemPrintOut.systemPrintOut(reason, 2, 0);
                     fileCorrectDetermination = false;
                 }
@@ -148,7 +148,7 @@ public class CompressImgToZipAndUpload
                 }
             } else {
                 // 如果文件已存在并且不需要覆盖，记录文件名和原因并跳过该文件
-                String reason = "The file has been backed up: " + FileNames[i];
+                String reason = "备份过的文件: " + FileNames[i];
                 int x = i+1;
                 SystemPrintOut.systemPrintOut(reason+ flattenStatisticsString(x,FileNames.length), 2, 0);
             }
@@ -161,9 +161,9 @@ public class CompressImgToZipAndUpload
                 moveFilesWithList(compressedFiles, backedUpImgFolder);
 
                 // 打印成功备份的日志信息
-                SystemPrintOut.systemPrintOut("Backup files transferred successfully: " + FileNames[i], 1, 0);
+                SystemPrintOut.systemPrintOut("备份文件传输成功: " + FileNames[i], 1, 0);
             } else {
-                SystemPrintOut.systemPrintOut("No such file or directory: " + FileNames[i], 2, 0);
+                SystemPrintOut.systemPrintOut("不存在该文件或目录: " + FileNames[i], 2, 0);
             }
 
             // 每处理完一个文件，打印系统状态信息
@@ -184,7 +184,7 @@ public class CompressImgToZipAndUpload
         }
 
         // 在处理完所有文件后，输出所有失败文件及其原因
-        SystemPrintOut.systemPrintOut("Failed files and reasons:", 3, 0);
+        SystemPrintOut.systemPrintOut("失败的文件和原因: ", 3, 0);
         for (String failure : failedFiles) {
             SystemPrintOut.systemPrintOut(failure, 2, 0);
         }
@@ -221,8 +221,8 @@ public class CompressImgToZipAndUpload
                 //x为已完成的数量
                 int x = i + 1;
                 // 如果图片数量不足，记录文件名和原因
-                String reason = "Too less pictures: " + FileNames[i];
-                failedFiles.add("File: " + FileNames[i] + " - Reason: Too less pictures");
+                String reason = "图片过少: " + FileNames[i];
+                failedFiles.add("文件: " + FileNames[i] + " - 原因: 图片过少");
                 SystemPrintOut.systemPrintOut(reason+ flattenStatisticsString(x,FileNames.length), 2, 0);
                 return false;
             }
@@ -232,8 +232,8 @@ public class CompressImgToZipAndUpload
             //x为已完成的数量
             int x = i + 1;
             // 如果文件不存在，记录文件名和原因
-            String reason = "Non-existent file: " + FileNames[i];
-            failedFiles.add("File: " + FileNames[i] + " - Reason: Non-existent file");
+            String reason = "文件不存在: " + FileNames[i];
+            failedFiles.add("文件: " + FileNames[i] + " - 原因: 文件不存在");
             SystemPrintOut.systemPrintOut(reason+ flattenStatisticsString(x,FileNames.length), 2, 0);
             return false;
         }
@@ -242,12 +242,12 @@ public class CompressImgToZipAndUpload
         int x = i + 1;
         //压缩同一前缀的文件
         CompressFileList.compressFiles(readyToCompress, temporaryDestinationFolder + identifySystem_String() + FileNames[i] + ".zip");
-        SystemPrintOut.systemPrintOut("Compressed:" + FileNames[i] + ".zip" + flattenStatisticsString(x,FileNames.length), 1, 0);
+        SystemPrintOut.systemPrintOut("压缩: " + FileNames[i] + ".zip" + flattenStatisticsString(x,FileNames.length), 1, 0);
         if (mode == 1)
         {
             ImageCompression.imageCompression(sourceFolder + identifySystem_String() + FileNames[i] + ".JPG", 1000);
             FileCopyAndDelete.copyFile(sourceFolder + identifySystem_String() + FileNames[i] + ".JPG", thumbnailFolder);
-            SystemPrintOut.systemPrintOut("Thumbnail upload:" + FileNames[i], 1, 0);
+            SystemPrintOut.systemPrintOut("上传缩略图: " + FileNames[i], 1, 0);
         }
         return true;
     }
