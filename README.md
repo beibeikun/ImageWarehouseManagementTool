@@ -1,4 +1,4 @@
-该项目已基本停止开发，新版请移步 [APF](https://github.com/beibeikun/Auction-Pic-Flow)
+该项目已基本停止开发，新版请移步 [APF](https://beibeikun.github.io/apfweb/)
 <div align="center">
 
 <img src="logo/README_logo.png" width = "200" alt="logo">
